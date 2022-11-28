@@ -1,14 +1,12 @@
-Red Alert Mission Editor
+#Red Alert Mission Editor
 for the Red Alert 3.03 "s" series
-================================================================================
 
+--------------------------------------------------------------------
 ## About this Project
 
 This is a mission and map editor made for the Red Alert 3.03 "s" series, hosted here https://github.com/nguoiyoujie/ra303p-iran. This is intended to be used for modding setups that use features found in the Red Alert 3.03 "s" series, since some features
 
-
-================================================================================
-
+--------------------------------------------------------------------
 ## Features
 
  - Once defined, reading mix files associated with RA95 game directory to extract image and rules data from them.
@@ -35,8 +33,7 @@ This is a mission and map editor made for the Red Alert 3.03 "s" series, hosted 
  
  - Supports shifting of maps.
 
-
-================================================================================
+--------------------------------------------------------------------
 
 ## Prerequisites
 

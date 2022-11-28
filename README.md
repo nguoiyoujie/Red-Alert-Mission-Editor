@@ -1,5 +1,4 @@
-#Red Alert Mission Editor
-for the Red Alert 3.03 "s" series
+Red Alert Mission Editor
 
 --------------------------------------------------------------------
 ## About this Project

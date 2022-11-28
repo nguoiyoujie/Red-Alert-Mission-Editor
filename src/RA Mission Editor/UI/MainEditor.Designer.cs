@@ -128,7 +128,6 @@ namespace RA_Mission_Editor.UI
       this.tssCellInfo = new System.Windows.Forms.ToolStripStatusLabel();
       this.tssBlank = new System.Windows.Forms.ToolStripStatusLabel();
       this.tssRemark = new System.Windows.Forms.ToolStripStatusLabel();
-      this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
       this.ttipInfo = new System.Windows.Forms.ToolTip(this.components);
       ((System.ComponentModel.ISupportInitialize)(this.splitMain)).BeginInit();
       this.splitMain.Panel1.SuspendLayout();
@@ -1106,8 +1105,7 @@ namespace RA_Mission_Editor.UI
             this.tssCellOverlayInfo,
             this.tssCellInfo,
             this.tssBlank,
-            this.tssRemark,
-            this.toolStripStatusLabel1});
+            this.tssRemark});
       this.statusStrip1.Location = new System.Drawing.Point(0, 839);
       this.statusStrip1.Name = "statusStrip1";
       this.statusStrip1.Size = new System.Drawing.Size(1184, 22);
@@ -1174,12 +1172,6 @@ namespace RA_Mission_Editor.UI
       this.tssRemark.Size = new System.Drawing.Size(167, 17);
       this.tssRemark.Text = "Editor by lovalmidas, 2022";
       this.tssRemark.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-      // 
-      // toolStripStatusLabel1
-      // 
-      this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-      this.toolStripStatusLabel1.Size = new System.Drawing.Size(133, 13);
-      this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
       // 
       // ttipInfo
       // 
@@ -1339,6 +1331,5 @@ namespace RA_Mission_Editor.UI
     private System.Windows.Forms.CheckBox cbGrid;
     private System.Windows.Forms.ToolStripStatusLabel tssRemark;
     private System.Windows.Forms.ToolStripStatusLabel tssBlank;
-    private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
   }
 }

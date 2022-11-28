@@ -1,11 +1,11 @@
-Red Alert Mission Editor
+#Red Alert Mission Editor
+
 for the Red Alert 3.03 "s" series
 ================================================================================
 
 ## About this Project
 
 This is a mission and map editor made for the Red Alert 3.03 "s" series, hosted here https://github.com/nguoiyoujie/ra303p-iran. This is intended to be used for modding setups that use features found in the Red Alert 3.03 "s" series, since some features
-
 
 ================================================================================
 
@@ -34,7 +34,6 @@ This is a mission and map editor made for the Red Alert 3.03 "s" series, hosted 
  - Hosts a statistics page with summarized information about the houses. This includes a power/drain calculation which may be useful for base planning.
  
  - Supports shifting of maps.
-
 
 ================================================================================
 

@@ -1,0 +1,525 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{24F51687-33E9-422F-A0EF-5973335721DA}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>RA_Mission_Editor</RootNamespace>
+    <AssemblyName>RA Mission Editor</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\build\debug\anycpu\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\release\anycpu\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\build\debug\x64\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\..\release\x64\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\build\debug\x86\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\..\release\x86\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\Cache.cs" />
+    <Compile Include="Common\MixLoading.cs" />
+    <Compile Include="Common\PlaceEntityInfo.cs" />
+    <Compile Include="Common\PickEntityInfo.cs" />
+    <Compile Include="FileFormats\OpenRABinFile.cs" />
+    <Compile Include="FileFormats\LanguageFile.cs" />
+    <Compile Include="Globals.cs" />
+    <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Common\ParameterInfo.cs" />
+    <Compile Include="FileFormats\Enumerables.cs" />
+    <Compile Include="FileFormats\StoredIniValue.cs" />
+    <Compile Include="MapData\Ext_MapSection.cs" />
+    <Compile Include="MapData\Ext_CommentsSection.cs" />
+    <Compile Include="MapData\TutorialSection.cs" />
+    <Compile Include="MapData\HouseSection.cs" />
+    <Compile Include="MapData\BriefingSection.cs" />
+    <Compile Include="MapData\MapOccupancyList.cs" />
+    <Compile Include="Renderers\MinimapCanvas.cs" />
+    <Compile Include="Renderers\MinimapRenderer.cs" />
+    <Compile Include="Resources\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RulesData\EditorFeatures.cs" />
+    <Compile Include="RulesData\TechnoSets\Infantries.cs" />
+    <Compile Include="EntityTypes\IEntityType.cs" />
+    <Compile Include="RulesData\Ruleset\LovalmidasModRules.cs" />
+    <Compile Include="RulesData\Ruleset\IranModRules.cs" />
+    <Compile Include="RulesData\Ruleset\VanillaRules.cs" />
+    <Compile Include="RulesData\Ruleset\Rules.cs" />
+    <Compile Include="RulesData\ScriptActionType.cs" />
+    <Compile Include="RulesData\ScriptActions.cs" />
+    <Compile Include="EntityTypes\AircraftType.cs" />
+    <Compile Include="RulesData\TechnoSets\Aircrafts.cs" />
+    <Compile Include="RulesData\TechnoSets\TechnoList.cs" />
+    <Compile Include="RulesData\TriggerEvents.cs" />
+    <Compile Include="RulesData\TriggerActions.cs" />
+    <Compile Include="RulesData\Missions.cs" />
+    <Compile Include="RulesData\TriggerEventType.cs" />
+    <Compile Include="RulesData\TriggerActionType.cs" />
+    <Compile Include="RulesData\Terrains.cs" />
+    <Compile Include="RulesData\TechnoSets\Structures.cs" />
+    <Compile Include="EntityTypes\SmudgeType.cs" />
+    <Compile Include="RulesData\MissionType.cs" />
+    <Compile Include="RulesData\TechnoSets\Units.cs" />
+    <Compile Include="EntityTypes\ShipType.cs" />
+    <Compile Include="RulesData\TechnoSets\Ships.cs" />
+    <Compile Include="EntityTypes\InfantryType.cs" />
+    <Compile Include="EntityTypes\StructureType.cs" />
+    <Compile Include="EntityTypes\UnitType.cs" />
+    <Compile Include="EntityTypes\TerrainType.cs" />
+    <Compile Include="SettingsData\CacheSection.cs" />
+    <Compile Include="SettingsData\Settings.cs" />
+    <Compile Include="FileFormats\DirArchive.cs" />
+    <Compile Include="FileFormats\Encodings\Blowfish.cs" />
+    <Compile Include="FileFormats\Encodings\BlowfishKeyProvider.cs" />
+    <Compile Include="FileFormats\Encodings\Format3.cs" />
+    <Compile Include="FileFormats\IArchive.cs" />
+    <Compile Include="FileFormats\MemoryFile.cs" />
+    <Compile Include="FileFormats\MixFile.cs" />
+    <Compile Include="FileFormats\XccLocalDatabase.cs" />
+    <Compile Include="FileFormats\TextFile.cs" />
+    <Compile Include="FileFormats\IniFile.cs" />
+    <Compile Include="FileFormats\VirtualFile.cs" />
+    <Compile Include="FileFormats\VirtualFileSystem.cs" />
+    <Compile Include="FileFormats\VirtualTextFile.cs" />
+    <Compile Include="RulesData\ColorRemaps.cs" />
+    <Compile Include="RulesData\HouseType.cs" />
+    <Compile Include="RulesData\Smudges.cs" />
+    <Compile Include="RulesData\TechnoSets\Houses.cs" />
+    <Compile Include="MapData\ShipSection.cs" />
+    <Compile Include="Entities\CellTriggerInfo.cs" />
+    <Compile Include="MapData\CellTriggerSection.cs" />
+    <Compile Include="Entities\TeamTypeInfo.cs" />
+    <Compile Include="RulesData\Overlays.cs" />
+    <Compile Include="RulesData\Templates.cs" />
+    <Compile Include="EntityTypes\OverlayType.cs" />
+    <Compile Include="RulesData\TheaterType.cs" />
+    <Compile Include="RulesData\Theaters.cs" />
+    <Compile Include="EntityTypes\TemplateType.cs" />
+    <Compile Include="MapData\TriggerSection.cs" />
+    <Compile Include="MapData\TeamTypeSection.cs" />
+    <Compile Include="Entities\TriggerInfo.cs" />
+    <Compile Include="Entities\SmudgeInfo.cs" />
+    <Compile Include="MapData\SmudgeSection.cs" />
+    <Compile Include="MapData\WaypointSection.cs" />
+    <Compile Include="MapData\TerrainSection.cs" />
+    <Compile Include="MapData\StructureSection.cs" />
+    <Compile Include="MapData\UnitSection.cs" />
+    <Compile Include="MapData\InfantrySection.cs" />
+    <Compile Include="MapData\BasicSection.cs" />
+    <Compile Include="MapData\MapSection.cs" />
+    <Compile Include="Entities\WaypointInfo.cs" />
+    <Compile Include="MapData\BaseSection.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="MapData\OverlayPack.cs" />
+    <Compile Include="MapData\MapPack.cs" />
+    <Compile Include="Enumerables.cs" />
+    <Compile Include="FileFormats\TmpFile.cs" />
+    <Compile Include="FileFormats\ShpFile.cs" />
+    <Compile Include="FileFormats\PalFile.cs" />
+    <Compile Include="FileFormats\Encodings\WWCompression.cs" />
+    <Compile Include="FileFormats\Encodings\Format40.cs" />
+    <Compile Include="MapData\Map.cs" />
+    <Compile Include="Entities\InfantryInfo.cs" />
+    <Compile Include="Entities\ShipInfo.cs" />
+    <Compile Include="Entities\TerrainInfo.cs" />
+    <Compile Include="Entities\BaseInfo.cs" />
+    <Compile Include="Entities\UnitInfo.cs" />
+    <Compile Include="Entities\StructureInfo.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderers\WidgetsRenderer.cs" />
+    <Compile Include="Renderers\MapCache.cs" />
+    <Compile Include="Renderers\MapCanvas.cs" />
+    <Compile Include="Renderers\TechnoTypeRenderer.cs" />
+    <Compile Include="Renderers\RenderUtils.cs" />
+    <Compile Include="Renderers\EnvironmentRenderer.cs" />
+    <Compile Include="UI\Dialogs\ShiftMapDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\ShiftMapDialog.Designer.cs">
+      <DependentUpon>ShiftMapDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\EditPreplaceEntityDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\EditPreplaceEntityDialog.Designer.cs">
+      <DependentUpon>EditPreplaceEntityDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\EditIniDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\EditIniDialog.Designer.cs">
+      <DependentUpon>EditIniDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\EditorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\EditorDialog.Designer.cs">
+      <DependentUpon>EditorDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\NewIniKeyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\NewIniKeyDialog.Designer.cs">
+      <DependentUpon>NewIniKeyDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\NewIniSectionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\NewIniSectionDialog.Designer.cs">
+      <DependentUpon>NewIniSectionDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\EditMapAttributesDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\EditMapAttributesDialog.Designer.cs">
+      <DependentUpon>EditMapAttributesDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\TestMapDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\TestMapDialog.Designer.cs">
+      <DependentUpon>TestMapDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\ViewStatisticsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\ViewStatisticsDialog.Designer.cs">
+      <DependentUpon>ViewStatisticsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MainEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\MainEditor.Designer.cs">
+      <DependentUpon>MainEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MainModel.cs" />
+    <Compile Include="UI\UserControls\BasicControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\BasicControl.Designer.cs">
+      <DependentUpon>BasicControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\GlobalsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\GlobalsControl.Designer.cs">
+      <DependentUpon>GlobalsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\HouseControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\HouseControl.Designer.cs">
+      <DependentUpon>HouseControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\HousesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\HousesControl.Designer.cs">
+      <DependentUpon>HousesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\HouseStatsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\HouseStatsControl.Designer.cs">
+      <DependentUpon>HouseStatsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\MiniMapCanvasControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\MapCanvasControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\TeamTypesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\TeamTypesControl.Designer.cs">
+      <DependentUpon>TeamTypesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\TechnoTypeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\TechnoTypeControl.Designer.cs">
+      <DependentUpon>TechnoTypeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\TeamTypeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\TeamTypeControl.Designer.cs">
+      <DependentUpon>TeamTypeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\TriggerTypeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\TriggerTypeControl.Designer.cs">
+      <DependentUpon>TriggerTypeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\TriggerTypesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\TriggerTypesControl.Designer.cs">
+      <DependentUpon>TriggerTypesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\TutorialControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\TutorialControl.Designer.cs">
+      <DependentUpon>TutorialControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Util\BitmapExts.cs" />
+    <Compile Include="Util\BoolExts.cs" />
+    <Compile Include="Util\DrawingControlExt.cs" />
+    <Compile Include="Util\ListHelper.cs" />
+    <Compile Include="Util\MapUserThemes.cs" />
+    <Compile Include="Util\FastByteReader.cs" />
+    <Compile Include="Util\FormatHelper.cs" />
+    <Compile Include="Util\MapHelper.cs" />
+    <Compile Include="Util\PackedSectionHelper.cs" />
+    <Compile Include="Util\StreamExts.cs" />
+    <Compile Include="Util\StringExts.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Resources\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\ShiftMapDialog.resx">
+      <DependentUpon>ShiftMapDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\EditPreplaceEntityDialog.resx">
+      <DependentUpon>EditPreplaceEntityDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\EditIniDialog.resx">
+      <DependentUpon>EditIniDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\EditorDialog.resx">
+      <DependentUpon>EditorDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\NewIniKeyDialog.resx">
+      <DependentUpon>NewIniKeyDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\NewIniSectionDialog.resx">
+      <DependentUpon>NewIniSectionDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\EditMapAttributesDialog.resx">
+      <DependentUpon>EditMapAttributesDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\TestMapDialog.resx">
+      <DependentUpon>TestMapDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\ViewStatisticsDialog.resx">
+      <DependentUpon>ViewStatisticsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MainEditor.resx">
+      <DependentUpon>MainEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\BasicControl.resx">
+      <DependentUpon>BasicControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\GlobalsControl.resx">
+      <DependentUpon>GlobalsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\HouseControl.resx">
+      <DependentUpon>HouseControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\HousesControl.resx">
+      <DependentUpon>HousesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\HouseStatsControl.resx">
+      <DependentUpon>HouseStatsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\MiniMapCanvasControl.resx">
+      <DependentUpon>MiniMapCanvasControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\MapCanvasControl.resx">
+      <DependentUpon>MapCanvasControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\TeamTypesControl.resx">
+      <DependentUpon>TeamTypesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\TechnoTypeControl.resx">
+      <DependentUpon>TechnoTypeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\TeamTypeControl.resx">
+      <DependentUpon>TeamTypeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\TriggerTypeControl.resx">
+      <DependentUpon>TriggerTypeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\TriggerTypesControl.resx">
+      <DependentUpon>TriggerTypesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\TutorialControl.resx">
+      <DependentUpon>TutorialControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Assets\cache\global mix database.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\fonts\C&amp;C_RA_font.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\shps\uobj.shp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\buttons\button_celltriggers.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\buttons\button_infantry.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\buttons\button_overlay.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\buttons\button_ships.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\buttons\button_structures.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\buttons\button_template.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\buttons\button_terrain.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\buttons\button_units.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\buttons\button_waypoint.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\buttons\button_bases.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\buttons\button_smudge.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\buttons\button_cancel.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\buttons\button_ok.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\fonts\credits.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

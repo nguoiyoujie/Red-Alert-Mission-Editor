@@ -1,0 +1,363 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="HouseType_Allies" xml:space="preserve">
+    <value>Allies
+
+Toggles whether this house sees the specified house as friendly. This relationship is one-way; for mutual friendship, the other house must have the same setting for this house.</value>
+  </data>
+  <data name="HouseType_Color" xml:space="preserve">
+    <value>Color
+
+Sets the color override for the house's objects. If Secondary Color is also set, this sets the color of buildings and of all objects on the radar screen.</value>
+  </data>
+  <data name="HouseType_Country" xml:space="preserve">
+    <value>Country
+
+Sets the country override that this house will play as, similar to how players receive their chosen countries in multiplayer or skirmish games</value>
+  </data>
+  <data name="HouseType_Credits" xml:space="preserve">
+    <value>Credits
+
+Sets the credits (x100) that the house has at the start of the game. Whether these are ore or cash is determined by the FillSilos variable in the Basic section.</value>
+  </data>
+  <data name="HouseType_InstantCapture" xml:space="preserve">
+    <value>Buildings Get Instantly Captured
+
+Toggle to require only one Engineer to capture a building owned by this house</value>
+  </data>
+  <data name="HouseType_IQ" xml:space="preserve">
+    <value>IQ
+
+Sets the IQ level for the house that the game and AI will reference.
+It is recommended to set this to 0 for human controlled houses</value>
+  </data>
+  <data name="HouseType_Multipliers" xml:space="preserve">
+    <value>Multipliers (Firepower, Ground Speed, Air Speed, Armor, ROF, Cost, Build Time)
+
+Sets the multipliers applied to a country's stats.</value>
+  </data>
+  <data name="HouseType_NoCrew" xml:space="preserve">
+    <value>No Building Crew
+
+Toggle to mark this house to not spawn infantry inside of destroyed buildings.</value>
+  </data>
+  <data name="HouseType_PlayerControl" xml:space="preserve">
+    <value>Player Control
+
+Toggles whether the house can be controlled by the player.
+The house identified as the Player in the Basic section will always be controlled by the player regardless of this setting</value>
+  </data>
+  <data name="HouseType_SecondaryColor" xml:space="preserve">
+    <value>Secondary Color
+
+Sets the alternate color for the house's units and infantry.
+Set to blank to default to the Color setting.</value>
+  </data>
+  <data name="HouseType_TechLevel" xml:space="preserve">
+    <value>Tech Level
+
+Sets the technology level of the house, which affects the availability of their tech tree.</value>
+  </data>
+  <data name="TeamType_Autocreate" xml:space="preserve">
+    <value>Autocreate
+
+Toggles whether this team is included in the autocreate list that the house owning the teamtype use when its autocreate behavior is activated.</value>
+  </data>
+  <data name="TeamType_AvoidThreats" xml:space="preserve">
+    <value>Avoid Threats
+
+Toggles whether the team will attempt to path around threats.</value>
+  </data>
+  <data name="TeamType_InitNum" xml:space="preserve">
+    <value>Initial Number
+
+&lt;WIP&gt; Effect to be researched.</value>
+  </data>
+  <data name="TeamType_Maximum" xml:space="preserve">
+    <value>Maximum
+
+Sets the maximum number of instances of this teamtype can be created by the game. 
+Create Teams will not create a team if the maximum is reached</value>
+  </data>
+  <data name="TeamType_Name" xml:space="preserve">
+    <value>Name
+
+Sets the unique name identifier of the teamtype.</value>
+  </data>
+  <data name="TeamType_Owner" xml:space="preserve">
+    <value>Owner
+
+Sets the house that the team belongs to.</value>
+  </data>
+  <data name="TeamType_Prebuild" xml:space="preserve">
+    <value>Prebuild
+
+Toggles whether the AI attempts to always have the members of the team prebuilt as part of its unit pool before the creation of the team. Only one copy of the team is prebuilt that way.</value>
+  </data>
+  <data name="TeamType_Priority" xml:space="preserve">
+    <value>Priority
+
+Sets the priority level of the team. Teams with higher priority levels can recruit members from lower priority teams. In addition, teams with higher priority are weighted more heavily when AI chooses a team to autocreate</value>
+  </data>
+  <data name="TeamType_Reinforce" xml:space="preserve">
+    <value>Reinforce
+
+Toggles whether the AI will dip into its unit pool to join an instance of the team when some of its members have been destroyed.</value>
+  </data>
+  <data name="TeamType_Suicide" xml:space="preserve">
+    <value>Suicide
+
+Toggles whether the team will follow their script without breaking from it when attacked.
+When it is off, the team will interrupt their current mission if attacked.</value>
+  </data>
+  <data name="TeamType_Techno" xml:space="preserve">
+    <value>Members
+
+Sets the team members. Up to 5 sets of groups can be set. The sets can have the same type (e.g. E1:5, E2:1, E1:3) to insert a different unit type between one larger group.
+
+Iran's modifications allow Buildings to be used here as part of paradrops. Use at your own risk.</value>
+  </data>
+  <data name="TeamType_TriggerTag" xml:space="preserve">
+    <value>Trigger Tag
+
+Sets the trigger to be attached to the teamtype.
+Tag names with no matching triggers are ignored by the game.
+Leave blank to attach no triggers.</value>
+  </data>
+  <data name="TeamType_Waypoint" xml:space="preserve">
+    <value>Waypoint
+
+Sets the waypoint from which the team will be found or spawned from.
+For Create Teams, objects closest to this waypoint will join the team if possible.
+For Reinforcement Teams, the waypoint denotes their spawn point.</value>
+  </data>
+  <data name="TechnoType_AIRepairable" xml:space="preserve">
+    <value>AI Repairable
+
+This serves two functions:
+ 1. If the owning house has its IQ above [IQ]RepairSell, the AI will repair the building once its health depletes below the rules RepairThreshhold
+ 2. If the owning house matches the Player in the [Base] section, the AI will add this building to the base node once it is destroyed. This allows the mapper to skip placement of base nodes for already placed structures.
+
+Note: Construction Yards are hardcoded to always repair.</value>
+  </data>
+  <data name="TechnoType_AISellable" xml:space="preserve">
+    <value>AI Sellable
+
+This may be strange but bear with me:
+    According to released code from the Remaster, if the owning house has its IQ above [IQ]RepairSell, has its TechLevel above [IQ]SellBack, and there is no Trigger Tag attached, there is a chance that this building will be sold when the building's health is depleted below the condition red level (typically 25%).
+
+This only applies if the building is actually sellable.
+Note: Construction Yards are hardcoded to never be sold.</value>
+  </data>
+  <data name="TechnoType_Coordinates" xml:space="preserve">
+    <value>Coordinates
+
+Sets the coordinate position of the object in cells.
+{0,0} is the top left corner of the map.</value>
+  </data>
+  <data name="TechnoType_Facing" xml:space="preserve">
+    <value>Facing
+
+Sets the facing direction of the object, in the clockwise direction.
+0 = North
+32 = North-East
+64 = East
+96 = South-East
+128 = South
+160 = South-West
+192 = West
+224 = North-West</value>
+  </data>
+  <data name="TechnoType_Owner" xml:space="preserve">
+    <value>Owner
+
+Sets the house that the object belongs to.</value>
+  </data>
+  <data name="TechnoType_Strength" xml:space="preserve">
+    <value>Strength
+
+Sets the factional hitpoints of the object at the start of the game.
+0 = 0% hitpoints
+128 = 50% hitpoints
+256 = 100% hitpoints</value>
+  </data>
+  <data name="TechnoType_SubCell" xml:space="preserve">
+    <value>SubCell
+
+Sets the infantry sub-cell position of the object in a cell.</value>
+  </data>
+  <data name="TechnoType_TriggerTag" xml:space="preserve">
+    <value>Trigger Tag
+
+Sets the trigger to be attached to the object.
+Tag names with no matching triggers are ignored by the game.
+Leave blank to attach no triggers.</value>
+  </data>
+  <data name="TechnoType_Type" xml:space="preserve">
+    <value>Type
+
+Sets what the object identifies as.</value>
+  </data>
+  <data name="TechnoType_UnitMission" xml:space="preserve">
+    <value>Unit Mission
+
+Sets the mission for object to execute on mission initialization.
+Leave blank to default to 'Guard'.</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Red Alert Map and Mission Editor</value>
+  </data>
+  <data name="TriggerType_Action" xml:space="preserve">
+    <value>Action
+
+Sets one of the actions to be performed by the triggertype</value>
+  </data>
+  <data name="TriggerType_Event" xml:space="preserve">
+    <value>Event
+
+Sets one of the conditional events to be checked by the triggertype</value>
+  </data>
+  <data name="TriggerType_EventType" xml:space="preserve">
+    <value>Link Mode (Event)
+
+Sets the link behavior between the event and actions of the triggertype</value>
+  </data>
+  <data name="TriggerType_Name" xml:space="preserve">
+    <value>Name
+
+Sets the unique name identifier of the triggertype.</value>
+  </data>
+  <data name="TriggerType_Owner" xml:space="preserve">
+    <value>Owner
+
+Sets the house that the triggertype belongs to.</value>
+  </data>
+  <data name="TriggerType_Repeating" xml:space="preserve">
+    <value>Persistance Mode (Repeating)
+
+Sets the repeating behavior of the triggertype.</value>
+  </data>
+  <data name="Warn_ModifyExe" xml:space="preserve">
+    <value>Modifying the executable reference may cause the program to close if the reference cannot be loaded. Save your existing map before proceeding? Click 'Yes' to save. Click 'No' to proceed without saving.</value>
+  </data>
+  <data name="Warn_ModifyIni" xml:space="preserve">
+    <value>You will lose unsaved changes if you proceed to modify the INI directly. Click 'Yes' to save. Click 'No' to proceed without saving</value>
+  </data>
+</root>

@@ -1,0 +1,693 @@
+﻿
+namespace RA_Mission_Editor.UI.UserControls
+{
+  partial class HouseControl
+  {
+    /// <summary> 
+    /// Required designer variable.
+    /// </summary>
+    private System.ComponentModel.IContainer components = null;
+
+    /// <summary> 
+    /// Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing)
+    {
+      if (disposing && (components != null))
+      {
+        components.Dispose();
+      }
+      base.Dispose(disposing);
+    }
+
+    #region Component Designer generated code
+
+    /// <summary> 
+    /// Required method for Designer support - do not modify 
+    /// the contents of this method with the code editor.
+    /// </summary>
+    private void InitializeComponent()
+    {
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HouseControl));
+      this.lblColor = new System.Windows.Forms.Label();
+      this.lblSecondaryColor = new System.Windows.Forms.Label();
+      this.lblCountry = new System.Windows.Forms.Label();
+      this.lblGroundSpeed = new System.Windows.Forms.Label();
+      this.cbNoBuildingCrew = new System.Windows.Forms.CheckBox();
+      this.cbBuildingsInstantCapture = new System.Windows.Forms.CheckBox();
+      this.cbEnableIranOverrides = new System.Windows.Forms.CheckBox();
+      this.lblBuildTime = new System.Windows.Forms.Label();
+      this.lblFirepower = new System.Windows.Forms.Label();
+      this.lblCost = new System.Windows.Forms.Label();
+      this.lblROF = new System.Windows.Forms.Label();
+      this.lblAirSpeed = new System.Windows.Forms.Label();
+      this.lblArmor = new System.Windows.Forms.Label();
+      this.gbMultipliers = new System.Windows.Forms.GroupBox();
+      this.nudBuildTime = new System.Windows.Forms.NumericUpDown();
+      this.nudCost = new System.Windows.Forms.NumericUpDown();
+      this.nudROF = new System.Windows.Forms.NumericUpDown();
+      this.nudArmor = new System.Windows.Forms.NumericUpDown();
+      this.nudAirSpeed = new System.Windows.Forms.NumericUpDown();
+      this.nudGroundSpeed = new System.Windows.Forms.NumericUpDown();
+      this.nudFirepower = new System.Windows.Forms.NumericUpDown();
+      this.gbIran = new System.Windows.Forms.GroupBox();
+      this.cbCountry = new System.Windows.Forms.ComboBox();
+      this.cbSecondaryColor = new System.Windows.Forms.ComboBox();
+      this.cbColor = new System.Windows.Forms.ComboBox();
+      this.nudTechLevel = new System.Windows.Forms.NumericUpDown();
+      this.nudCredits = new System.Windows.Forms.NumericUpDown();
+      this.lblTechLevel = new System.Windows.Forms.Label();
+      this.lblCredits = new System.Windows.Forms.Label();
+      this.lblIQ = new System.Windows.Forms.Label();
+      this.cbPlayerControl = new System.Windows.Forms.CheckBox();
+      this.nudIQ = new System.Windows.Forms.NumericUpDown();
+      this.gbAllies = new System.Windows.Forms.GroupBox();
+      this.gbGeneral = new System.Windows.Forms.GroupBox();
+      this.bOK = new System.Windows.Forms.Button();
+      this.bCancel = new System.Windows.Forms.Button();
+      this.tbHint = new System.Windows.Forms.TextBox();
+      this.gbMultipliers.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.nudBuildTime)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudCost)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudROF)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudArmor)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudAirSpeed)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudGroundSpeed)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudFirepower)).BeginInit();
+      this.gbIran.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.nudTechLevel)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudCredits)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudIQ)).BeginInit();
+      this.gbGeneral.SuspendLayout();
+      this.SuspendLayout();
+      // 
+      // lblColor
+      // 
+      this.lblColor.AutoSize = true;
+      this.lblColor.Location = new System.Drawing.Point(6, 22);
+      this.lblColor.Name = "lblColor";
+      this.lblColor.Size = new System.Drawing.Size(37, 13);
+      this.lblColor.TabIndex = 2;
+      this.lblColor.Text = "Color";
+      // 
+      // lblSecondaryColor
+      // 
+      this.lblSecondaryColor.AutoSize = true;
+      this.lblSecondaryColor.Location = new System.Drawing.Point(6, 49);
+      this.lblSecondaryColor.Name = "lblSecondaryColor";
+      this.lblSecondaryColor.Size = new System.Drawing.Size(97, 13);
+      this.lblSecondaryColor.TabIndex = 3;
+      this.lblSecondaryColor.Text = "Secondary Color";
+      // 
+      // lblCountry
+      // 
+      this.lblCountry.AutoSize = true;
+      this.lblCountry.Location = new System.Drawing.Point(6, 76);
+      this.lblCountry.Name = "lblCountry";
+      this.lblCountry.Size = new System.Drawing.Size(91, 13);
+      this.lblCountry.TabIndex = 4;
+      this.lblCountry.Text = "Act as Country";
+      // 
+      // lblGroundSpeed
+      // 
+      this.lblGroundSpeed.AutoSize = true;
+      this.lblGroundSpeed.Location = new System.Drawing.Point(6, 47);
+      this.lblGroundSpeed.Name = "lblGroundSpeed";
+      this.lblGroundSpeed.Size = new System.Drawing.Size(79, 13);
+      this.lblGroundSpeed.TabIndex = 5;
+      this.lblGroundSpeed.Text = "Ground Speed";
+      // 
+      // cbNoBuildingCrew
+      // 
+      this.cbNoBuildingCrew.AutoSize = true;
+      this.cbNoBuildingCrew.Location = new System.Drawing.Point(9, 123);
+      this.cbNoBuildingCrew.Name = "cbNoBuildingCrew";
+      this.cbNoBuildingCrew.Size = new System.Drawing.Size(122, 17);
+      this.cbNoBuildingCrew.TabIndex = 7;
+      this.cbNoBuildingCrew.Text = "No Building Crew";
+      this.cbNoBuildingCrew.UseVisualStyleBackColor = true;
+      this.cbNoBuildingCrew.CheckedChanged += new System.EventHandler(this.Value_Changed);
+      this.cbNoBuildingCrew.Enter += new System.EventHandler(this.cbNoBuildingCrew_Enter);
+      // 
+      // cbBuildingsInstantCapture
+      // 
+      this.cbBuildingsInstantCapture.AutoSize = true;
+      this.cbBuildingsInstantCapture.Location = new System.Drawing.Point(9, 100);
+      this.cbBuildingsInstantCapture.Name = "cbBuildingsInstantCapture";
+      this.cbBuildingsInstantCapture.Size = new System.Drawing.Size(218, 17);
+      this.cbBuildingsInstantCapture.TabIndex = 8;
+      this.cbBuildingsInstantCapture.Text = "Buildings Get Instantly Captured";
+      this.cbBuildingsInstantCapture.UseVisualStyleBackColor = true;
+      this.cbBuildingsInstantCapture.CheckedChanged += new System.EventHandler(this.Value_Changed);
+      this.cbBuildingsInstantCapture.Enter += new System.EventHandler(this.cbBuildingsInstantCapture_Enter);
+      // 
+      // cbEnableIranOverrides
+      // 
+      this.cbEnableIranOverrides.AutoSize = true;
+      this.cbEnableIranOverrides.Location = new System.Drawing.Point(9, 127);
+      this.cbEnableIranOverrides.Name = "cbEnableIranOverrides";
+      this.cbEnableIranOverrides.Size = new System.Drawing.Size(188, 17);
+      this.cbEnableIranOverrides.TabIndex = 9;
+      this.cbEnableIranOverrides.Text = "Enable Iran\'s INI Overrides";
+      this.cbEnableIranOverrides.UseVisualStyleBackColor = true;
+      this.cbEnableIranOverrides.CheckedChanged += new System.EventHandler(this.Value_Changed);
+      // 
+      // lblBuildTime
+      // 
+      this.lblBuildTime.AutoSize = true;
+      this.lblBuildTime.Location = new System.Drawing.Point(6, 176);
+      this.lblBuildTime.Name = "lblBuildTime";
+      this.lblBuildTime.Size = new System.Drawing.Size(67, 13);
+      this.lblBuildTime.TabIndex = 10;
+      this.lblBuildTime.Text = "Build Time";
+      // 
+      // lblFirepower
+      // 
+      this.lblFirepower.AutoSize = true;
+      this.lblFirepower.Location = new System.Drawing.Point(6, 21);
+      this.lblFirepower.Name = "lblFirepower";
+      this.lblFirepower.Size = new System.Drawing.Size(61, 13);
+      this.lblFirepower.TabIndex = 11;
+      this.lblFirepower.Text = "Firepower";
+      // 
+      // lblCost
+      // 
+      this.lblCost.AutoSize = true;
+      this.lblCost.Location = new System.Drawing.Point(7, 151);
+      this.lblCost.Name = "lblCost";
+      this.lblCost.Size = new System.Drawing.Size(31, 13);
+      this.lblCost.TabIndex = 12;
+      this.lblCost.Text = "Cost";
+      // 
+      // lblROF
+      // 
+      this.lblROF.AutoSize = true;
+      this.lblROF.Location = new System.Drawing.Point(6, 125);
+      this.lblROF.Name = "lblROF";
+      this.lblROF.Size = new System.Drawing.Size(79, 13);
+      this.lblROF.TabIndex = 13;
+      this.lblROF.Text = "Rate of Fire";
+      // 
+      // lblAirSpeed
+      // 
+      this.lblAirSpeed.AutoSize = true;
+      this.lblAirSpeed.Location = new System.Drawing.Point(7, 73);
+      this.lblAirSpeed.Name = "lblAirSpeed";
+      this.lblAirSpeed.Size = new System.Drawing.Size(61, 13);
+      this.lblAirSpeed.TabIndex = 14;
+      this.lblAirSpeed.Text = "Air Speed";
+      // 
+      // lblArmor
+      // 
+      this.lblArmor.AutoSize = true;
+      this.lblArmor.Location = new System.Drawing.Point(7, 99);
+      this.lblArmor.Name = "lblArmor";
+      this.lblArmor.Size = new System.Drawing.Size(37, 13);
+      this.lblArmor.TabIndex = 15;
+      this.lblArmor.Text = "Armor";
+      // 
+      // gbMultipliers
+      // 
+      this.gbMultipliers.Controls.Add(this.nudBuildTime);
+      this.gbMultipliers.Controls.Add(this.nudCost);
+      this.gbMultipliers.Controls.Add(this.nudROF);
+      this.gbMultipliers.Controls.Add(this.nudArmor);
+      this.gbMultipliers.Controls.Add(this.nudAirSpeed);
+      this.gbMultipliers.Controls.Add(this.nudGroundSpeed);
+      this.gbMultipliers.Controls.Add(this.nudFirepower);
+      this.gbMultipliers.Controls.Add(this.lblGroundSpeed);
+      this.gbMultipliers.Controls.Add(this.lblROF);
+      this.gbMultipliers.Controls.Add(this.lblAirSpeed);
+      this.gbMultipliers.Controls.Add(this.lblBuildTime);
+      this.gbMultipliers.Controls.Add(this.lblArmor);
+      this.gbMultipliers.Controls.Add(this.lblFirepower);
+      this.gbMultipliers.Controls.Add(this.lblCost);
+      this.gbMultipliers.Location = new System.Drawing.Point(250, 3);
+      this.gbMultipliers.Name = "gbMultipliers";
+      this.gbMultipliers.Size = new System.Drawing.Size(176, 200);
+      this.gbMultipliers.TabIndex = 16;
+      this.gbMultipliers.TabStop = false;
+      this.gbMultipliers.Text = "Multipliers";
+      // 
+      // nudBuildTime
+      // 
+      this.nudBuildTime.DecimalPlaces = 2;
+      this.nudBuildTime.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+      this.nudBuildTime.Location = new System.Drawing.Point(105, 174);
+      this.nudBuildTime.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+      this.nudBuildTime.Name = "nudBuildTime";
+      this.nudBuildTime.Size = new System.Drawing.Size(60, 20);
+      this.nudBuildTime.TabIndex = 22;
+      this.nudBuildTime.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+      this.nudBuildTime.ValueChanged += new System.EventHandler(this.Value_Changed);
+      this.nudBuildTime.Enter += new System.EventHandler(this.nudMultipliers_Enter);
+      // 
+      // nudCost
+      // 
+      this.nudCost.DecimalPlaces = 2;
+      this.nudCost.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+      this.nudCost.Location = new System.Drawing.Point(105, 149);
+      this.nudCost.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+      this.nudCost.Name = "nudCost";
+      this.nudCost.Size = new System.Drawing.Size(60, 20);
+      this.nudCost.TabIndex = 21;
+      this.nudCost.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+      this.nudCost.ValueChanged += new System.EventHandler(this.Value_Changed);
+      this.nudCost.Enter += new System.EventHandler(this.nudMultipliers_Enter);
+      // 
+      // nudROF
+      // 
+      this.nudROF.DecimalPlaces = 2;
+      this.nudROF.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+      this.nudROF.Location = new System.Drawing.Point(105, 123);
+      this.nudROF.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+      this.nudROF.Name = "nudROF";
+      this.nudROF.Size = new System.Drawing.Size(60, 20);
+      this.nudROF.TabIndex = 20;
+      this.nudROF.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+      this.nudROF.ValueChanged += new System.EventHandler(this.Value_Changed);
+      this.nudROF.Enter += new System.EventHandler(this.nudMultipliers_Enter);
+      // 
+      // nudArmor
+      // 
+      this.nudArmor.DecimalPlaces = 2;
+      this.nudArmor.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+      this.nudArmor.Location = new System.Drawing.Point(105, 97);
+      this.nudArmor.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+      this.nudArmor.Name = "nudArmor";
+      this.nudArmor.Size = new System.Drawing.Size(60, 20);
+      this.nudArmor.TabIndex = 19;
+      this.nudArmor.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+      this.nudArmor.ValueChanged += new System.EventHandler(this.Value_Changed);
+      this.nudArmor.Enter += new System.EventHandler(this.nudMultipliers_Enter);
+      // 
+      // nudAirSpeed
+      // 
+      this.nudAirSpeed.DecimalPlaces = 2;
+      this.nudAirSpeed.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+      this.nudAirSpeed.Location = new System.Drawing.Point(105, 71);
+      this.nudAirSpeed.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+      this.nudAirSpeed.Name = "nudAirSpeed";
+      this.nudAirSpeed.Size = new System.Drawing.Size(60, 20);
+      this.nudAirSpeed.TabIndex = 18;
+      this.nudAirSpeed.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+      this.nudAirSpeed.ValueChanged += new System.EventHandler(this.Value_Changed);
+      this.nudAirSpeed.Enter += new System.EventHandler(this.nudMultipliers_Enter);
+      // 
+      // nudGroundSpeed
+      // 
+      this.nudGroundSpeed.DecimalPlaces = 2;
+      this.nudGroundSpeed.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+      this.nudGroundSpeed.Location = new System.Drawing.Point(105, 45);
+      this.nudGroundSpeed.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+      this.nudGroundSpeed.Name = "nudGroundSpeed";
+      this.nudGroundSpeed.Size = new System.Drawing.Size(60, 20);
+      this.nudGroundSpeed.TabIndex = 17;
+      this.nudGroundSpeed.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+      this.nudGroundSpeed.ValueChanged += new System.EventHandler(this.Value_Changed);
+      this.nudGroundSpeed.Enter += new System.EventHandler(this.nudMultipliers_Enter);
+      // 
+      // nudFirepower
+      // 
+      this.nudFirepower.DecimalPlaces = 2;
+      this.nudFirepower.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+      this.nudFirepower.Location = new System.Drawing.Point(105, 19);
+      this.nudFirepower.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+      this.nudFirepower.Name = "nudFirepower";
+      this.nudFirepower.Size = new System.Drawing.Size(60, 20);
+      this.nudFirepower.TabIndex = 16;
+      this.nudFirepower.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+      this.nudFirepower.ValueChanged += new System.EventHandler(this.Value_Changed);
+      this.nudFirepower.Enter += new System.EventHandler(this.nudMultipliers_Enter);
+      // 
+      // gbIran
+      // 
+      this.gbIran.Controls.Add(this.cbCountry);
+      this.gbIran.Controls.Add(this.cbSecondaryColor);
+      this.gbIran.Controls.Add(this.cbColor);
+      this.gbIran.Controls.Add(this.cbNoBuildingCrew);
+      this.gbIran.Controls.Add(this.cbBuildingsInstantCapture);
+      this.gbIran.Controls.Add(this.lblCountry);
+      this.gbIran.Controls.Add(this.lblColor);
+      this.gbIran.Controls.Add(this.lblSecondaryColor);
+      this.gbIran.Location = new System.Drawing.Point(3, 150);
+      this.gbIran.Name = "gbIran";
+      this.gbIran.Size = new System.Drawing.Size(236, 145);
+      this.gbIran.TabIndex = 17;
+      this.gbIran.TabStop = false;
+      this.gbIran.Text = "Iran\'s INI Overrides";
+      // 
+      // cbCountry
+      // 
+      this.cbCountry.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.cbCountry.FormattingEnabled = true;
+      this.cbCountry.Location = new System.Drawing.Point(109, 73);
+      this.cbCountry.Name = "cbCountry";
+      this.cbCountry.Size = new System.Drawing.Size(121, 21);
+      this.cbCountry.TabIndex = 20;
+      this.cbCountry.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
+      this.cbCountry.TextChanged += new System.EventHandler(this.Value_Changed);
+      this.cbCountry.Enter += new System.EventHandler(this.cbCountry_Enter);
+      // 
+      // cbSecondaryColor
+      // 
+      this.cbSecondaryColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.cbSecondaryColor.FormattingEnabled = true;
+      this.cbSecondaryColor.Location = new System.Drawing.Point(109, 46);
+      this.cbSecondaryColor.Name = "cbSecondaryColor";
+      this.cbSecondaryColor.Size = new System.Drawing.Size(121, 21);
+      this.cbSecondaryColor.TabIndex = 19;
+      this.cbSecondaryColor.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
+      this.cbSecondaryColor.TextChanged += new System.EventHandler(this.Value_Changed);
+      this.cbSecondaryColor.Enter += new System.EventHandler(this.cbSecondaryColor_Enter);
+      // 
+      // cbColor
+      // 
+      this.cbColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.cbColor.FormattingEnabled = true;
+      this.cbColor.Location = new System.Drawing.Point(109, 19);
+      this.cbColor.Name = "cbColor";
+      this.cbColor.Size = new System.Drawing.Size(121, 21);
+      this.cbColor.TabIndex = 18;
+      this.cbColor.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
+      this.cbColor.TextChanged += new System.EventHandler(this.Value_Changed);
+      this.cbColor.Enter += new System.EventHandler(this.cbColor_Enter);
+      // 
+      // nudTechLevel
+      // 
+      this.nudTechLevel.Location = new System.Drawing.Point(128, 19);
+      this.nudTechLevel.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+      this.nudTechLevel.Name = "nudTechLevel";
+      this.nudTechLevel.Size = new System.Drawing.Size(60, 20);
+      this.nudTechLevel.TabIndex = 18;
+      this.nudTechLevel.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+      this.nudTechLevel.ValueChanged += new System.EventHandler(this.Value_Changed);
+      this.nudTechLevel.Enter += new System.EventHandler(this.nudTechLevel_Enter);
+      // 
+      // nudCredits
+      // 
+      this.nudCredits.Location = new System.Drawing.Point(128, 71);
+      this.nudCredits.Maximum = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
+      this.nudCredits.Name = "nudCredits";
+      this.nudCredits.Size = new System.Drawing.Size(60, 20);
+      this.nudCredits.TabIndex = 19;
+      this.nudCredits.Value = new decimal(new int[] {
+            99999,
+            0,
+            0,
+            0});
+      this.nudCredits.ValueChanged += new System.EventHandler(this.Value_Changed);
+      this.nudCredits.Enter += new System.EventHandler(this.nudCredits_Enter);
+      // 
+      // lblTechLevel
+      // 
+      this.lblTechLevel.AutoSize = true;
+      this.lblTechLevel.Location = new System.Drawing.Point(6, 21);
+      this.lblTechLevel.Name = "lblTechLevel";
+      this.lblTechLevel.Size = new System.Drawing.Size(61, 13);
+      this.lblTechLevel.TabIndex = 20;
+      this.lblTechLevel.Text = "TechLevel";
+      // 
+      // lblCredits
+      // 
+      this.lblCredits.AutoSize = true;
+      this.lblCredits.Location = new System.Drawing.Point(6, 73);
+      this.lblCredits.Name = "lblCredits";
+      this.lblCredits.Size = new System.Drawing.Size(91, 13);
+      this.lblCredits.TabIndex = 23;
+      this.lblCredits.Text = "Credits (x100)";
+      // 
+      // lblIQ
+      // 
+      this.lblIQ.AutoSize = true;
+      this.lblIQ.Location = new System.Drawing.Point(6, 47);
+      this.lblIQ.Name = "lblIQ";
+      this.lblIQ.Size = new System.Drawing.Size(19, 13);
+      this.lblIQ.TabIndex = 24;
+      this.lblIQ.Text = "IQ";
+      // 
+      // cbPlayerControl
+      // 
+      this.cbPlayerControl.AutoSize = true;
+      this.cbPlayerControl.Location = new System.Drawing.Point(6, 97);
+      this.cbPlayerControl.Name = "cbPlayerControl";
+      this.cbPlayerControl.Size = new System.Drawing.Size(110, 17);
+      this.cbPlayerControl.TabIndex = 25;
+      this.cbPlayerControl.Text = "Player Control";
+      this.cbPlayerControl.UseVisualStyleBackColor = true;
+      this.cbPlayerControl.CheckedChanged += new System.EventHandler(this.Value_Changed);
+      this.cbPlayerControl.Enter += new System.EventHandler(this.cbPlayerControl_Enter);
+      // 
+      // nudIQ
+      // 
+      this.nudIQ.Location = new System.Drawing.Point(128, 45);
+      this.nudIQ.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            0});
+      this.nudIQ.Name = "nudIQ";
+      this.nudIQ.Size = new System.Drawing.Size(60, 20);
+      this.nudIQ.TabIndex = 26;
+      this.nudIQ.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+      this.nudIQ.ValueChanged += new System.EventHandler(this.Value_Changed);
+      this.nudIQ.Enter += new System.EventHandler(this.nudIQ_Enter);
+      // 
+      // gbAllies
+      // 
+      this.gbAllies.Location = new System.Drawing.Point(432, 3);
+      this.gbAllies.Name = "gbAllies";
+      this.gbAllies.Size = new System.Drawing.Size(165, 447);
+      this.gbAllies.TabIndex = 27;
+      this.gbAllies.TabStop = false;
+      this.gbAllies.Text = "Allies";
+      // 
+      // gbGeneral
+      // 
+      this.gbGeneral.Controls.Add(this.lblTechLevel);
+      this.gbGeneral.Controls.Add(this.lblIQ);
+      this.gbGeneral.Controls.Add(this.nudIQ);
+      this.gbGeneral.Controls.Add(this.nudCredits);
+      this.gbGeneral.Controls.Add(this.lblCredits);
+      this.gbGeneral.Controls.Add(this.cbPlayerControl);
+      this.gbGeneral.Controls.Add(this.nudTechLevel);
+      this.gbGeneral.Location = new System.Drawing.Point(3, 3);
+      this.gbGeneral.Name = "gbGeneral";
+      this.gbGeneral.Size = new System.Drawing.Size(194, 121);
+      this.gbGeneral.TabIndex = 28;
+      this.gbGeneral.TabStop = false;
+      this.gbGeneral.Text = "General";
+      // 
+      // bOK
+      // 
+      this.bOK.Image = ((System.Drawing.Image)(resources.GetObject("bOK.Image")));
+      this.bOK.Location = new System.Drawing.Point(363, 456);
+      this.bOK.Name = "bOK";
+      this.bOK.Size = new System.Drawing.Size(92, 32);
+      this.bOK.TabIndex = 50;
+      this.bOK.Text = "Apply";
+      this.bOK.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+      this.bOK.UseVisualStyleBackColor = true;
+      this.bOK.Click += new System.EventHandler(this.bOK_Click);
+      // 
+      // bCancel
+      // 
+      this.bCancel.Image = ((System.Drawing.Image)(resources.GetObject("bCancel.Image")));
+      this.bCancel.Location = new System.Drawing.Point(505, 456);
+      this.bCancel.Name = "bCancel";
+      this.bCancel.Size = new System.Drawing.Size(92, 32);
+      this.bCancel.TabIndex = 49;
+      this.bCancel.Text = "Revert";
+      this.bCancel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+      this.bCancel.UseVisualStyleBackColor = true;
+      this.bCancel.Click += new System.EventHandler(this.bCancel_Click);
+      // 
+      // tbHint
+      // 
+      this.tbHint.AcceptsReturn = true;
+      this.tbHint.Font = new System.Drawing.Font("Consolas", 7.25F);
+      this.tbHint.Location = new System.Drawing.Point(3, 301);
+      this.tbHint.Multiline = true;
+      this.tbHint.Name = "tbHint";
+      this.tbHint.ReadOnly = true;
+      this.tbHint.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+      this.tbHint.Size = new System.Drawing.Size(423, 149);
+      this.tbHint.TabIndex = 93;
+      // 
+      // HouseControl
+      // 
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+      this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.Controls.Add(this.tbHint);
+      this.Controls.Add(this.bOK);
+      this.Controls.Add(this.bCancel);
+      this.Controls.Add(this.gbGeneral);
+      this.Controls.Add(this.gbAllies);
+      this.Controls.Add(this.gbIran);
+      this.Controls.Add(this.gbMultipliers);
+      this.Controls.Add(this.cbEnableIranOverrides);
+      this.Font = new System.Drawing.Font("Consolas", 8.25F);
+      this.Name = "HouseControl";
+      this.Size = new System.Drawing.Size(600, 500);
+      this.gbMultipliers.ResumeLayout(false);
+      this.gbMultipliers.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.nudBuildTime)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudCost)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudROF)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudArmor)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudAirSpeed)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudGroundSpeed)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudFirepower)).EndInit();
+      this.gbIran.ResumeLayout(false);
+      this.gbIran.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.nudTechLevel)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudCredits)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudIQ)).EndInit();
+      this.gbGeneral.ResumeLayout(false);
+      this.gbGeneral.PerformLayout();
+      this.ResumeLayout(false);
+      this.PerformLayout();
+
+    }
+
+    #endregion
+    private System.Windows.Forms.Label lblColor;
+    private System.Windows.Forms.Label lblSecondaryColor;
+    private System.Windows.Forms.Label lblCountry;
+    private System.Windows.Forms.Label lblGroundSpeed;
+    private System.Windows.Forms.CheckBox cbNoBuildingCrew;
+    private System.Windows.Forms.CheckBox cbBuildingsInstantCapture;
+    private System.Windows.Forms.CheckBox cbEnableIranOverrides;
+    private System.Windows.Forms.Label lblBuildTime;
+    private System.Windows.Forms.Label lblFirepower;
+    private System.Windows.Forms.Label lblCost;
+    private System.Windows.Forms.Label lblROF;
+    private System.Windows.Forms.Label lblAirSpeed;
+    private System.Windows.Forms.Label lblArmor;
+    private System.Windows.Forms.GroupBox gbMultipliers;
+    private System.Windows.Forms.NumericUpDown nudBuildTime;
+    private System.Windows.Forms.NumericUpDown nudCost;
+    private System.Windows.Forms.NumericUpDown nudROF;
+    private System.Windows.Forms.NumericUpDown nudArmor;
+    private System.Windows.Forms.NumericUpDown nudAirSpeed;
+    private System.Windows.Forms.NumericUpDown nudGroundSpeed;
+    private System.Windows.Forms.NumericUpDown nudFirepower;
+    private System.Windows.Forms.GroupBox gbIran;
+    private System.Windows.Forms.ComboBox cbCountry;
+    private System.Windows.Forms.ComboBox cbSecondaryColor;
+    private System.Windows.Forms.ComboBox cbColor;
+    private System.Windows.Forms.NumericUpDown nudTechLevel;
+    private System.Windows.Forms.NumericUpDown nudCredits;
+    private System.Windows.Forms.Label lblTechLevel;
+    private System.Windows.Forms.Label lblCredits;
+    private System.Windows.Forms.Label lblIQ;
+    private System.Windows.Forms.CheckBox cbPlayerControl;
+    private System.Windows.Forms.NumericUpDown nudIQ;
+    private System.Windows.Forms.GroupBox gbAllies;
+    private System.Windows.Forms.GroupBox gbGeneral;
+    private System.Windows.Forms.Button bOK;
+    private System.Windows.Forms.Button bCancel;
+    private System.Windows.Forms.TextBox tbHint;
+  }
+}

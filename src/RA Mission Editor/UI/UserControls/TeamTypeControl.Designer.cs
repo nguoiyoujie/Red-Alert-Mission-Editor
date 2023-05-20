@@ -81,6 +81,8 @@ namespace RA_Mission_Editor.UI.UserControls
       this.nudTechnoNum1 = new System.Windows.Forms.NumericUpDown();
       this.label1 = new System.Windows.Forms.Label();
       this.tbComment = new System.Windows.Forms.TextBox();
+      this.label2 = new System.Windows.Forms.Label();
+      this.tbRaw = new System.Windows.Forms.TextBox();
       ((System.ComponentModel.ISupportInitialize)(this.nudPriority)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudMax)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudInitNum)).BeginInit();
@@ -709,10 +711,29 @@ namespace RA_Mission_Editor.UI.UserControls
       this.tbComment.Size = new System.Drawing.Size(520, 20);
       this.tbComment.TabIndex = 107;
       // 
+      // label2
+      // 
+      this.label2.AutoSize = true;
+      this.label2.Location = new System.Drawing.Point(9, 454);
+      this.label2.Name = "label2";
+      this.label2.Size = new System.Drawing.Size(25, 13);
+      this.label2.TabIndex = 110;
+      this.label2.Text = "Raw";
+      // 
+      // tbRaw
+      // 
+      this.tbRaw.Location = new System.Drawing.Point(50, 451);
+      this.tbRaw.Name = "tbRaw";
+      this.tbRaw.ReadOnly = true;
+      this.tbRaw.Size = new System.Drawing.Size(307, 20);
+      this.tbRaw.TabIndex = 109;
+      // 
       // TeamTypeControl
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.Controls.Add(this.label2);
+      this.Controls.Add(this.tbRaw);
       this.Controls.Add(this.label1);
       this.Controls.Add(this.tbComment);
       this.Controls.Add(this.gbMembers);
@@ -800,5 +821,7 @@ namespace RA_Mission_Editor.UI.UserControls
     private System.Windows.Forms.Button bScriptInsertReplace;
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.TextBox tbComment;
+    private System.Windows.Forms.Label label2;
+    private System.Windows.Forms.TextBox tbRaw;
   }
 }

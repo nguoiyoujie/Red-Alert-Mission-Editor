@@ -9,6 +9,7 @@ namespace RA_Mission_Editor.RulesData.Ruleset
   {
     /// <summary>The combined rules that the game will see</summary>
     public IniFile GameRules;
+    public LanguageFile LanguageText;
 
     public Houses Houses = new Houses();
     public Infantries Infantries = new Infantries();
@@ -17,7 +18,7 @@ namespace RA_Mission_Editor.RulesData.Ruleset
     public Aircrafts Aircrafts = new Aircrafts();
     public Structures Structures = new Structures();
 
-    public void Clear() { GameRules = null; }
+    public void Clear() { GameRules = null; LanguageText = null; }
 
     public abstract void LoadRules(VirtualFileSystem vfs);
 

@@ -30,5 +30,10 @@ namespace RA_Mission_Editor.UI.Dialogs
     {
       Close();
     }
+
+    private void NewIniSectionDialog_Shown(object sender, EventArgs e)
+    {
+      this.ActiveControl = tbHeader;
+    }
   }
 }

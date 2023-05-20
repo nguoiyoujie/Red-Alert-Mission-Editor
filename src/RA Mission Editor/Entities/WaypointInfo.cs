@@ -27,6 +27,8 @@ namespace RA_Mission_Editor.Entities
 
     public string DisplayName { get => ToString(); }
 
+    public EditorSelectMode SelectMode { get { return EditorSelectMode.Waypoints; } }
+
     public string GetKeyAsString()
     {
       return ID;

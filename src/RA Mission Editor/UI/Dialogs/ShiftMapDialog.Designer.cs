@@ -161,6 +161,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.Name = "ShiftMapDialog";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
       this.Text = "Shift Map";
+      this.Shown += new System.EventHandler(this.ShiftMapDialog_Shown);
       ((System.ComponentModel.ISupportInitialize)(this.nudX)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudY)).EndInit();
       this.ResumeLayout(false);

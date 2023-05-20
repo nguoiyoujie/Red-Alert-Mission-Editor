@@ -67,6 +67,8 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblRepeating = new System.Windows.Forms.Label();
       this.tbComment = new System.Windows.Forms.TextBox();
       this.label1 = new System.Windows.Forms.Label();
+      this.tbRaw = new System.Windows.Forms.TextBox();
+      this.label2 = new System.Windows.Forms.Label();
       this.SuspendLayout();
       // 
       // bOK
@@ -504,10 +506,29 @@ namespace RA_Mission_Editor.UI.UserControls
       this.label1.TabIndex = 94;
       this.label1.Text = "Comment";
       // 
+      // tbRaw
+      // 
+      this.tbRaw.Location = new System.Drawing.Point(50, 454);
+      this.tbRaw.Name = "tbRaw";
+      this.tbRaw.ReadOnly = true;
+      this.tbRaw.Size = new System.Drawing.Size(307, 20);
+      this.tbRaw.TabIndex = 95;
+      // 
+      // label2
+      // 
+      this.label2.AutoSize = true;
+      this.label2.Location = new System.Drawing.Point(9, 457);
+      this.label2.Name = "label2";
+      this.label2.Size = new System.Drawing.Size(25, 13);
+      this.label2.TabIndex = 96;
+      this.label2.Text = "Raw";
+      // 
       // TriggerTypeControl
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.Controls.Add(this.label2);
+      this.Controls.Add(this.tbRaw);
       this.Controls.Add(this.label1);
       this.Controls.Add(this.tbComment);
       this.Controls.Add(this.tbHint);
@@ -592,5 +613,7 @@ namespace RA_Mission_Editor.UI.UserControls
     private System.Windows.Forms.Label lblRepeating;
     private System.Windows.Forms.TextBox tbComment;
     private System.Windows.Forms.Label label1;
+    private System.Windows.Forms.TextBox tbRaw;
+    private System.Windows.Forms.Label label2;
   }
 }

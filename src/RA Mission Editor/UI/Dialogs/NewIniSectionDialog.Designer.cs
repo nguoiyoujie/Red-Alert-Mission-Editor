@@ -92,6 +92,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.Name = "NewIniSectionDialog";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
       this.Text = "Add INI Section";
+      this.Shown += new System.EventHandler(this.NewIniSectionDialog_Shown);
       this.ResumeLayout(false);
       this.PerformLayout();
 

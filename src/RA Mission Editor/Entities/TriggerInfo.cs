@@ -113,6 +113,18 @@ namespace RA_Mission_Editor.Entities
       {
         return ParameterInfo.ParameterAircraftType;
       }
+      else if (flag.Contains(TriggerParameterFlag.GLOBALS))
+      {
+        return ParameterInfo.ParameterGlobals;
+      }
+      else if (flag.Contains(TriggerParameterFlag.MESSAGE))
+      {
+        return ParameterInfo.ParameterMessage;
+      }
+      else if (flag.Contains(TriggerParameterFlag.COLOR))
+      {
+        return ParameterInfo.ParameterColorType;
+      }
       else
         return ParameterInfo.ParameterDefault;
     }

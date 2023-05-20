@@ -27,5 +27,10 @@ namespace RA_Mission_Editor.UI.Dialogs
       ShiftY = (int)nudY.Value;
       Close();
     }
+
+    private void ShiftMapDialog_Shown(object sender, EventArgs e)
+    {
+      this.ActiveControl = nudX;
+    }
   }
 }

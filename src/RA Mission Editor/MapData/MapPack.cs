@@ -54,12 +54,12 @@ namespace RA_Mission_Editor.MapData
       MemoryStream m = PackedSectionHelper.GetPackedSection(values);
       FastByteReader byteReader = new FastByteReader(m.GetBuffer());
 
-      for (int i = 0; i < Constants.MAP_CELL_NUM && !byteReader.Done(); i++)
+      for (int i = 0; i < Template.Length && !byteReader.Done(); i++)
       {
         Template[i] = byteReader.ReadWord();
       }
 
-      for (int i = 0; i < Constants.MAP_CELL_NUM && !byteReader.Done(); i++)
+      for (int i = 0; i < Tile.Length && !byteReader.Done(); i++)
       {
         Tile[i] = byteReader.ReadByte();
       }

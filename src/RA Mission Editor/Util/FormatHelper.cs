@@ -48,7 +48,7 @@ namespace RA_Mission_Editor.Util
       return FileFormat.Ukn;
     }
 
-    public static VirtualFile OpenAsFormat(Stream baseStream, string filename, int offset = 0, int length = -1, FileFormat format = FileFormat.None, CacheMethod m = CacheMethod.Default)
+    public static VirtualFile OpenAsFormat(Stream baseStream, string filename, int offset = 0, int length = -1, FileFormat format = FileFormat.None, BufferingMode m = BufferingMode.Default)
     {
       if (length == -1) length = (int)baseStream.Length;
       if (format == FileFormat.None)
@@ -56,25 +56,28 @@ namespace RA_Mission_Editor.Util
         format = GuessFormat(filename);
       }
 
+      bool bufferMixes = (m & BufferingMode.BufferMixes) > 0;
+      bool bufferContents = (m & BufferingMode.BufferContents) > 0;
+
       switch (format)
       {
         case FileFormat.Ini:
-          return new IniFile(baseStream, filename, offset, length, m != CacheMethod.NoCache);
+          return new IniFile(baseStream, filename, offset, length, bufferContents);
         case FileFormat.Mix:
-          return new MixFile(baseStream, filename, offset, length, m == CacheMethod.Cache);
+          return new MixFile(baseStream, filename, offset, length, bufferMixes);
         case FileFormat.Pal:
-          return new PalFile(baseStream, filename, offset, length, m != CacheMethod.NoCache);
+          return new PalFile(baseStream, filename, offset, length, bufferContents);
         case FileFormat.Shp:
-          return new ShpFile(baseStream, filename, offset, length, m != CacheMethod.NoCache);
+          return new ShpFile(baseStream, filename, offset, length, bufferContents);
         case FileFormat.Tmp:
-          return new TmpFile(baseStream, filename, offset, length, m != CacheMethod.NoCache);
+          return new TmpFile(baseStream, filename, offset, length, bufferContents);
         case FileFormat.Eng:
-          return new LanguageFile(baseStream, filename, offset, length, m != CacheMethod.NoCache);
+          return new LanguageFile(baseStream, filename, offset, length, bufferContents);
         case FileFormat.OpenRABin:
-          return new OpenRABinFile(baseStream, filename, offset, length, m != CacheMethod.NoCache);
+          return new OpenRABinFile(baseStream, filename, offset, length, bufferContents);
         case FileFormat.Ukn:
         default:
-          return new VirtualFile(baseStream, filename, offset, length, m != CacheMethod.NoCache);
+          return new VirtualFile(baseStream, filename, offset, length, bufferContents);
       }
     }
   }

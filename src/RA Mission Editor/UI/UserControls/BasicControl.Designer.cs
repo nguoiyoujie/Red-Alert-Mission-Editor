@@ -65,6 +65,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.nudPercent = new System.Windows.Forms.NumericUpDown();
       this.lblBriefing = new System.Windows.Forms.Label();
       this.gbIran = new System.Windows.Forms.GroupBox();
+      this.cbUseCustomTutorialText = new System.Windows.Forms.CheckBox();
       this.lblMapSelectC = new System.Windows.Forms.Label();
       this.lblMapSelectB = new System.Windows.Forms.Label();
       this.tbMapSelectC = new System.Windows.Forms.TextBox();
@@ -94,7 +95,6 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblTheme = new System.Windows.Forms.Label();
       this.cbNewIniFormat = new System.Windows.Forms.ComboBox();
       this.cbEnableIranOverrides = new System.Windows.Forms.CheckBox();
-      this.cbUseCustomTutorialText = new System.Windows.Forms.CheckBox();
       this.groupBox1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.nudCarryOverMoney)).BeginInit();
       this.gbInheritance.SuspendLayout();
@@ -302,7 +302,6 @@ namespace RA_Mission_Editor.UI.UserControls
       this.tbBriefing.ScrollBars = System.Windows.Forms.ScrollBars.Both;
       this.tbBriefing.Size = new System.Drawing.Size(297, 194);
       this.tbBriefing.TabIndex = 52;
-      this.tbBriefing.WordWrap = false;
       this.tbBriefing.TextChanged += new System.EventHandler(this.Value_Changed);
       // 
       // nudCarryOverMoney
@@ -504,6 +503,17 @@ namespace RA_Mission_Editor.UI.UserControls
       this.gbIran.TabIndex = 48;
       this.gbIran.TabStop = false;
       this.gbIran.Text = "Iran\'s INI Overrides";
+      // 
+      // cbUseCustomTutorialText
+      // 
+      this.cbUseCustomTutorialText.AutoSize = true;
+      this.cbUseCustomTutorialText.Location = new System.Drawing.Point(16, 176);
+      this.cbUseCustomTutorialText.Name = "cbUseCustomTutorialText";
+      this.cbUseCustomTutorialText.Size = new System.Drawing.Size(145, 17);
+      this.cbUseCustomTutorialText.TabIndex = 48;
+      this.cbUseCustomTutorialText.Text = "Use Custom Tutorial Text";
+      this.cbUseCustomTutorialText.UseVisualStyleBackColor = true;
+      this.cbUseCustomTutorialText.CheckedChanged += new System.EventHandler(this.Value_Changed);
       // 
       // lblMapSelectC
       // 
@@ -799,17 +809,6 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbEnableIranOverrides.Text = "Enable Iran\'s INI Overrides";
       this.cbEnableIranOverrides.UseVisualStyleBackColor = true;
       this.cbEnableIranOverrides.CheckedChanged += new System.EventHandler(this.cbEnableIranOverrides_CheckedChanged);
-      // 
-      // cbUseCustomTutorialText
-      // 
-      this.cbUseCustomTutorialText.AutoSize = true;
-      this.cbUseCustomTutorialText.Location = new System.Drawing.Point(16, 176);
-      this.cbUseCustomTutorialText.Name = "cbUseCustomTutorialText";
-      this.cbUseCustomTutorialText.Size = new System.Drawing.Size(145, 17);
-      this.cbUseCustomTutorialText.TabIndex = 48;
-      this.cbUseCustomTutorialText.Text = "Use Custom Tutorial Text";
-      this.cbUseCustomTutorialText.UseVisualStyleBackColor = true;
-      this.cbUseCustomTutorialText.CheckedChanged += new System.EventHandler(this.Value_Changed);
       // 
       // BasicControl
       // 

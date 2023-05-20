@@ -1,15 +1,16 @@
 ﻿using RA_Mission_Editor.RulesData;
 using RA_Mission_Editor.RulesData.Ruleset;
-using System;
 
 namespace RA_Mission_Editor.Entities
 {
-  public class TerrainInfo : IEntity<TerrainType>, ILocatable
+  public class TerrainInfo : IKeyValueParsable<TerrainInfo>, IEntity<TerrainType>, ILocatable
   {
     // CELL=ID
     // Example: 4061=TC01
     public int Cell { get; set; } // Cell ID
     public string ID { get; set; } // Terrain type ID
+
+    public EditorSelectMode SelectMode { get { return EditorSelectMode.Terrain; } }
 
     public string GetKeyAsString()
     {
@@ -26,18 +27,17 @@ namespace RA_Mission_Editor.Entities
       return $"{ID} @ {Cell}";
     }
 
-    public static TerrainInfo Parse(string index, string value)
+    public bool Parse(string key, string value)
     {
-      TerrainInfo s = new TerrainInfo();
-      s.Cell = int.Parse(index);
+      Cell = int.Parse(key);
       string[] tokens = value.Split(',');
       if (tokens.Length < 1)
       {
-        throw new Exception($"Map Terrain {index} contains less than expected parameters");
+        return false;
       }
-      s.ID = tokens[0];
+      ID = tokens[0];
 
-      return s;
+      return true;
     }
 
     public TerrainType GetEntityType(Rules rules)

@@ -195,6 +195,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.Name = "EditIniDialog";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
       this.Text = "Edit INI Entries";
+      this.Shown += new System.EventHandler(this.EditIniDialog_Shown);
       this.ResumeLayout(false);
       this.PerformLayout();
 

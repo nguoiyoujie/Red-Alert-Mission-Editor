@@ -1,6 +1,4 @@
 ﻿using RA_Mission_Editor.FileFormats;
-using System;
-using System.Collections.Generic;
 
 namespace RA_Mission_Editor.MapData
 {

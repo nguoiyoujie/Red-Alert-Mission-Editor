@@ -1,6 +1,6 @@
 ﻿using RA_Mission_Editor.MapData;
+using RA_Mission_Editor.UI.Logic;
 using System;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
@@ -15,7 +15,7 @@ namespace RA_Mission_Editor.UI.UserControls
     }
 
     public Map Map { get; private set; }
-    private const int MaxGlobals = 30;
+    private const int MaxGlobals = Constants.MAX_GLOBALS;
 
     public void SetMap(Map map)
     {
@@ -60,26 +60,7 @@ namespace RA_Mission_Editor.UI.UserControls
     {
       get
       {
-        return IsDirtyColor(this);
-      }
-    }
-
-    public bool IsDirtyColor(Control f)
-    {
-      foreach (Control c in f.Controls)
-      {
-        if (c.ForeColor == Color.Red || IsDirtyColor(c))
-          return true;
-      }
-      return false;
-    }
-
-    public void ResetColor(Control f)
-    {
-      foreach (Control c in f.Controls)
-      {
-        c.ForeColor = Color.Black;
-        ResetColor(c);
+        return DirtyControlsHandler.IsDirtyColor(this);
       }
     }
 
@@ -87,11 +68,7 @@ namespace RA_Mission_Editor.UI.UserControls
     {
       if (sender is Control c)
       {
-        c.ForeColor = Color.Red;
-        if (c.Tag is Control d)
-        {
-          d.ForeColor = Color.Red;
-        }
+        DirtyControlsHandler.SetDirtyColor(c);
       }
     }
 
@@ -102,7 +79,7 @@ namespace RA_Mission_Editor.UI.UserControls
         int i = (int)nudIndex.Value;
         string extkey = Ext_CommentsSection.GlobalsPrefix + i.ToString();
         tbLine.Text = Map.Ext_CommentsSection.Get(extkey);
-        ResetColor(this);
+        DirtyControlsHandler.ResetDirtyColor(this);
       }
     }
 

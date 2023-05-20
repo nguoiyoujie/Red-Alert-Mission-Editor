@@ -1,10 +1,9 @@
 ﻿using RA_Mission_Editor.RulesData;
 using RA_Mission_Editor.RulesData.Ruleset;
-using System;
 
 namespace RA_Mission_Editor.Entities
 {
-  public class InfantryInfo : IEntity<InfantryType>, IOwnedEntity, ILocatable
+  public class InfantryInfo : IValueParsable<InfantryInfo>, IEntity<InfantryType>, IOwnedEntity, ILocatable
   {
     // INDEX=OWNER,ID,HEALTH,CELL,FACING,MISSION,TAG
     // Example: 5=Turkey,SHOK,256,9369,4,Area Guard,96,None
@@ -29,31 +28,32 @@ namespace RA_Mission_Editor.Entities
                             , Tag ?? "None");
     }
 
+    public EditorSelectMode SelectMode { get { return EditorSelectMode.Infantry; } }
+
     public override string ToString()
     {
       return $"{ID}, {Owner} @ {Cell}";
     }
 
-    public static InfantryInfo Parse(string index, string value)
+    public bool Parse(string value)
     {
-      InfantryInfo s = new InfantryInfo();
       string[] tokens = value.Split(',');
       if (tokens.Length < 8)
       {
-        throw new Exception($"Map Infantry {index} contains less than expected parameters");
+        return false;
       }
       unchecked
       {
-        s.Owner = tokens[0];
-        s.ID = tokens[1];
-        s.Health = short.Parse(tokens[2]);
-        s.Cell = int.Parse(tokens[3]);
-        s.SubCell = byte.Parse(tokens[4]);
-        s.Mission = tokens[5];
-        s.Facing = byte.Parse(tokens[6]);
-        s.Tag = tokens[7];
+        Owner = tokens[0];
+        ID = tokens[1];
+        Health = short.Parse(tokens[2]);
+        Cell = int.Parse(tokens[3]);
+        SubCell = byte.Parse(tokens[4]);
+        Mission = tokens[5];
+        Facing = byte.Parse(tokens[6]);
+        Tag = tokens[7];
       }
-      return s;
+      return true;
     }
 
     public InfantryType GetEntityType(Rules rules)

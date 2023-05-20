@@ -1,7 +1,7 @@
 ﻿using RA_Mission_Editor.FileFormats;
 using RA_Mission_Editor.MapData;
+using RA_Mission_Editor.UI.Logic;
 using System;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
@@ -16,13 +16,11 @@ namespace RA_Mission_Editor.UI.UserControls
     }
 
     public Map Map { get; private set; }
-    public VirtualFileSystem GameFileSystem { get; private set; }
     private const int MaxTutorials = 1028;
 
-    public void SetMap(Map map, VirtualFileSystem vfs)
+    public void SetMap(Map map)
     {
       Map = map;
-      GameFileSystem = vfs;
       RefreshText();
       RefreshLine();
       RefreshEditable();
@@ -47,7 +45,7 @@ namespace RA_Mission_Editor.UI.UserControls
           bDelete.Enabled = false;
           nudIndex.Enabled = false;
           tbLine.Text = "[Basic] UseCustomTutorialText is not set; strings from conquer.eng";
-          ResetColor(this);
+          DirtyControlsHandler.ResetDirtyColor(this);
         }
         else
         {
@@ -91,18 +89,14 @@ namespace RA_Mission_Editor.UI.UserControls
         else
         {
           _sb.Clear();
-          if (GameFileSystem != null)
+          if (Map.AttachedRules.LanguageText != null)
           {
-            LanguageFile file = GameFileSystem.OpenFile<LanguageFile>("conquer.eng");
-            if (file != null)
+            int max = Map.AttachedRules.LanguageText.Count;
+            for (int i = 1; i <= max; i++)
             {
-              int max = file.Count;
-              for (int i = 1; i <= max; i++)
-              {
-                _sb.Append(i);
-                _sb.Append('\t');
-                _sb.AppendLine(file.Get(i));
-              }
+              _sb.Append(i);
+              _sb.Append('\t');
+              _sb.AppendLine(Map.AttachedRules.LanguageText.Get(i));
             }
           }
           tbTutorialList.Text = _sb.ToString();
@@ -114,26 +108,7 @@ namespace RA_Mission_Editor.UI.UserControls
     {
       get
       {
-        return IsDirtyColor(this);
-      }
-    }
-
-    public bool IsDirtyColor(Control f)
-    {
-      foreach (Control c in f.Controls)
-      {
-        if (c.ForeColor == Color.Red || IsDirtyColor(c))
-          return true;
-      }
-      return false;
-    }
-
-    public void ResetColor(Control f)
-    {
-      foreach (Control c in f.Controls)
-      {
-        c.ForeColor = Color.Black;
-        ResetColor(c);
+        return DirtyControlsHandler.IsDirtyColor(this);
       }
     }
 
@@ -141,11 +116,7 @@ namespace RA_Mission_Editor.UI.UserControls
     {
       if (sender is Control c)
       {
-        c.ForeColor = Color.Red;
-        if (c.Tag is Control d)
-        {
-          d.ForeColor = Color.Red;
-        }
+        DirtyControlsHandler.SetDirtyColor(c);
       }
     }
 
@@ -162,7 +133,7 @@ namespace RA_Mission_Editor.UI.UserControls
         {
           tbLine.Text = string.Empty;
         }
-        ResetColor(this);
+        DirtyControlsHandler.ResetDirtyColor(this);
       }
     }
 

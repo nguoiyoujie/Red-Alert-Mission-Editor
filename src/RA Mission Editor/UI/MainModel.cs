@@ -6,6 +6,7 @@ using RA_Mission_Editor.Renderers;
 using RA_Mission_Editor.RulesData;
 using RA_Mission_Editor.RulesData.Ruleset;
 using RA_Mission_Editor.SettingsData;
+using RA_Mission_Editor.UI.Logic;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,23 +15,7 @@ using System.Windows.Forms;
 
 namespace RA_Mission_Editor.UI
 {
-  public delegate ErrorResolution ErrorDelegate(string message, ErrorType type, bool hasRetry);
   public delegate void NotifyDelegate();
-
-  public enum ErrorType { PROMPT, WARNING, FATAL }
-
-  public enum ErrorResolution { ACK, RETRY, CANCEL }
-
-  [Flags]
-  public enum PlaceEntityMode 
-  {
-    NONE = 0,
-    PLACE = 1 << 0,
-    PAINTING = 1 << 1,
-    DELETE = 1 << 2,
-
-    NO_DRAW = DELETE
-  }
 
   public class MainModel
   {
@@ -38,6 +23,8 @@ namespace RA_Mission_Editor.UI
     public readonly VirtualFileSystem GameFileSystem = new VirtualFileSystem();
     public readonly Map CurrentMap;
     public readonly MapCache Cache = new MapCache();
+    public int LastClickedCell = -1;
+    public List<int> SelectedCellsList = new List<int>();
     public readonly List<IEntity> PickCache = new List<IEntity>();
     public readonly PlaceEntityInfo PreplaceEntity = new PlaceEntityInfo(); // pick types for insert
     public string ExecutablePath { get; private set; }
@@ -73,6 +60,7 @@ namespace RA_Mission_Editor.UI
     public void Initialize()
     {
       ApplicationSettings.Load();
+      MapExtractSet.Reload();
       // simulate map set to update the UI
       OnMapChanged?.Invoke();
 
@@ -103,7 +91,7 @@ namespace RA_Mission_Editor.UI
           }
           else
           {
-            continue;
+            continue; 
           }
         }
       }
@@ -158,6 +146,8 @@ namespace RA_Mission_Editor.UI
         CurrentMap.AttachedRules.ApplyRulesWithMap(CurrentMap);
         CurrentMap.Dirty = false;
         OnMapChanged?.Invoke();
+        LastClickedCell = -1;
+        SelectedCellsList.Clear();
         Cache.Clear();
       }
       else
@@ -219,9 +209,16 @@ namespace RA_Mission_Editor.UI
 
     public void SaveMap(string mapPath)
     {
+      try
+      { 
       CurrentMap.Save(mapPath);
-      // reload
-      //LoadMap(mapPath);
+        // reload
+        //LoadMap(mapPath);
+      }
+      catch (Exception e)
+      {
+        OnError?.Invoke($"TError encountered: {e.Message}", ErrorType.WARNING, false);
+      }
     }
 
     public void LoadExe(string gameexePath)
@@ -230,6 +227,8 @@ namespace RA_Mission_Editor.UI
       MixLoading.LoadRAFileSystem(GameFileSystem, Path.GetDirectoryName(gameexePath));
 
       // update rules
+      LastClickedCell = -1;
+      SelectedCellsList.Clear();
       Cache.Clear();
 
       // save this setting
@@ -277,7 +276,7 @@ namespace RA_Mission_Editor.UI
 
     public void DrawMap(MapCanvas canvas)
     {
-      { if (CurrentMap.SourceFile != null) { canvas.Draw(CurrentMap, CurrentMap.AttachedRules, Cache, GameFileSystem, PreplaceEntity); } else { canvas.Clear(); } };
+      { if (CurrentMap.SourceFile != null) { canvas.Draw(this, CurrentMap, CurrentMap.AttachedRules, Cache, GameFileSystem, PreplaceEntity); } else { canvas.Clear(); } };
     }
 
     public void DrawMinimap(MinimapCanvas canvas)
@@ -403,6 +402,10 @@ namespace RA_Mission_Editor.UI
         if (proceed && !delete)
         {
           CurrentMap.InsertEntity(Cache, GameFileSystem, placeEntity);
+          if (placeEntity.Type is ExtractType)
+          {
+            OnMapTemplateLayerChanged?.Invoke();
+          }
           OnMapLayerChanged?.Invoke();
         }
       }
@@ -423,6 +426,11 @@ namespace RA_Mission_Editor.UI
             {
               OnMapTemplateLayerChanged?.Invoke();
             }
+            else if (placeEntity.Type is ExtractType)
+            {
+              OnMapTemplateLayerChanged?.Invoke();
+              OnMapLayerChanged?.Invoke();
+            }
             else
             {
               OnMapLayerChanged?.Invoke();
@@ -433,7 +441,7 @@ namespace RA_Mission_Editor.UI
       else
       {
         CurrentMap.InsertEntity(Cache, GameFileSystem, placeEntity);
-        if (placeEntity.Type is TemplateType)
+        if (placeEntity.Type is ExtractType || placeEntity.Type is TemplateType)
         {
           OnMapTemplateLayerChanged?.Invoke();
         }
@@ -444,14 +452,14 @@ namespace RA_Mission_Editor.UI
       }
     }
 
+    //public void SelectCell(int cell)
+    //{
+    //  SelectedCellsList.Add(cell);
+    //}
+
     public void DeleteEntity(IEntity entity)
     {
       CurrentMap.DeleteEntity(Cache, GameFileSystem, entity);
-    }
-
-    public void SelectCell()
-    {
-
     }
 
     public void OnEntityModified(IEntity entity)

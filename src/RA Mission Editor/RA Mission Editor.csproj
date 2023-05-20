@@ -90,6 +90,8 @@
     <Compile Include="Common\MixLoading.cs" />
     <Compile Include="Common\PlaceEntityInfo.cs" />
     <Compile Include="Common\PickEntityInfo.cs" />
+    <Compile Include="Entities\CopyInfo.cs" />
+    <Compile Include="EntityTypes\ExtractType.cs" />
     <Compile Include="FileFormats\OpenRABinFile.cs" />
     <Compile Include="FileFormats\LanguageFile.cs" />
     <Compile Include="Globals.cs" />
@@ -99,10 +101,12 @@
     <Compile Include="FileFormats\StoredIniValue.cs" />
     <Compile Include="MapData\Ext_MapSection.cs" />
     <Compile Include="MapData\Ext_CommentsSection.cs" />
+    <Compile Include="MapData\MapExtract.cs" />
     <Compile Include="MapData\TutorialSection.cs" />
     <Compile Include="MapData\HouseSection.cs" />
     <Compile Include="MapData\BriefingSection.cs" />
     <Compile Include="MapData\MapOccupancyList.cs" />
+    <Compile Include="MapExtractSet.cs" />
     <Compile Include="Renderers\MinimapCanvas.cs" />
     <Compile Include="Renderers\MinimapRenderer.cs" />
     <Compile Include="Resources\Strings.Designer.cs">
@@ -111,6 +115,7 @@
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
     <Compile Include="RulesData\EditorFeatures.cs" />
+    <Compile Include="RulesData\IntValueDesc.cs" />
     <Compile Include="RulesData\TechnoSets\Infantries.cs" />
     <Compile Include="EntityTypes\IEntityType.cs" />
     <Compile Include="RulesData\Ruleset\LovalmidasModRules.cs" />
@@ -205,6 +210,12 @@
     <Compile Include="Renderers\TechnoTypeRenderer.cs" />
     <Compile Include="Renderers\RenderUtils.cs" />
     <Compile Include="Renderers\EnvironmentRenderer.cs" />
+    <Compile Include="UI\Dialogs\SaveExtractDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\SaveExtractDialog.Designer.cs">
+      <DependentUpon>SaveExtractDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Dialogs\ShiftMapDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -259,6 +270,10 @@
     <Compile Include="UI\Dialogs\ViewStatisticsDialog.Designer.cs">
       <DependentUpon>ViewStatisticsDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Logic\DialogFunctions.cs" />
+    <Compile Include="UI\Logic\DirtyControlsHandler.cs" />
+    <Compile Include="UI\Logic\RecentFIlesHandler.cs" />
+    <Compile Include="UI\Logic\ErrorHandler.cs" />
     <Compile Include="UI\MainEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -266,6 +281,7 @@
       <DependentUpon>MainEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\MainModel.cs" />
+    <Compile Include="Common\PlaceEntityMode.cs" />
     <Compile Include="UI\UserControls\BasicControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -362,6 +378,9 @@
     <EmbeddedResource Include="Resources\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\SaveExtractDialog.resx">
+      <DependentUpon>SaveExtractDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\ShiftMapDialog.resx">
       <DependentUpon>ShiftMapDialog.cs</DependentUpon>

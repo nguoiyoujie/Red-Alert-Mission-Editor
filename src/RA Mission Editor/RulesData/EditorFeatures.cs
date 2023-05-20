@@ -1,9 +1,5 @@
-﻿
-using System;
-
-namespace RA_Mission_Editor.RulesData
+﻿namespace RA_Mission_Editor.RulesData
 {
-  [Flags]
   public enum RulesType
   {
     BASE_GAME = 0,

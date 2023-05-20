@@ -99,6 +99,21 @@ namespace RA_Mission_Editor.Util
       return cellNumber / map.Ext_MapSection.FullWidth;
     }
 
+    public static int CellNumber(this MapExtract map, int x, int y)
+    {
+      return x + y * map.Ext_MapSection.FullWidth;
+    }
+
+    public static int CellX(this MapExtract map, int cellNumber)
+    {
+      return cellNumber % map.Ext_MapSection.FullWidth;
+    }
+
+    public static int CellY(this MapExtract map, int cellNumber)
+    {
+      return cellNumber / map.Ext_MapSection.FullWidth;
+    }
+
     public static Point Point(this Map map, int cellNumber)
     {
       if (cellNumber < 0) return new Point(-1, -1);
@@ -181,6 +196,44 @@ namespace RA_Mission_Editor.Util
       return count;
     }
 
+    public static int GetNeighbourCellsWithOre(this MapExtract map, int cellNumber)
+    {
+      int x = CellX(map, cellNumber);
+      int y = CellY(map, cellNumber);
+      int count = 0;
+      for (int x2 = Math.Max(0, x - 1); x2 < Math.Min(map.Ext_MapSection.FullWidth, x + 1); x2++)
+        for (int y2 = Math.Max(0, y - 1); y2 < Math.Min(map.Ext_MapSection.FullHeight, y + 1); y2++)
+        {
+          if (x2 == x && y2 == x) { continue; } // ignore own cell
+          int c2 = map.CellNumber(x2, y2);
+          OverlayType ovl = Overlays.Get(map.OverlayPackSection.Overlay[c2]);
+          if (ovl != null && ovl.SubType == OverlaySubType.GOLD)
+          {
+            count++;
+          }
+        }
+      return count;
+    }
+
+    public static int GetNeighbourCellsWithGems(this MapExtract map, int cellNumber)
+    {
+      int x = CellX(map, cellNumber);
+      int y = CellY(map, cellNumber);
+      int count = 0;
+      for (int x2 = Math.Max(0, x - 1); x2 < Math.Min(map.Ext_MapSection.FullWidth, x + 1); x2++)
+        for (int y2 = Math.Max(0, y - 1); y2 < Math.Min(map.Ext_MapSection.FullHeight, y + 1); y2++)
+        {
+          if (x2 == x && y2 == x) { continue; } // ignore own cell
+          int c2 = map.CellNumber(x2, y2);
+          OverlayType ovl = Overlays.Get(map.OverlayPackSection.Overlay[c2]);
+          if (ovl != null && ovl.SubType == OverlaySubType.GEM)
+          {
+            count++;
+          }
+        }
+      return count;
+    }
+
     // See Tiberium_Adjust() in https://github.com/electronicarts/CnC_Remastered_Collection/blob/7d496e8a633a8bbf8a14b65f490b4d21fa32ca03/REDALERT/CELL.CPP
     private static int[] oreOverlay = { 0, 1, 3, 4, 6, 7, 8, 10, 11 };
     private static int[] gemOverlay = { 0, 0, 0, 1, 1, 1, 2, 2, 2 };
@@ -196,6 +249,66 @@ namespace RA_Mission_Editor.Util
     }
 
     public static byte GetWallOverlayData(this Map map, int cellNumber)
+    {
+      int x = map.CellX(cellNumber);
+      int y = map.CellY(cellNumber);
+      int c = map.CellNumber(x, y);
+
+      byte code = 0;
+      // N
+      if (y > 0)
+      {
+        int c2 = map.CellNumber(x, y - 1);
+        if (map.OverlayPackSection.Overlay[c] == map.OverlayPackSection.Overlay[c2])
+        {
+          code += 0x1;
+        }
+      }
+
+      // E
+      if (x < map.Ext_MapSection.FullWidth - 1)
+      {
+        int c2 = map.CellNumber(x + 1, y);
+        if (map.OverlayPackSection.Overlay[c] == map.OverlayPackSection.Overlay[c2])
+        {
+          code += 0x2;
+        }
+      }
+
+      // S
+      if (y < map.Ext_MapSection.FullHeight - 1)
+      {
+        int c2 = map.CellNumber(x, y + 1);
+        if (map.OverlayPackSection.Overlay[c] == map.OverlayPackSection.Overlay[c2])
+        {
+          code += 0x4;
+        }
+      }
+
+      // W
+      if (x > 0)
+      {
+        int c2 = map.CellNumber(x - 1, y);
+        if (map.OverlayPackSection.Overlay[c] == map.OverlayPackSection.Overlay[c2])
+        {
+          code += 0x8;
+        }
+      }
+
+      return code;
+    }
+
+    public static int GetOreOverlayData(this MapExtract map, int cellNumber)
+    {
+      return oreOverlay[map.GetNeighbourCellsWithOre(cellNumber)];
+    }
+
+    public static int GetGemOverlayData(this MapExtract map, int cellNumber)
+    {
+      return gemOverlay[map.GetNeighbourCellsWithGems(cellNumber)];
+    }
+
+    public static byte GetWallOverlayData(this MapExtract map, int cellNumber)
     {
       int x = map.CellX(cellNumber);
       int y = map.CellY(cellNumber);

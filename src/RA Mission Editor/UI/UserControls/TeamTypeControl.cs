@@ -1,9 +1,9 @@
 ﻿using RA_Mission_Editor.Entities;
 using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.RulesData;
+using RA_Mission_Editor.UI.Logic;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace RA_Mission_Editor.UI.UserControls
@@ -102,6 +102,7 @@ namespace RA_Mission_Editor.UI.UserControls
           _scripts.AddRange(teamtype.ScriptList);
 
           tbComment.Text = Map.Ext_CommentsSection.Get(Ext_CommentsSection.TeamTypePrefix + teamtype.Name);
+          tbRaw.Text = teamtype.GetKeyAsString() + "=" + teamtype.GetValueAsString(Map);
         }
         catch
         {
@@ -111,26 +112,17 @@ namespace RA_Mission_Editor.UI.UserControls
       UpdateScriptBox();
       UpdateTechnoBox();
       UpdateUI();
-      ResetColor(this);
+      DirtyControlsHandler.ResetDirtyColor(this);
       _suspendDirty = false;
+      bCancel.Enabled = false;
     }
 
     public bool IsDirty
     {
       get
       {
-        return IsDirtyColor(this);
+        return DirtyControlsHandler.IsDirtyColor(this);
       }
-    }
-
-    public bool IsDirtyColor(Control f)
-    {
-      foreach (Control c in f.Controls)
-      {
-        if (c.ForeColor == Color.Red || IsDirtyColor(c))
-          return true;
-      }
-      return false;
     }
 
     private ITechnoType IDToTechnoType(string id)
@@ -143,16 +135,6 @@ namespace RA_Mission_Editor.UI.UserControls
       if (t == null) { t = Map.AttachedRules.Aircrafts.Get(id); }
       if (t == null) { t = Map.AttachedRules.Ships.Get(id); }
       return t;
-    }
-
-    public void ResetColor(Control f)
-    {
-      foreach (Control c in f.Controls)
-      {
-        c.ForeColor = Color.Black;
-        ResetColor(c);
-      }
-      bCancel.Enabled = false;
     }
 
     public void SetMap(Map map)
@@ -404,23 +386,6 @@ namespace RA_Mission_Editor.UI.UserControls
       TeamType.BitField.PrebuildMembers = cbPrebuild.Checked;
       TeamType.BitField.Reinforce = cbReinforce.Checked;
 
-      /*
-      TeamType.TechnoList.Clear();
-      if (cbTechnoType1.Visible && cbTechnoType1.SelectedItem is ITechnoType itype1 && nudTechnoNum1.Value > 0)
-        TeamType.TechnoList.Add(new TeamTypeInfo.TechnoCountInfo() { ID = itype1.ID, Num = (int)nudTechnoNum1.Value });
-
-      if (cbTechnoType2.Visible && cbTechnoType2.SelectedItem is ITechnoType itype2 && nudTechnoNum2.Value > 0)
-        TeamType.TechnoList.Add(new TeamTypeInfo.TechnoCountInfo() { ID = itype2.ID, Num = (int)nudTechnoNum2.Value });
-
-      if (cbTechnoType3.Visible && cbTechnoType3.SelectedItem is ITechnoType itype3 && nudTechnoNum3.Value > 0)
-        TeamType.TechnoList.Add(new TeamTypeInfo.TechnoCountInfo() { ID = itype3.ID, Num = (int)nudTechnoNum3.Value });
-
-      if (cbTechnoType4.Visible && cbTechnoType4.SelectedItem is ITechnoType itype4 && nudTechnoNum4.Value > 0)
-        TeamType.TechnoList.Add(new TeamTypeInfo.TechnoCountInfo() { ID = itype4.ID, Num = (int)nudTechnoNum4.Value });
-
-      if (cbTechnoType5.Visible && cbTechnoType5.SelectedItem is ITechnoType itype5 && nudTechnoNum5.Value > 0)
-        TeamType.TechnoList.Add(new TeamTypeInfo.TechnoCountInfo() { ID = itype5.ID, Num = (int)nudTechnoNum5.Value });
-      */
       UpdateTechnoList();
       TeamType.TechnoList.Clear();
       TeamType.TechnoList.AddRange(_technoList);
@@ -445,17 +410,40 @@ namespace RA_Mission_Editor.UI.UserControls
       return true;
     }
 
+    private void PreviewTeamType()
+    {
+      TeamTypeInfo teamtype = new TeamTypeInfo();
+      teamtype.Name = string.IsNullOrWhiteSpace(tbName.Text) ? "???" : tbName.Text;
+      teamtype.Owner = Map.AttachedRules.Houses.GetHouseID(cbOwner.Text);
+      teamtype.Trigger = cbTrigger.SelectedItem as TriggerInfo;
+
+      teamtype.Priority = (int)nudPriority.Value;
+      teamtype.MaxAllowed = (int)nudMax.Value;
+      teamtype.InitNum = (int)nudInitNum.Value;
+      teamtype.WaypointID = cbWaypoint.SelectedItem is WaypointInfo w ? int.Parse(w.ID) : -1;
+      teamtype.BitField.AvoidThreats = cbAvoidThreats.Checked;
+      teamtype.BitField.Suicide = cbSuicide.Checked;
+      teamtype.BitField.AutoCreate = cbAutocreate.Checked;
+      teamtype.BitField.PrebuildMembers = cbPrebuild.Checked;
+      teamtype.BitField.Reinforce = cbReinforce.Checked;
+
+      teamtype.TechnoList.Clear();
+      teamtype.TechnoList.AddRange(_technoList);
+
+      teamtype.ScriptList.Clear();
+      teamtype.ScriptList.AddRange(_scripts);
+
+      tbRaw.Text = teamtype.GetKeyAsString() + "=" + teamtype.GetValueAsString(Map);
+    }
+
     private void Value_Changed(object sender, EventArgs e)
     {
       if (!_suspendDirty && sender is Control c)
       {
-        c.ForeColor = Color.Red;
-        if (c.Tag is Control d)
-        {
-          d.ForeColor = Color.Red;
-        }
+        DirtyControlsHandler.SetDirtyColor(c);
         bCancel.Enabled = true;
       }
+      PreviewTeamType();
     }
 
     private void Value_Changed_2(object sender, EventArgs e)
@@ -465,7 +453,7 @@ namespace RA_Mission_Editor.UI.UserControls
       {
         if (c.Tag is Control d)
         {
-          d.ForeColor = Color.Red;
+          DirtyControlsHandler.SetDirtyColor(d);
         }
         bCancel.Enabled = true;
       }

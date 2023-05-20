@@ -45,7 +45,7 @@ namespace RA_Mission_Editor.MapData
       MemoryStream m = PackedSectionHelper.GetPackedSection(values);
       FastByteReader byteReader = new FastByteReader(m.GetBuffer());
 
-      for (int i = 0; i < Constants.MAP_CELL_NUM && !byteReader.Done(); i++)
+      for (int i = 0; i < Overlay.Length && !byteReader.Done(); i++)
       {
         Overlay[i] = byteReader.ReadByte();
       }

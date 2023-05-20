@@ -7,7 +7,6 @@ using RA_Mission_Editor.RulesData.Ruleset;
 using RA_Mission_Editor.Util;
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace RA_Mission_Editor.MapData
 {
@@ -34,7 +33,7 @@ namespace RA_Mission_Editor.MapData
     public VoidDelegate MapDirtyChanged;
     public VoidDelegate InvalidateObjectDisplay;
     public VoidDelegate InvalidateTemplateDisplay;
-    public ActionDelegate<Type> InvalidateSelectionList;
+    public ActionDelegate<EditorSelectMode> InvalidateSelectionList;
 
     public readonly Rules AttachedRules;
 
@@ -64,6 +63,7 @@ namespace RA_Mission_Editor.MapData
 
     // a performance measure to store the cell occupancy list for all IEntity objects, to avoid expensive lookup
     public MapOccupancyList MapOccupancyList = new MapOccupancyList();
+    public int LastClickedCell = -1;
 
     /*
     public enum ReplaceOption
@@ -95,6 +95,7 @@ namespace RA_Mission_Editor.MapData
     {
       SourceFile = null;
       WriteDefaultSections();
+      LastClickedCell = -1;
       Dirty = false;
     }
 
@@ -304,6 +305,46 @@ namespace RA_Mission_Editor.MapData
       MapOccupancyList.Rebuild(this, cache, vfs);
     }
 
+    public void ClearTemplateOnCells(List<int> cells)
+    {
+      foreach (int cell in cells)
+      {
+        if (!this.IsCellInMap(cell)) { continue; }
+
+        // Map Pack
+        MapPackSection.Template[cell] = MapPack.defaultMapPackTemplates[0];
+        MapPackSection.Tile[cell] = MapPack.defaultMapPackTiles[0];
+      }
+      Dirty = true;
+      InvalidateTemplateDisplay?.Invoke();
+    }
+
+
+    public void ClearObjectsOnCells(MapCache cache, VirtualFileSystem vfs, List<int> cells)
+    {
+      foreach (int cell in cells)
+      {
+        if (!this.IsCellInMap(cell)) { continue; }
+        ClearObjectOnCell(UnitSection.UnitList, cell);
+        ClearObjectOnCell(InfantrySection.InfantryList, cell);
+        ClearObjectOnCell(ShipSection.ShipList, cell);
+        ClearObjectOnCell(StructureSection.StructureList, cell);
+        ClearObjectOnCell(BaseSection.BaseList, cell);
+        ClearObjectOnCell(WaypointSection.WaypointList, cell, true);
+        ClearObjectOnCell(TerrainSection.TerrainList, cell);
+        ClearObjectOnCell(SmudgeSection.SmudgeList, cell);
+
+        // Overlays
+        OverlayPackSection.Overlay[cell] = OverlayPack.defaultOverlayPackOverlays[0];
+
+        // CellTriggers, extra step because CellTriggerInfo has its own Cell variable.
+        CellTriggerSection.Triggers[cell] = CellTriggerSection.defaultTriggers[0];
+      }
+      RebuildOccupancyList(cache, vfs);
+      Dirty = true;
+      InvalidateObjectDisplay?.Invoke();
+    }
+
     public void Shift(MapCache cache, VirtualFileSystem vfs, int x, int y)
     {
       if (x == 0 && y == 0) { return; }
@@ -338,6 +379,21 @@ namespace RA_Mission_Editor.MapData
       Dirty = true;
       InvalidateObjectDisplay?.Invoke();
       InvalidateTemplateDisplay?.Invoke();
+    }
+
+    private void ClearObjectOnCell<T>(List<T> list, int cell, bool isWaypoint = false) where T : ILocatable
+    {
+      for (int i = list.Count - 1; i >= 0; i--)
+      {
+        T item = list[i];
+        if (item.Cell == cell)
+        {
+          if (!isWaypoint)
+            list.RemoveAt(i);
+          else
+            item.Cell = -1;
+        }
+      }
     }
 
     private void Shift<T>(List<T> list, int x, int y, bool isWaypoint = false) where T : ILocatable
@@ -399,6 +455,8 @@ namespace RA_Mission_Editor.MapData
 
     public void InsertEntity(MapCache cache, VirtualFileSystem vfs, PlaceEntityInfo entityInfo)
     {
+      if (entityInfo.Type == null) { return; }
+
       int cx = entityInfo.X;
       int cy = entityInfo.Y;
       int c = this.CellNumber(cx, cy);
@@ -537,7 +595,6 @@ namespace RA_Mission_Editor.MapData
       }
       else if (entityInfo.Type is CellTriggerInfo celt)
       {
-
         CellTriggerInfo ncelt = new CellTriggerInfo(this)
         {
            ID = celt.ID,
@@ -545,6 +602,11 @@ namespace RA_Mission_Editor.MapData
         };
         CellTriggerSection.Set(ncelt);
         MapOccupancyList.UpdateEntity(this, cache, vfs, ncelt);
+      }
+      else if (entityInfo.Type is ExtractType extr)
+      {
+        extr.Extract.Paste(this, cx, cy);
+        RebuildOccupancyList(cache, vfs);
       }
       Dirty = true;
     }

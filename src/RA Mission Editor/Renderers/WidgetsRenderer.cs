@@ -1,5 +1,7 @@
 ﻿using RA_Mission_Editor.MapData;
+using RA_Mission_Editor.UI;
 using RA_Mission_Editor.Util;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
 
@@ -125,6 +127,36 @@ namespace RA_Mission_Editor.Renderers
       g.DrawLine(MapUserThemes.GridPen, x1, 0, x1, map.Ext_MapSection.FullHeight * Constants.CELL_PIXEL_H);
       g.DrawLine(MapUserThemes.GridPen, 0, y0, map.Ext_MapSection.FullWidth * Constants.CELL_PIXEL_W, y0);
       g.DrawLine(MapUserThemes.GridPen, 0, y1, map.Ext_MapSection.FullWidth * Constants.CELL_PIXEL_W, y1);
+    }
+
+    public static void DrawSelection(MainModel model, Map map, Graphics g)
+    {
+      List<int> cells = model.SelectedCellsList;
+      int scell = map.LastClickedCell;
+      foreach (int cell in cells)
+      {
+        if (map.IsCellInMap(cell))
+        {
+          // draw bound lines
+          int x0 = map.CellX(cell) * Constants.CELL_PIXEL_W;
+          int y0 = map.CellY(cell) * Constants.CELL_PIXEL_H;
+          g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+          g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+          g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+          g.DrawRectangle(MapUserThemes.SelectionPen, x0, y0, Constants.CELL_PIXEL_W, Constants.CELL_PIXEL_H);
+          g.FillRectangle(MapUserThemes.SelectionBrush, x0, y0, Constants.CELL_PIXEL_W, Constants.CELL_PIXEL_H);
+        }
+      }
+      if (map.IsCellInMap(scell))
+      {
+        // draw bound lines
+        int x0 = map.CellX(scell) * Constants.CELL_PIXEL_W;
+        int y0 = map.CellY(scell) * Constants.CELL_PIXEL_H;
+        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+        g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+        g.DrawRectangle(MapUserThemes.LastSelectionPen, x0, y0, Constants.CELL_PIXEL_W, Constants.CELL_PIXEL_H);
+      }
     }
 
     public static void DrawGrid(Map map, Graphics g)

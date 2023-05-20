@@ -1,8 +1,11 @@
-﻿using RA_Mission_Editor.Entities;
+﻿using RA_Mission_Editor.Common;
+using RA_Mission_Editor.Entities;
 using RA_Mission_Editor.FileFormats;
+using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.Renderers;
 using RA_Mission_Editor.RulesData;
 using RA_Mission_Editor.UI.Dialogs;
+using RA_Mission_Editor.UI.Logic;
 using RA_Mission_Editor.UI.UserControls;
 using RA_Mission_Editor.Util;
 using System;
@@ -16,6 +19,7 @@ using System.Windows.Forms;
 
 namespace RA_Mission_Editor.UI
 {
+
   public partial class MainEditor : Form
   {
     const string cacheDir = "cache";
@@ -29,6 +33,10 @@ namespace RA_Mission_Editor.UI
     private StringBuilder _cellInfosb = new StringBuilder();
     private StringBuilder _toolTipsb = new StringBuilder();
     private List<TechnoTypeControl> _technoTypeCtrlList = new List<TechnoTypeControl>();
+    private EditorSelectMode _selectMode = EditorSelectMode.None;
+    private float[] _zooms = new float[] { 0.5f, 1, 2, 4 };
+    private int _dragSelectionX = -1;
+    private int _dragSelectionY = -1;
 
     // for use to load a map at startup
     internal string InitialFilePath;
@@ -71,7 +79,7 @@ namespace RA_Mission_Editor.UI
       try
       {
         // set up MainModel hooks
-        MainModel.OnError += OnError;
+        MainModel.OnError += ErrorHandler.OnError;
         MainModel.OnMapChanged += OnMapSet;
         MainModel.OnClose += OnClose;
         MainModel.OnMapTemplateLayerChanged += pbMapCanvas.Renderer.SetTemplateDirty;
@@ -81,7 +89,7 @@ namespace RA_Mission_Editor.UI
       }
       catch (Exception ex)
       {
-        OnError($"Unexpected Error on Load:\n{ex.Message}\n\nThe application will now close", ErrorType.FATAL, false);
+        ErrorHandler.OnError($"Unexpected Error on Load:\n{ex.Message}\n\nThe application will now close", ErrorType.FATAL, false);
         Close();
         return;
       }
@@ -93,43 +101,14 @@ namespace RA_Mission_Editor.UI
       }
     }
 
-    public ErrorResolution OnError(string message, ErrorType type, bool hasRetry)
-    {
-      MessageBoxButtons buttons = hasRetry ? MessageBoxButtons.RetryCancel : MessageBoxButtons.OK;
-      MessageBoxIcon icon;
-      switch (type)
-      {
-        default:
-        case ErrorType.PROMPT:
-          icon = MessageBoxIcon.None;
-          break;
-        case ErrorType.WARNING:
-          icon = MessageBoxIcon.Warning;
-          break;
-        case ErrorType.FATAL:
-          icon = MessageBoxIcon.Stop;
-          break;
-      }
-      switch (MessageBox.Show(message, Resources.Strings.Title, buttons, icon))
-      {
-        default:
-        case DialogResult.OK:
-          return ErrorResolution.ACK;
-        case DialogResult.Retry:
-          return ErrorResolution.RETRY;
-        case DialogResult.Cancel:
-          return ErrorResolution.CANCEL;
-      }
-    }
-
     public void OnMapSet()
     {
       pbMapCanvas.Renderer.Reset();
       Cleanup();
-      UpdateRecentFileUIList();
+      RecentFIlesHandler.UpdateRecentFileUIList(openRecentMapToolStripMenuItem, MainModel.ApplicationSettings.CacheSection.RecentFiles, OpenRecentFile);
       RefreshTitle();
       MainModel.CurrentMap.MapDirtyChanged = RefreshTitle;
-      MainModel.CurrentMap.InvalidateSelectionList = RefreshSelectionList;
+      MainModel.CurrentMap.InvalidateSelectionList = SetObjectSelectionItems;
       MainModel.CurrentMap.InvalidateObjectDisplay = pbMapCanvas.Renderer.SetDirty;
       MainModel.CurrentMap.InvalidateObjectDisplay += RefreshObjectCanvas;
       MainModel.CurrentMap.InvalidateTemplateDisplay = pbMapCanvas.Renderer.SetTemplateDirty;
@@ -139,9 +118,21 @@ namespace RA_Mission_Editor.UI
     public void RefreshTitle()
     {
       Text = (MainModel.CurrentMap != null && MainModel.IsMapLoaded) ? $"{MainModel.CurrentMap.FilePath ?? "New map"} - \"{MainModel.CurrentMap.BasicSection.Name}\"" : Resources.Strings.Title;
-      if (MainModel.CurrentMap != null && MainModel.CurrentMap.Dirty)
+      if (MainModel.IsMapLoaded)
       {
-        Text += "*";
+        if (MainModel.CurrentMap.Dirty)
+        {
+          Text += "*";
+          menuStrip1.BackColor = Color.ForestGreen;
+        }
+        else
+        {
+          menuStrip1.BackColor = Color.DodgerBlue;
+        }
+      }
+      else
+      {
+        menuStrip1.BackColor = Color.Silver;
       }
     }
 
@@ -165,6 +156,7 @@ namespace RA_Mission_Editor.UI
       SetVisible(advancedToolStripMenuItem, isMapOpen);
       SetVisible(visibilityToolStripMenuItem, isMapOpen);
       SetVisible(statisticsToolStripMenuItem, isMapOpen);
+      SetVisible(renderToolStripMenuItem, isMapOpen);
       SetVisible(testToolStripMenuItem, isMapOpen);
 
       pbMapCanvas.Renderer?.SetVisible(MapCanvas.LayerType.Grid, cbGrid.Checked);
@@ -184,7 +176,7 @@ namespace RA_Mission_Editor.UI
 
     private void Cleanup()
     {
-      GetEditorDialog()?.Close();
+      DialogFunctions.GetEditorDialog()?.Close();
       foreach (TechnoTypeControl c in pTechnoList.Controls)
       {
         c.Visible = false;
@@ -194,40 +186,10 @@ namespace RA_Mission_Editor.UI
       ttipInfoText = null;
     }
 
-    private void UpdateRecentFileUIList()
+    private void OpenRecentFile(string path)
     {
-      List<ToolStripItem> tlist = new List<ToolStripItem>();
-      foreach (ToolStripItem c in openRecentMapToolStripMenuItem.DropDownItems)
-      {
-        tlist.Add(c);
-      }
-      openRecentMapToolStripMenuItem.DropDownItems.Clear();
-      foreach (ToolStripItem c in tlist)
-      {
-        c.Dispose();
-      }
-
-      Keys[] k = new Keys[] { Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9, Keys.D0 };
-      int index = 0;
-      foreach (string s in MainModel.ApplicationSettings.CacheSection.RecentFiles)
-      {
-        ToolStripMenuItem t = new ToolStripMenuItem()
-        {
-          Text = Path.GetFullPath(s)
-        };
-        t.Click += (_, e) =>
-        {
-          if (CheckAndWarnUnsavedMap())
-            MainModel.LoadMap(Path.GetFullPath(s));
-        };
-        if (index < k.Length)
-        {
-          t.ShortcutKeys = Keys.Control | k[index];
-          index++;
-        }
-        openRecentMapToolStripMenuItem.DropDownItems.Add(t);
-      }
-      openRecentMapToolStripMenuItem.Enabled = openRecentMapToolStripMenuItem.DropDownItems.Count > 0;
+      if (CheckAndWarnUnsavedMap())
+        MainModel.LoadMap(path);
     }
 
     private void ttipInfo_Popup(object sender, PopupEventArgs e)
@@ -247,6 +209,16 @@ namespace RA_Mission_Editor.UI
     private PlaceEntityMode GetMouseMode()
     {
       PlaceEntityMode mode = PlaceEntityMode.PLACE;
+      if (_selectMode == EditorSelectMode.None)
+      {
+        mode |= PlaceEntityMode.SELECT;
+      }
+      else if ((MouseButtons & MouseButtons.Right) == MouseButtons.Right)
+      {
+        return PlaceEntityMode.DRAG; // drag and existing entity instead 
+      }
+
+      //modifiers
       if ((ModifierKeys & Keys.Control) == Keys.Control)
       {
         mode |= PlaceEntityMode.DELETE;
@@ -255,10 +227,7 @@ namespace RA_Mission_Editor.UI
       {
         mode |= PlaceEntityMode.PAINTING;
       }
-      if ((MouseButtons & MouseButtons.Right) == MouseButtons.Right)
-      {
-        mode |= PlaceEntityMode.NO_DRAW; // drag and existing entity instead 
-      }
+
       return mode;
     }
 
@@ -388,26 +357,18 @@ namespace RA_Mission_Editor.UI
       pbMapCanvas.Cursor = GetCanvasCursor(GetMouseMode());
     }
 
-    private void RefreshSelectionList(Type list)
-    {
-      object obj = lboxObjects.SelectedItem;
-      if (lboxObjects.Items.Count == 0) { return; }
-      else if (lboxObjects.Items[0] is InfantryInfo) { bLayerInfantry_Click(null, null); }
-      else if (lboxObjects.Items[0] is UnitInfo) { bLayerUnits_Click(null, null); }
-      else if (lboxObjects.Items[0] is ShipInfo) { bLayerShips_Click(null, null); }
-      else if (lboxObjects.Items[0] is BaseInfo) { bLayerBases_Click(null, null); }
-      else if (lboxObjects.Items[0] is StructureInfo) { bLayerStructures_Click(null, null); }
-      else if (lboxObjects.Items[0] is WaypointInfo) { bLayerWaypoints_Click(null, null); }
-      else if (lboxObjects.Items[0] is TerrainInfo) { bLayerTerrain_Click(null, null); }
-      else if (lboxObjects.Items[0] is CellTriggerInfo) { bLayerCellTriggers_Click(null, null); }
-      else if (lboxObjects.Items[0] is OverlayType) { bLayerOverlay_Click(null, null); }
-      else if (lboxObjects.Items[0] is TemplateType) { bLayerTemplate_Click(null, null); }
-      lboxObjects.SelectedItem = obj;
-    }
-
     private void UpdateMouseDown(int x, int y, int subcell, MouseButtons button)
     {
-      if (button == MouseButtons.Right)
+      if (button == MouseButtons.Left)
+      {
+        PlaceEntityMode mode = GetMouseMode();
+        if ((mode & PlaceEntityMode.SELECT) > 0)
+        {
+          _dragSelectionX = x;
+          _dragSelectionY = y;
+        }
+      }
+      else if (button == MouseButtons.Right)
       {
         if (MainModel.PickEntity == null)
         {
@@ -416,24 +377,15 @@ namespace RA_Mission_Editor.UI
 
         if (MainModel.PickEntity != null)
         {
-          object obj = lboxObjects.SelectedItem;
-          if (MainModel.PickEntity is InfantryInfo) { bLayerInfantry_Click(null, null); }
-          else if (MainModel.PickEntity is UnitInfo) { bLayerUnits_Click(null, null); }
-          else if (MainModel.PickEntity is ShipInfo) { bLayerShips_Click(null, null); }
-          else if (MainModel.PickEntity is BaseInfo) { bLayerBases_Click(null, null); }
-          else if (MainModel.PickEntity is StructureInfo) { bLayerStructures_Click(null, null); }
-          else if (MainModel.PickEntity is WaypointInfo) { bLayerWaypoints_Click(null, null); }
-          else if (MainModel.PickEntity is TerrainInfo) { bLayerTerrain_Click(null, null); }
-          else if (MainModel.PickEntity is OverlayType) { bLayerOverlay_Click(null, null); }
-          else if (MainModel.PickEntity is CellTriggerInfo) { bLayerCellTriggers_Click(null, null); }
-          else { bLayerTemplate_Click(null, null); }
-          lboxObjects.SelectedItem = obj;
+          _selectMode = MainModel.PickEntity.SelectMode;
         }
         else
         {
           MainModel.PickEntity = Templates.Get(0);
-          bLayerTemplate_Click(null, null);
+          _selectMode = EditorSelectMode.Templates;
         }
+        SetObjectSelectionItems(_selectMode);
+
 
         // update selection
         if (lboxObjects.Items.Count > 0)
@@ -471,12 +423,47 @@ namespace RA_Mission_Editor.UI
 
     private void UpdateMouseUp(int x, int y, int subcell, MouseButtons button)
     {
-      if (button == MouseButtons.Right)
+      if (button == MouseButtons.Left)
+      {
+        PlaceEntityMode mode = GetMouseMode();
+        if ((mode & PlaceEntityMode.SELECT) > 0)
+        {
+          if ((mode & PlaceEntityMode.PAINTING) == 0)
+          {
+            MainModel.SelectedCellsList.Clear();
+          }
+
+          int x0 = Math.Min(_dragSelectionX, x);
+          int y0 = Math.Min(_dragSelectionY, y);
+          int x1 = Math.Max(_dragSelectionX, x);
+          int y1 = Math.Max(_dragSelectionY, y);
+          for (int i = x0; i <= x1; i++)
+            for (int j = y0; j <= y1; j++)
+            {
+              int cell = MainModel.CurrentMap.CellNumber(i, j);
+              if (MainModel.SelectedCellsList.Contains(cell))
+              {
+                MainModel.SelectedCellsList.Remove(cell);
+              }
+              else
+              {
+                MainModel.SelectedCellsList.Add(cell);
+              }
+            }
+          _dragSelectionX = -1;
+          _dragSelectionY = -1;
+          pbMapCanvas.Renderer.SetDirty();
+        }
+        MainModel.CurrentMap.LastClickedCell = MainModel.CurrentMap.CellNumber(x, y);
+      }
+      else if (button == MouseButtons.Right)
+      {
         if (MainModel.PickEntity != null)
         {
           MainModel.PickEntity = null;
           MainModel.CurrentMap.Update();
         }
+      }
     }
 
     private void CenterCoord(int x, int y, int subcell, MouseButtons button, IEntity selectedEntity = null)
@@ -492,28 +479,26 @@ namespace RA_Mission_Editor.UI
     {
       if (button == MouseButtons.Left)
       {
-        MainModel.PlaceEntity(GetMouseMode(), MainModel.PreplaceEntity);
-
-        // refresh the list if placement may change the display list (e.g. names of the items in the list)
-        // Waypoints do this as the display contains their current location
-        IEntityType type = MainModel.PreplaceEntity.Type;
-        if (type is WaypointInfo || type is CellTriggerInfo)
+        PlaceEntityMode mode = GetMouseMode();
+        if ((mode & (PlaceEntityMode.PLACE | PlaceEntityMode.PAINTING)) > 0)
         {
-          MainModel.CurrentMap?.InvalidateSelectionList?.Invoke(type.GetType());
-          foreach (object item in lboxObjects.Items)
+          MainModel.PlaceEntity(mode, MainModel.PreplaceEntity);
+
+          // refresh the list if placement may change the display list (e.g. names of the items in the list)
+          // Waypoints do this as the display contains their current location
+          IEntityType type = MainModel.PreplaceEntity.Type;
+          if (type is WaypointInfo || type is CellTriggerInfo)
           {
-            if (item is CellTriggerInfo ctrig && type.ID == ctrig.ID)
+            MainModel.CurrentMap?.InvalidateSelectionList?.Invoke((type is WaypointInfo) ? EditorSelectMode.Waypoints : EditorSelectMode.CellTriggers);
+            foreach (object item in lboxObjects.Items)
             {
-              lboxObjects.SelectedItem = item;
-              break;
+              if (item is CellTriggerInfo ctrig && type.ID == ctrig.ID)
+              {
+                lboxObjects.SelectedItem = item;
+                break;
+              }
             }
           }
-        }
-
-        // update selection
-        if (lboxObjects.Items.Count > 0)
-        {
-
         }
       }
       if (button == MouseButtons.Right)
@@ -660,121 +645,137 @@ namespace RA_Mission_Editor.UI
       MainModel.PreplaceEntity.TemplateCell = 0xFF; // reset before regenerating image
 
       RefreshObjectCanvas();
-      IEntityType etype = lboxObjects.SelectedItem as IEntityType;
-      MainModel.PreplaceEntity.Type = etype;
-      MainModel.PreplaceEntity.IsBase = _listBoxIsBase;
+      if (lboxObjects.SelectedItem is MapExtract selExtract)
+      {
+
+      }
+      else
+      {
+        IEntityType etype = lboxObjects.SelectedItem as IEntityType;
+        MainModel.PreplaceEntity.Type = etype;
+        MainModel.PreplaceEntity.IsBase = _listBoxIsBase;
+      }
     }
 
-    private void bLayerTemplate_Click(object sender, EventArgs e)
+    private void SetObjectSelectionItems(EditorSelectMode mode)
     {
+      object obj = lboxObjects.SelectedItem;
       lboxObjects.Items.Clear();
-      lboxObjects.Items.AddRange(Templates.GetAsObjectList());
-      lboxObjects.MultiColumn = true;
-      lboxObjects.SelectedIndex = 0;
-      bSetEntity.Enabled = false;
+      _selectMode = mode;
+      bool isSelect = _selectMode == EditorSelectMode.None;
+      copySelectedCellsToolStripMenuItem.Enabled = isSelect;
+      pasteSelectedCellsToolStripMenuItem.Enabled = isSelect;
+      deleteObjectsInSelectionToolStripMenuItem.Enabled = isSelect;
+      clearTemplateInSelectionToolStripMenuItem.Enabled = isSelect;
+      pbMapCanvas.Renderer.SetVisible(MapCanvas.LayerType.Selection, isSelect);
+
+      switch (mode)
+      {
+        default:
+        case EditorSelectMode.None:
+          lboxObjects.MultiColumn = false;
+          lboxObjects.SelectedIndex = -1;
+          lboxObjects_SelectedIndexChanged(null, null);
+          pbMapCanvas.Renderer.SetVisible(MapCanvas.LayerType.PreplaceEntity, false);
+          if (MainModel.IsMapLoaded && MainModel.SelectedCellsList.Count > 0)
+          {
+            MainModel.CurrentMap.LastClickedCell = -1;
+            MainModel.SelectedCellsList.Clear();
+            pbMapCanvas.Renderer.SetDirty();
+          }
+          bSetEntity.Enabled = false;
+          break;
+        case EditorSelectMode.Templates:
+          lboxObjects.Items.AddRange(Templates.GetAsObjectList());
+          lboxObjects.MultiColumn = true;
+          lboxObjects.SelectedIndex = 0;
+          bSetEntity.Enabled = false;
+          break;
+        case EditorSelectMode.Overlays:
+          lboxObjects.Items.AddRange(Overlays.GetAsObjectList());
+          lboxObjects.MultiColumn = true;
+          lboxObjects.SelectedIndex = 0;
+          bSetEntity.Enabled = false;
+          break;
+        case EditorSelectMode.Terrain:
+          lboxObjects.Items.AddRange(Terrains.GetAsObjectList());
+          lboxObjects.MultiColumn = true;
+          lboxObjects.SelectedIndex = 0;
+          bSetEntity.Enabled = false;
+          break;
+        case EditorSelectMode.Smudges:
+          lboxObjects.Items.AddRange(Smudges.GetAsObjectList());
+          lboxObjects.MultiColumn = true;
+          lboxObjects.SelectedIndex = 0;
+          bSetEntity.Enabled = false;
+          break;
+        case EditorSelectMode.Infantry:
+          lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Infantries.GetAsObjectList());
+          lboxObjects.MultiColumn = false;
+          lboxObjects.SelectedIndex = 0;
+          bSetEntity.Enabled = true;
+          break;
+        case EditorSelectMode.Units:
+          lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Units.GetAsObjectList());
+          lboxObjects.MultiColumn = false;
+          lboxObjects.SelectedIndex = 0;
+          bSetEntity.Enabled = true;
+          break;
+        case EditorSelectMode.Ships:
+          lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Ships.GetAsObjectList());
+          lboxObjects.MultiColumn = false;
+          lboxObjects.SelectedIndex = 0;
+          bSetEntity.Enabled = true;
+          break;
+        case EditorSelectMode.Structures:
+          lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Structures.GetAsObjectList());
+          _listBoxIsBase = false;
+          lboxObjects.MultiColumn = false;
+          lboxObjects.SelectedIndex = 0;
+          bSetEntity.Enabled = true;
+          break;
+        case EditorSelectMode.Bases:
+          lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Structures.GetAsObjectList());
+          _listBoxIsBase = true;
+          lboxObjects.MultiColumn = false;
+          lboxObjects.SelectedIndex = 0;
+          bSetEntity.Enabled = false;
+          break;
+        case EditorSelectMode.Waypoints:
+          lboxObjects.Items.AddRange(MainModel.CurrentMap.WaypointSection.WaypointList.Select<WaypointInfo, object>((t) => t).ToArray());
+          lboxObjects.MultiColumn = false;
+          lboxObjects.SelectedIndex = 0;
+          bSetEntity.Enabled = false;
+          break;
+        case EditorSelectMode.CellTriggers:
+          lboxObjects.Items.AddRange(MainModel.CurrentMap.TriggerSection.TriggerList.Select<TriggerInfo, object>((t) => new CellTriggerInfo(MainModel.CurrentMap) { ID = t.Name }).ToArray());
+          lboxObjects.MultiColumn = false;
+          lboxObjects.SelectedIndex = 0;
+          bSetEntity.Enabled = false;
+          break;
+        case EditorSelectMode.Extracts:
+          lboxObjects.Items.AddRange(MapExtractSet.LoadedExtracts.Values.Select<MapExtract, object>((t) => new ExtractType(t)).ToArray());
+          lboxObjects.MultiColumn = true;
+          if (lboxObjects.Items.Count > 0) { lboxObjects.SelectedIndex = 0; }
+          bSetEntity.Enabled = false;
+          break;
+      }
+      lboxObjects.SelectedItem = obj;
     }
 
-    private void bLayerOverlay_Click(object sender, EventArgs e)
-    {
-      lboxObjects.Items.Clear();
-      lboxObjects.Items.AddRange(Overlays.GetAsObjectList());
-      lboxObjects.MultiColumn = true;
-      lboxObjects.SelectedIndex = 0;
-      bSetEntity.Enabled = false;
-    }
-
-    private void bLayerTerrain_Click(object sender, EventArgs e)
-    {
-      lboxObjects.Items.Clear();
-      lboxObjects.Items.AddRange(Terrains.GetAsObjectList());
-      lboxObjects.MultiColumn = true;
-      lboxObjects.SelectedIndex = 0;
-      bSetEntity.Enabled = false;
-    }
-
-    private void bLayerSmudge_Click(object sender, EventArgs e)
-    {
-      lboxObjects.Items.Clear();
-      lboxObjects.Items.AddRange(Smudges.GetAsObjectList());
-      lboxObjects.MultiColumn = true;
-      lboxObjects.SelectedIndex = 0;
-      bSetEntity.Enabled = false;
-    }
-
-    private void bLayerInfantry_Click(object sender, EventArgs e)
-    {
-      lboxObjects.Items.Clear();
-      lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Infantries.GetAsObjectList());
-      lboxObjects.MultiColumn = false;
-      lboxObjects.SelectedIndex = 0;
-      bSetEntity.Enabled = true;
-    }
-
-    private void bLayerUnits_Click(object sender, EventArgs e)
-    {
-      lboxObjects.Items.Clear();
-      lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Units.GetAsObjectList());
-      lboxObjects.MultiColumn = false;
-      lboxObjects.SelectedIndex = 0;
-      bSetEntity.Enabled = true;
-    }
-
-    private void bLayerShips_Click(object sender, EventArgs e)
-    {
-      lboxObjects.Items.Clear();
-      lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Ships.GetAsObjectList());
-      lboxObjects.MultiColumn = false;
-      lboxObjects.SelectedIndex = 0;
-      bSetEntity.Enabled = true;
-    }
-
-    private void bLayerStructures_Click(object sender, EventArgs e)
-    {
-      lboxObjects.Items.Clear();
-      lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Structures.GetAsObjectList());
-      _listBoxIsBase = false;
-      lboxObjects.MultiColumn = false;
-      lboxObjects.SelectedIndex = 0;
-      bSetEntity.Enabled = true;
-    }
-
-    private void bLayerBases_Click(object sender, EventArgs e)
-    {
-      lboxObjects.Items.Clear();
-      lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Structures.GetAsObjectList());
-      _listBoxIsBase = true;
-      lboxObjects.MultiColumn = false;
-      lboxObjects.SelectedIndex = 0;
-      bSetEntity.Enabled = false;
-    }
-
-    private void bLayerWaypoints_Click(object sender, EventArgs e)
-    {
-      lboxObjects.Items.Clear();
-      lboxObjects.Items.AddRange(MainModel.CurrentMap.WaypointSection.WaypointList.Select<WaypointInfo, object>((t) => t).ToArray());
-      lboxObjects.MultiColumn = false;
-      lboxObjects.SelectedIndex = 0;
-      bSetEntity.Enabled = false;
-    }
-
-    private void bLayerCellTriggers_Click(object sender, EventArgs e)
-    {
-      lboxObjects.Items.Clear();
-      lboxObjects.Items.AddRange(MainModel.CurrentMap.TriggerSection.TriggerList.Select<TriggerInfo, object>((t) => new CellTriggerInfo(MainModel.CurrentMap) { ID = t.Name }).ToArray());
-      lboxObjects.MultiColumn = false;
-      lboxObjects.SelectedIndex = 0;
-      bSetEntity.Enabled = false;
-    }
-
-    private void bLayerNone_Click(object sender, EventArgs e)
-    {
-      lboxObjects.Items.Clear();
-      lboxObjects.MultiColumn = false;
-      lboxObjects.SelectedIndex = -1;
-      lboxObjects_SelectedIndexChanged(null, null);
-      pbMapCanvas.Renderer.SetVisible(MapCanvas.LayerType.PreplaceEntity, false);
-      bSetEntity.Enabled = false;
-    }
+    private void bLayerTemplate_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Templates); }
+    private void bLayerOverlay_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Overlays); }
+    private void bLayerTerrain_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Terrain); }
+    private void bLayerSmudge_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Smudges); }
+    private void bLayerInfantry_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Infantry); }
+    private void bLayerUnits_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Units); }
+    private void bLayerShips_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Ships); }
+    private void bLayerStructures_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Structures); }
+    private void bLayerBases_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Bases); }
+    private void bLayerWaypoints_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Waypoints); }
+    private void bLayerCellTriggers_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.CellTriggers); }
+    private void bExtract_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Extracts); }
+    private void bLayerNone_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.None); }
 
     private void saveMapToolStripMenuItem_Click(object sender, EventArgs e)
     {
@@ -899,6 +900,15 @@ namespace RA_Mission_Editor.UI
       {
         pbObjectCanvas.BackgroundImage?.DisposeIfNotCached();
         pbObjectCanvas.BackgroundImage = bmp;
+        if (bmp != null)
+        {
+          pbObjectCanvas.Location = Point.Empty;
+          pbObjectCanvas.Size = bmp.Size;
+          pbObjectCanvas.Location = new Point(Math.Max(0 ,(pbObjectCanvas.Parent.Width / 2) - (pbObjectCanvas.Width / 2)),
+                                      Math.Max(0, (pbObjectCanvas.Parent.Height / 2) - (pbObjectCanvas.Height / 2)));
+          pbObjectCanvas.Refresh();
+        }
+
         pbMapCanvas.Renderer.SetVisible(MapCanvas.LayerType.PreplaceEntity, true);
         pbMapCanvas.Renderer.SetDirty();
         if (etype is ITechnoType)
@@ -943,50 +953,38 @@ namespace RA_Mission_Editor.UI
       RefreshObjectCanvas();
     }
 
-    private EditorDialog GetEditorDialog()
-    {
-      foreach (System.Windows.Forms.Form f in Application.OpenForms)
-      {
-        if (f is EditorDialog d)
-        {
-          return d;
-        }
-      }
-      return null;
-    }
-
     private void triggersToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      EditorDialog etd = GetEditorDialog() ?? new EditorDialog();
+      EditorDialog etd = DialogFunctions.GetEditorDialog() ?? new EditorDialog();
       etd.Owner = this;
-      etd.SetMap(MainModel.CurrentMap, MainModel.GameFileSystem);
+      etd.SetMap(MainModel.CurrentMap);
       etd.SetSelectionToTriggers();
       etd.Show();
     }
 
     private void teamTypesToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      EditorDialog etd = GetEditorDialog() ?? new EditorDialog();
+      EditorDialog etd = DialogFunctions.GetEditorDialog() ?? new EditorDialog();
       etd.Owner = this;
-      etd.SetMap(MainModel.CurrentMap, MainModel.GameFileSystem);
+      etd.SetMap(MainModel.CurrentMap);
       etd.SetSelectionToTeamTypes();
       etd.Show();
     }
 
     private void basicToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      EditorDialog ebd = GetEditorDialog() ?? new EditorDialog();
+      EditorDialog ebd = DialogFunctions.GetEditorDialog() ?? new EditorDialog();
       ebd.Owner = this;
-      ebd.SetMap(MainModel.CurrentMap, MainModel.GameFileSystem);
+      ebd.SetMap(MainModel.CurrentMap);
       ebd.SetSelectionToBasic();
       ebd.Show();
     }
 
     private void housesToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      EditorDialog ehd = GetEditorDialog() ?? new EditorDialog();
+      EditorDialog ehd = DialogFunctions.GetEditorDialog() ?? new EditorDialog();
       ehd.Owner = this;
-      ehd.SetMap(MainModel.CurrentMap, MainModel.GameFileSystem);
+      ehd.SetMap(MainModel.CurrentMap);
       ehd.SetSelectionToHouses();
       ehd.Show();
       // color changes
@@ -997,9 +995,9 @@ namespace RA_Mission_Editor.UI
 
     private void missionStringsToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      EditorDialog ebd = GetEditorDialog() ?? new EditorDialog();
+      EditorDialog ebd = DialogFunctions.GetEditorDialog() ?? new EditorDialog();
       ebd.Owner = this;
-      ebd.SetMap(MainModel.CurrentMap, MainModel.GameFileSystem);
+      ebd.SetMap(MainModel.CurrentMap);
       ebd.SetSelectionToTutorial();
       ebd.Show();
     }
@@ -1039,7 +1037,6 @@ namespace RA_Mission_Editor.UI
       lblHint.Visible = cbHint.Checked;
     }
 
-    private float[] _zooms = new float[] { 0.5f, 1, 2, 4 };
     private void tbarZoom_Scroll(object sender, EventArgs e)
     {
       pbMapCanvas.Zoom = _zooms[tbarZoom.Value];
@@ -1105,6 +1102,12 @@ namespace RA_Mission_Editor.UI
       pbMapCanvas.Renderer.SetVisible(MapCanvas.LayerType.CellTriggers, cellTriggersToolStripMenuItem.Checked);
     }
 
+    private void boundsToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      boundsToolStripMenuItem.Checked = !boundsToolStripMenuItem.Checked;
+      pbMapCanvas.Renderer.SetVisible(MapCanvas.LayerType.Bounds, boundsToolStripMenuItem.Checked);
+    }
+
     private void viewStatisticsToolStripMenuItem_Click(object sender, EventArgs e)
     {
       ViewStatisticsDialog vsd = new ViewStatisticsDialog();
@@ -1114,10 +1117,10 @@ namespace RA_Mission_Editor.UI
 
     private void testMapToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      saveMapToolStripMenuItem_Click(null, null);
       TestMapDialog tmd = new TestMapDialog();
       if (tmd.ShowDialog() == DialogResult.OK)
       {
+        saveMapToolStripMenuItem_Click(null, null);
         TestMapDialog.DifficultyChoice diff = tmd.Difficulty;
         // transfer save map to game directory
         string testmapname = "testmap.ini";
@@ -1218,6 +1221,122 @@ namespace RA_Mission_Editor.UI
         int x = smd.ShiftX;
         int y = smd.ShiftY;
         MainModel.CurrentMap.Shift(MainModel.Cache, MainModel.GameFileSystem, x, y);
+      }
+    }
+
+    private void copySelectedCellsToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      Map map = MainModel.CurrentMap;
+      MapExtract mapext = new MapExtract(map, MainModel.SelectedCellsList);
+      mapext.Update();
+      Clipboard.SetText(mapext.SourceFile.SaveToString());
+    }
+
+    private void pasteSelectedCellsToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      string str = Clipboard.GetText();
+      if (str != null)
+      {
+        IniFile f = new IniFile(str);
+        MapExtract mapext = new MapExtract(f);
+
+        //IniFile f = new IniFile();
+        Map map = MainModel.CurrentMap;
+        int cell = map.LastClickedCell;
+        if (map.IsCellInMap(cell))
+        {
+          mapext.Paste(map, map.CellX(cell), map.CellY(cell));
+          map.RebuildOccupancyList(MainModel.Cache, MainModel.GameFileSystem);
+          map.Dirty = true;
+          pbMapCanvas.Renderer.SetTemplateDirty();
+          pbMapCanvas.Renderer.SetDirty();
+        }
+      }
+    }
+
+    private void saveSelectedCellsInExtractToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      Map map = MainModel.CurrentMap;
+      MapExtract mapext = new MapExtract(map, MainModel.SelectedCellsList);
+      mapext.Update();
+      SaveExtractDialog sed = new SaveExtractDialog();
+      if (sed.ShowDialog() == DialogResult.OK)
+      {
+        MapExtractSet.SaveExtract(sed.Key, mapext);
+      }
+    }
+
+    private void deleteObjectsInSelectionToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      Map map = MainModel.CurrentMap;
+      map.ClearObjectsOnCells(MainModel.Cache, MainModel.GameFileSystem, MainModel.SelectedCellsList);
+      pbMapCanvas.Renderer.SetDirty();
+    }
+
+    private void clearTemplateInSelectionToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      Map map = MainModel.CurrentMap;
+      map.ClearTemplateOnCells(MainModel.SelectedCellsList);
+      pbMapCanvas.Renderer.SetTemplateDirty();
+    }
+
+    private void renderToImageToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      MessageBox.Show("The renderer will save the current display into the file.\nNote that you can change the visibility settings with the Visibility tab in the top menu ribbon.");
+      SaveFileDialog sfd = new SaveFileDialog()
+      {
+        Title = "Save Image",
+        Filter = "PNG image file|*.png|Bitmap image file|*.bmp|All files (*.*)|*.*",
+        OverwritePrompt = true
+      };
+      if (sfd.ShowDialog() == DialogResult.OK)
+      {
+        try
+        {
+          pbMapCanvas.Renderer.Image.Save(sfd.FileName);
+        }
+        catch (Exception ex)
+        {
+          MainModel.OnError?.Invoke($"TError encountered: {ex.Message}", ErrorType.WARNING, false);
+        }
+      }
+    }
+
+    private void reloadDirectoryContentsToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      switch (MessageBox.Show(Resources.Strings.Warn_ModifyExe, Resources.Strings.Title, MessageBoxButtons.YesNoCancel))
+      {
+        default:
+        case DialogResult.Cancel:
+          return;
+        case DialogResult.Yes:
+          saveMapToolStripMenuItem_Click(null, null);
+          break;
+        case DialogResult.No:
+          break;
+      }
+
+      string exePath = MainModel.ExecutablePath;
+      bool skipExe = false;
+      while (!skipExe)
+      {
+        try
+        {
+          MainModel.LoadExe(exePath);
+          break;
+        }
+        catch (Exception ex)
+        {
+          if (!MainModel.NotifyExeError(ex.Message, out exePath))
+          {
+            Close();
+            skipExe = true;
+          }
+          else
+          {
+            continue;
+          }
+        }
       }
     }
   }

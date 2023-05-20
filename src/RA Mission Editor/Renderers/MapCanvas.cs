@@ -3,6 +3,7 @@ using RA_Mission_Editor.FileFormats;
 using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.RulesData;
 using RA_Mission_Editor.RulesData.Ruleset;
+using RA_Mission_Editor.UI;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -79,6 +80,7 @@ namespace RA_Mission_Editor.Renderers
       // Editor helpers
       Grid,
       Bounds,
+      Selection,
       //Comment,
       //UserActive,
       PreplaceEntity,
@@ -164,9 +166,9 @@ namespace RA_Mission_Editor.Renderers
       }
     }
     
-    public void Draw(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, PlaceEntityInfo preplaceEntity = null)
+    public void Draw(MainModel model, Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, PlaceEntityInfo preplaceEntity = null)
     {
-      if (!Dirty) { return; }
+      if (!Dirty && !TemplateDirty) { return; }
       using (new TimeKeeper(_ostopwatch, nameof(Draw)))
       {
         using (Graphics g = Graphics.FromImage(Image))
@@ -251,6 +253,10 @@ namespace RA_Mission_Editor.Renderers
           if (Visible[(int)LayerType.Bounds])
             using (new TimeKeeper(_stopwatch, nameof(WidgetsRenderer.DrawBounds)))
               WidgetsRenderer.DrawBounds(map, g);
+
+          if (Visible[(int)LayerType.Selection])
+            using (new TimeKeeper(_stopwatch, nameof(WidgetsRenderer.DrawSelection)))
+              WidgetsRenderer.DrawSelection(model, map, g);
 
           if (Visible[(int)LayerType.Grid])
             using (new TimeKeeper(_stopwatch, nameof(WidgetsRenderer.DrawGrid)))

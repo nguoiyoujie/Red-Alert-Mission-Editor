@@ -19,6 +19,7 @@ namespace RA_Mission_Editor.MapData
 
     public void Read(IniFile.IniSection section)
     {
+      CommentList.Clear();
       foreach (var kvp in section.OrderedEntries) // if there are duplicate keys, use only the first matching entry
       {
         if (!CommentList.ContainsKey(kvp.Key))

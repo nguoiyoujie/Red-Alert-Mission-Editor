@@ -18,6 +18,13 @@ namespace RA_Mission_Editor.FileFormats
 			Parse();
 		}
 
+		public IniFile(string data) : base(new MemoryStream(1024), null, 0, data.Length, false)
+		{
+			Sections = new List<IniSection>();
+			LoadFromString(data);
+			Parse();
+		}
+
 		private void Parse()
 		{
 			IniSection section = null;
@@ -342,6 +349,15 @@ namespace RA_Mission_Editor.FileFormats
 				}
 			}
 
+			public void RemoveValue(string key)
+			{
+				if (SortedEntries.ContainsKey(key))
+				{
+					OrderedEntries.RemoveAll(e => e.Key == key);
+					SortedEntries.Remove(key);
+				}
+			}
+
 			public static void FixLine(ref string line)
 			{
 				int start = 0;
@@ -465,6 +481,37 @@ namespace RA_Mission_Editor.FileFormats
 			}
 			sw.Flush();
 			sw.Dispose();
+		}
+
+		public void LoadFromString(string data)
+		{
+			var sw = new StreamWriter(this.BaseStream, Encoding.ASCII);
+			sw.Write(data);
+			sw.Flush();
+			BaseStream.Position = 0;
+		}
+
+		public string SaveToString()
+		{
+			string ret = string.Empty;
+			using (MemoryStream m = new MemoryStream())
+			{
+				var sw = new StreamWriter(m, Encoding.ASCII);
+				foreach (IniSection section in Sections)
+				{
+					// skip sections with no entries
+					if (section.OrderedEntries.Count != 0)
+					{
+						section.WriteTo(sw);
+						if (section != Sections.Last())
+							sw.WriteLine();
+					}
+				}
+				sw.Flush();
+				m.Position = 0;
+				ret = m.ReadAllText();
+			}
+			return ret;
 		}
 
 		/// <summary>

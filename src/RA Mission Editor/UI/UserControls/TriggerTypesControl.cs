@@ -67,7 +67,7 @@ namespace RA_Mission_Editor.UI.UserControls
       {
         Map.TriggerSection.TriggerList.Sort(_comparer);
         Map.Dirty = true;
-        Map.InvalidateSelectionList?.Invoke(typeof(CellTriggerInfo));
+        Map.InvalidateSelectionList?.Invoke(EditorSelectMode.CellTriggers);
         ResetList();
       }
     }
@@ -84,7 +84,7 @@ namespace RA_Mission_Editor.UI.UserControls
             Map.TriggerSection.TriggerList.RemoveAt(index);
             Map.TriggerSection.TriggerList.Insert(index - 1, tinfo);
             Map.Dirty = true;
-            Map.InvalidateSelectionList?.Invoke(typeof(CellTriggerInfo));
+            Map.InvalidateSelectionList?.Invoke(EditorSelectMode.CellTriggers);
           }
           ResetList();
           lboxTriggerList.SelectedItem = tinfo;
@@ -104,7 +104,7 @@ namespace RA_Mission_Editor.UI.UserControls
             Map.TriggerSection.TriggerList.RemoveAt(index);
             Map.TriggerSection.TriggerList.Insert(index + 1, tinfo);
             Map.Dirty = true;
-            Map.InvalidateSelectionList?.Invoke(typeof(CellTriggerInfo));
+            Map.InvalidateSelectionList?.Invoke(EditorSelectMode.CellTriggers);
           }
           ResetList();
           lboxTriggerList.SelectedItem = tinfo;
@@ -129,7 +129,7 @@ namespace RA_Mission_Editor.UI.UserControls
       TriggerInfo tinfo = new TriggerInfo() { Name = name };
       Map.TriggerSection.TriggerList.Add(tinfo);
       Map.Dirty = true;
-      Map.InvalidateSelectionList?.Invoke(typeof(CellTriggerInfo));
+      Map.InvalidateSelectionList?.Invoke(EditorSelectMode.CellTriggers);
       ResetList();
       lboxTriggerList.SelectedItem = tinfo;
     }
@@ -145,7 +145,7 @@ namespace RA_Mission_Editor.UI.UserControls
           {
             Map.TriggerSection.TriggerList.RemoveAt(index);
             Map.Dirty = true;
-            Map.InvalidateSelectionList?.Invoke(typeof(CellTriggerInfo));
+            Map.InvalidateSelectionList?.Invoke(EditorSelectMode.CellTriggers);
           }
           ResetList();
           if (index != -1 && index < lboxTriggerList.Items.Count)
@@ -181,7 +181,7 @@ namespace RA_Mission_Editor.UI.UserControls
           dupinfo.ParseValue(Map, val);
           Map.TriggerSection.TriggerList.Add(dupinfo);
           Map.Dirty = true;
-          Map.InvalidateSelectionList?.Invoke(typeof(CellTriggerInfo));
+          Map.InvalidateSelectionList?.Invoke(EditorSelectMode.CellTriggers);
           ResetList();
           lboxTriggerList.SelectedItem = dupinfo;
         }

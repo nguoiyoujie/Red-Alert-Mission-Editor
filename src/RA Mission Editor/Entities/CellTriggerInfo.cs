@@ -24,6 +24,7 @@ namespace RA_Mission_Editor.Entities
     public string ID { get; set; } // Trigger ID
     public int Cell { get; set; } // Cell ID
 
+    public EditorSelectMode SelectMode { get { return EditorSelectMode.CellTriggers; } }
 
     public string GetKeyAsString()
     {

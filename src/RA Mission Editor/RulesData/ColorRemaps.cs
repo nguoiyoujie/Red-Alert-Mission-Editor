@@ -1,5 +1,4 @@
-﻿using RA_Mission_Editor.FileFormats;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 namespace RA_Mission_Editor.RulesData

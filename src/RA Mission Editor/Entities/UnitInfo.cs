@@ -1,10 +1,9 @@
 ﻿using RA_Mission_Editor.RulesData;
 using RA_Mission_Editor.RulesData.Ruleset;
-using System;
 
 namespace RA_Mission_Editor.Entities
 {
-  public class UnitInfo : IEntity<UnitType>, IOwnedEntity, ILocatable
+  public class UnitInfo : IValueParsable<UnitInfo>, IEntity<UnitType>, IOwnedEntity, ILocatable
   {
     // INDEX=OWNER,ID,HEALTH,CELL,FACING,MISSION,TAG
     // Example: 0=Turkey,JEEP,256,4585,128,Guard,des0
@@ -15,6 +14,8 @@ namespace RA_Mission_Editor.Entities
     public byte Facing; // 256 Direction
     public string Mission; // Mission
     public string Tag; // Trigger attachment
+
+    public EditorSelectMode SelectMode { get { return EditorSelectMode.Units; } }
 
     public string GetValueAsString()
     {
@@ -32,23 +33,20 @@ namespace RA_Mission_Editor.Entities
       return $"{ID}, {Owner} @ {Cell}";
     }
 
-    public static UnitInfo Parse(string index, string value)
+    public bool Parse(string value)
     {
-      UnitInfo s = new UnitInfo();
       string[] tokens = value.Split(',');
-      if (tokens.Length < 7)
-      {
-        throw new Exception($"Map Unit {index} contains less than expected parameters");
-      }
-      s.Owner = tokens[0];
-      s.ID = tokens[1];
-      s.Health = short.Parse(tokens[2]);
-      s.Cell = int.Parse(tokens[3]);
-      s.Facing = byte.Parse(tokens[4]);
-      s.Mission = tokens[5];
-      s.Tag = tokens[6];
+      if (tokens.Length < 7) { return false; }
 
-      return s;
+      Owner = tokens[0];
+      ID = tokens[1];
+      Health = short.Parse(tokens[2]);
+      Cell = int.Parse(tokens[3]);
+      Facing = byte.Parse(tokens[4]);
+      Mission = tokens[5];
+      Tag = tokens[6];
+
+      return true;
     }
 
     public UnitType GetEntityType(Rules rules)

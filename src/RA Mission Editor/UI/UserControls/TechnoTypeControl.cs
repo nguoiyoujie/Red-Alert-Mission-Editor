@@ -1,11 +1,11 @@
 ﻿using RA_Mission_Editor.Entities;
 using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.RulesData;
+using RA_Mission_Editor.UI.Logic;
 using RA_Mission_Editor.Util;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -99,28 +99,8 @@ namespace RA_Mission_Editor.UI.UserControls
     {
       get
       {
-        return IsDirtyColor(this);
+        return DirtyControlsHandler.IsDirtyColor(this);
       }
-    }
-
-    public bool IsDirtyColor(Control f)
-    {
-      foreach (Control c in f.Controls)
-      {
-        if (c.ForeColor == Color.Red || IsDirtyColor(c))
-          return true;
-      }
-      return false;
-    }
-
-    public void ResetColor(Control f)
-    {
-      foreach (Control c in f.Controls)
-      {
-        c.ForeColor = Color.Black;
-        ResetColor(c);
-      }
-      bCancel.Enabled = false;
     }
 
     public void SetModel(MainModel model)
@@ -199,9 +179,10 @@ namespace RA_Mission_Editor.UI.UserControls
       lblStrength.Text = "Strength";
 
       lblEntity.Text = $"{cbType.SelectedItem.ToString() ?? sinfo.ID}, {sinfo.Owner}";
-      ResetColor(this);
+      DirtyControlsHandler.ResetDirtyColor(this);
       UpdateShowHide();
       _suspendDirty = false;
+      bCancel.Enabled = false;
     }
 
     public void SetEntity(StructureInfo sinfo)
@@ -224,8 +205,9 @@ namespace RA_Mission_Editor.UI.UserControls
       lblStrength.Text = "Strength";
 
       lblEntity.Text = $"{cbType.SelectedItem.ToString() ?? sinfo.ID}, {sinfo.Owner}";
-      ResetColor(this);
+      DirtyControlsHandler.ResetDirtyColor(this);
       UpdateShowHide();
+      bCancel.Enabled = false;
     }
 
     public void SetEntity(BaseInfo binfo)
@@ -245,8 +227,9 @@ namespace RA_Mission_Editor.UI.UserControls
       lblStrength.Text = "Priority";
 
       lblEntity.Text = $"(Base) {cbType.SelectedItem.ToString() ?? binfo.ID}";
-      ResetColor(this);
+      DirtyControlsHandler.ResetDirtyColor(this);
       UpdateShowHide();
+      bCancel.Enabled = false;
     }
 
 
@@ -269,8 +252,9 @@ namespace RA_Mission_Editor.UI.UserControls
       lblStrength.Text = "Strength";
 
       lblEntity.Text = $"{cbType.SelectedItem.ToString() ?? sinfo.ID}, {sinfo.Owner}";
-      ResetColor(this);
+      DirtyControlsHandler.ResetDirtyColor(this);
       UpdateShowHide();
+      bCancel.Enabled = false;
     }
 
     public void SetEntity(ShipInfo sinfo)
@@ -292,8 +276,9 @@ namespace RA_Mission_Editor.UI.UserControls
       lblStrength.Text = "Strength";
 
       lblEntity.Text = $"{cbType.SelectedItem.ToString() ?? sinfo.ID}, {sinfo.Owner}";
-      ResetColor(this);
+      DirtyControlsHandler.ResetDirtyColor(this);
       UpdateShowHide();
+      bCancel.Enabled = false;
     }
 
     public bool SaveEntity()
@@ -484,11 +469,7 @@ namespace RA_Mission_Editor.UI.UserControls
     {
       if (!_suspendDirty && sender is Control c)
       {
-        c.ForeColor = Color.Red;
-        if (c.Tag is Control d)
-        {
-          d.ForeColor = Color.Red;
-        }
+        DirtyControlsHandler.SetDirtyColor(c);
         bCancel.Enabled = true;
       }
     }

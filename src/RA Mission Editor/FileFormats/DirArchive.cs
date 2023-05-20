@@ -17,10 +17,30 @@ namespace RA_Mission_Editor.FileFormats
       return File.Exists(Path.Combine(Directory, filename));
     }
 
-    public VirtualFile OpenFile(string filename, FileFormat format = FileFormat.None, CacheMethod m = CacheMethod.Default)
+    public VirtualFile OpenFile(string filename, FileFormat format = FileFormat.None, BufferingMode m = BufferingMode.Default)
     {
-      var fs = new FileStream(Path.Combine(Directory, filename), FileMode.Open, FileAccess.Read, FileShare.Read);
-      return FormatHelper.OpenAsFormat(fs, filename, 0, (int)fs.Length, format);
+      string path = Path.Combine(Directory, filename);
+
+      bool bufferMixes = (m & BufferingMode.BufferMixes) > 0;
+      bool bufferContents = (m & BufferingMode.BufferContents) > 0;
+      bool buffered = format == FileFormat.Mix ? bufferMixes : bufferContents;
+
+      if (!buffered)
+      {
+        FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+        return FormatHelper.OpenAsFormat(fs, filename, 0, (int)fs.Length, format);
+      }
+      else
+      {
+        // Note: We can't always make buffer copies and free the files because some files are just too large. E.g. MAIN.MIX
+        MemoryStream inMemoryCopy = new MemoryStream();
+        using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+        {
+          fs.CopyTo(inMemoryCopy);
+        }
+        inMemoryCopy.Position = 0;
+        return FormatHelper.OpenAsFormat(inMemoryCopy, filename, 0, (int)inMemoryCopy.Length, format);
+      }
     }
 
     public void Close() { }

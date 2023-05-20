@@ -231,6 +231,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.Font = new System.Drawing.Font("Consolas", 8.25F);
       this.Name = "EditPreplaceEntityDialog";
       this.Text = "Set Entity Properties";
+      this.Shown += new System.EventHandler(this.EditPreplaceEntityDialog_Shown);
       ((System.ComponentModel.ISupportInitialize)(this.nudStrength)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudFacing)).EndInit();
       this.ResumeLayout(false);

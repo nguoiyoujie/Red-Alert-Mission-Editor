@@ -34,6 +34,7 @@ namespace RA_Mission_Editor.UI
       this.splitMain = new System.Windows.Forms.SplitContainer();
       this.lboxObjects = new System.Windows.Forms.ListBox();
       this.lblPreplaceHouse = new System.Windows.Forms.Label();
+      this.pObjectCanvas = new System.Windows.Forms.Panel();
       this.pbObjectCanvas = new System.Windows.Forms.PictureBox();
       this.bSetEntity = new System.Windows.Forms.Button();
       this.panel2 = new System.Windows.Forms.Panel();
@@ -46,12 +47,16 @@ namespace RA_Mission_Editor.UI
       this.split2 = new System.Windows.Forms.SplitContainer();
       this.cbGrid = new System.Windows.Forms.CheckBox();
       this.panel4 = new System.Windows.Forms.Panel();
+      this.label2 = new System.Windows.Forms.Label();
       this.panel5 = new System.Windows.Forms.Panel();
       this.tbarZoom = new System.Windows.Forms.TrackBar();
-      this.label2 = new System.Windows.Forms.Label();
       this.cbHint = new System.Windows.Forms.CheckBox();
       this.panel3 = new System.Windows.Forms.Panel();
+      this.label3 = new System.Windows.Forms.Label();
+      this.label1 = new System.Windows.Forms.Label();
       this.panel1 = new System.Windows.Forms.Panel();
+      this.bSelectMode = new System.Windows.Forms.Button();
+      this.bExtract = new System.Windows.Forms.Button();
       this.bLayerCellTriggers = new System.Windows.Forms.Button();
       this.bLayerWaypoints = new System.Windows.Forms.Button();
       this.bLayerBases = new System.Windows.Forms.Button();
@@ -63,7 +68,6 @@ namespace RA_Mission_Editor.UI
       this.bLayerTerrain = new System.Windows.Forms.Button();
       this.bLayerOverlay = new System.Windows.Forms.Button();
       this.bLayerTemplate = new System.Windows.Forms.Button();
-      this.label1 = new System.Windows.Forms.Label();
       this.pbMapCanvas = new RA_Mission_Editor.UI.UserControls.MapCanvasControl();
       this.pTechnoList = new System.Windows.Forms.Panel();
       this.lblSelectCell = new System.Windows.Forms.Label();
@@ -104,6 +108,11 @@ namespace RA_Mission_Editor.UI
       this.cellTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
       this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.copySelectedCellsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.pasteSelectedCellsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.saveSelectedCellsInExtractToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.deleteObjectsInSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.clearTemplateInSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.advancedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.editINIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.visibilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -117,8 +126,11 @@ namespace RA_Mission_Editor.UI
       this.basesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.waypointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.cellTriggersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.boundsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.statisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.viewStatisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.renderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.renderToImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.testMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -129,10 +141,12 @@ namespace RA_Mission_Editor.UI
       this.tssBlank = new System.Windows.Forms.ToolStripStatusLabel();
       this.tssRemark = new System.Windows.Forms.ToolStripStatusLabel();
       this.ttipInfo = new System.Windows.Forms.ToolTip(this.components);
+      this.reloadDirectoryContentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       ((System.ComponentModel.ISupportInitialize)(this.splitMain)).BeginInit();
       this.splitMain.Panel1.SuspendLayout();
       this.splitMain.Panel2.SuspendLayout();
       this.splitMain.SuspendLayout();
+      this.pObjectCanvas.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.pbObjectCanvas)).BeginInit();
       this.pText.SuspendLayout();
       this.pObjectTop.SuspendLayout();
@@ -165,7 +179,7 @@ namespace RA_Mission_Editor.UI
       // 
       this.splitMain.Panel1.Controls.Add(this.lboxObjects);
       this.splitMain.Panel1.Controls.Add(this.lblPreplaceHouse);
-      this.splitMain.Panel1.Controls.Add(this.pbObjectCanvas);
+      this.splitMain.Panel1.Controls.Add(this.pObjectCanvas);
       this.splitMain.Panel1.Controls.Add(this.bSetEntity);
       this.splitMain.Panel1.Controls.Add(this.panel2);
       this.splitMain.Panel1.Controls.Add(this.pText);
@@ -206,14 +220,24 @@ namespace RA_Mission_Editor.UI
       this.lblPreplaceHouse.TabIndex = 13;
       this.lblPreplaceHouse.Visible = false;
       // 
+      // pObjectCanvas
+      // 
+      this.pObjectCanvas.AutoScroll = true;
+      this.pObjectCanvas.BackColor = System.Drawing.Color.DimGray;
+      this.pObjectCanvas.Controls.Add(this.pbObjectCanvas);
+      this.pObjectCanvas.Dock = System.Windows.Forms.DockStyle.Bottom;
+      this.pObjectCanvas.Location = new System.Drawing.Point(0, 642);
+      this.pObjectCanvas.Name = "pObjectCanvas";
+      this.pObjectCanvas.Size = new System.Drawing.Size(200, 150);
+      this.pObjectCanvas.TabIndex = 14;
+      // 
       // pbObjectCanvas
       // 
       this.pbObjectCanvas.BackColor = System.Drawing.Color.DimGray;
       this.pbObjectCanvas.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-      this.pbObjectCanvas.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.pbObjectCanvas.Location = new System.Drawing.Point(0, 642);
+      this.pbObjectCanvas.Location = new System.Drawing.Point(0, 0);
       this.pbObjectCanvas.Name = "pbObjectCanvas";
-      this.pbObjectCanvas.Size = new System.Drawing.Size(200, 150);
+      this.pbObjectCanvas.Size = new System.Drawing.Size(50, 50);
       this.pbObjectCanvas.TabIndex = 7;
       this.pbObjectCanvas.TabStop = false;
       this.pbObjectCanvas.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbObjectCanvas_MouseClick);
@@ -344,33 +368,44 @@ namespace RA_Mission_Editor.UI
       // 
       this.cbGrid.Appearance = System.Windows.Forms.Appearance.Button;
       this.cbGrid.Dock = System.Windows.Forms.DockStyle.Left;
-      this.cbGrid.Location = new System.Drawing.Point(412, 0);
+      this.cbGrid.Location = new System.Drawing.Point(472, 0);
       this.cbGrid.Name = "cbGrid";
       this.cbGrid.Size = new System.Drawing.Size(44, 45);
       this.cbGrid.TabIndex = 9;
-      this.cbGrid.Text = "Grid";
+      this.cbGrid.Text = "Show Grid";
       this.cbGrid.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       this.cbGrid.UseVisualStyleBackColor = true;
       this.cbGrid.CheckedChanged += new System.EventHandler(this.cbGrid_CheckedChanged);
       // 
       // panel4
       // 
-      this.panel4.Controls.Add(this.panel5);
       this.panel4.Controls.Add(this.label2);
+      this.panel4.Controls.Add(this.panel5);
       this.panel4.Dock = System.Windows.Forms.DockStyle.Left;
-      this.panel4.Location = new System.Drawing.Point(332, 0);
+      this.panel4.Location = new System.Drawing.Point(392, 0);
       this.panel4.Name = "panel4";
-      this.panel4.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
       this.panel4.Size = new System.Drawing.Size(80, 45);
       this.panel4.TabIndex = 8;
+      // 
+      // label2
+      // 
+      this.label2.BackColor = System.Drawing.SystemColors.ControlDark;
+      this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.label2.Location = new System.Drawing.Point(0, 0);
+      this.label2.Name = "label2";
+      this.label2.Size = new System.Drawing.Size(80, 15);
+      this.label2.TabIndex = 11;
+      this.label2.Text = "Zoom";
+      this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       // 
       // panel5
       // 
       this.panel5.Controls.Add(this.tbarZoom);
       this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.panel5.Location = new System.Drawing.Point(5, 15);
+      this.panel5.Location = new System.Drawing.Point(0, 15);
       this.panel5.Name = "panel5";
-      this.panel5.Size = new System.Drawing.Size(75, 30);
+      this.panel5.Size = new System.Drawing.Size(80, 30);
       this.panel5.TabIndex = 5;
       // 
       // tbarZoom
@@ -380,21 +415,10 @@ namespace RA_Mission_Editor.UI
       this.tbarZoom.Location = new System.Drawing.Point(0, 0);
       this.tbarZoom.Maximum = 3;
       this.tbarZoom.Name = "tbarZoom";
-      this.tbarZoom.Size = new System.Drawing.Size(75, 30);
+      this.tbarZoom.Size = new System.Drawing.Size(80, 30);
       this.tbarZoom.TabIndex = 8;
       this.tbarZoom.Value = 1;
       this.tbarZoom.Scroll += new System.EventHandler(this.tbarZoom_Scroll);
-      // 
-      // label2
-      // 
-      this.label2.BackColor = System.Drawing.SystemColors.ControlDark;
-      this.label2.Dock = System.Windows.Forms.DockStyle.Top;
-      this.label2.Location = new System.Drawing.Point(5, 0);
-      this.label2.Name = "label2";
-      this.label2.Size = new System.Drawing.Size(75, 14);
-      this.label2.TabIndex = 11;
-      this.label2.Text = "Zoom";
-      this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       // 
       // cbHint
       // 
@@ -410,16 +434,43 @@ namespace RA_Mission_Editor.UI
       // 
       // panel3
       // 
-      this.panel3.Controls.Add(this.panel1);
+      this.panel3.Controls.Add(this.label3);
       this.panel3.Controls.Add(this.label1);
+      this.panel3.Controls.Add(this.panel1);
       this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
       this.panel3.Location = new System.Drawing.Point(0, 0);
       this.panel3.Name = "panel3";
-      this.panel3.Size = new System.Drawing.Size(332, 45);
+      this.panel3.Size = new System.Drawing.Size(392, 45);
       this.panel3.TabIndex = 6;
+      // 
+      // label3
+      // 
+      this.label3.BackColor = System.Drawing.SystemColors.ControlDark;
+      this.label3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.label3.Location = new System.Drawing.Point(360, 0);
+      this.label3.Name = "label3";
+      this.label3.Size = new System.Drawing.Size(32, 15);
+      this.label3.TabIndex = 12;
+      this.label3.Text = "Esc";
+      this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+      // 
+      // label1
+      // 
+      this.label1.BackColor = System.Drawing.SystemColors.ControlDark;
+      this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      this.label1.Dock = System.Windows.Forms.DockStyle.Left;
+      this.label1.Location = new System.Drawing.Point(0, 0);
+      this.label1.Name = "label1";
+      this.label1.Size = new System.Drawing.Size(360, 15);
+      this.label1.TabIndex = 11;
+      this.label1.Text = "Insert (Alt + 1 to Alt + \'-\')";
+      this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
       // 
       // panel1
       // 
+      this.panel1.Controls.Add(this.bSelectMode);
+      this.panel1.Controls.Add(this.bExtract);
       this.panel1.Controls.Add(this.bLayerCellTriggers);
       this.panel1.Controls.Add(this.bLayerWaypoints);
       this.panel1.Controls.Add(this.bLayerBases);
@@ -434,8 +485,31 @@ namespace RA_Mission_Editor.UI
       this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
       this.panel1.Location = new System.Drawing.Point(0, 15);
       this.panel1.Name = "panel1";
-      this.panel1.Size = new System.Drawing.Size(332, 30);
+      this.panel1.Size = new System.Drawing.Size(392, 30);
       this.panel1.TabIndex = 5;
+      // 
+      // bSelectMode
+      // 
+      this.bSelectMode.Dock = System.Windows.Forms.DockStyle.Left;
+      this.bSelectMode.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+      this.bSelectMode.Location = new System.Drawing.Point(360, 0);
+      this.bSelectMode.Name = "bSelectMode";
+      this.bSelectMode.Size = new System.Drawing.Size(30, 30);
+      this.bSelectMode.TabIndex = 11;
+      this.bSelectMode.Text = "N";
+      this.bSelectMode.Click += new System.EventHandler(this.bLayerNone_Click);
+      // 
+      // bExtract
+      // 
+      this.bExtract.Dock = System.Windows.Forms.DockStyle.Left;
+      this.bExtract.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+      this.bExtract.Location = new System.Drawing.Point(330, 0);
+      this.bExtract.Name = "bExtract";
+      this.bExtract.Size = new System.Drawing.Size(30, 30);
+      this.bExtract.TabIndex = 12;
+      this.bExtract.Text = "Ex";
+      this.bExtract.UseVisualStyleBackColor = true;
+      this.bExtract.Click += new System.EventHandler(this.bExtract_Click);
       // 
       // bLayerCellTriggers
       // 
@@ -569,17 +643,6 @@ namespace RA_Mission_Editor.UI
       this.bLayerTemplate.UseVisualStyleBackColor = true;
       this.bLayerTemplate.Click += new System.EventHandler(this.bLayerTemplate_Click);
       // 
-      // label1
-      // 
-      this.label1.BackColor = System.Drawing.SystemColors.ControlDark;
-      this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-      this.label1.Location = new System.Drawing.Point(0, 0);
-      this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(332, 14);
-      this.label1.TabIndex = 11;
-      this.label1.Text = "Insert (Alt + 1 to Alt + \'-\')";
-      this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-      // 
       // pbMapCanvas
       // 
       this.pbMapCanvas.Location = new System.Drawing.Point(0, 0);
@@ -610,6 +673,7 @@ namespace RA_Mission_Editor.UI
       // 
       // menuStrip1
       // 
+      this.menuStrip1.BackColor = System.Drawing.Color.Silver;
       this.menuStrip1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
@@ -619,6 +683,7 @@ namespace RA_Mission_Editor.UI
             this.advancedToolStripMenuItem,
             this.visibilityToolStripMenuItem,
             this.statisticsToolStripMenuItem,
+            this.renderToolStripMenuItem,
             this.testToolStripMenuItem});
       this.menuStrip1.Location = new System.Drawing.Point(0, 0);
       this.menuStrip1.Name = "menuStrip1";
@@ -712,7 +777,8 @@ namespace RA_Mission_Editor.UI
       // settingsToolStripMenuItem
       // 
       this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.setRedAlertDirectoryToolStripMenuItem});
+            this.setRedAlertDirectoryToolStripMenuItem,
+            this.reloadDirectoryContentsToolStripMenuItem});
       this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
       this.settingsToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
       this.settingsToolStripMenuItem.Text = "Settings";
@@ -814,7 +880,12 @@ namespace RA_Mission_Editor.UI
             this.waypointToolStripMenuItem,
             this.cellTagToolStripMenuItem,
             this.toolStripSeparator3,
-            this.clearToolStripMenuItem});
+            this.clearToolStripMenuItem,
+            this.copySelectedCellsToolStripMenuItem,
+            this.pasteSelectedCellsToolStripMenuItem,
+            this.saveSelectedCellsInExtractToolStripMenuItem,
+            this.deleteObjectsInSelectionToolStripMenuItem,
+            this.clearTemplateInSelectionToolStripMenuItem});
       this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
       this.insertToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
       this.insertToolStripMenuItem.Text = "Insert";
@@ -824,7 +895,7 @@ namespace RA_Mission_Editor.UI
       this.templateToolStripMenuItem.Image = global::RA_Mission_Editor.Properties.Resources.button_template;
       this.templateToolStripMenuItem.Name = "templateToolStripMenuItem";
       this.templateToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D1)));
-      this.templateToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+      this.templateToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
       this.templateToolStripMenuItem.Text = "Template";
       this.templateToolStripMenuItem.Click += new System.EventHandler(this.bLayerTemplate_Click);
       // 
@@ -833,7 +904,7 @@ namespace RA_Mission_Editor.UI
       this.overlayToolStripMenuItem.Image = global::RA_Mission_Editor.Properties.Resources.button_overlay;
       this.overlayToolStripMenuItem.Name = "overlayToolStripMenuItem";
       this.overlayToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D2)));
-      this.overlayToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+      this.overlayToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
       this.overlayToolStripMenuItem.Text = "Overlay";
       this.overlayToolStripMenuItem.Click += new System.EventHandler(this.bLayerOverlay_Click);
       // 
@@ -842,7 +913,7 @@ namespace RA_Mission_Editor.UI
       this.terrainToolStripMenuItem.Image = global::RA_Mission_Editor.Properties.Resources.button_terrain;
       this.terrainToolStripMenuItem.Name = "terrainToolStripMenuItem";
       this.terrainToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D3)));
-      this.terrainToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+      this.terrainToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
       this.terrainToolStripMenuItem.Text = "Terrain";
       this.terrainToolStripMenuItem.Click += new System.EventHandler(this.bLayerTerrain_Click);
       // 
@@ -851,21 +922,21 @@ namespace RA_Mission_Editor.UI
       this.smudgeToolStripMenuItem.Image = global::RA_Mission_Editor.Properties.Resources.button_smudge;
       this.smudgeToolStripMenuItem.Name = "smudgeToolStripMenuItem";
       this.smudgeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D4)));
-      this.smudgeToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+      this.smudgeToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
       this.smudgeToolStripMenuItem.Text = "Smudge";
       this.smudgeToolStripMenuItem.Click += new System.EventHandler(this.bLayerSmudge_Click);
       // 
       // toolStripSeparator1
       // 
       this.toolStripSeparator1.Name = "toolStripSeparator1";
-      this.toolStripSeparator1.Size = new System.Drawing.Size(218, 6);
+      this.toolStripSeparator1.Size = new System.Drawing.Size(330, 6);
       // 
       // infantryToolStripMenuItem
       // 
       this.infantryToolStripMenuItem.Image = global::RA_Mission_Editor.Properties.Resources.button_infantry;
       this.infantryToolStripMenuItem.Name = "infantryToolStripMenuItem";
       this.infantryToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D5)));
-      this.infantryToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+      this.infantryToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
       this.infantryToolStripMenuItem.Text = "Infantry";
       this.infantryToolStripMenuItem.Click += new System.EventHandler(this.bLayerInfantry_Click);
       // 
@@ -874,7 +945,7 @@ namespace RA_Mission_Editor.UI
       this.unitToolStripMenuItem.Image = global::RA_Mission_Editor.Properties.Resources.button_units;
       this.unitToolStripMenuItem.Name = "unitToolStripMenuItem";
       this.unitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D6)));
-      this.unitToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+      this.unitToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
       this.unitToolStripMenuItem.Text = "Unit";
       this.unitToolStripMenuItem.Click += new System.EventHandler(this.bLayerUnits_Click);
       // 
@@ -883,7 +954,7 @@ namespace RA_Mission_Editor.UI
       this.shipToolStripMenuItem.Image = global::RA_Mission_Editor.Properties.Resources.button_ships;
       this.shipToolStripMenuItem.Name = "shipToolStripMenuItem";
       this.shipToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D7)));
-      this.shipToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+      this.shipToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
       this.shipToolStripMenuItem.Text = "Ship";
       this.shipToolStripMenuItem.Click += new System.EventHandler(this.bLayerShips_Click);
       // 
@@ -892,7 +963,7 @@ namespace RA_Mission_Editor.UI
       this.structureToolStripMenuItem.Image = global::RA_Mission_Editor.Properties.Resources.button_structures;
       this.structureToolStripMenuItem.Name = "structureToolStripMenuItem";
       this.structureToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D8)));
-      this.structureToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+      this.structureToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
       this.structureToolStripMenuItem.Text = "Structure";
       this.structureToolStripMenuItem.Click += new System.EventHandler(this.bLayerStructures_Click);
       // 
@@ -901,21 +972,21 @@ namespace RA_Mission_Editor.UI
       this.baseBuildingToolStripMenuItem.Image = global::RA_Mission_Editor.Properties.Resources.button_bases;
       this.baseBuildingToolStripMenuItem.Name = "baseBuildingToolStripMenuItem";
       this.baseBuildingToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D9)));
-      this.baseBuildingToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+      this.baseBuildingToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
       this.baseBuildingToolStripMenuItem.Text = "Base Building";
       this.baseBuildingToolStripMenuItem.Click += new System.EventHandler(this.bLayerBases_Click);
       // 
       // toolStripSeparator2
       // 
       this.toolStripSeparator2.Name = "toolStripSeparator2";
-      this.toolStripSeparator2.Size = new System.Drawing.Size(218, 6);
+      this.toolStripSeparator2.Size = new System.Drawing.Size(330, 6);
       // 
       // waypointToolStripMenuItem
       // 
       this.waypointToolStripMenuItem.Image = global::RA_Mission_Editor.Properties.Resources.button_waypoint;
       this.waypointToolStripMenuItem.Name = "waypointToolStripMenuItem";
       this.waypointToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D0)));
-      this.waypointToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+      this.waypointToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
       this.waypointToolStripMenuItem.Text = "Waypoint";
       this.waypointToolStripMenuItem.Click += new System.EventHandler(this.bLayerWaypoints_Click);
       // 
@@ -924,22 +995,61 @@ namespace RA_Mission_Editor.UI
       this.cellTagToolStripMenuItem.Image = global::RA_Mission_Editor.Properties.Resources.button_celltriggers;
       this.cellTagToolStripMenuItem.Name = "cellTagToolStripMenuItem";
       this.cellTagToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.OemMinus)));
-      this.cellTagToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+      this.cellTagToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
       this.cellTagToolStripMenuItem.Text = "Cell Tag";
       this.cellTagToolStripMenuItem.Click += new System.EventHandler(this.bLayerCellTriggers_Click);
       // 
       // toolStripSeparator3
       // 
       this.toolStripSeparator3.Name = "toolStripSeparator3";
-      this.toolStripSeparator3.Size = new System.Drawing.Size(218, 6);
+      this.toolStripSeparator3.Size = new System.Drawing.Size(330, 6);
       // 
       // clearToolStripMenuItem
       // 
       this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
       this.clearToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Delete)));
-      this.clearToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
-      this.clearToolStripMenuItem.Text = "Clear";
+      this.clearToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
+      this.clearToolStripMenuItem.Text = "Select Mode";
       this.clearToolStripMenuItem.Click += new System.EventHandler(this.bLayerNone_Click);
+      // 
+      // copySelectedCellsToolStripMenuItem
+      // 
+      this.copySelectedCellsToolStripMenuItem.Name = "copySelectedCellsToolStripMenuItem";
+      this.copySelectedCellsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+      this.copySelectedCellsToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
+      this.copySelectedCellsToolStripMenuItem.Text = "Copy Selected Cells";
+      this.copySelectedCellsToolStripMenuItem.Click += new System.EventHandler(this.copySelectedCellsToolStripMenuItem_Click);
+      // 
+      // pasteSelectedCellsToolStripMenuItem
+      // 
+      this.pasteSelectedCellsToolStripMenuItem.Name = "pasteSelectedCellsToolStripMenuItem";
+      this.pasteSelectedCellsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+      this.pasteSelectedCellsToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
+      this.pasteSelectedCellsToolStripMenuItem.Text = "Paste Selected Cells";
+      this.pasteSelectedCellsToolStripMenuItem.Click += new System.EventHandler(this.pasteSelectedCellsToolStripMenuItem_Click);
+      // 
+      // saveSelectedCellsInExtractToolStripMenuItem
+      // 
+      this.saveSelectedCellsInExtractToolStripMenuItem.Name = "saveSelectedCellsInExtractToolStripMenuItem";
+      this.saveSelectedCellsInExtractToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
+      this.saveSelectedCellsInExtractToolStripMenuItem.Text = "Save Selected Cells in Extract";
+      this.saveSelectedCellsInExtractToolStripMenuItem.Click += new System.EventHandler(this.saveSelectedCellsInExtractToolStripMenuItem_Click);
+      // 
+      // deleteObjectsInSelectionToolStripMenuItem
+      // 
+      this.deleteObjectsInSelectionToolStripMenuItem.Name = "deleteObjectsInSelectionToolStripMenuItem";
+      this.deleteObjectsInSelectionToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+      this.deleteObjectsInSelectionToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
+      this.deleteObjectsInSelectionToolStripMenuItem.Text = "Delete Objects in Selection";
+      this.deleteObjectsInSelectionToolStripMenuItem.Click += new System.EventHandler(this.deleteObjectsInSelectionToolStripMenuItem_Click);
+      // 
+      // clearTemplateInSelectionToolStripMenuItem
+      // 
+      this.clearTemplateInSelectionToolStripMenuItem.Name = "clearTemplateInSelectionToolStripMenuItem";
+      this.clearTemplateInSelectionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.Delete)));
+      this.clearTemplateInSelectionToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
+      this.clearTemplateInSelectionToolStripMenuItem.Text = "Clear Template in Selection";
+      this.clearTemplateInSelectionToolStripMenuItem.Click += new System.EventHandler(this.clearTemplateInSelectionToolStripMenuItem_Click);
       // 
       // advancedToolStripMenuItem
       // 
@@ -969,7 +1079,8 @@ namespace RA_Mission_Editor.UI
             this.structuresToolStripMenuItem,
             this.basesToolStripMenuItem,
             this.waypointsToolStripMenuItem,
-            this.cellTriggersToolStripMenuItem});
+            this.cellTriggersToolStripMenuItem,
+            this.boundsToolStripMenuItem});
       this.visibilityToolStripMenuItem.Name = "visibilityToolStripMenuItem";
       this.visibilityToolStripMenuItem.Size = new System.Drawing.Size(89, 20);
       this.visibilityToolStripMenuItem.Text = "Visibility";
@@ -1064,6 +1175,15 @@ namespace RA_Mission_Editor.UI
       this.cellTriggersToolStripMenuItem.Text = "Cell Triggers";
       this.cellTriggersToolStripMenuItem.Click += new System.EventHandler(this.cellTriggersToolStripMenuItem_Click);
       // 
+      // boundsToolStripMenuItem
+      // 
+      this.boundsToolStripMenuItem.Checked = true;
+      this.boundsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.boundsToolStripMenuItem.Name = "boundsToolStripMenuItem";
+      this.boundsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+      this.boundsToolStripMenuItem.Text = "Bounds";
+      this.boundsToolStripMenuItem.Click += new System.EventHandler(this.boundsToolStripMenuItem_Click);
+      // 
       // statisticsToolStripMenuItem
       // 
       this.statisticsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1080,6 +1200,22 @@ namespace RA_Mission_Editor.UI
       this.viewStatisticsToolStripMenuItem.Text = "View Statistics";
       this.viewStatisticsToolStripMenuItem.Click += new System.EventHandler(this.viewStatisticsToolStripMenuItem_Click);
       // 
+      // renderToolStripMenuItem
+      // 
+      this.renderToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.renderToImageToolStripMenuItem});
+      this.renderToolStripMenuItem.Name = "renderToolStripMenuItem";
+      this.renderToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+      this.renderToolStripMenuItem.Text = "Render";
+      // 
+      // renderToImageToolStripMenuItem
+      // 
+      this.renderToImageToolStripMenuItem.Name = "renderToImageToolStripMenuItem";
+      this.renderToImageToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
+      this.renderToImageToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+      this.renderToImageToolStripMenuItem.Text = "Render to Image";
+      this.renderToImageToolStripMenuItem.Click += new System.EventHandler(this.renderToImageToolStripMenuItem_Click);
+      // 
       // testToolStripMenuItem
       // 
       this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1091,8 +1227,8 @@ namespace RA_Mission_Editor.UI
       // testMapToolStripMenuItem
       // 
       this.testMapToolStripMenuItem.Name = "testMapToolStripMenuItem";
-      this.testMapToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F5)));
-      this.testMapToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+      this.testMapToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+      this.testMapToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
       this.testMapToolStripMenuItem.Text = "Test Map";
       this.testMapToolStripMenuItem.Click += new System.EventHandler(this.testMapToolStripMenuItem_Click);
       // 
@@ -1182,6 +1318,13 @@ namespace RA_Mission_Editor.UI
       this.ttipInfo.Draw += new System.Windows.Forms.DrawToolTipEventHandler(this.ttipInfo_Draw);
       this.ttipInfo.Popup += new System.Windows.Forms.PopupEventHandler(this.ttipInfo_Popup);
       // 
+      // reloadDirectoryContentsToolStripMenuItem
+      // 
+      this.reloadDirectoryContentsToolStripMenuItem.Name = "reloadDirectoryContentsToolStripMenuItem";
+      this.reloadDirectoryContentsToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
+      this.reloadDirectoryContentsToolStripMenuItem.Text = "Reload directory contents";
+      this.reloadDirectoryContentsToolStripMenuItem.Click += new System.EventHandler(this.reloadDirectoryContentsToolStripMenuItem_Click);
+      // 
       // MainEditor
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1204,6 +1347,7 @@ namespace RA_Mission_Editor.UI
       this.splitMain.Panel2.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.splitMain)).EndInit();
       this.splitMain.ResumeLayout(false);
+      this.pObjectCanvas.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.pbObjectCanvas)).EndInit();
       this.pText.ResumeLayout(false);
       this.pText.PerformLayout();
@@ -1331,5 +1475,18 @@ namespace RA_Mission_Editor.UI
     private System.Windows.Forms.CheckBox cbGrid;
     private System.Windows.Forms.ToolStripStatusLabel tssRemark;
     private System.Windows.Forms.ToolStripStatusLabel tssBlank;
+    private System.Windows.Forms.Button bSelectMode;
+    private System.Windows.Forms.Label label3;
+    private System.Windows.Forms.ToolStripMenuItem copySelectedCellsToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem pasteSelectedCellsToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem deleteObjectsInSelectionToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem clearTemplateInSelectionToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem renderToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem renderToImageToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem boundsToolStripMenuItem;
+    private System.Windows.Forms.Button bExtract;
+    private System.Windows.Forms.ToolStripMenuItem saveSelectedCellsInExtractToolStripMenuItem;
+    private System.Windows.Forms.Panel pObjectCanvas;
+    private System.Windows.Forms.ToolStripMenuItem reloadDirectoryContentsToolStripMenuItem;
   }
 }

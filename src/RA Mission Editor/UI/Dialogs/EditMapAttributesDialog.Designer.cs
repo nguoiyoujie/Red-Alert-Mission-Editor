@@ -245,6 +245,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.Name = "EditMapAttributesDialog";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
       this.Text = "Set Map Attributes";
+      this.Shown += new System.EventHandler(this.EditMapAttributesDialog_Shown);
       ((System.ComponentModel.ISupportInitialize)(this.nudX)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudY)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudW)).EndInit();

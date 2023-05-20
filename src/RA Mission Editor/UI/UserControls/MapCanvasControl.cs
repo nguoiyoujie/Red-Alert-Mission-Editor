@@ -19,7 +19,7 @@ namespace RA_Mission_Editor.UI.UserControls
     private int _hover_x = -1;
     private int _hover_y = -1;
     private int _hover_subcell = -1;
-
+    private bool _mouseDown = false;
 
     public RequestDrawDelegate RequestDraw;
     public CoordUpdateDelegate UpdateCoordinate;
@@ -75,7 +75,7 @@ namespace RA_Mission_Editor.UI.UserControls
         {
           Size = expectedSize;
         }
-        if (Renderer.Dirty)
+        if (Renderer.Dirty || Renderer.TemplateDirty)
         {
           if (RequestDraw != null)
           {
@@ -151,12 +151,17 @@ namespace RA_Mission_Editor.UI.UserControls
 
     private void MapCanvasControl_MouseDown(object sender, MouseEventArgs e)
     {
+      _mouseDown = true;
       UpdateMouseDown?.Invoke(_hover_x, _hover_y, _hover_subcell, e.Button);
     }
 
     private void MapCanvasControl_MouseUp(object sender, MouseEventArgs e)
     {
-      UpdateMouseUp?.Invoke(_hover_x, _hover_y, _hover_subcell, e.Button);
+      if (_mouseDown) // closing a dialog box may trigger mouse up even if user did not previously click over the canvas itself
+      {
+        _mouseDown = false;
+        UpdateMouseUp?.Invoke(_hover_x, _hover_y, _hover_subcell, e.Button);
+      }
     }
   }
 }

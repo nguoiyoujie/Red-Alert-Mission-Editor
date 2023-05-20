@@ -75,6 +75,50 @@ namespace RA_Mission_Editor.Renderers
         }
     }
 
+    public static void DrawTemplates(Map map, MapExtract extract, int xoffset, int yoffset, MapCache cache, VirtualFileSystem vfs, Graphics g)
+    {
+      CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
+
+      g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+      g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+      g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+
+      string tclear = Templates.Get(0).ID + tt.Extension;
+      if (!cache.GetOrOpen(tclear, vfs, out TmpFile cleartmpFile))
+      {
+        throw new Exception($"Theater clear tile {tclear} does not exist!");
+      }
+
+      for (int xc = 0; xc < extract.Ext_MapSection.FullWidth; xc++)
+        for (int yc = 0; yc < extract.Ext_MapSection.FullHeight; yc++)
+        {
+          int c = extract.CellNumber(xc, yc);
+          TemplateType tem = Templates.Get(extract.MapPackSection.Template[c]);
+          Bitmap bmp = null;
+
+          if (tem != null && cache.GetOrOpen(tem.ID + tt.Extension, vfs, out TmpFile tmpFile))
+          {
+            // fetch bitmap
+            // if this is a clear tile (ID=0), the template has multiple tiles, pseudo-randomize them according to Clear_Icon() in
+            // https://github.com/electronicarts/CnC_Remastered_Collection/blob/7d496e8a633a8bbf8a14b65f490b4d21fa32ca03/TIBERIANDAWN/CELL.CPP
+            int tile = extract.MapPackSection.Template[c] == 0 ? map.ClearIcon(c) : extract.MapPackSection.Tile[c];
+            bmp = RenderUtils.RenderTemplate(cache, tmpFile, palFile, tile);
+          }
+          else if (extract.MapPackSection.Template[c] != 0xFFFF) // meant to have something, but does not exist in the definitions
+          {
+            // just warn, but draw the clear tile anyway
+            // !!! Performance expensive when several cells have this issue, better to move this out to an explicit check function...
+            Debug.WriteLine($"Template 'ID {extract.OverlayPackSection.Overlay[c]}' at cell {{{extract.CellX(c)},{extract.CellY(c)}}} does not exist!");
+          }
+
+          // for map extracts, draw only if an identified template exists. This means don't draw 0xFFFF as clear
+          if (bmp != null && map.IsCellInMap(xoffset + xc, yoffset + yc))
+          {
+            g.DrawImage(bmp, (xoffset + xc) * Constants.CELL_PIXEL_W, (yoffset + yc) * Constants.CELL_PIXEL_H);
+          }
+        }
+    }
+
     public static void DrawOverlays(Map map, MapCache cache, VirtualFileSystem vfs, Graphics g)
     {
       CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
@@ -89,7 +133,7 @@ namespace RA_Mission_Editor.Renderers
           int c = map.CellNumber(xc, yc);
           OverlayType ovl = Overlays.Get(map.OverlayPackSection.Overlay[c]);
 
-          if (ovl != null && 
+          if (ovl != null &&
              (cache.GetOrOpen(ovl.ID + tt.Extension, vfs, out ShpFile shpFile) ||
               cache.GetOrOpen(ovl.ID + ".SHP", vfs, out shpFile))) // template extension provided no files, try .shp instead
           {
@@ -127,11 +171,70 @@ namespace RA_Mission_Editor.Renderers
         }
     }
 
+    public static void DrawOverlays(Map map, MapExtract extract, int xoffset, int yoffset, MapCache cache, VirtualFileSystem vfs, Graphics g)
+    {
+      CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
+
+      g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+      g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+      g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+
+      for (int xc = 0; xc < extract.Ext_MapSection.FullWidth; xc++)
+        for (int yc = 0; yc < extract.Ext_MapSection.FullHeight; yc++)
+        {
+          int c = extract.CellNumber(xc, yc);
+          OverlayType ovl = Overlays.Get(extract.OverlayPackSection.Overlay[c]);
+
+          if (ovl != null &&
+             (cache.GetOrOpen(ovl.ID + tt.Extension, vfs, out ShpFile shpFile) ||
+              cache.GetOrOpen(ovl.ID + ".SHP", vfs, out shpFile))) // template extension provided no files, try .shp instead
+          {
+            // check for Ore, Gem and Ore, and precalculate frame number?
+            int tile = 0;
+            switch (ovl.SubType)
+            {
+              case OverlaySubType.WALL:
+                tile = extract.GetWallOverlayData(c);
+                break;
+              case OverlaySubType.GOLD:
+                tile = extract.GetOreOverlayData(c);
+                break;
+              case OverlaySubType.GEM:
+                tile = extract.GetGemOverlayData(c);
+                break;
+              default:
+              case OverlaySubType.NONE:
+                break;
+            }
+            if (shpFile.Images.Count <= tile)
+            { tile = 0; }
+
+            Bitmap bmp = RenderUtils.RenderShp(cache, shpFile, palFile, tile);
+            if (bmp != null && map.IsCellInMap(xoffset + xc, yoffset + yc))
+            {
+              // draw
+              g.DrawImage(bmp, (xoffset + xc) * Constants.CELL_PIXEL_W, (yoffset + yc) * Constants.CELL_PIXEL_H);
+            }
+          }
+          else if (extract.OverlayPackSection.Overlay[c] != 0xFF) // meant to have something, but does not exist in the definitions
+          {
+            Debug.WriteLine($"Overlay 'ID {extract.OverlayPackSection.Overlay[c]}' at cell {{{extract.CellX(c)},{extract.CellY(c)}}} does not exist!");
+          }
+        }
+    }
+
     public static void DrawTerrainObjects(Map map, MapCache cache, VirtualFileSystem vfs, Graphics g)
     {
       DrawOverlays(map, cache, vfs, g);
       DrawSmudges(map, cache, vfs, g);
       DrawTerrain(map, cache, vfs, g);
+    }
+
+    public static void DrawTerrainObjects(Map map, MapExtract extract, int xoffset, int yoffset, MapCache cache, VirtualFileSystem vfs, Graphics g)
+    {
+      DrawOverlays(map, extract, xoffset, yoffset, cache, vfs, g);
+      DrawSmudges(map, extract, xoffset, yoffset, cache, vfs, g);
+      DrawTerrain(map, extract, xoffset, yoffset, cache, vfs, g);
     }
 
     public static void DrawSmudges(Map map, MapCache cache, VirtualFileSystem vfs, Graphics g)
@@ -148,7 +251,7 @@ namespace RA_Mission_Editor.Renderers
         SmudgeType smg = Smudges.Get(sInfo.ID);
         Bitmap bmp;
 
-        if (smg != null && 
+        if (smg != null &&
            (cache.GetOrOpen(smg.ID + tt.Extension, vfs, out ShpFile shpFile) ||
             cache.GetOrOpen(smg.ID + ".SHP", vfs, out shpFile))) // template extension provided no files, try .shp instead
         {
@@ -171,6 +274,43 @@ namespace RA_Mission_Editor.Renderers
       }
     }
 
+    public static void DrawSmudges(Map map, MapExtract extract, int xoffset, int yoffset, MapCache cache, VirtualFileSystem vfs, Graphics g)
+    {
+      CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
+
+      g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+      g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+      g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+
+      foreach (var sInfo in extract.SmudgeSection.SmudgeList)
+      {
+        int c = sInfo.Cell;
+        SmudgeType smg = Smudges.Get(sInfo.ID);
+        Bitmap bmp;
+
+        if (smg != null &&
+           (cache.GetOrOpen(smg.ID + tt.Extension, vfs, out ShpFile shpFile) ||
+            cache.GetOrOpen(smg.ID + ".SHP", vfs, out shpFile))) // template extension provided no files, try .shp instead
+        {
+          int tile = 0;
+          for (int yd = 0; yd < smg.BlockHeight; yd++)
+            for (int xd = 0; xd < smg.BlockWidth; xd++)
+            {
+              bmp = RenderUtils.RenderShp(cache, shpFile, palFile, tile++);
+              if (bmp != null && map.IsCellInMap(xoffset + xd + extract.CellX(c), yoffset + yd + extract.CellY(c)))
+              {
+                // draw
+                g.DrawImage(bmp, (extract.CellX(c) + xd + xoffset) * Constants.CELL_PIXEL_W, (extract.CellY(c) + yd + yoffset) * Constants.CELL_PIXEL_H);
+              }
+            }
+        }
+        else
+        {
+          Debug.WriteLine($"Smudge '{sInfo.ID}' at cell {{{extract.CellX(c)},{extract.CellY(c)}}} does not exist!");
+        }
+      }
+    }
+
     public static void GetTerrainSizeInCells(MapCache cache, VirtualFileSystem vfs, TheaterType tt, string typeID, out int x, out int y)
     {
       x = 1;
@@ -184,7 +324,7 @@ namespace RA_Mission_Editor.Renderers
         return;
       }
 
-      if (terr != null && 
+      if (terr != null &&
          (cache.GetOrOpen(terr.ID + tt.Extension, vfs, out ShpFile shpFile) ||
           cache.GetOrOpen(terr.ID + ".SHP", vfs, out shpFile))) // template extension provided no files, try .shp instead
       {
@@ -206,14 +346,12 @@ namespace RA_Mission_Editor.Renderers
       {
         int c = tInfo.Cell;
         TerrainType terr = Terrains.Get(tInfo.ID);
-        Bitmap bmp = null;
-
-        if (terr != null && 
+        if (terr != null &&
             (cache.GetOrOpen(terr.ID + tt.Extension, vfs, out ShpFile shpFile) ||
             cache.GetOrOpen(terr.ID + ".SHP", vfs, out shpFile))) // template extension provided no files, try .shp instead
         {
           int tile = 0;
-          bmp = RenderUtils.RenderShp(cache, shpFile, palFile, tile);
+          Bitmap bmp = RenderUtils.RenderShp(cache, shpFile, palFile, tile);
           if (bmp != null)
           {
             // draw
@@ -227,5 +365,35 @@ namespace RA_Mission_Editor.Renderers
       }
     }
 
+    public static void DrawTerrain(Map map, MapExtract extract, int xoffset, int yoffset, MapCache cache, VirtualFileSystem vfs, Graphics g)
+    {
+      CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
+
+      g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+      g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+      g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+
+      foreach (var tInfo in extract.TerrainSection.TerrainList)
+      {
+        int c = tInfo.Cell;
+        TerrainType terr = Terrains.Get(tInfo.ID);
+        if (terr != null &&
+            (cache.GetOrOpen(terr.ID + tt.Extension, vfs, out ShpFile shpFile) ||
+            cache.GetOrOpen(terr.ID + ".SHP", vfs, out shpFile))) // template extension provided no files, try .shp instead
+        {
+          int tile = 0;
+          Bitmap bmp = RenderUtils.RenderShp(cache, shpFile, palFile, tile);
+          if (bmp != null && map.IsCellInMap(xoffset + map.CellX(c), yoffset + map.CellY(c)))
+          {
+            // draw
+            g.DrawImage(bmp, (xoffset + extract.CellX(c)) * Constants.CELL_PIXEL_W, (yoffset + extract.CellY(c)) * Constants.CELL_PIXEL_H);
+          }
+        }
+        else
+        {
+          Debug.WriteLine($"Terrain '{tInfo.ID}' at cell {{{extract.CellX(c)},{extract.CellY(c)}}} does not exist!");
+        }
+      }
+    }
   }
 }

@@ -1,4 +1,5 @@
 ﻿using RA_Mission_Editor.Util;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,29 +16,29 @@ namespace RA_Mission_Editor.FileFormats
       return Instance.OpenFile(filename);
     }
 
-    public static T Open<T>(string filename, CacheMethod m = CacheMethod.Default) where T : VirtualFile
+    public static T Open<T>(string filename, BufferingMode m = BufferingMode.Default) where T : VirtualFile
     {
       return Open(filename, FormatHelper.GetFormatFromTypeclass(typeof(T)), m) as T;
     }
 
-    public static T Open<T>(string filename, FileFormat f, CacheMethod m) where T : VirtualFile
+    public static T Open<T>(string filename, FileFormat f, BufferingMode m) where T : VirtualFile
     {
       return Open(filename, f, m) as T;
     }
 
-    public T OpenFile<T>(string filename, CacheMethod m = CacheMethod.Default) where T : VirtualFile
+    public T OpenFile<T>(string filename, BufferingMode m = BufferingMode.Default) where T : VirtualFile
     {
       return OpenFile(filename, FormatHelper.GetFormatFromTypeclass(typeof(T)), m) as T;
     }
 
-    public static VirtualFile Open(string filename, FileFormat f, CacheMethod m)
+    public static VirtualFile Open(string filename, FileFormat f, BufferingMode m)
     {
       return Instance.OpenFile(filename, f, m);
     }
 
-    public static bool Add(string filename, CacheMethod cache = CacheMethod.Default)
+    public static bool Add(string filename, BufferingMode mode = BufferingMode.Default)
     {
-      return Instance.AddItem(filename, cache);
+      return Instance.AddItem(filename, mode);
     }
 
     public static bool Exists(string imageFileName)
@@ -56,7 +57,7 @@ namespace RA_Mission_Editor.FileFormats
       return OpenFile(filename, format);
     }
 
-    public VirtualFile OpenFile(string filename, FileFormat format = FileFormat.None, CacheMethod m = CacheMethod.Default)
+    public VirtualFile OpenFile(string filename, FileFormat format = FileFormat.None, BufferingMode m = BufferingMode.Default)
     {
       if (AllArchives == null || AllArchives.Count == 0) return null;
       var archive = AllArchives.FirstOrDefault(v => v != null && v.ContainsFile(filename));
@@ -72,7 +73,7 @@ namespace RA_Mission_Editor.FileFormats
       }
     }
 
-    public bool AddItem(string path, CacheMethod m = CacheMethod.Default)
+    public bool AddItem(string path, BufferingMode m = BufferingMode.Default)
     {
       // directory
       if (Directory.Exists(path))
@@ -112,10 +113,13 @@ namespace RA_Mission_Editor.FileFormats
     }
   }
 
-  public enum CacheMethod
+  [Flags]
+  public enum BufferingMode
   {
-    Default,
-    Cache,
-    NoCache
+    None = 0,
+    BufferMixes = 1 << 0,
+    BufferContents = 1 << 1,
+
+    Default = BufferContents
   }
 }

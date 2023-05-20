@@ -43,5 +43,10 @@ namespace RA_Mission_Editor.UI.Dialogs
         tbValue.Text = text.Substring(index + 1, text.Length - index - 1);
       }
     }
+
+    private void NewIniKeyDialog_Shown(object sender, EventArgs e)
+    {
+      this.ActiveControl = tbKey;
+    }
   }
 }

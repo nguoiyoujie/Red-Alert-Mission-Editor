@@ -1,5 +1,6 @@
 ﻿using RA_Mission_Editor.Entities;
 using RA_Mission_Editor.FileFormats;
+using System;
 using System.Collections.Generic;
 
 namespace RA_Mission_Editor.MapData
@@ -13,7 +14,14 @@ namespace RA_Mission_Editor.MapData
       TerrainList.Clear();
       foreach (var kvp in section.OrderedEntries)
       {
-        TerrainList.Add(TerrainInfo.Parse(kvp.Key, kvp.Value.Value));
+        TerrainInfo u = new TerrainInfo();
+        if (u.Parse(kvp.Key, kvp.Value.Value))
+          TerrainList.Add(u);
+        else
+        {
+          // feedback the error
+          throw new Exception($"Map Terrain {kvp.Key} contains less than expected parameters");
+        }
       }
     }
 

@@ -2,11 +2,6 @@
 using RA_Mission_Editor.MapData;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace RA_Mission_Editor.UI.UserControls

@@ -72,8 +72,14 @@ namespace RA_Mission_Editor.RulesData.Ruleset
           // like 2TNK
           Units.AddRulesObject(new UnitType(entry.Value.Value) { FullName = file?.Get(nameindex++), Directions = 32, TurretDirections = 32, TurretShpFrame = 32, TurretLocations = Units.DefaultTurretLocations });
         }
-        else 
+        else if(GameRules.GetSection(entry.Value.Value).ReadBool("HasRotatingTurret", true))
         {
+          int turrstart = GameRules.GetSection(entry.Value.Value).ReadInt("TurretFrameStart", 32);
+          int turrcount = GameRules.GetSection(entry.Value.Value).ReadInt("TurretFrameCount", 32);
+          Units.AddRulesObject(new UnitType(entry.Value.Value) { FullName = file?.Get(nameindex++), Directions = 32, TurretDirections = turrstart, TurretShpFrame = turrcount, TurretLocations = Units.DefaultTurretLocations });
+        }
+        else
+            {
           // no turret
           Units.AddRulesObject(new UnitType(entry.Value.Value) { FullName = file?.Get(nameindex++), Directions = 32 });
         }
@@ -98,6 +104,7 @@ namespace RA_Mission_Editor.RulesData.Ruleset
       {
         s.RulesName = ReadString(s.ID, "Name", out _, s.FullName, map?.SourceFile);
         s.RulesImage = ReadString(s.ID, "Image", out _, s.IsFake ? s.TrueID : s.ID, map?.SourceFile);
+        s.SecondImage = ReadString(s.ID, "WarFactoryOverlayAnim", out _, s.SecondImage, map?.SourceFile);
       }
 
       foreach (var s in Ships.GetAll())

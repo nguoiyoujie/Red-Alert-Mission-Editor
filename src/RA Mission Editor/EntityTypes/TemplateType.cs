@@ -24,6 +24,8 @@ namespace RA_Mission_Editor.RulesData
 
     public string DisplayName { get => ToString(); }
 
+    public EditorSelectMode SelectMode { get { return EditorSelectMode.Templates; } }
+
     public override string ToString()
     {
       return ID;

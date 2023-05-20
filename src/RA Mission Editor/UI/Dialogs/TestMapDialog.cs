@@ -26,5 +26,10 @@ namespace RA_Mission_Editor.UI.Dialogs
       DialogResult = DialogResult.Cancel;
       Close();
     }
+
+    private void TestMapDialog_Shown(object sender, EventArgs e)
+    {
+      this.ActiveControl = rbNormal;
+    }
   }
 }

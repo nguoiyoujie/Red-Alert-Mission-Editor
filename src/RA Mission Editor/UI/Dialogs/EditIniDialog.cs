@@ -147,5 +147,10 @@ namespace RA_Mission_Editor.UI.Dialogs
     {
       Close();
     }
+
+    private void EditIniDialog_Shown(object sender, EventArgs e)
+    {
+      this.ActiveControl = cbSection;
+    }
   }
 }

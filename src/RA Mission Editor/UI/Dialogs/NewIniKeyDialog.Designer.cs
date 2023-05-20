@@ -124,6 +124,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.Name = "NewIniKeyDialog";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
       this.Text = "Add INI Key";
+      this.Shown += new System.EventHandler(this.NewIniKeyDialog_Shown);
       this.ResumeLayout(false);
       this.PerformLayout();
 

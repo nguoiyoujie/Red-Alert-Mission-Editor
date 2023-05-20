@@ -1,6 +1,5 @@
 ﻿using RA_Mission_Editor.FileFormats;
 using RA_Mission_Editor.MapData;
-using System.Collections.Generic;
 
 namespace RA_Mission_Editor.RulesData.Ruleset
 {
@@ -22,6 +21,8 @@ namespace RA_Mission_Editor.RulesData.Ruleset
         IniFile addf = vfs.OpenFile<IniFile>("aftermath.ini");
         GameRules.MergeWith(addf);
       }
+
+      LanguageText = vfs.OpenFile<LanguageFile>("conquer.eng");
     }
 
     public override void ApplyRulesWithMap(Map map)

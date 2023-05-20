@@ -102,7 +102,7 @@ namespace RA_Mission_Editor.FileFormats
 			return Index.ContainsKey(MixEntry.HashFilename(filename));
 		}
 
-		public VirtualFile OpenFile(string filename, FileFormat f = FileFormat.None, CacheMethod m = CacheMethod.Default)
+		public VirtualFile OpenFile(string filename, FileFormat f = FileFormat.None, BufferingMode m = BufferingMode.Default)
 		{
 			MixEntry e;
 			if (!Index.TryGetValue(MixEntry.HashFilename(filename), out e))
@@ -111,7 +111,7 @@ namespace RA_Mission_Editor.FileFormats
 				return FormatHelper.OpenAsFormat(BaseStream, filename, (int)(BaseOffset + dataStart + e.Offset), (int)e.Length, f, m);
 		}
 
-		public VirtualFile OpenFile(uint mixEntry, string filename = "", FileFormat f = FileFormat.None, CacheMethod m = CacheMethod.Default)
+		public VirtualFile OpenFile(uint mixEntry, string filename = "", FileFormat f = FileFormat.None, BufferingMode m = BufferingMode.Default)
 		{
 			var e = Index[mixEntry];
 			return FormatHelper.OpenAsFormat(BaseStream, filename, (int)(BaseOffset + dataStart + e.Offset), (int)e.Length, f, m);

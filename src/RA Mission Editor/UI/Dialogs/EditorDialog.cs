@@ -14,12 +14,12 @@ namespace RA_Mission_Editor.UI.Dialogs
 
     public Map Map { get; private set; }
 
-    public void SetMap(Map map, VirtualFileSystem vfs)
+    public void SetMap(Map map)
     {
       Map = map;
       ttControl_Basic.SetMap(map);
       ttControl_Houses.SetMap(map);
-      ttControl_Tutorial.SetMap(map, vfs);
+      ttControl_Tutorial.SetMap(map);
       ttControl_Triggers.SetMap(map);
       ttControl_TeamTypes.SetMap(map);
       ttControl_Globals.SetMap(map);

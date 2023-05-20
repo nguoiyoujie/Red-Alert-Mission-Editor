@@ -143,6 +143,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.Controls.Add(this.label1);
       this.Name = "TestMapDialog";
       this.Text = "Test Map";
+      this.Shown += new System.EventHandler(this.TestMapDialog_Shown);
       this.groupBox1.ResumeLayout(false);
       this.groupBox1.PerformLayout();
       this.ResumeLayout(false);

@@ -11,6 +11,8 @@ namespace RA_Mission_Editor.Entities
     public int Cell { get; set; } // Cell ID
     public string ID { get; set; } // Unit type ID
 
+    public EditorSelectMode SelectMode { get { return EditorSelectMode.Bases; } }
+
     public string GetValueAsString()
     {
       return string.Join(",", ID

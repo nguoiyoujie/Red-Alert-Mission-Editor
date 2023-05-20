@@ -11,6 +11,7 @@ namespace RA_Mission_Editor.Entities
   public interface IEntity
   {
     string ID { get; }
+    EditorSelectMode SelectMode { get; }
     IEntityType GetEntityType(Rules rules);
   }
 
@@ -23,4 +24,18 @@ namespace RA_Mission_Editor.Entities
   {
     int Cell { get; set; }
   }
+
+  public interface IValueParsable<T>
+  {
+    string GetValueAsString();
+    bool Parse(string value);
+  }
+
+  public interface IKeyValueParsable<T>
+  {
+    string GetKeyAsString();
+    string GetValueAsString();
+    bool Parse(string key, string value);
+  }
+  
 }

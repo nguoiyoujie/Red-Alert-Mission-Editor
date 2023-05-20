@@ -89,5 +89,10 @@ namespace RA_Mission_Editor.UI.Dialogs
       }
       Close();
     }
+
+    private void EditMapAttributesDialog_Shown(object sender, EventArgs e)
+    {
+      this.ActiveControl = cbTheater;
+    }
   }
 }

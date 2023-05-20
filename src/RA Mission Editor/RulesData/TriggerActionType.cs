@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Linq;
 
 namespace RA_Mission_Editor.RulesData
 {
@@ -9,17 +10,24 @@ namespace RA_Mission_Editor.RulesData
 		public TriggerParameterFlag P1Type { get; }
 		public TriggerParameterFlag P2Type { get; }
 		public TriggerParameterFlag P3Type { get; }
+    public string P1Name { get; }
+    public string P2Name { get; }
+    public string P3Name { get; }
 
-		public TriggerActionType(string id, string description = null, TriggerParameterFlag p1Type = default, TriggerParameterFlag p2Type = default, TriggerParameterFlag p3Type = default)
+    public TriggerActionType(string id, string description = null, TriggerParameterFlag p1Type = default, string p1Name = null, TriggerParameterFlag p2Type = default, string p2Name = null, TriggerParameterFlag p3Type = default, string p3Name = null)
 		{
 			ID = id;
 			Description = description ?? string.Empty;
 			P1Type = p1Type;
 			P2Type = p2Type;
 			P3Type = p3Type;
-		}
+			P1Name = p1Name ?? p1Type.ToString();
+      P2Name = p2Name ?? p2Type.ToString();
+      P3Name = p3Name ?? p3Type.ToString();
 
-		public override string ToString()
+    }
+
+    public override string ToString()
 		{
 			return ID;
 		}

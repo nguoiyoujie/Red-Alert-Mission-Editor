@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.IO;
 using System.Windows.Forms;
@@ -11,6 +12,8 @@ namespace RA_Mission_Editor.Util
     {
       // set defaults
       Grid = Color.AliceBlue;
+      Selection = Color.Goldenrod;
+      LastSelection = Color.LimeGreen;
       Waypoint = Color.IndianRed;
       CellTrigger = Color.GreenYellow;
       TechnoTypeTag = Color.ForestGreen;
@@ -41,6 +44,8 @@ namespace RA_Mission_Editor.Util
     public static bool IsRAFontLoaded = false;
 
     public static Color Grid { get => _grid; set { GridBrush?.Dispose(); GridPen?.Dispose(); GridBrush = new SolidBrush(value); GridPen = new Pen(value, 2); _grid = value; } }
+    public static Color Selection { get => _selection; set { SelectionBrush?.Dispose(); SelectionPen?.Dispose(); SelectionBrush = new HatchBrush(HatchStyle.BackwardDiagonal, value, Color.Transparent); SelectionPen = new Pen(value, 2); _selection = value; } }
+    public static Color LastSelection { get => _lastselection; set { LastSelectionBrush?.Dispose(); LastSelectionPen?.Dispose(); LastSelectionBrush = new HatchBrush(HatchStyle.BackwardDiagonal, value, Color.Transparent); LastSelectionPen = new Pen(value, 2); _lastselection = value; } }
     public static Color Waypoint { get => _waypoint; set { WaypointBrush?.Dispose(); WaypointPen?.Dispose(); WaypointBrush = new SolidBrush(value); WaypointPen = new Pen(value); _waypoint = value; } }
     public static Color CellTrigger { get => _cellTrigger; set { CellTriggerBrush?.Dispose(); CellTriggerPen?.Dispose(); CellTriggerBrush = new SolidBrush(value); CellTriggerPen = new Pen(value); _cellTrigger = value; } }
     public static Color TechnoTypeTag { get => _technoTypeTag; set { TechnoTypeTagBrush?.Dispose(); TechnoTypeTagPen?.Dispose(); TechnoTypeTagBrush = new SolidBrush(value); TechnoTypeTagPen = new Pen(value); _technoTypeTag = value; } }
@@ -48,6 +53,8 @@ namespace RA_Mission_Editor.Util
     public static Color BaseNumber { get => _baseNumber; set { BaseNumberBrush?.Dispose(); BaseNumberPen?.Dispose(); BaseNumberBrush = new SolidBrush(value); BaseNumberPen = new Pen(value); _baseNumber = value; } }
 
     private static Color _grid;
+    private static Color _selection;
+    private static Color _lastselection;
     private static Color _waypoint;
     private static Color _cellTrigger;
     private static Color _technoTypeTag;
@@ -55,6 +62,8 @@ namespace RA_Mission_Editor.Util
     private static Color _baseNumber;
 
     public static Brush GridBrush { get; private set; }
+    public static Brush SelectionBrush { get; private set; }
+    public static Brush LastSelectionBrush { get; private set; }
     public static Brush WaypointBrush { get; private set; }
     public static Brush CellTriggerBrush { get; private set; }
     public static Brush TechnoTypeTagBrush { get; private set; }
@@ -62,6 +71,8 @@ namespace RA_Mission_Editor.Util
     public static Brush BaseNumberBrush { get; private set; }
 
     public static Pen GridPen { get; private set; }
+    public static Pen SelectionPen { get; private set; }
+    public static Pen LastSelectionPen { get; private set; }
     public static Pen WaypointPen { get; private set; }
     public static Pen CellTriggerPen { get; private set; }
     public static Pen TechnoTypeTagPen { get; private set; }

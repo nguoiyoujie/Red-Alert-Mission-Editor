@@ -1,5 +1,4 @@
 ﻿using RA_Mission_Editor.FileFormats;
-using RA_Mission_Editor.RulesData;
 
 namespace RA_Mission_Editor.MapData
 {

@@ -395,6 +395,7 @@
 
   public enum ColorType
   {
+    NONE = -1,
     YELLOW = 0,
     BLUE = 1,
     RED = 2,
@@ -417,5 +418,24 @@
     NONE = 0,
     RULES_FILE = 1,
     MAP_FILE = 2
+  }
+
+  public enum EditorSelectMode
+  {
+    None,
+    Templates,
+    Overlays,
+    Terrain,
+    Smudges,
+    // Technotypes
+    Infantry,
+    Units,
+    Ships,
+    Structures,
+    Bases,
+    // Widgets
+    CellTriggers,
+    Waypoints,
+    Extracts
   }
 }

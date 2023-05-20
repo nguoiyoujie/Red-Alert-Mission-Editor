@@ -91,6 +91,9 @@ namespace RA_Mission_Editor.UI.Dialogs
       }
     }
 
-
+    private void EditPreplaceEntityDialog_Shown(object sender, EventArgs e)
+    {
+      this.ActiveControl = cbOwner;
+    }
   }
 }

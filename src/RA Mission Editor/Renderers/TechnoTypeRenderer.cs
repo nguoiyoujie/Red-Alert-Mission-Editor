@@ -13,8 +13,8 @@ namespace RA_Mission_Editor.Renderers
 {
   public static class TechnoTypeRenderer
   {
-    private static StringFormat _triggerTagStringFormat = StringFormat.GenericTypographic;
-    private static StringFormat _fakeStringFormat = StringFormat.GenericTypographic;
+    private static StringFormat _triggerTagStringFormat;
+    private static StringFormat _fakeStringFormat;
 
     private static ColorMatrix _translucentMatrix = new ColorMatrix()
     {
@@ -28,6 +28,9 @@ namespace RA_Mission_Editor.Renderers
 
     static TechnoTypeRenderer()
     {
+      _triggerTagStringFormat = new StringFormat(StringFormat.GenericTypographic);
+      _fakeStringFormat = new StringFormat(StringFormat.GenericTypographic);
+
       _translucentImageAttributes.SetColorMatrix(_translucentMatrix, ColorMatrixFlag.Default, ColorAdjustType.Default);
 
       _triggerTagStringFormat.Alignment = StringAlignment.Center;
@@ -110,8 +113,28 @@ namespace RA_Mission_Editor.Renderers
       }
     }
 
+    public static void DrawStructureBibs(Map map, MapExtract extract, int xoffset, int yoffset, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g)
+    {
+      CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
+
+      g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+      g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+      g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+
+      foreach (var tInfo in extract.StructureSection.StructureList)
+      {
+        int c = tInfo.Cell;
+        int x = xoffset + extract.CellX(c);
+        int y = yoffset + extract.CellY(c);
+
+        DrawStructureBib(map, rules, cache, vfs, tt, palFile, tInfo.ID, g, x, y, false);
+      }
+    }
+
     public static void DrawStructureBib(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, Graphics g, int x, int y, bool translucent)
     {
+      if (!map.IsCellInMap(x, y)) { return; }
+
       Bitmap bmp;
       StructureType stype = rules.Structures.Get(typeID);
       if (stype == null)
@@ -190,6 +213,21 @@ namespace RA_Mission_Editor.Renderers
         int c = tInfo.Cell;
         int x = map.CellX(c);
         int y = map.CellY(c);
+        HouseType house = rules.Houses.GetHouse(tInfo.Owner);
+
+        DrawStructure(map, rules, cache, vfs, tt, palFile, tInfo.ID, house, tInfo.Health, tInfo.Facing, g, x, y, tInfo.Tag, -1, false);
+      }
+    }
+
+    public static void DrawStructures(Map map, MapExtract extract, int xoffset, int yoffset, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g)
+    {
+      CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
+
+      foreach (var tInfo in extract.StructureSection.StructureList)
+      {
+        int c = tInfo.Cell;
+        int x = xoffset + extract.CellX(c);
+        int y = yoffset + extract.CellY(c);
         HouseType house = rules.Houses.GetHouse(tInfo.Owner);
 
         DrawStructure(map, rules, cache, vfs, tt, palFile, tInfo.ID, house, tInfo.Health, tInfo.Facing, g, x, y, tInfo.Tag, -1, false);
@@ -287,6 +325,8 @@ namespace RA_Mission_Editor.Renderers
 
     public static void DrawStructure(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, HouseType owner, int health, int facing, Graphics g, int x, int y, string tag, int baseListIndex, bool translucent)
     {
+      if (!map.IsCellInMap(x, y)) { return; }
+
       Bitmap bmp = null;
       StructureType stype = rules.Structures.Get(typeID);
       if (stype != null)
@@ -294,7 +334,7 @@ namespace RA_Mission_Editor.Renderers
         // avoid array allocation in this function
         DrawStructureInner(map, rules, cache, vfs, tt, palFile, stype, stype.RulesImage, owner, health, facing, g, x, y, translucent, ref bmp);
         // account for structures with second Image
-        if (stype.SecondImage != null)
+        if (stype.SecondImage != null && !stype.SecondImage.Equals("none", StringComparison.OrdinalIgnoreCase))
         {
           DrawStructureInner(map, rules, cache, vfs, tt, palFile, stype, stype.SecondImage, owner, health, facing, g, x, y, translucent, ref bmp);
         }
@@ -305,12 +345,12 @@ namespace RA_Mission_Editor.Renderers
         DrawUnknownObject(cache, palFile, g, x, y);
         return;
       }
+
       // draw text
       Rectangle r = bmp != null ? new Rectangle(x * Constants.CELL_PIXEL_W, y * Constants.CELL_PIXEL_H, bmp.Width, bmp.Height) : new Rectangle(x * Constants.CELL_PIXEL_W, y * Constants.CELL_PIXEL_H, Constants.CELL_PIXEL_W, Constants.CELL_PIXEL_H);
       if (stype.IsFake)
       {
         g.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
-
         g.DrawString("FAKE", MapUserThemes.TechnoTypeFakeFont, MapUserThemes.TechnoTypeFakeBrush, r, _fakeStringFormat);
       }
 
@@ -346,6 +386,25 @@ namespace RA_Mission_Editor.Renderers
       }
     }
 
+    public static void DrawUnits(Map map, MapExtract extract, int xoffset, int yoffset, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g)
+    {
+      CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
+
+      g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+      g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+      g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+
+      foreach (var tInfo in extract.UnitSection.UnitList)
+      {
+        int c = tInfo.Cell;
+        int x = xoffset + extract.CellX(c);
+        int y = yoffset + extract.CellY(c);
+        HouseType house = rules.Houses.GetHouse(tInfo.Owner);
+
+        DrawUnit(map, rules, cache, vfs, tt, palFile, tInfo.ID, house, tInfo.Facing, g, x, y, tInfo.Tag);
+      }
+    }
+
     public static void DrawUnknownObject(MapCache cache, PalFile palFile, Graphics g, int x, int y)
     {
       if (Globals.UnknownObjectShp != null)
@@ -364,6 +423,8 @@ namespace RA_Mission_Editor.Renderers
 
     public static void DrawUnit(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, HouseType owner, int facing, Graphics g, int x, int y, string tag)
     {
+      if (!map.IsCellInMap(x, y)) { return; }
+
       Bitmap bmp;
       UnitType ttype = rules.Units.Get(typeID);
       if (ttype == null)
@@ -466,8 +527,29 @@ namespace RA_Mission_Editor.Renderers
       }
     }
 
+    public static void DrawShips(Map map, MapExtract extract, int xoffset, int yoffset, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g)
+    {
+      CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
+
+      g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+      g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+      g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+
+      foreach (var tInfo in extract.ShipSection.ShipList)
+      {
+        int c = tInfo.Cell;
+        int x = xoffset + extract.CellX(c);
+        int y = yoffset + extract.CellY(c);
+        HouseType house = rules.Houses.GetHouse(tInfo.Owner);
+
+        DrawShip(map, rules, cache, vfs, tt, palFile, tInfo.ID, house, tInfo.Facing, g, x, y, tInfo.Tag);
+      }
+    }
+
     public static void DrawShip(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, HouseType owner, int facing, Graphics g, int x, int y, string tag)
     {
+      if (!map.IsCellInMap(x, y)) { return; }
+
       Bitmap bmp;
       ShipType ttype = rules.Ships.Get(typeID);
       if (ttype == null)
@@ -566,6 +648,8 @@ namespace RA_Mission_Editor.Renderers
 
     public static void DrawAircraft(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, HouseType owner, int facing, Graphics g, int x, int y, string tag)
     {
+      if (!map.IsCellInMap(x, y)) { return; }
+
       Bitmap bmp;
       AircraftType ttype = rules.Aircrafts.Get(typeID);
       if (ttype == null)
@@ -626,8 +710,29 @@ namespace RA_Mission_Editor.Renderers
       }
     }
 
+    public static void DrawInfantries(Map map, MapExtract extract, int xoffset, int yoffset, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g)
+    {
+      CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
+
+      g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+      g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+      g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+
+      foreach (var iInfo in extract.InfantrySection.InfantryList)
+      {
+        int c = iInfo.Cell;
+        int x = xoffset + extract.CellX(c);
+        int y = yoffset + extract.CellY(c);
+        HouseType house = rules.Houses.GetHouse(iInfo.Owner);
+
+        DrawInfantry(map, rules, cache, vfs, tt, palFile, iInfo.ID, house, iInfo.Facing, g, x, y, iInfo.SubCell, iInfo.Tag);
+      }
+    }
+
     public static void DrawInfantry(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, HouseType owner, int facing, Graphics g, int x, int y, int subCell, string tag)
     {
+      if (!map.IsCellInMap(x, y)) { return; }
+
       InfantryType itype = rules.Infantries.Get(typeID);
       if (itype == null)
       {

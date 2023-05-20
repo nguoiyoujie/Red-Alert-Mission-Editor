@@ -1,10 +1,13 @@
-﻿using RA_Mission_Editor.Entities;
+﻿using RA_Mission_Editor.Common;
+using RA_Mission_Editor.Entities;
+using RA_Mission_Editor.FileFormats;
 using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.RulesData;
+using RA_Mission_Editor.UI.Logic;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace RA_Mission_Editor.UI.UserControls
@@ -47,10 +50,15 @@ namespace RA_Mission_Editor.UI.UserControls
       cbA2P2.Tag = lblA2P2;
       cbA2P3.Tag = lblA2P3;
 
-      cbEvent1. SelectedIndexChanged += Value_Changed;
-      cbEvent2. SelectedIndexChanged += Value_Changed;
+      cbEvent1.SelectedIndexChanged += Value_Changed;
+      cbEvent2.SelectedIndexChanged += Value_Changed;
       cbAction1.SelectedIndexChanged += Value_Changed;
       cbAction2.SelectedIndexChanged += Value_Changed;
+
+      cbEvent1.SelectedIndexChanged += (_, __) => { ShowTriggerEventDescription(TriggerEvents.GetTriggerEvent(cbEvent1.SelectedIndex)); };
+      cbEvent2.SelectedIndexChanged += (_, __) => { ShowTriggerEventDescription(TriggerEvents.GetTriggerEvent(cbEvent2.SelectedIndex)); };
+      cbAction1.SelectedIndexChanged += (_, __) => { ShowTriggerActionDescription(TriggerActions.GetTriggerAction(cbAction1.SelectedIndex)); };
+      cbAction2.SelectedIndexChanged += (_, __) => { ShowTriggerActionDescription(TriggerActions.GetTriggerAction(cbAction2.SelectedIndex)); };
     }
 
     public TriggerInfo Trigger { get; private set; }
@@ -73,12 +81,39 @@ namespace RA_Mission_Editor.UI.UserControls
 
         Fetch(cbE1P, lblE1P, event1.P1Type | event1.P2Type);
         Fetch(cbE2P, lblE2P, event2.P1Type | event2.P2Type);
-        Fetch(cbA1P1, lblA1P1, action1.P1Type);
-        Fetch(cbA1P2, lblA1P2, action1.P2Type);
-        Fetch(cbA1P3, lblA1P3, action1.P3Type);
-        Fetch(cbA2P1, lblA2P1, action2.P1Type);
-        Fetch(cbA2P2, lblA2P2, action2.P2Type);
-        Fetch(cbA2P3, lblA2P3, action2.P3Type);
+        Fetch(cbA1P1, lblA1P1, action1.P1Type, action1.P1Name);
+        Fetch(cbA1P2, lblA1P2, action1.P2Type, action1.P2Name);
+        Fetch(cbA1P3, lblA1P3, action1.P3Type, action1.P3Name);
+        Fetch(cbA2P1, lblA2P1, action2.P1Type, action2.P1Name);
+        Fetch(cbA2P2, lblA2P2, action2.P2Type, action2.P2Name);
+        Fetch(cbA2P3, lblA2P3, action2.P3Type, action2.P3Name);
+      }
+    }
+
+    StringBuilder _sb = new StringBuilder(256);
+    public void ShowTriggerEventDescription(TriggerEventType evt)
+    {
+      if (evt != null && !string.IsNullOrEmpty(evt.Description))
+      {
+        _sb.Clear();
+        _sb.AppendLine(Resources.Strings.TriggerType_Event);
+        _sb.AppendLine();
+        _sb.AppendLine(evt.ID);
+        _sb.AppendLine(evt.Description);
+        tbHint.Text = _sb.ToString();
+      }
+    }
+
+    public void ShowTriggerActionDescription(TriggerActionType act)
+    {
+      if (act != null && !string.IsNullOrEmpty(act.Description))
+      {
+        _sb.Clear();
+        _sb.AppendLine(Resources.Strings.TriggerType_Action);
+        _sb.AppendLine();
+        _sb.AppendLine(act.ID);
+        _sb.AppendLine(act.Description);
+        tbHint.Text = _sb.ToString();
       }
     }
 
@@ -108,12 +143,12 @@ namespace RA_Mission_Editor.UI.UserControls
 
         Fetch(cbE1P, lblE1P, event1.P1Type | event1.P2Type);
         Fetch(cbE2P, lblE2P, event2.P1Type | event2.P2Type);
-        Fetch(cbA1P1, lblA1P1, action1.P1Type);
-        Fetch(cbA1P2, lblA1P2, action1.P2Type);
-        Fetch(cbA1P3, lblA1P3, action1.P3Type);
-        Fetch(cbA2P1, lblA2P1, action2.P1Type);
-        Fetch(cbA2P2, lblA2P2, action2.P2Type);
-        Fetch(cbA2P3, lblA2P3, action2.P3Type);
+        Fetch(cbA1P1, lblA1P1, action1.P1Type, action1.P1Name);
+        Fetch(cbA1P2, lblA1P2, action1.P2Type, action1.P2Name);
+        Fetch(cbA1P3, lblA1P3, action1.P3Type, action1.P3Name);
+        Fetch(cbA2P1, lblA2P1, action2.P1Type, action2.P1Name);
+        Fetch(cbA2P2, lblA2P2, action2.P2Type, action2.P2Name);
+        Fetch(cbA2P3, lblA2P3, action2.P3Type, action2.P3Name);
 
         SetValue(cbE1P, event1.P1Type != TriggerParameterFlag.NONE ? Trigger.Event1.Parameter1.Value : Trigger.Event1.Parameter2.Value);
         SetValue(cbE2P, event2.P1Type != TriggerParameterFlag.NONE ? Trigger.Event2.Parameter1.Value : Trigger.Event2.Parameter2.Value);
@@ -125,38 +160,12 @@ namespace RA_Mission_Editor.UI.UserControls
         SetValue(cbA2P3, Trigger.Action2.Parameter3.Value);
 
         tbComment.Text = Map.Ext_CommentsSection.Get(Ext_CommentsSection.TriggerPrefix + trigger.Name);
+        tbRaw.Text = trigger.GetKeyAsString() + "=" + trigger.GetValueAsString(Map);
       }
-      ResetColor(this);
+      DirtyControlsHandler.ResetDirtyColor(this);
+      bCancel.Enabled = false;
       UpdateUI();
       _suspendDirty = false;
-    }
-
-    public bool IsDirty
-    {
-      get
-      {
-        return IsDirtyColor(this);
-      }
-    }
-
-    public bool IsDirtyColor(Control f)
-    {
-      foreach (Control c in f.Controls)
-      {
-        if (c.ForeColor == Color.Red || IsDirtyColor(c))
-          return true;
-      }
-      return false;
-    }
-
-    public void ResetColor(Control f)
-    {
-      foreach (Control c in f.Controls)
-      {
-        c.ForeColor = Color.Black;
-        ResetColor(c);
-      }
-      bCancel.Enabled = false;
     }
 
     public void SetMap(Map map)
@@ -245,7 +254,7 @@ namespace RA_Mission_Editor.UI.UserControls
       }
     }
 
-    private void Fetch(ComboBox cbox, Label label, TriggerParameterFlag flag)
+    private void Fetch(ComboBox cbox, Label label, TriggerParameterFlag flag, string flagname = null)
     {
       object obj = cbox.SelectedItem;
       cbox.Items.Clear();
@@ -265,29 +274,29 @@ namespace RA_Mission_Editor.UI.UserControls
 
       if (flag.Contains(TriggerParameterFlag.INFANTRYTYPE))
       {
-        labelText = labelText == string.Empty ? "Infantry" : "TechnoType";
+        labelText = string.IsNullOrEmpty(labelText) ? "Infantry" : "TechnoType";
         cbox.Items.AddRange(Map.AttachedRules.Infantries.GetAsObjectList());
       }
       if (flag.Contains(TriggerParameterFlag.UNITTYPE))
       {
-        labelText = labelText == string.Empty ? "Unit" : "TechnoType";
+        labelText = string.IsNullOrEmpty(labelText) ? "Unit" : "TechnoType";
         cbox.Items.AddRange(Map.AttachedRules.Units.GetAsObjectList());
       }
       if (flag.Contains(TriggerParameterFlag.STRUCTURETYPE))
       {
-        labelText = labelText == string.Empty ? "Structure" : "TechnoType";
+        labelText = string.IsNullOrEmpty(labelText) ? "Structure" : "TechnoType";
         cbox.Items.AddRange(Map.AttachedRules.Structures.GetAsObjectList());
       }
       if (flag.Contains(TriggerParameterFlag.SHIPTYPE))
       {
-        labelText = labelText == string.Empty ? "Ship" : "TechnoType";
+        labelText = string.IsNullOrEmpty(labelText) ? "Ship" : "TechnoType";
         cbox.Items.AddRange(Map.AttachedRules.Ships.GetAsObjectList());
       }
       if (flag.Contains(TriggerParameterFlag.AIRCRAFTTYPE))
       {
         // not supported yet
         cbox.Items.AddRange(Map.AttachedRules.Aircrafts.GetAsObjectList());
-        labelText = labelText == string.Empty ? "Aircraft" : "TechnoType";
+        labelText = string.IsNullOrEmpty(labelText) ? "Aircraft" : "TechnoType";
       }
       if (flag.Contains(TriggerParameterFlag.HOUSE))
       {
@@ -299,6 +308,7 @@ namespace RA_Mission_Editor.UI.UserControls
         Array alst = Enum.GetValues(typeof(ColorType));
         object[] olst = new object[alst.Length];
         alst.CopyTo(olst, 0);
+        olst = olst.OrderBy(x => (int)(ColorType)x).ToArray();
         cbox.Items.AddRange(olst);
         labelText = "Color";
       }
@@ -333,9 +343,44 @@ namespace RA_Mission_Editor.UI.UserControls
       }
       if (flag.Contains(TriggerParameterFlag.GLOBALS))
       {
-        // allow user input (integer)
-        cstyle = ComboBoxStyle.DropDown;
+        object[] olst = new object[Constants.MAX_GLOBALS];
+        for (int i = 0; i < olst.Length; i++)
+        {
+          olst[i] = ParameterInfo.ParameterGlobals.GetValueFunc(i, Map);
+        }
+        cbox.Items.AddRange(olst);
         labelText = "Global";
+      }
+      if (flag.Contains(TriggerParameterFlag.MESSAGE))
+      {
+        if (!Map.BasicSection.UseCustomTutorialText.Value)
+        {
+          if (Map.AttachedRules.LanguageText != null)
+          {
+            object[] olst = new object[Map.AttachedRules.LanguageText.Count];
+            for (int i = 0; i < olst.Length; i++)
+            {
+              olst[i] = ParameterInfo.ParameterMessage.GetValueFunc(i, Map);
+            }
+            cbox.Items.AddRange(olst);
+          }
+          else
+          {
+            // allow user input (integer)
+            cstyle = ComboBoxStyle.DropDown;
+          }
+        }
+        else
+        {
+          object[] olst = new object[Map.TutorialSection.Messages.Count];
+          int i = 0;
+          foreach (var kvp in Map.TutorialSection.Messages)
+          {
+            olst[i++] = ParameterInfo.ParameterMessage.GetValueFunc(kvp.Key, Map);
+          }
+          cbox.Items.AddRange(olst);
+        }
+        labelText = "Message";
       }
       if (flag.Contains(TriggerParameterFlag.TIME))
       {
@@ -351,7 +396,6 @@ namespace RA_Mission_Editor.UI.UserControls
       }
       if (flag.Contains(TriggerParameterFlag.SOUND)
        || flag.Contains(TriggerParameterFlag.SPEECH)
-       || flag.Contains(TriggerParameterFlag.MESSAGE)
        || flag.Contains(TriggerParameterFlag.SWTYPE)
        || flag.Contains(TriggerParameterFlag.THEME)
        )
@@ -363,7 +407,7 @@ namespace RA_Mission_Editor.UI.UserControls
         labelText = "ID";
       }
 
-      label.Text = labelText;
+      label.Text = flagname ?? labelText;
       cbox.SelectedItem = obj;
       cbox.DropDownStyle = cstyle;
     }
@@ -514,7 +558,7 @@ namespace RA_Mission_Editor.UI.UserControls
       Trigger.Owner = Map.AttachedRules.Houses.GetHouseID(cbOwner.Text);
       Trigger.PersistanceControl = (PersistantType)cbRepeating.SelectedIndex;
       Trigger.EventControl = (MultiStyleType)cbEventType.SelectedIndex;
-      
+
       Trigger.Event1.EventType = (TEventType)cbEvent1.SelectedIndex;
       Trigger.Event2.EventType = cbEvent2.Visible ? (TEventType)cbEvent2.SelectedIndex : TEventType.TEVENT_NONE;
       Trigger.Action1.ActionType = (TActionType)cbAction1.SelectedIndex;
@@ -532,13 +576,13 @@ namespace RA_Mission_Editor.UI.UserControls
       Trigger.Event2.Parameter1 = TriggerInfo.SelectParameterInfo(event2.P1Type);
       Trigger.Event2.Parameter2 = TriggerInfo.SelectParameterInfo(event2.P2Type);
 
-      Trigger.Action1.Parameter1 =TriggerInfo.SelectParameterInfo(action1.P1Type);
-      Trigger.Action1.Parameter2 =TriggerInfo.SelectParameterInfo(action1.P2Type);
-      Trigger.Action1.Parameter3 =TriggerInfo.SelectParameterInfo(action1.P3Type);
+      Trigger.Action1.Parameter1 = TriggerInfo.SelectParameterInfo(action1.P1Type);
+      Trigger.Action1.Parameter2 = TriggerInfo.SelectParameterInfo(action1.P2Type);
+      Trigger.Action1.Parameter3 = TriggerInfo.SelectParameterInfo(action1.P3Type);
 
-      Trigger.Action2.Parameter1 =TriggerInfo.SelectParameterInfo(action2.P1Type);
-      Trigger.Action2.Parameter2 =TriggerInfo.SelectParameterInfo(action2.P2Type);
-      Trigger.Action2.Parameter3 =TriggerInfo.SelectParameterInfo(action2.P3Type);
+      Trigger.Action2.Parameter1 = TriggerInfo.SelectParameterInfo(action2.P1Type);
+      Trigger.Action2.Parameter2 = TriggerInfo.SelectParameterInfo(action2.P2Type);
+      Trigger.Action2.Parameter3 = TriggerInfo.SelectParameterInfo(action2.P3Type);
 
       Trigger.Event1.Parameter1.Value = event1.P1Type != TriggerParameterFlag.NONE ? (cbE1P.SelectedItem ?? cbE1P.Text) : -1; //cbE1P.Text;
       Trigger.Event1.Parameter2.Value = event1.P2Type != TriggerParameterFlag.NONE ? (cbE1P.SelectedItem ?? cbE1P.Text) : -1; //cbE1P.Text;
@@ -568,17 +612,62 @@ namespace RA_Mission_Editor.UI.UserControls
       return true;
     }
 
+    private void PreviewTrigger()
+    {
+      TriggerInfo trigger = new TriggerInfo();
+      trigger.Name = string.IsNullOrWhiteSpace(tbName.Text) ? "???" : tbName.Text;
+      trigger.Owner = Map.AttachedRules.Houses.GetHouseID(cbOwner.Text);
+      trigger.PersistanceControl = (PersistantType)cbRepeating.SelectedIndex;
+      trigger.EventControl = (MultiStyleType)cbEventType.SelectedIndex;
+
+      trigger.Event1.EventType = (TEventType)cbEvent1.SelectedIndex;
+      trigger.Event2.EventType = cbEvent2.Visible ? (TEventType)cbEvent2.SelectedIndex : TEventType.TEVENT_NONE;
+      trigger.Action1.ActionType = (TActionType)cbAction1.SelectedIndex;
+      trigger.Action2.ActionType = (TActionType)cbAction2.SelectedIndex;
+      trigger.ActionControl = trigger.Action2.ActionType != TActionType.TACTION_NONE ? MultiStyleType.FIRST_AND_SECOND : MultiStyleType.FIRST_ONLY;
+
+      TriggerEventType event1 = TriggerEvents.GetTriggerEvent((int)trigger.Event1.EventType);
+      TriggerEventType event2 = TriggerEvents.GetTriggerEvent((int)Trigger.Event2.EventType);
+      TriggerActionType action1 = TriggerActions.GetTriggerAction((int)trigger.Action1.ActionType);
+      TriggerActionType action2 = TriggerActions.GetTriggerAction((int)trigger.Action2.ActionType);
+
+      trigger.Event1.Parameter1 = TriggerInfo.SelectParameterInfo(event1.P1Type);
+      trigger.Event1.Parameter2 = TriggerInfo.SelectParameterInfo(event1.P2Type);
+      
+      trigger.Event2.Parameter1 = TriggerInfo.SelectParameterInfo(event2.P1Type);
+      trigger.Event2.Parameter2 = TriggerInfo.SelectParameterInfo(event2.P2Type);
+      
+      trigger.Action1.Parameter1 = TriggerInfo.SelectParameterInfo(action1.P1Type);
+      trigger.Action1.Parameter2 = TriggerInfo.SelectParameterInfo(action1.P2Type);
+      trigger.Action1.Parameter3 = TriggerInfo.SelectParameterInfo(action1.P3Type);
+      
+      trigger.Action2.Parameter1 = TriggerInfo.SelectParameterInfo(action2.P1Type);
+      trigger.Action2.Parameter2 = TriggerInfo.SelectParameterInfo(action2.P2Type);
+      trigger.Action2.Parameter3 = TriggerInfo.SelectParameterInfo(action2.P3Type);
+      
+      trigger.Event1.Parameter1.Value = event1.P1Type != TriggerParameterFlag.NONE ? (cbE1P.SelectedItem ?? cbE1P.Text) : -1; //cbE1P.Text;
+      trigger.Event1.Parameter2.Value = event1.P2Type != TriggerParameterFlag.NONE ? (cbE1P.SelectedItem ?? cbE1P.Text) : -1; //cbE1P.Text;
+      trigger.Event2.Parameter1.Value = event2.P1Type != TriggerParameterFlag.NONE ? (cbE2P.SelectedItem ?? cbE2P.Text) : -1; //cbE2P.Text;
+      trigger.Event2.Parameter2.Value = event2.P2Type != TriggerParameterFlag.NONE ? (cbE2P.SelectedItem ?? cbE2P.Text) : -1; //cbE2P.Text;
+      trigger.Action1.Parameter1.Value = cbA1P1.SelectedItem ?? cbA1P1.Text;
+      trigger.Action1.Parameter2.Value = cbA1P2.SelectedItem ?? cbA1P2.Text;
+      trigger.Action1.Parameter3.Value = cbA1P3.SelectedItem ?? cbA1P3.Text;
+      trigger.Action2.Parameter1.Value = cbA2P1.SelectedItem ?? cbA2P1.Text;
+      trigger.Action2.Parameter2.Value = cbA2P2.SelectedItem ?? cbA2P2.Text;
+      trigger.Action2.Parameter3.Value = cbA2P3.SelectedItem ?? cbA2P3.Text;
+
+      tbRaw.Text = trigger.GetKeyAsString() + "=" + trigger.GetValueAsString(Map);
+    }
+
+
     private void Value_Changed(object sender, EventArgs e)
     {
       if (!_suspendDirty && sender is Control c)
       {
-        c.ForeColor = Color.Red;
-        if (c.Tag is Control d)
-        {
-          d.ForeColor = Color.Red;
-        }
+        DirtyControlsHandler.SetDirtyColor(c);
         bCancel.Enabled = true;
       }
+      PreviewTrigger();
     }
 
     private void SetValue(ComboBox cbox, object value)
@@ -633,9 +722,9 @@ namespace RA_Mission_Editor.UI.UserControls
     private void cbAction1_SelectedIndexChanged(object sender, EventArgs e)
     {
       TriggerActionType action1 = TriggerActions.GetTriggerAction(cbAction1.SelectedIndex);
-      Fetch(cbA1P1, lblA1P1, action1.P1Type);
-      Fetch(cbA1P2, lblA1P2, action1.P2Type);
-      Fetch(cbA1P3, lblA1P3, action1.P3Type);
+      Fetch(cbA1P1, lblA1P1, action1.P1Type, action1.P1Name);
+      Fetch(cbA1P2, lblA1P2, action1.P2Type, action1.P2Name);
+      Fetch(cbA1P3, lblA1P3, action1.P3Type, action1.P3Name);
       SetValue(cbA1P1, null);
       SetValue(cbA1P2, null);
       SetValue(cbA1P3, null);
@@ -645,9 +734,9 @@ namespace RA_Mission_Editor.UI.UserControls
     private void cbAction2_SelectedIndexChanged(object sender, EventArgs e)
     {
       TriggerActionType action2 = TriggerActions.GetTriggerAction(cbAction2.SelectedIndex);
-      Fetch(cbA2P1, lblA2P1, action2.P1Type);
-      Fetch(cbA2P2, lblA2P2, action2.P2Type);
-      Fetch(cbA2P3, lblA2P3, action2.P3Type);
+      Fetch(cbA2P1, lblA2P1, action2.P1Type, action2.P1Name);
+      Fetch(cbA2P2, lblA2P2, action2.P2Type, action2.P2Name);
+      Fetch(cbA2P3, lblA2P3, action2.P3Type, action2.P3Name);
       SetValue(cbA2P1, null);
       SetValue(cbA2P2, null);
       SetValue(cbA2P3, null);
@@ -660,7 +749,7 @@ namespace RA_Mission_Editor.UI.UserControls
       {
         Map.Update();
         TriggerTypeUpdated?.Invoke();
-        ResetColor(this);
+        DirtyControlsHandler.ResetDirtyColor(this);
       }
     }
 
@@ -673,7 +762,7 @@ namespace RA_Mission_Editor.UI.UserControls
     private void cbOwner_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TriggerType_Owner; }
     private void cbRepeating_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TriggerType_Repeating; }
     private void cbEventType_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TriggerType_EventType; }
-    private void cbEvent_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TriggerType_Event; }
-    private void cbAction_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TriggerType_Action; }
+    private void cbEvent_Enter(object sender, EventArgs e) { if (!tbHint.Text.StartsWith(Resources.Strings.TriggerType_Event)) tbHint.Text = Resources.Strings.TriggerType_Event; }
+    private void cbAction_Enter(object sender, EventArgs e) { if (!tbHint.Text.StartsWith(Resources.Strings.TriggerType_Action)) tbHint.Text = Resources.Strings.TriggerType_Action; }
   }
 }

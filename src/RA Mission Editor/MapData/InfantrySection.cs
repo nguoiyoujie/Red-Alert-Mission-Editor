@@ -1,5 +1,6 @@
 ﻿using RA_Mission_Editor.Entities;
 using RA_Mission_Editor.FileFormats;
+using System;
 using System.Collections.Generic;
 
 namespace RA_Mission_Editor.MapData
@@ -14,7 +15,14 @@ namespace RA_Mission_Editor.MapData
       // do not care about indices
       foreach (var kvp in section.OrderedEntries)
       {
-        InfantryList.Add(InfantryInfo.Parse(kvp.Key, kvp.Value.Value));
+        InfantryInfo u = new InfantryInfo();
+        if (u.Parse(kvp.Value.Value))
+          InfantryList.Add(u);
+        else
+        {
+          // feedback the error
+          throw new Exception($"Map Infantry {kvp.Key} contains less than expected parameters");
+        }
       }
     }
 

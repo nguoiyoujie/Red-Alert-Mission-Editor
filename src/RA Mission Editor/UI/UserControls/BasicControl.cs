@@ -1,9 +1,9 @@
 ﻿using RA_Mission_Editor.Entities;
 using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.RulesData;
+using RA_Mission_Editor.UI.Logic;
 using RA_Mission_Editor.Util;
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace RA_Mission_Editor.UI.UserControls
@@ -54,6 +54,7 @@ namespace RA_Mission_Editor.UI.UserControls
       BasicSection s = map.BasicSection;
 
       tbName.Text = s.Name.HasValue ? s.Name.Value : "No Name";
+      cbPlayer.Items.Clear();
       cbPlayer.Items.AddRange(Map.AttachedRules.Houses.GetAll());
       cbPlayer.SelectedItem = s.Player.HasValue ? Map.AttachedRules.Houses.GetHouse(s.Player.Value) : Map.AttachedRules.Houses.GetHouse(0);
       cbTheme.Text = s.Theme.HasValue ? s.Theme.Value : null;
@@ -97,8 +98,9 @@ namespace RA_Mission_Editor.UI.UserControls
 
       cbEnableIranOverrides.Checked = s.NextMissionInCampaign.HasValue || s.ScenarioNumber.HasValue || s.MapSelectionAnimation.HasValue || s.MapSelectA.HasValue || s.MapSelectB.HasValue || s.MapSelectC.HasValue || s.UseCustomTutorialText.HasValue;
 
-      ResetColor(this);
+      DirtyControlsHandler.ResetDirtyColor(this);
       _suspendDirty = false;
+      bCancel.Enabled = false;
     }
 
     public bool Save()
@@ -180,25 +182,11 @@ namespace RA_Mission_Editor.UI.UserControls
       gbIran.Enabled = cbEnableIranOverrides.Checked;
     }
 
-    public void ResetColor(Control f)
-    {
-      foreach (Control c in f.Controls)
-      {
-        c.ForeColor = Color.Black;
-        ResetColor(c);
-      }
-      bCancel.Enabled = false;
-    }
-
     private void Value_Changed(object sender, EventArgs e)
     {
       if (!_suspendDirty && sender is Control c)
       {
-        c.ForeColor = Color.Red;
-        if (c.Tag is Control d)
-        {
-          d.ForeColor = Color.Red;
-        }
+        DirtyControlsHandler.SetDirtyColor(c);
         bCancel.Enabled = true;
       }
     }

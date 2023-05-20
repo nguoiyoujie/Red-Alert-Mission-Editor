@@ -2,6 +2,7 @@
 using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.RulesData;
 using System;
+using System.Security.Cryptography;
 
 namespace RA_Mission_Editor.Common
 {
@@ -30,8 +31,106 @@ namespace RA_Mission_Editor.Common
     {
       GetIndexFunc = (o, _) => 
       {
-        return o is int i ? i : (o != null && int.TryParse(o.ToString(), out int ii) ? ii : -1); },
+        if (o is int i)
+        {
+          return i;
+        }
+        else if (o is IntValueDesc iv)
+        {
+          return iv.Value;
+        }
+        else if (int.TryParse(o.ToString(), out int ii))
+        {
+          return ii;
+        }
+        else
+        {
+          return -1;
+        }
+      },
       GetValueFunc = (i, _) => i,
+    };
+
+    public static ParameterInfo ParameterGlobals = new ParameterInfo()
+    {
+      GetIndexFunc = (o, _) =>
+      {
+        if (o is int i)
+        {
+          return i;
+        }
+        else if (o is IntValueDesc iv)
+        {
+          return iv.Value;
+        }
+        else if (int.TryParse(o.ToString(), out int ii))
+        {
+          return ii;
+        }
+        else
+        {
+          return -1;
+        }
+      },
+      GetValueFunc = (i, m) =>
+      {
+        Func<string> descfunc = () =>
+        {
+          string extkey = Ext_CommentsSection.GlobalsPrefix + i.ToString();
+          return m.Ext_CommentsSection.Get(extkey);
+        };
+        return new IntValueDesc(i, descfunc);
+      }
+    };
+
+    public static ParameterInfo ParameterMessage = new ParameterInfo()
+    {
+      GetIndexFunc = (o, _) =>
+      {
+        if (o is int i)
+        {
+          return i;
+        }
+        else if (o is IntValueDesc iv)
+        {
+          return iv.Value;
+        }
+        else if (int.TryParse(o.ToString(), out int ii))
+        {
+          return ii;
+        }
+        else
+        {
+          return -1;
+        }
+      },
+      GetValueFunc = (i, m) =>
+      {
+        Func<string> descfunc = () =>
+        {
+          if (!m.BasicSection.UseCustomTutorialText.Value)
+          {
+            // no custom text
+            // TO-DO: Load text from tutorial.ini?
+            string desc = null;
+            if (m.AttachedRules.LanguageText != null)
+            {
+              desc = m.AttachedRules.LanguageText.Get(i);
+            }
+            return desc;
+          }
+          else
+          {
+            string desc = null;
+            if (m.TutorialSection.Messages.ContainsKey(i))
+            {
+              desc = m.TutorialSection.Messages[i];
+            }
+            return desc;
+          }
+        };
+        return new IntValueDesc(i, descfunc);
+      }
     };
 
     public static ParameterInfo ParameterTeamType = new ParameterInfo()
@@ -87,6 +186,12 @@ namespace RA_Mission_Editor.Common
     {
       GetIndexFunc = (o, m) => { return o is AircraftType type ? m.AttachedRules.Aircrafts.GetID(type.ID) : -1; },
       GetValueFunc = (i, m) => m.AttachedRules.Aircrafts.Get(i),
+    };
+
+    public static ParameterInfo ParameterColorType = new ParameterInfo()
+    {
+      GetIndexFunc = (o, m) => { return o is ColorType type ? (int)type : -1; },
+      GetValueFunc = (i, m) => { if (Enum.TryParse<ColorType>(i.ToString(), out ColorType type)) return type; else return ColorType.NONE; } ,
     };
 
     public static ParameterInfo ParameterEnum<T>()

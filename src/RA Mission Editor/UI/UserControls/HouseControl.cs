@@ -1,5 +1,5 @@
 ﻿using RA_Mission_Editor.MapData;
-using RA_Mission_Editor.RulesData;
+using RA_Mission_Editor.UI.Logic;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -133,8 +133,9 @@ namespace RA_Mission_Editor.UI.UserControls
         gbMultipliers.Enabled = true;
         gbGeneral.Enabled = true;
 
-        ResetColor(this);
+        DirtyControlsHandler.ResetDirtyColor(this);
         _suspendDirty = false;
+        bCancel.Enabled = false;
       }
     }
 
@@ -194,26 +195,11 @@ namespace RA_Mission_Editor.UI.UserControls
       return true;
     }
 
-
-    public void ResetColor(Control f)
-    {
-      foreach (Control c in f.Controls)
-      {
-        c.ForeColor = Color.Black;
-        ResetColor(c);
-      }
-      bCancel.Enabled = false;
-    }
-
     private void Value_Changed(object sender, EventArgs e)
     {
       if (!_suspendDirty && sender is Control c)
       {
-        c.ForeColor = Color.Red;
-        if (c.Tag is Control d)
-        {
-          d.ForeColor = Color.Red;
-        }
+        DirtyControlsHandler.SetDirtyColor(c);
         bCancel.Enabled = true;
       }
     }

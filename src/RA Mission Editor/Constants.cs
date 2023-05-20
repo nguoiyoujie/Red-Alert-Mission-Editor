@@ -2,6 +2,8 @@
 {
   public class Constants
   {
+    public const int MAX_GLOBALS = 30;
+
     public const int TEAMTYPE_MAX_TECHNOLIST = 5;
     public const int TEAMTYPE_MAX_SCRIPTLIST = 20;
 

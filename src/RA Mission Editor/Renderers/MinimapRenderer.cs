@@ -83,6 +83,13 @@ namespace RA_Mission_Editor.Renderers
           if (cache.GetOrCreate(PutPixel(map, cache, palFile, xc, yc), out Brush br))
             g.FillRectangle(br, xc, yc, 1, 1);
         }
+
+      Region r = new Region(new Rectangle(0, 0, map.Ext_MapSection.FullWidth, map.Ext_MapSection.FullHeight));
+      r.Exclude(new Rectangle(map.MapSection.X, map.MapSection.Y, map.MapSection.Width, map.MapSection.Height));
+      if (cache.GetOrCreate(Color.FromArgb(80, Color.Black), out Brush brb))
+      {
+        g.FillRegion(brb, r);
+      }
     }
   }
 }

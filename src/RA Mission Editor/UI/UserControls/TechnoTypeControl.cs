@@ -412,17 +412,17 @@ namespace RA_Mission_Editor.UI.UserControls
 
     private void bShowHide_Click(object sender, EventArgs e) { ShowPanels = !ShowPanels; }
 
-    private void cbOwner_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_Owner; }
-    private void cbType_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_Type; }
-    private void nudStrength_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_Strength; }
-    private void nudXY_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_Coordinates; }
-    private void nudFacing_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_Facing; }
-    private void cbTag_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_TriggerTag; }
-    private void cbSubcell_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_SubCell; }
-    private void cbMission_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_UnitMission; }
-    private void cbRepairable_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_AIRepairable; }
+    private void cbOwner_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_Owner; }
+    private void cbType_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_Type; }
+    private void nudStrength_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_Strength; }
+    private void nudXY_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_Coordinates; }
+    private void nudFacing_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_Facing; }
+    private void cbTag_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_TriggerTag; }
+    private void cbSubcell_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_SubCell; }
+    private void cbMission_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_UnitMission; }
+    private void cbRepairable_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_AIRepairable; }
 
-    private void cbSellable_Enter(object sender, EventArgs e)
+    private void cbSellable_MouseEnter(object sender, EventArgs e)
     {
       // Strange code from Repair_AI in https://github.com/electronicarts/CnC_Remastered_Collection/blob/7d496e8a633a8bbf8a14b65f490b4d21fa32ca03/REDALERT/BUILDING.CPP
       // Line 5781: Strange firing condition for sellback: 

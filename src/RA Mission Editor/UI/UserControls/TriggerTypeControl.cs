@@ -1,6 +1,5 @@
 ﻿using RA_Mission_Editor.Common;
 using RA_Mission_Editor.Entities;
-using RA_Mission_Editor.FileFormats;
 using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.RulesData;
 using RA_Mission_Editor.UI.Logic;
@@ -388,24 +387,40 @@ namespace RA_Mission_Editor.UI.UserControls
         cstyle = ComboBoxStyle.DropDown;
         labelText = "Time";
       }
+      if (flag.Contains(TriggerParameterFlag.SOUND))
+      {
+        cbox.Items.AddRange(Map.AttachedRules.Sounds.GetAll());
+        labelText = "Sound";
+      }
+      if (flag.Contains(TriggerParameterFlag.SPEECH))
+      {
+        cbox.Items.AddRange(Map.AttachedRules.Speeches.GetAll());
+        labelText = "Speech";
+      }
+      if (flag.Contains(TriggerParameterFlag.THEME))
+      {
+        cbox.Items.AddRange(Map.AttachedRules.Themes.GetAll());
+        labelText = "Theme";
+      }
+      if (flag.Contains(TriggerParameterFlag.SWTYPE))
+      {
+        cbox.Items.AddRange(Map.AttachedRules.SpecialWeapons.GetAll());
+        labelText = "Special Weapon";
+      }
       if (flag.Contains(TriggerParameterFlag.INTEGER))
       {
         // allow user input (integer)
         cstyle = ComboBoxStyle.DropDown;
         labelText = "Number";
       }
-      if (flag.Contains(TriggerParameterFlag.SOUND)
-       || flag.Contains(TriggerParameterFlag.SPEECH)
-       || flag.Contains(TriggerParameterFlag.SWTYPE)
-       || flag.Contains(TriggerParameterFlag.THEME)
-       )
-      {
-        // allow user input (integer)
-        cstyle = ComboBoxStyle.DropDown;
-
-        // eventually support list for some of these item types
-        labelText = "ID";
-      }
+      //if (flag.Contains(TriggerParameterFlag.SWTYPE))
+      //{
+      //  // allow user input (integer)
+      //  cstyle = ComboBoxStyle.DropDown;
+      //
+      //  // eventually support list for some of these item types
+      //  labelText = "ID";
+      //}
 
       label.Text = flagname ?? labelText;
       cbox.SelectedItem = obj;
@@ -758,11 +773,65 @@ namespace RA_Mission_Editor.UI.UserControls
       SetTrigger(Trigger);
     }
 
-    private void tbName_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TriggerType_Name; }
-    private void cbOwner_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TriggerType_Owner; }
-    private void cbRepeating_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TriggerType_Repeating; }
-    private void cbEventType_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TriggerType_EventType; }
-    private void cbEvent_Enter(object sender, EventArgs e) { if (!tbHint.Text.StartsWith(Resources.Strings.TriggerType_Event)) tbHint.Text = Resources.Strings.TriggerType_Event; }
-    private void cbAction_Enter(object sender, EventArgs e) { if (!tbHint.Text.StartsWith(Resources.Strings.TriggerType_Action)) tbHint.Text = Resources.Strings.TriggerType_Action; }
+    private void tbName_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TriggerType_Name; }
+    private void cbOwner_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TriggerType_Owner; }
+    private void cbRepeating_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TriggerType_Repeating; }
+    private void cbEventType_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TriggerType_EventType; }
+    private void cbEvent1_MouseEnter(object sender, EventArgs e)
+    {
+      if (cbEvent1.SelectedIndex != -1)
+      {
+        TriggerEventType event1 = TriggerEvents.GetTriggerEvent(cbEvent1.SelectedIndex);
+        tbHint.Text = Resources.Strings.TriggerType_Event + Environment.NewLine + Environment.NewLine + event1.ID + Environment.NewLine + Environment.NewLine + event1.Description;
+      }
+      else
+      {
+        tbHint.Text = Resources.Strings.TriggerType_Event;
+      }
+    }
+
+    private void cbEvent2_MouseEnter(object sender, EventArgs e)
+    {
+      if (cbEvent2.SelectedIndex != -1)
+      {
+        TriggerEventType event2 = TriggerEvents.GetTriggerEvent(cbEvent2.SelectedIndex);
+        tbHint.Text = Resources.Strings.TriggerType_Event + Environment.NewLine + Environment.NewLine + event2.ID + Environment.NewLine + Environment.NewLine + event2.Description;
+      }
+      else
+      {
+        tbHint.Text = Resources.Strings.TriggerType_Event;
+      }
+    }
+
+    private void cbAction1_MouseEnter(object sender, EventArgs e)
+    {
+      if (cbAction1.SelectedIndex != -1)
+      {
+        TriggerActionType action1 = TriggerActions.GetTriggerAction(cbAction1.SelectedIndex);
+        tbHint.Text = Resources.Strings.TriggerType_Action + Environment.NewLine + Environment.NewLine + action1.ID + Environment.NewLine + Environment.NewLine + action1.Description;
+      }
+      else
+      {
+        tbHint.Text = Resources.Strings.TriggerType_Action;
+      }
+    }
+
+    private void cbAction2_MouseEnter(object sender, EventArgs e)
+    {
+      if (cbAction2.SelectedIndex != -1)
+      {
+        TriggerActionType action2 = TriggerActions.GetTriggerAction(cbAction2.SelectedIndex);
+        tbHint.Text = Resources.Strings.TriggerType_Action + Environment.NewLine + Environment.NewLine + action2.ID + Environment.NewLine + Environment.NewLine + action2.Description;
+      }
+      else
+      {
+        tbHint.Text = Resources.Strings.TriggerType_Action;
+      }
+    }
+
+    private void tbComment_MouseEnter(object sender, EventArgs e)
+    {
+      tbHint.Text = Resources.Strings.Comment;
+    }
   }
 }

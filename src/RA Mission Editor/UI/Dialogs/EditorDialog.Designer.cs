@@ -42,6 +42,8 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.ttControl_TeamTypes = new RA_Mission_Editor.UI.UserControls.TeamTypesControl();
       this.pageGlobals = new System.Windows.Forms.TabPage();
       this.ttControl_Globals = new RA_Mission_Editor.UI.UserControls.GlobalsControl();
+      this.pageReferences = new System.Windows.Forms.TabPage();
+      this.ttControl_Reference = new RA_Mission_Editor.UI.UserControls.ReferenceControl();
       this.tabSelection.SuspendLayout();
       this.pageBasic.SuspendLayout();
       this.pageHouses.SuspendLayout();
@@ -49,6 +51,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.pageTriggers.SuspendLayout();
       this.pageTeamTypes.SuspendLayout();
       this.pageGlobals.SuspendLayout();
+      this.pageReferences.SuspendLayout();
       this.SuspendLayout();
       // 
       // tabSelection
@@ -59,6 +62,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.tabSelection.Controls.Add(this.pageTriggers);
       this.tabSelection.Controls.Add(this.pageTeamTypes);
       this.tabSelection.Controls.Add(this.pageGlobals);
+      this.tabSelection.Controls.Add(this.pageReferences);
       this.tabSelection.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tabSelection.Location = new System.Drawing.Point(0, 0);
       this.tabSelection.Name = "tabSelection";
@@ -175,6 +179,25 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.ttControl_Globals.Size = new System.Drawing.Size(800, 512);
       this.ttControl_Globals.TabIndex = 0;
       // 
+      // pageReferences
+      // 
+      this.pageReferences.Controls.Add(this.ttControl_Reference);
+      this.pageReferences.Location = new System.Drawing.Point(4, 22);
+      this.pageReferences.Name = "pageReferences";
+      this.pageReferences.Padding = new System.Windows.Forms.Padding(3);
+      this.pageReferences.Size = new System.Drawing.Size(800, 513);
+      this.pageReferences.TabIndex = 6;
+      this.pageReferences.Text = "References";
+      this.pageReferences.UseVisualStyleBackColor = true;
+      // 
+      // ttControl_Reference
+      // 
+      this.ttControl_Reference.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.ttControl_Reference.Location = new System.Drawing.Point(3, 3);
+      this.ttControl_Reference.Name = "ttControl_Reference";
+      this.ttControl_Reference.Size = new System.Drawing.Size(794, 507);
+      this.ttControl_Reference.TabIndex = 0;
+      // 
       // EditorDialog
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -191,6 +214,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.pageTriggers.ResumeLayout(false);
       this.pageTeamTypes.ResumeLayout(false);
       this.pageGlobals.ResumeLayout(false);
+      this.pageReferences.ResumeLayout(false);
       this.ResumeLayout(false);
 
     }
@@ -210,5 +234,7 @@ namespace RA_Mission_Editor.UI.Dialogs
     private UserControls.TutorialControl ttControl_Tutorial;
     private System.Windows.Forms.TabPage pageGlobals;
     private UserControls.GlobalsControl ttControl_Globals;
+    private System.Windows.Forms.TabPage pageReferences;
+    private UserControls.ReferenceControl ttControl_Reference;
   }
 }

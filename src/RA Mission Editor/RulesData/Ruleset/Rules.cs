@@ -17,10 +17,16 @@ namespace RA_Mission_Editor.RulesData.Ruleset
     public Ships Ships = new Ships();
     public Aircrafts Aircrafts = new Aircrafts();
     public Structures Structures = new Structures();
-
+    public Sounds Sounds = new Sounds();
+    public Speeches Speeches = new Speeches();
+    public Themes Themes = new Themes();
+    public SpecialWeapons SpecialWeapons = new SpecialWeapons();
+    
     public void Clear() { GameRules = null; LanguageText = null; }
 
     public abstract void LoadRules(VirtualFileSystem vfs);
+
+    public abstract void ApplyRules();
 
     public abstract void ApplyRulesWithMap(Map map);
 

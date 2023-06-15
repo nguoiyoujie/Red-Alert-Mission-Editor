@@ -13,6 +13,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -62,6 +63,31 @@ namespace RA_Mission_Editor.FileFormats
     public void SetColor(int index, uint color)
     {
       colors[index] = (uint)color;
+    }
+
+    public int ClosestIndex(Color color, List<int> exclude)
+    {
+      int diff = 9999;
+      int bestindex = 0;
+      for (int i = 0; i < colors.Length; i++)
+      {
+        if (exclude != null && !exclude.Contains(i))
+        {
+          Color c = GetColor(i);
+          int d = Math.Abs(color.R - c.R) + Math.Abs(color.G - c.G) + Math.Abs(color.B - c.B);
+          if (d < diff)
+          {
+            bestindex = i;
+            diff = d;
+          }
+        }
+      }
+      return bestindex;
+    }
+
+    public int ClosestIndex(uint color, List<int> exclude)
+    {
+      return ClosestIndex(Color.FromArgb((int)color), exclude);
     }
 
     public void RemapAsShadow(int index)

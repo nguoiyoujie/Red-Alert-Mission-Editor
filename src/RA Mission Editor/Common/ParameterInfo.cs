@@ -2,7 +2,6 @@
 using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.RulesData;
 using System;
-using System.Security.Cryptography;
 
 namespace RA_Mission_Editor.Common
 {
@@ -192,6 +191,30 @@ namespace RA_Mission_Editor.Common
     {
       GetIndexFunc = (o, m) => { return o is ColorType type ? (int)type : -1; },
       GetValueFunc = (i, m) => { if (Enum.TryParse<ColorType>(i.ToString(), out ColorType type)) return type; else return ColorType.NONE; } ,
+    };
+
+    public static ParameterInfo ParameterSoundType = new ParameterInfo()
+    {
+      GetIndexFunc = (o, m) => { return o is SoundType stype ? (-256 + (int)stype.ID) : (o is int i ? i : -1); },
+      GetValueFunc = (i, m) => m.AttachedRules.Sounds.GetSound((VocType)(0xFF & i)),
+    };
+
+    public static ParameterInfo ParameterSpeechType = new ParameterInfo()
+    {
+      GetIndexFunc = (o, m) => { return o is SpeechType stype ? (-256 + (int)stype.ID) : (o is int i ? i : -1); },
+      GetValueFunc = (i, m) => m.AttachedRules.Speeches.GetSpeech((VoxType)(0xFF & i)),
+    };
+
+    public static ParameterInfo ParameterTheme = new ParameterInfo()
+    {
+      GetIndexFunc = (o, m) => { return o is string theme ? m.AttachedRules.Themes.GetID(theme): (o is int i ? i : -1); },
+      GetValueFunc = (i, m) => m.AttachedRules.Themes.GetTheme(i),
+    };
+
+    public static ParameterInfo ParameterSpecialWeapon = new ParameterInfo()
+    {
+      GetIndexFunc = (o, m) => { return o is string theme ? m.AttachedRules.SpecialWeapons.GetID(theme) : (o is int i ? i : -1); },
+      GetValueFunc = (i, m) => m.AttachedRules.SpecialWeapons.GetSpecialWeapon(i),
     };
 
     public static ParameterInfo ParameterEnum<T>()

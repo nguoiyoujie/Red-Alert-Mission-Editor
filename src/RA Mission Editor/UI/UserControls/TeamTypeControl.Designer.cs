@@ -83,6 +83,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.tbComment = new System.Windows.Forms.TextBox();
       this.label2 = new System.Windows.Forms.Label();
       this.tbRaw = new System.Windows.Forms.TextBox();
+      this.bGetTarget = new System.Windows.Forms.Button();
       ((System.ComponentModel.ISupportInitialize)(this.nudPriority)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudMax)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudInitNum)).BeginInit();
@@ -144,6 +145,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbScriptParameter.Size = new System.Drawing.Size(125, 21);
       this.cbScriptParameter.TabIndex = 85;
       this.cbScriptParameter.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
+      this.cbScriptParameter.MouseEnter += new System.EventHandler(this.cbScriptParameter_MouseEnter);
       // 
       // lblWaypoint
       // 
@@ -167,6 +169,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbScriptType.TabIndex = 77;
       this.cbScriptType.SelectedIndexChanged += new System.EventHandler(this.cbScriptType_SelectedIndexChanged);
       this.cbScriptType.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
+      this.cbScriptType.MouseEnter += new System.EventHandler(this.cbScriptType_MouseEnter);
       // 
       // lblInitNum
       // 
@@ -191,7 +194,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbTechnoType1.TabIndex = 74;
       this.cbTechnoType1.SelectedIndexChanged += new System.EventHandler(this.cbTechnoType_SelectedIndexChanged);
       this.cbTechnoType1.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
-      this.cbTechnoType1.Enter += new System.EventHandler(this.nudTechno_Enter);
+      this.cbTechnoType1.MouseEnter += new System.EventHandler(this.nudTechno_MouseEnter);
       // 
       // lblMax
       // 
@@ -216,7 +219,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbTrigger.TabIndex = 67;
       this.cbTrigger.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbTrigger.TextUpdate += new System.EventHandler(this.Value_Changed);
-      this.cbTrigger.Enter += new System.EventHandler(this.cbTrigger_Enter);
+      this.cbTrigger.MouseEnter += new System.EventHandler(this.cbTrigger_MouseEnter);
       // 
       // cbOwner
       // 
@@ -230,7 +233,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbOwner.Size = new System.Drawing.Size(121, 21);
       this.cbOwner.TabIndex = 66;
       this.cbOwner.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
-      this.cbOwner.Enter += new System.EventHandler(this.cbOwner_Enter);
+      this.cbOwner.MouseEnter += new System.EventHandler(this.cbOwner_MouseEnter);
       // 
       // lblName
       // 
@@ -257,7 +260,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.tbName.Size = new System.Drawing.Size(100, 20);
       this.tbName.TabIndex = 61;
       this.tbName.TextChanged += new System.EventHandler(this.Value_Changed);
-      this.tbName.Enter += new System.EventHandler(this.tbName_Enter);
+      this.tbName.MouseEnter += new System.EventHandler(this.tbName_MouseEnter);
       // 
       // lblOwner
       // 
@@ -284,7 +287,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.nudPriority.Size = new System.Drawing.Size(120, 20);
       this.nudPriority.TabIndex = 93;
       this.nudPriority.ValueChanged += new System.EventHandler(this.Value_Changed);
-      this.nudPriority.Enter += new System.EventHandler(this.nudPriority_Enter);
+      this.nudPriority.MouseEnter += new System.EventHandler(this.nudPriority_MouseEnter);
       // 
       // lboxTeamMissions
       // 
@@ -294,6 +297,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lboxTeamMissions.Size = new System.Drawing.Size(573, 82);
       this.lboxTeamMissions.TabIndex = 94;
       this.lboxTeamMissions.SelectedIndexChanged += new System.EventHandler(this.lboxTeamMissions_SelectedIndexChanged);
+      this.lboxTeamMissions.MouseEnter += new System.EventHandler(this.lboxTeamMissions_MouseEnter);
       // 
       // cbAvoidThreats
       // 
@@ -305,7 +309,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbAvoidThreats.Text = "Avoid Threats";
       this.cbAvoidThreats.UseVisualStyleBackColor = true;
       this.cbAvoidThreats.CheckedChanged += new System.EventHandler(this.Value_Changed);
-      this.cbAvoidThreats.Enter += new System.EventHandler(this.cbAvoidThreats_Enter);
+      this.cbAvoidThreats.MouseEnter += new System.EventHandler(this.cbAvoidThreats_MouseEnter);
       // 
       // cbSuicide
       // 
@@ -317,7 +321,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbSuicide.Text = "Suicide";
       this.cbSuicide.UseVisualStyleBackColor = true;
       this.cbSuicide.CheckedChanged += new System.EventHandler(this.Value_Changed);
-      this.cbSuicide.Enter += new System.EventHandler(this.cbSuicide_Enter);
+      this.cbSuicide.MouseEnter += new System.EventHandler(this.cbSuicide_MouseEnter);
       // 
       // cbAutocreate
       // 
@@ -329,7 +333,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbAutocreate.Text = "Autocreate";
       this.cbAutocreate.UseVisualStyleBackColor = true;
       this.cbAutocreate.CheckedChanged += new System.EventHandler(this.Value_Changed);
-      this.cbAutocreate.Enter += new System.EventHandler(this.cbAutocreate_Enter);
+      this.cbAutocreate.MouseEnter += new System.EventHandler(this.cbAutocreate_MouseEnter);
       // 
       // cbPrebuild
       // 
@@ -341,7 +345,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbPrebuild.Text = "Prebuild";
       this.cbPrebuild.UseVisualStyleBackColor = true;
       this.cbPrebuild.CheckedChanged += new System.EventHandler(this.Value_Changed);
-      this.cbPrebuild.Enter += new System.EventHandler(this.cbPrebuild_Enter);
+      this.cbPrebuild.MouseEnter += new System.EventHandler(this.cbPrebuild_MouseEnter);
       // 
       // cbReinforce
       // 
@@ -353,7 +357,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbReinforce.Text = "Reinforce";
       this.cbReinforce.UseVisualStyleBackColor = true;
       this.cbReinforce.CheckedChanged += new System.EventHandler(this.Value_Changed);
-      this.cbReinforce.Enter += new System.EventHandler(this.cbReinforce_Enter);
+      this.cbReinforce.MouseEnter += new System.EventHandler(this.cbReinforce_MouseEnter);
       // 
       // nudMax
       // 
@@ -362,7 +366,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.nudMax.Size = new System.Drawing.Size(120, 20);
       this.nudMax.TabIndex = 100;
       this.nudMax.ValueChanged += new System.EventHandler(this.Value_Changed);
-      this.nudMax.Enter += new System.EventHandler(this.nudMax_Enter);
+      this.nudMax.MouseEnter += new System.EventHandler(this.nudMax_MouseEnter);
       // 
       // nudInitNum
       // 
@@ -371,7 +375,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.nudInitNum.Size = new System.Drawing.Size(120, 20);
       this.nudInitNum.TabIndex = 101;
       this.nudInitNum.ValueChanged += new System.EventHandler(this.Value_Changed);
-      this.nudInitNum.Enter += new System.EventHandler(this.nudInitNum_Enter);
+      this.nudInitNum.MouseEnter += new System.EventHandler(this.nudInitNum_MouseEnter);
       // 
       // cbWaypoint
       // 
@@ -385,7 +389,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbWaypoint.Size = new System.Drawing.Size(120, 21);
       this.cbWaypoint.TabIndex = 102;
       this.cbWaypoint.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
-      this.cbWaypoint.Enter += new System.EventHandler(this.cbWaypoint_Enter);
+      this.cbWaypoint.MouseEnter += new System.EventHandler(this.cbWaypoint_MouseEnter);
       // 
       // groupBox1
       // 
@@ -411,6 +415,7 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       // gbScript
       // 
+      this.gbScript.Controls.Add(this.bGetTarget);
       this.gbScript.Controls.Add(this.bScriptInsertReplace);
       this.gbScript.Controls.Add(this.bScriptDelete);
       this.gbScript.Controls.Add(this.bScriptMoveDown);
@@ -439,6 +444,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.bScriptInsertReplace.Text = "Replace";
       this.bScriptInsertReplace.UseVisualStyleBackColor = true;
       this.bScriptInsertReplace.Click += new System.EventHandler(this.bScriptInsertReplace_Click);
+      this.bScriptInsertReplace.MouseEnter += new System.EventHandler(this.bScriptInsertReplace_MouseEnter);
       // 
       // bScriptDelete
       // 
@@ -452,6 +458,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.bScriptDelete.Text = "Delete";
       this.bScriptDelete.UseVisualStyleBackColor = true;
       this.bScriptDelete.Click += new System.EventHandler(this.bScriptDelete_Click);
+      this.bScriptDelete.MouseEnter += new System.EventHandler(this.bScriptDelete_MouseEnter);
       // 
       // bScriptMoveDown
       // 
@@ -465,6 +472,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.bScriptMoveDown.Text = "Move Down";
       this.bScriptMoveDown.UseVisualStyleBackColor = true;
       this.bScriptMoveDown.Click += new System.EventHandler(this.bScriptMoveDown_Click);
+      this.bScriptMoveDown.MouseEnter += new System.EventHandler(this.bScriptMoveDown_MouseEnter);
       // 
       // bScriptMoveUp
       // 
@@ -478,6 +486,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.bScriptMoveUp.Text = "Move Up";
       this.bScriptMoveUp.UseVisualStyleBackColor = true;
       this.bScriptMoveUp.Click += new System.EventHandler(this.bScriptMoveUp_Click);
+      this.bScriptMoveUp.MouseEnter += new System.EventHandler(this.bScriptMoveUp_MouseEnter);
       // 
       // bScriptInsertAfter
       // 
@@ -491,6 +500,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.bScriptInsertAfter.Text = "After";
       this.bScriptInsertAfter.UseVisualStyleBackColor = true;
       this.bScriptInsertAfter.Click += new System.EventHandler(this.bScriptInsertAfter_Click);
+      this.bScriptInsertAfter.MouseEnter += new System.EventHandler(this.bScriptInsertAfter_MouseEnter);
       // 
       // bScriptInsertBefore
       // 
@@ -504,6 +514,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.bScriptInsertBefore.Text = "Before";
       this.bScriptInsertBefore.UseVisualStyleBackColor = true;
       this.bScriptInsertBefore.Click += new System.EventHandler(this.bScriptInsertBefore_Click);
+      this.bScriptInsertBefore.MouseEnter += new System.EventHandler(this.bScriptInsertBefore_MouseEnter);
       // 
       // gbMembers
       // 
@@ -597,7 +608,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.nudTechnoNum5.Size = new System.Drawing.Size(44, 20);
       this.nudTechnoNum5.TabIndex = 110;
       this.nudTechnoNum5.ValueChanged += new System.EventHandler(this.TechnoNum_ValueChanged);
-      this.nudTechnoNum5.Enter += new System.EventHandler(this.nudTechno_Enter);
+      this.nudTechnoNum5.MouseEnter += new System.EventHandler(this.nudTechno_MouseEnter);
       // 
       // cbTechnoType5
       // 
@@ -611,7 +622,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbTechnoType5.Name = "cbTechnoType5";
       this.cbTechnoType5.Size = new System.Drawing.Size(157, 21);
       this.cbTechnoType5.TabIndex = 109;
-      this.cbTechnoType5.Enter += new System.EventHandler(this.nudTechno_Enter);
+      this.cbTechnoType5.MouseEnter += new System.EventHandler(this.nudTechno_MouseEnter);
       // 
       // nudTechnoNum4
       // 
@@ -621,7 +632,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.nudTechnoNum4.Size = new System.Drawing.Size(44, 20);
       this.nudTechnoNum4.TabIndex = 108;
       this.nudTechnoNum4.ValueChanged += new System.EventHandler(this.TechnoNum_ValueChanged);
-      this.nudTechnoNum4.Enter += new System.EventHandler(this.nudTechno_Enter);
+      this.nudTechnoNum4.MouseEnter += new System.EventHandler(this.nudTechno_MouseEnter);
       // 
       // cbTechnoType4
       // 
@@ -635,7 +646,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbTechnoType4.Name = "cbTechnoType4";
       this.cbTechnoType4.Size = new System.Drawing.Size(157, 21);
       this.cbTechnoType4.TabIndex = 107;
-      this.cbTechnoType4.Enter += new System.EventHandler(this.nudTechno_Enter);
+      this.cbTechnoType4.MouseEnter += new System.EventHandler(this.nudTechno_MouseEnter);
       // 
       // nudTechnoNum3
       // 
@@ -645,7 +656,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.nudTechnoNum3.Size = new System.Drawing.Size(44, 20);
       this.nudTechnoNum3.TabIndex = 106;
       this.nudTechnoNum3.ValueChanged += new System.EventHandler(this.TechnoNum_ValueChanged);
-      this.nudTechnoNum3.Enter += new System.EventHandler(this.nudTechno_Enter);
+      this.nudTechnoNum3.MouseEnter += new System.EventHandler(this.nudTechno_MouseEnter);
       // 
       // cbTechnoType3
       // 
@@ -659,7 +670,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbTechnoType3.Name = "cbTechnoType3";
       this.cbTechnoType3.Size = new System.Drawing.Size(157, 21);
       this.cbTechnoType3.TabIndex = 105;
-      this.cbTechnoType3.Enter += new System.EventHandler(this.nudTechno_Enter);
+      this.cbTechnoType3.MouseEnter += new System.EventHandler(this.nudTechno_MouseEnter);
       // 
       // nudTechnoNum2
       // 
@@ -669,7 +680,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.nudTechnoNum2.Size = new System.Drawing.Size(44, 20);
       this.nudTechnoNum2.TabIndex = 104;
       this.nudTechnoNum2.ValueChanged += new System.EventHandler(this.TechnoNum_ValueChanged);
-      this.nudTechnoNum2.Enter += new System.EventHandler(this.nudTechno_Enter);
+      this.nudTechnoNum2.MouseEnter += new System.EventHandler(this.nudTechno_MouseEnter);
       // 
       // cbTechnoType2
       // 
@@ -683,7 +694,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbTechnoType2.Name = "cbTechnoType2";
       this.cbTechnoType2.Size = new System.Drawing.Size(157, 21);
       this.cbTechnoType2.TabIndex = 103;
-      this.cbTechnoType2.Enter += new System.EventHandler(this.nudTechno_Enter);
+      this.cbTechnoType2.MouseEnter += new System.EventHandler(this.nudTechno_MouseEnter);
       // 
       // nudTechnoNum1
       // 
@@ -693,7 +704,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.nudTechnoNum1.Size = new System.Drawing.Size(44, 20);
       this.nudTechnoNum1.TabIndex = 102;
       this.nudTechnoNum1.ValueChanged += new System.EventHandler(this.TechnoNum_ValueChanged);
-      this.nudTechnoNum1.Enter += new System.EventHandler(this.nudTechno_Enter);
+      this.nudTechnoNum1.MouseEnter += new System.EventHandler(this.nudTechno_MouseEnter);
       // 
       // label1
       // 
@@ -710,6 +721,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.tbComment.Name = "tbComment";
       this.tbComment.Size = new System.Drawing.Size(520, 20);
       this.tbComment.TabIndex = 107;
+      this.tbComment.MouseEnter += new System.EventHandler(this.tbComment_MouseEnter);
       // 
       // label2
       // 
@@ -727,6 +739,19 @@ namespace RA_Mission_Editor.UI.UserControls
       this.tbRaw.ReadOnly = true;
       this.tbRaw.Size = new System.Drawing.Size(307, 20);
       this.tbRaw.TabIndex = 109;
+      // 
+      // bGetTarget
+      // 
+      this.bGetTarget.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+      this.bGetTarget.Location = new System.Drawing.Point(293, 105);
+      this.bGetTarget.Margin = new System.Windows.Forms.Padding(1);
+      this.bGetTarget.Name = "bGetTarget";
+      this.bGetTarget.Size = new System.Drawing.Size(98, 22);
+      this.bGetTarget.TabIndex = 101;
+      this.bGetTarget.Text = "Get Target";
+      this.bGetTarget.UseVisualStyleBackColor = true;
+      this.bGetTarget.Visible = false;
+      this.bGetTarget.Click += new System.EventHandler(this.bGetTarget_Click);
       // 
       // TeamTypeControl
       // 
@@ -823,5 +848,6 @@ namespace RA_Mission_Editor.UI.UserControls
     private System.Windows.Forms.TextBox tbComment;
     private System.Windows.Forms.Label label2;
     private System.Windows.Forms.TextBox tbRaw;
+    private System.Windows.Forms.Button bGetTarget;
   }
 }

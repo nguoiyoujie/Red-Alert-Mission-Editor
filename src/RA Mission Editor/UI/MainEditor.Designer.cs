@@ -84,6 +84,7 @@ namespace RA_Mission_Editor.UI
       this.closeMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.setRedAlertDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.reloadDirectoryContentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.mapAttributesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.shiftMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -115,6 +116,7 @@ namespace RA_Mission_Editor.UI
       this.clearTemplateInSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.advancedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.editINIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.openOtherEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.visibilityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.overlayToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
       this.terrainToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -141,7 +143,6 @@ namespace RA_Mission_Editor.UI
       this.tssBlank = new System.Windows.Forms.ToolStripStatusLabel();
       this.tssRemark = new System.Windows.Forms.ToolStripStatusLabel();
       this.ttipInfo = new System.Windows.Forms.ToolTip(this.components);
-      this.reloadDirectoryContentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       ((System.ComponentModel.ISupportInitialize)(this.splitMain)).BeginInit();
       this.splitMain.Panel1.SuspendLayout();
       this.splitMain.Panel2.SuspendLayout();
@@ -791,6 +792,13 @@ namespace RA_Mission_Editor.UI
       this.setRedAlertDirectoryToolStripMenuItem.Text = "Set Red Alert directory";
       this.setRedAlertDirectoryToolStripMenuItem.Click += new System.EventHandler(this.setRedAlertDirectoryToolStripMenuItem_Click);
       // 
+      // reloadDirectoryContentsToolStripMenuItem
+      // 
+      this.reloadDirectoryContentsToolStripMenuItem.Name = "reloadDirectoryContentsToolStripMenuItem";
+      this.reloadDirectoryContentsToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
+      this.reloadDirectoryContentsToolStripMenuItem.Text = "Reload directory contents";
+      this.reloadDirectoryContentsToolStripMenuItem.Click += new System.EventHandler(this.reloadDirectoryContentsToolStripMenuItem_Click);
+      // 
       // editToolStripMenuItem
       // 
       this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1054,7 +1062,8 @@ namespace RA_Mission_Editor.UI
       // advancedToolStripMenuItem
       // 
       this.advancedToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editINIToolStripMenuItem});
+            this.editINIToolStripMenuItem,
+            this.openOtherEditorToolStripMenuItem});
       this.advancedToolStripMenuItem.Name = "advancedToolStripMenuItem";
       this.advancedToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
       this.advancedToolStripMenuItem.Text = "Advanced";
@@ -1066,6 +1075,13 @@ namespace RA_Mission_Editor.UI
       this.editINIToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
       this.editINIToolStripMenuItem.Text = "INI Editor";
       this.editINIToolStripMenuItem.Click += new System.EventHandler(this.editINIToolStripMenuItem_Click);
+      // 
+      // openOtherEditorToolStripMenuItem
+      // 
+      this.openOtherEditorToolStripMenuItem.Name = "openOtherEditorToolStripMenuItem";
+      this.openOtherEditorToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+      this.openOtherEditorToolStripMenuItem.Text = "Open Other Editor";
+      this.openOtherEditorToolStripMenuItem.Click += new System.EventHandler(this.openOtherEditorToolStripMenuItem_Click);
       // 
       // visibilityToolStripMenuItem
       // 
@@ -1318,13 +1334,6 @@ namespace RA_Mission_Editor.UI
       this.ttipInfo.Draw += new System.Windows.Forms.DrawToolTipEventHandler(this.ttipInfo_Draw);
       this.ttipInfo.Popup += new System.Windows.Forms.PopupEventHandler(this.ttipInfo_Popup);
       // 
-      // reloadDirectoryContentsToolStripMenuItem
-      // 
-      this.reloadDirectoryContentsToolStripMenuItem.Name = "reloadDirectoryContentsToolStripMenuItem";
-      this.reloadDirectoryContentsToolStripMenuItem.Size = new System.Drawing.Size(284, 22);
-      this.reloadDirectoryContentsToolStripMenuItem.Text = "Reload directory contents";
-      this.reloadDirectoryContentsToolStripMenuItem.Click += new System.EventHandler(this.reloadDirectoryContentsToolStripMenuItem_Click);
-      // 
       // MainEditor
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1488,5 +1497,6 @@ namespace RA_Mission_Editor.UI
     private System.Windows.Forms.ToolStripMenuItem saveSelectedCellsInExtractToolStripMenuItem;
     private System.Windows.Forms.Panel pObjectCanvas;
     private System.Windows.Forms.ToolStripMenuItem reloadDirectoryContentsToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem openOtherEditorToolStripMenuItem;
   }
 }

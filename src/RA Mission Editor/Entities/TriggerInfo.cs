@@ -125,6 +125,26 @@ namespace RA_Mission_Editor.Entities
       {
         return ParameterInfo.ParameterColorType;
       }
+      else if (flag.Contains(TriggerParameterFlag.SOUND))
+      {
+        return ParameterInfo.ParameterSoundType;
+      }
+      else if (flag.Contains(TriggerParameterFlag.SPEECH))
+      {
+        return ParameterInfo.ParameterSpeechType;
+      }
+      else if (flag.Contains(TriggerParameterFlag.THEME))
+      {
+        return ParameterInfo.ParameterTheme;
+      }
+      else if (flag.Contains(TriggerParameterFlag.SWTYPE))
+      {
+        return ParameterInfo.ParameterSpecialWeapon;
+      }
+      else if (flag.Contains(TriggerParameterFlag.MISSIONTYPE))
+      {
+        return ParameterInfo.ParameterMissionType;
+      }
       else
         return ParameterInfo.ParameterDefault;
     }

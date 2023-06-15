@@ -1,11 +1,12 @@
 ﻿using RA_Mission_Editor.FileFormats;
 using RA_Mission_Editor.MapData;
+using System;
 
 namespace RA_Mission_Editor.RulesData.Ruleset
 {
   public class LovalmidasModRules : IranModRules
   {
-    public override void ApplyRulesWithMap(Map map)
+    public override void ApplyRules()
     {
       // new units?
       Structures.ClearRulesAdditions();
@@ -17,10 +18,10 @@ namespace RA_Mission_Editor.RulesData.Ruleset
       // mapping of new strings to stringtable
       LanguageFile file = FileSystem.OpenFile<LanguageFile>("conquer.eng");
       int infantryNameIndex = ReadInt("StringTableOffsets", "Infantry", out _, int.MinValue);
-      int unitNameIndex = ReadInt("StringTableOffsets", "Units", out _, int.MinValue);
-      int aircraftNameIndex = ReadInt("StringTableOffsets", "Aircrafts", out _, int.MinValue);
-      int shipNameIndex = ReadInt("StringTableOffsets", "Vessels", out _, int.MinValue);
-      int structureNameIndex = ReadInt("StringTableOffsets", "Buildings", out _, int.MinValue);
+      int unitNameIndex = ReadInt("StringTableOffsets", "Unit", out _, int.MinValue);
+      int aircraftNameIndex = ReadInt("StringTableOffsets", "Aircraft", out _, int.MinValue);
+      int shipNameIndex = ReadInt("StringTableOffsets", "Vessel", out _, int.MinValue);
+      int structureNameIndex = ReadInt("StringTableOffsets", "Building", out _, int.MinValue);
 
       // new units according to Iran's additions must be used in the Rules file. They are not read in the Map
       // special additions by lovalmidas over Iran's additions
@@ -72,14 +73,14 @@ namespace RA_Mission_Editor.RulesData.Ruleset
           // like 2TNK
           Units.AddRulesObject(new UnitType(entry.Value.Value) { FullName = file?.Get(nameindex++), Directions = 32, TurretDirections = 32, TurretShpFrame = 32, TurretLocations = Units.DefaultTurretLocations });
         }
-        else if(GameRules.GetSection(entry.Value.Value).ReadBool("HasRotatingTurret", true))
+        else if (GameRules.GetSection(entry.Value.Value).ReadBool("HasRotatingTurret", true))
         {
           int turrstart = GameRules.GetSection(entry.Value.Value).ReadInt("TurretFrameStart", 32);
           int turrcount = GameRules.GetSection(entry.Value.Value).ReadInt("TurretFrameCount", 32);
           Units.AddRulesObject(new UnitType(entry.Value.Value) { FullName = file?.Get(nameindex++), Directions = 32, TurretDirections = turrstart, TurretShpFrame = turrcount, TurretLocations = Units.DefaultTurretLocations });
         }
         else
-            {
+        {
           // no turret
           Units.AddRulesObject(new UnitType(entry.Value.Value) { FullName = file?.Get(nameindex++), Directions = 32 });
         }
@@ -98,7 +99,10 @@ namespace RA_Mission_Editor.RulesData.Ruleset
         // like HELI
         Aircrafts.AddRulesObject(new AircraftType(entry.Value.Value) { FullName = file?.Get(nameindex++), Directions = 32 });
       }
+    }
 
+    public override void ApplyRulesWithMap(Map map)
+    {
       // apply Name= etc.
       foreach (var s in Structures.GetAll())
       {
@@ -133,14 +137,27 @@ namespace RA_Mission_Editor.RulesData.Ruleset
 
       foreach (var s in Houses.GetAll())
       {
-        s.RulesPrimaryColor = (ColorType)ReadInt(s.Name, "Color", out _, (int)s.PrimaryColor, map?.SourceFile);
-        s.RulesSecondaryColor = (ColorType)ReadInt(s.Name, "SecondaryColorScheme", out RulesSource src, (int)s.SecondaryColor, map?.SourceFile);
+        s.RulesPrimaryColor = GetColorFromIntOrString(s.Name, "Color", out _, s.PrimaryColor, map?.SourceFile);
+        s.RulesSecondaryColor = GetColorFromIntOrString(s.Name, "SecondaryColorScheme", out RulesSource src, s.SecondaryColor, map?.SourceFile);
         if (src == RulesSource.NONE)
         {
           // if 'SecondaryColorScheme' is not defined, fallback to PrimaryColor
           s.RulesSecondaryColor = s.RulesPrimaryColor;
         }
       }
+    }
+
+    public ColorType GetColorFromIntOrString(string section, string key, out RulesSource source, ColorType defaultValue = default, IniFile mapFile = null)
+    {
+      string str = ReadString(section, key, out source, null, mapFile);
+      if (source != RulesSource.NONE)
+      {
+        if (int.TryParse(str, out int icolor))
+          return (ColorType)icolor;
+        else if (Enum.TryParse(str, true, out ColorType colr))
+          return colr;
+      }
+      return defaultValue;
     }
   }
 }

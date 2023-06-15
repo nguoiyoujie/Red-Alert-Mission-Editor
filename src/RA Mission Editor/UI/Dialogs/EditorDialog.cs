@@ -1,5 +1,4 @@
-﻿using RA_Mission_Editor.FileFormats;
-using RA_Mission_Editor.MapData;
+﻿using RA_Mission_Editor.MapData;
 using System;
 using System.Windows.Forms;
 
@@ -23,6 +22,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       ttControl_Triggers.SetMap(map);
       ttControl_TeamTypes.SetMap(map);
       ttControl_Globals.SetMap(map);
+      ttControl_Reference.SetMap(map);
       RefreshTab();
     }
 

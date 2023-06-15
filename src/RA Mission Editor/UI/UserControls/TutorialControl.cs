@@ -1,5 +1,4 @@
-﻿using RA_Mission_Editor.FileFormats;
-using RA_Mission_Editor.MapData;
+﻿using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.UI.Logic;
 using System;
 using System.Text;

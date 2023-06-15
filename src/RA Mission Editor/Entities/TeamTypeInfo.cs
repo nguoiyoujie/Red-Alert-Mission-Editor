@@ -136,7 +136,9 @@ namespace RA_Mission_Editor.Entities
           return ParameterInfo.ParameterMissionType;
         case ScriptParameterType.NONE:
         case ScriptParameterType.INTEGER:
+        case ScriptParameterType.GLOBALS:
         case ScriptParameterType.WAYPOINT:
+        case ScriptParameterType.TARGET:
         case ScriptParameterType.FORMATION:
         default:
           return ParameterInfo.ParameterDefault;

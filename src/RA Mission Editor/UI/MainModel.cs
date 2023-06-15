@@ -143,6 +143,7 @@ namespace RA_Mission_Editor.UI
         CurrentMap.Clear();
         CurrentMap.AttachedRules.Clear();
         CurrentMap.AttachedRules.LoadRules(GameFileSystem);
+        CurrentMap.AttachedRules.ApplyRules();
         CurrentMap.AttachedRules.ApplyRulesWithMap(CurrentMap);
         CurrentMap.Dirty = false;
         OnMapChanged?.Invoke();
@@ -155,6 +156,7 @@ namespace RA_Mission_Editor.UI
         CurrentMap.Clear();
         CurrentMap.AttachedRules.Clear();
         CurrentMap.AttachedRules.LoadRules(GameFileSystem);
+        CurrentMap.AttachedRules.ApplyRules();
         CurrentMap.Load(mapFile, mapPath);
         CurrentMap.AttachedRules.ApplyRulesWithMap(CurrentMap);
         CurrentMap.RebuildOccupancyList(Cache, GameFileSystem);
@@ -166,6 +168,14 @@ namespace RA_Mission_Editor.UI
         }
 
         OnMapChanged?.Invoke();
+
+        //string ttt = CurrentMap.MapSection.Theater;
+        //foreach (var t in Theaters.GetTheaters())
+        //{
+        //  CurrentMap.MapSection.Theater = t.Name;
+        //  Templates.Extract(CurrentMap, CurrentMap.AttachedRules, Cache, GameFileSystem, @"./extracts/templates/");
+        //}
+        //CurrentMap.MapSection.Theater = ttt;
       }
     }
 
@@ -307,12 +317,16 @@ namespace RA_Mission_Editor.UI
       return null;
     }
 
-    public IEntity DoSelectFromPick()
+    public IEntity DoSelectFromPick(EditorSelectMode selectMode)
     {
       IEntity last = null;
+      if (selectMode == EditorSelectMode.Ignore)
+      {
+        return PickEntity;
+      }
       foreach (IEntity e in PickCache)
       {
-        if (e != null) //&& !(e is TemplateType))
+        if (e != null && (selectMode == EditorSelectMode.Any || selectMode == e.SelectMode)) //&& !(e is TemplateType))
         {
           // any type other than template is movable, but allow pick
           last = e;

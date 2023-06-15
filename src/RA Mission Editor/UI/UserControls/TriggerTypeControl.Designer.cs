@@ -129,7 +129,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbA2P3.TabIndex = 90;
       this.cbA2P3.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbA2P3.TextUpdate += new System.EventHandler(this.Value_Changed);
-      this.cbA2P3.Enter += new System.EventHandler(this.cbAction_Enter);
+      this.cbA2P3.MouseEnter += new System.EventHandler(this.cbAction2_MouseEnter);
       // 
       // lblA2P2
       // 
@@ -153,7 +153,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbA2P2.TabIndex = 88;
       this.cbA2P2.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbA2P2.TextUpdate += new System.EventHandler(this.Value_Changed);
-      this.cbA2P2.Enter += new System.EventHandler(this.cbAction_Enter);
+      this.cbA2P2.MouseEnter += new System.EventHandler(this.cbAction2_MouseEnter);
       // 
       // lblA2P1
       // 
@@ -177,7 +177,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbA2P1.TabIndex = 86;
       this.cbA2P1.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbA2P1.TextUpdate += new System.EventHandler(this.Value_Changed);
-      this.cbA2P1.Enter += new System.EventHandler(this.cbAction_Enter);
+      this.cbA2P1.MouseEnter += new System.EventHandler(this.cbAction2_MouseEnter);
       // 
       // cbAction2
       // 
@@ -193,7 +193,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbAction2.SelectedIndexChanged += new System.EventHandler(this.cbAction2_SelectedIndexChanged);
       this.cbAction2.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbAction2.TextUpdate += new System.EventHandler(this.Value_Changed);
-      this.cbAction2.Enter += new System.EventHandler(this.cbAction_Enter);
+      this.cbAction2.MouseEnter += new System.EventHandler(this.cbAction2_MouseEnter);
       // 
       // lblAction2
       // 
@@ -226,7 +226,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbA1P3.TabIndex = 82;
       this.cbA1P3.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbA1P3.TextUpdate += new System.EventHandler(this.Value_Changed);
-      this.cbA1P3.Enter += new System.EventHandler(this.cbAction_Enter);
+      this.cbA1P3.MouseEnter += new System.EventHandler(this.cbAction1_MouseEnter);
       // 
       // lblA1P2
       // 
@@ -250,7 +250,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbA1P2.TabIndex = 80;
       this.cbA1P2.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbA1P2.TextUpdate += new System.EventHandler(this.Value_Changed);
-      this.cbA1P2.Enter += new System.EventHandler(this.cbAction_Enter);
+      this.cbA1P2.MouseEnter += new System.EventHandler(this.cbAction1_MouseEnter);
       // 
       // lblA1P1
       // 
@@ -274,7 +274,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbA1P1.TabIndex = 78;
       this.cbA1P1.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbA1P1.TextUpdate += new System.EventHandler(this.Value_Changed);
-      this.cbA1P1.Enter += new System.EventHandler(this.cbAction_Enter);
+      this.cbA1P1.MouseEnter += new System.EventHandler(this.cbAction1_MouseEnter);
       // 
       // cbAction1
       // 
@@ -290,7 +290,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbAction1.SelectedIndexChanged += new System.EventHandler(this.cbAction1_SelectedIndexChanged);
       this.cbAction1.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbAction1.TextUpdate += new System.EventHandler(this.Value_Changed);
-      this.cbAction1.Enter += new System.EventHandler(this.cbAction_Enter);
+      this.cbAction1.MouseEnter += new System.EventHandler(this.cbAction1_MouseEnter);
       // 
       // lblE2P
       // 
@@ -314,7 +314,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbE2P.TabIndex = 75;
       this.cbE2P.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbE2P.TextUpdate += new System.EventHandler(this.Value_Changed);
-      this.cbE2P.Enter += new System.EventHandler(this.cbEvent_Enter);
+      this.cbE2P.MouseEnter += new System.EventHandler(this.cbEvent2_MouseEnter);
       // 
       // lblAction1
       // 
@@ -339,7 +339,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbEvent2.SelectedIndexChanged += new System.EventHandler(this.cbEvent2_SelectedIndexChanged);
       this.cbEvent2.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbEvent2.TextUpdate += new System.EventHandler(this.Value_Changed);
-      this.cbEvent2.Enter += new System.EventHandler(this.cbEvent_Enter);
+      this.cbEvent2.MouseEnter += new System.EventHandler(this.cbEvent2_MouseEnter);
       // 
       // lblEvent2
       // 
@@ -372,7 +372,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbE1P.TabIndex = 71;
       this.cbE1P.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbE1P.TextUpdate += new System.EventHandler(this.Value_Changed);
-      this.cbE1P.Enter += new System.EventHandler(this.cbEvent_Enter);
+      this.cbE1P.MouseEnter += new System.EventHandler(this.cbEvent1_MouseEnter);
       // 
       // cbEvent1
       // 
@@ -388,7 +388,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbEvent1.SelectedIndexChanged += new System.EventHandler(this.cbEvent1_SelectedIndexChanged);
       this.cbEvent1.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbEvent1.TextUpdate += new System.EventHandler(this.Value_Changed);
-      this.cbEvent1.Enter += new System.EventHandler(this.cbEvent_Enter);
+      this.cbEvent1.MouseEnter += new System.EventHandler(this.cbEvent1_MouseEnter);
       // 
       // cbEventType
       // 
@@ -404,7 +404,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbEventType.SelectedIndexChanged += new System.EventHandler(this.cbEventType_SelectedIndexChanged);
       this.cbEventType.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbEventType.TextUpdate += new System.EventHandler(this.Value_Changed);
-      this.cbEventType.Enter += new System.EventHandler(this.cbEventType_Enter);
+      this.cbEventType.MouseEnter += new System.EventHandler(this.cbEventType_MouseEnter);
       // 
       // cbRepeating
       // 
@@ -419,7 +419,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbRepeating.TabIndex = 67;
       this.cbRepeating.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbRepeating.TextUpdate += new System.EventHandler(this.Value_Changed);
-      this.cbRepeating.Enter += new System.EventHandler(this.cbRepeating_Enter);
+      this.cbRepeating.MouseEnter += new System.EventHandler(this.cbRepeating_MouseEnter);
       // 
       // cbOwner
       // 
@@ -434,7 +434,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbOwner.TabIndex = 66;
       this.cbOwner.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbOwner.TextUpdate += new System.EventHandler(this.Value_Changed);
-      this.cbOwner.Enter += new System.EventHandler(this.cbOwner_Enter);
+      this.cbOwner.MouseEnter += new System.EventHandler(this.cbOwner_MouseEnter);
       // 
       // lblName
       // 
@@ -461,7 +461,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.tbName.Size = new System.Drawing.Size(100, 20);
       this.tbName.TabIndex = 61;
       this.tbName.TextChanged += new System.EventHandler(this.Value_Changed);
-      this.tbName.Enter += new System.EventHandler(this.tbName_Enter);
+      this.tbName.MouseEnter += new System.EventHandler(this.tbName_MouseEnter);
       // 
       // lblOwner
       // 
@@ -496,6 +496,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.tbComment.Name = "tbComment";
       this.tbComment.Size = new System.Drawing.Size(520, 20);
       this.tbComment.TabIndex = 93;
+      this.tbComment.MouseEnter += new System.EventHandler(this.tbComment_MouseEnter);
       // 
       // label1
       // 

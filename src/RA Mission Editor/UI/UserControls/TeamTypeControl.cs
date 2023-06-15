@@ -1,6 +1,7 @@
 ﻿using RA_Mission_Editor.Entities;
 using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.RulesData;
+using RA_Mission_Editor.UI.Dialogs;
 using RA_Mission_Editor.UI.Logic;
 using System;
 using System.Collections.Generic;
@@ -334,8 +335,19 @@ namespace RA_Mission_Editor.UI.UserControls
         cbox.Items.AddRange(olst);
         labelText = "Waypoint";
       }
+      else if (type == ScriptParameterType.GLOBALS)
+      {
+        object[] olst = new object[Constants.MAX_GLOBALS];
+        for (int i = 0; i < olst.Length; i++)
+        {
+          olst[i] = i;
+        }
+        cbox.Items.AddRange(olst);
+        labelText = "Globals";
+      }
       else if (type == ScriptParameterType.INTEGER
        || type == ScriptParameterType.FORMATION
+       || type == ScriptParameterType.TARGET
        )
       {
         // allow user input (integer)
@@ -511,6 +523,7 @@ namespace RA_Mission_Editor.UI.UserControls
       bScriptInsertBefore.Enabled = cbScriptType.SelectedIndex != -1;
       bScriptInsertAfter.Enabled = cbScriptType.SelectedIndex != -1;
       bScriptInsertReplace.Enabled = cbScriptType.SelectedIndex != -1;
+      bGetTarget.Visible = script.ParameterType == ScriptParameterType.TARGET;
       UpdateUI();
     }
 
@@ -646,19 +659,79 @@ namespace RA_Mission_Editor.UI.UserControls
       Value_Changed(sender, e);
     }
 
-    private void tbName_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Name; }
-    private void cbOwner_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Owner; }
-    private void cbTrigger_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_TriggerTag; }
-    private void nudTechno_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Techno; }
-    private void cbAvoidThreats_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_AvoidThreats; }
-    private void cbSuicide_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Suicide; }
-    private void cbAutocreate_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Autocreate; }
-    private void cbPrebuild_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Prebuild; }
-    private void cbReinforce_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Reinforce; }
-    private void nudPriority_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Priority; }
-    private void nudMax_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Maximum; }
-    private void nudInitNum_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_InitNum; }
-    private void cbWaypoint_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Waypoint; }
+    private void tbName_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Name; }
+    private void cbOwner_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Owner; }
+    private void cbTrigger_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_TriggerTag; }
+    private void nudTechno_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Techno; }
+    private void cbAvoidThreats_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_AvoidThreats; }
+    private void cbSuicide_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Suicide; }
+    private void cbAutocreate_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Autocreate; }
+    private void cbPrebuild_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Prebuild; }
+    private void cbReinforce_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Reinforce; }
+    private void nudPriority_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Priority; }
+    private void nudMax_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Maximum; }
+    private void nudInitNum_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_InitNum; }
+    private void cbWaypoint_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TeamType_Waypoint; }
+    private void tbComment_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.Comment; }
+    private void bScriptMoveUp_MouseEnter(object sender, EventArgs e) { tbHint.Text = "Moves the selected team mission up one step in the sequence";  }
+    private void bScriptMoveDown_MouseEnter(object sender, EventArgs e) { tbHint.Text = "Moves the selected team mission down one step in the sequence"; }
+    private void bScriptDelete_MouseEnter(object sender, EventArgs e) { tbHint.Text = "Removes the selected team mission from the sequence"; }
+    private void bScriptInsertBefore_MouseEnter(object sender, EventArgs e) { tbHint.Text = "Inserts the new team mission before the currently selected step"; }
+    private void bScriptInsertReplace_MouseEnter(object sender, EventArgs e) { tbHint.Text = "Replaces the selected team mission with the new one"; }
+    private void bScriptInsertAfter_MouseEnter(object sender, EventArgs e) { tbHint.Text = "Inserts the new team mission after the currently selected step"; }
+    private void cbScriptType_MouseEnter(object sender, EventArgs e)
+    {
+      if (cbScriptType.SelectedIndex != -1)
+      {
+        ScriptActionType stype = ScriptActions.GetScriptAction(cbScriptType.SelectedIndex);
+        tbHint.Text = stype.ID + Environment.NewLine + Environment.NewLine + stype.Description + Environment.NewLine + Environment.NewLine + "Parameter Type: " + stype.ParameterType;
+      }
+      else
+      {
+        tbHint.Text = string.Empty;
+      }
+    }
+
+    private void cbScriptParameter_MouseEnter(object sender, EventArgs e)
+    {
+      if (cbScriptType.SelectedIndex != -1)
+      {
+        ScriptActionType stype = ScriptActions.GetScriptAction(cbScriptType.SelectedIndex);
+        switch (stype.ParameterType)
+        {
+          default:
+          case ScriptParameterType.NONE:
+            tbHint.Text = string.Empty;
+            break;
+          case ScriptParameterType.INTEGER:
+            tbHint.Text = "Script Parameter: Integer" + Environment.NewLine + Environment.NewLine + "Enter a suitable numeric value for the action";
+            break;
+          case ScriptParameterType.QUARRY:
+            tbHint.Text = "Script Parameter: QuarryType / Target Specification" + Environment.NewLine + Environment.NewLine + "Specifies which objects are considered as targets for the action.";
+            break;
+          case ScriptParameterType.WAYPOINT:
+            tbHint.Text = "Script Parameter: Waypoint" + Environment.NewLine + Environment.NewLine + "Determines the waypoint as the target for the action.";
+            break;
+          case ScriptParameterType.FORMATION:
+            tbHint.Text = "Script Parameter: Formation" + Environment.NewLine + Environment.NewLine + "Determines the formation that this team will take.";
+            break;
+          case ScriptParameterType.MISSIONTYPE:
+            tbHint.Text = "Script Parameter: MissionType" + Environment.NewLine + Environment.NewLine + "Determines the mission that this team will take.";
+            break;
+          case ScriptParameterType.GLOBALS:
+            tbHint.Text = "Script Parameter: Globals" + Environment.NewLine + Environment.NewLine + "Determines the global variable that this team will set.";
+            break;
+          case ScriptParameterType.TARGET:
+            tbHint.Text = "Script Parameter: Target Identifier" + Environment.NewLine + Environment.NewLine + "Identifies an object in the game.";
+            break;
+        }
+      }
+    }
+
+    private void lboxTeamMissions_MouseEnter(object sender, EventArgs e)
+    {
+      tbHint.Text = Resources.Strings.TeamType_TeamMissions;
+    }
 
     private void bTechnoType1_Click(object sender, EventArgs e)
     {
@@ -738,6 +811,22 @@ namespace RA_Mission_Editor.UI.UserControls
       }
       UpdateTechnoList();
       UpdateTechnoBox();
+    }
+
+    private void bGetTarget_Click(object sender, EventArgs e)
+    {
+      using (SelectTarcomDialog std = new SelectTarcomDialog())
+      {
+        if (int.TryParse(cbScriptParameter.Text, out int index))
+        {
+          std.Set(index);
+        } 
+        if (std.ShowDialog() == DialogResult.OK)
+        {
+          int target = std.Target;
+          cbScriptParameter.Text = target.ToString();
+        }
+      }
     }
   }
 }

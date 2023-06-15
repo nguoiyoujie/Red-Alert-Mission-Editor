@@ -14,8 +14,10 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace RA_Mission_Editor.UI
 {
@@ -52,6 +54,7 @@ namespace RA_Mission_Editor.UI
       pbMapCanvas.UpdateMouseUp = UpdateMouseUp;
       pbMiniMapCanvas.ClickCoordinate = CenterCoord;
       pbMapCanvas.ClickCoordinate = ClickCoord;
+
       UpdateUI();
 
       // init
@@ -370,51 +373,67 @@ namespace RA_Mission_Editor.UI
       }
       else if (button == MouseButtons.Right)
       {
-        if (MainModel.PickEntity == null)
+        UpdateSelectedPick(EditorSelectMode.Any);
+        using (MapPickDialog mpd = DialogFunctions.GetMapPickDialog() ?? new MapPickDialog())
         {
-          MainModel.DoSelectFromPick();
+          mpd.Location = MousePosition;
+          mpd.ModeSelected = UpdateSelectedPick;
+          if (mpd.Set(MainModel) >= 2)
+          {
+            mpd.ShowDialog();
+          }
         }
+      }
+    }
 
+    private void UpdateSelectedPick(EditorSelectMode selectMode)
+    {
+      if (selectMode == EditorSelectMode.Ignore) { return; }
+
+      MainModel.DoSelectFromPick(selectMode);
+
+      //if (_selectMode == EditorSelectMode.Any)
+      //{
         if (MainModel.PickEntity != null)
         {
-          _selectMode = MainModel.PickEntity.SelectMode;
+          selectMode = MainModel.PickEntity.SelectMode;
         }
         else
         {
           MainModel.PickEntity = Templates.Get(0);
-          _selectMode = EditorSelectMode.Templates;
+          selectMode = EditorSelectMode.Templates;
         }
-        SetObjectSelectionItems(_selectMode);
+      //}
 
+      SetObjectSelectionItems(selectMode);
 
-        // update selection
-        if (lboxObjects.Items.Count > 0)
+      // update selection
+      if (lboxObjects.Items.Count > 0)
+      {
+        MainModel.DoPeekFromPick(lboxObjects.Items[0].GetType());
+        if (MainModel.PickEntity is CellTriggerInfo cinfo && lboxObjects.Items[0] is CellTriggerInfo)
         {
-          MainModel.DoPeekFromPick(lboxObjects.Items[0].GetType());
-          if (MainModel.PickEntity is CellTriggerInfo cinfo && lboxObjects.Items[0] is CellTriggerInfo)
+          foreach (CellTriggerInfo item in lboxObjects.Items)
           {
-            foreach (CellTriggerInfo item in lboxObjects.Items)
+            if (cinfo.ID.Equals(item.ID, StringComparison.OrdinalIgnoreCase))
             {
-              if (cinfo.ID == item.ID)
-              {
-                lboxObjects.SelectedItem = item;
-                MainModel.PreplaceEntity.Update(MainModel.CurrentMap, MainModel.PickEntity);
-                RefreshObjectCanvas();
-                break;
-              }
+              lboxObjects.SelectedItem = item;
+              MainModel.PreplaceEntity.Update(MainModel.CurrentMap, MainModel.PickEntity);
+              RefreshObjectCanvas();
+              break;
             }
           }
-          else
+        }
+        else
+        {
+          if (MainModel.PickEntity != null)
           {
-            if (MainModel.PickEntity != null)
+            IEntityType etype = MainModel.PickEntity.GetEntityType(MainModel.CurrentMap.AttachedRules);
+            if (etype != null && lboxObjects.Items.Contains(etype))
             {
-              IEntityType etype = MainModel.PickEntity.GetEntityType(MainModel.CurrentMap.AttachedRules);
-              if (etype != null && lboxObjects.Items.Contains(etype))
-              {
-                lboxObjects.SelectedItem = MainModel.PickEntity.GetEntityType(MainModel.CurrentMap.AttachedRules);
-                MainModel.PreplaceEntity.Update(MainModel.CurrentMap, MainModel.PickEntity);
-                RefreshObjectCanvas();
-              }
+              lboxObjects.SelectedItem = MainModel.PickEntity.GetEntityType(MainModel.CurrentMap.AttachedRules);
+              MainModel.PreplaceEntity.Update(MainModel.CurrentMap, MainModel.PickEntity);
+              RefreshObjectCanvas();
             }
           }
         }
@@ -463,6 +482,12 @@ namespace RA_Mission_Editor.UI
           MainModel.PickEntity = null;
           MainModel.CurrentMap.Update();
         }
+
+        MapPickDialog mpd = DialogFunctions.GetMapPickDialog();
+        if (mpd != null)
+        {
+          mpd.Close();
+        }
       }
     }
 
@@ -492,7 +517,7 @@ namespace RA_Mission_Editor.UI
             MainModel.CurrentMap?.InvalidateSelectionList?.Invoke((type is WaypointInfo) ? EditorSelectMode.Waypoints : EditorSelectMode.CellTriggers);
             foreach (object item in lboxObjects.Items)
             {
-              if (item is CellTriggerInfo ctrig && type.ID == ctrig.ID)
+              if (item is CellTriggerInfo ctrig && type.ID.Equals(ctrig.ID, StringComparison.OrdinalIgnoreCase))
               {
                 lboxObjects.SelectedItem = item;
                 break;
@@ -659,6 +684,7 @@ namespace RA_Mission_Editor.UI
 
     private void SetObjectSelectionItems(EditorSelectMode mode)
     {
+      if (mode == EditorSelectMode.Any || mode == EditorSelectMode.Ignore) { return; }
       object obj = lboxObjects.SelectedItem;
       lboxObjects.Items.Clear();
       _selectMode = mode;
@@ -1338,6 +1364,13 @@ namespace RA_Mission_Editor.UI
           }
         }
       }
+    }
+
+    private void openOtherEditorToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      OtherEditorDialog oehd = DialogFunctions.GetOtherEditorDialog() ?? new OtherEditorDialog();
+      oehd.Owner = this;
+      oehd.Show();
     }
   }
 }

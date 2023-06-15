@@ -15,7 +15,9 @@ namespace RA_Mission_Editor.Util
       Selection = Color.Goldenrod;
       LastSelection = Color.LimeGreen;
       Waypoint = Color.IndianRed;
+      SelectedWaypoint = Color.Orange;
       CellTrigger = Color.GreenYellow;
+      SelectedCellTrigger = Color.Orange;
       TechnoTypeTag = Color.ForestGreen;
       TechnoTypeFake = Color.White;
       BaseNumber = Color.Salmon;
@@ -47,7 +49,9 @@ namespace RA_Mission_Editor.Util
     public static Color Selection { get => _selection; set { SelectionBrush?.Dispose(); SelectionPen?.Dispose(); SelectionBrush = new HatchBrush(HatchStyle.BackwardDiagonal, value, Color.Transparent); SelectionPen = new Pen(value, 2); _selection = value; } }
     public static Color LastSelection { get => _lastselection; set { LastSelectionBrush?.Dispose(); LastSelectionPen?.Dispose(); LastSelectionBrush = new HatchBrush(HatchStyle.BackwardDiagonal, value, Color.Transparent); LastSelectionPen = new Pen(value, 2); _lastselection = value; } }
     public static Color Waypoint { get => _waypoint; set { WaypointBrush?.Dispose(); WaypointPen?.Dispose(); WaypointBrush = new SolidBrush(value); WaypointPen = new Pen(value); _waypoint = value; } }
+    public static Color SelectedWaypoint { get => _selectedwaypoint; set { SelectedWaypointBrush?.Dispose(); SelectedWaypointPen?.Dispose(); SelectedWaypointBrush = new SolidBrush(value); SelectedWaypointPen = new Pen(value, 2); _selectedwaypoint = value; } }
     public static Color CellTrigger { get => _cellTrigger; set { CellTriggerBrush?.Dispose(); CellTriggerPen?.Dispose(); CellTriggerBrush = new SolidBrush(value); CellTriggerPen = new Pen(value); _cellTrigger = value; } }
+    public static Color SelectedCellTrigger { get => _selectedcellTrigger; set { SelectedCellTriggerBrush?.Dispose(); SelectedCellTriggerPen?.Dispose(); SelectedCellTriggerBrush = new SolidBrush(value); SelectedCellTriggerPen = new Pen(value, 2); _selectedcellTrigger = value; } }
     public static Color TechnoTypeTag { get => _technoTypeTag; set { TechnoTypeTagBrush?.Dispose(); TechnoTypeTagPen?.Dispose(); TechnoTypeTagBrush = new SolidBrush(value); TechnoTypeTagPen = new Pen(value); _technoTypeTag = value; } }
     public static Color TechnoTypeFake { get => _technoTypeFake; set { TechnoTypeFakeBrush?.Dispose(); TechnoTypeFakePen?.Dispose(); TechnoTypeFakeBrush = new SolidBrush(value); TechnoTypeFakePen = new Pen(value); _technoTypeFake = value; } }
     public static Color BaseNumber { get => _baseNumber; set { BaseNumberBrush?.Dispose(); BaseNumberPen?.Dispose(); BaseNumberBrush = new SolidBrush(value); BaseNumberPen = new Pen(value); _baseNumber = value; } }
@@ -56,7 +60,9 @@ namespace RA_Mission_Editor.Util
     private static Color _selection;
     private static Color _lastselection;
     private static Color _waypoint;
+    private static Color _selectedwaypoint;
     private static Color _cellTrigger;
+    private static Color _selectedcellTrigger;
     private static Color _technoTypeTag;
     private static Color _technoTypeFake;
     private static Color _baseNumber;
@@ -65,7 +71,9 @@ namespace RA_Mission_Editor.Util
     public static Brush SelectionBrush { get; private set; }
     public static Brush LastSelectionBrush { get; private set; }
     public static Brush WaypointBrush { get; private set; }
+    public static Brush SelectedWaypointBrush { get; private set; }
     public static Brush CellTriggerBrush { get; private set; }
+    public static Brush SelectedCellTriggerBrush { get; private set; }
     public static Brush TechnoTypeTagBrush { get; private set; }
     public static Brush TechnoTypeFakeBrush { get; private set; }
     public static Brush BaseNumberBrush { get; private set; }
@@ -74,7 +82,9 @@ namespace RA_Mission_Editor.Util
     public static Pen SelectionPen { get; private set; }
     public static Pen LastSelectionPen { get; private set; }
     public static Pen WaypointPen { get; private set; }
+    public static Pen SelectedWaypointPen { get; private set; }
     public static Pen CellTriggerPen { get; private set; }
+    public static Pen SelectedCellTriggerPen { get; private set; }
     public static Pen TechnoTypeTagPen { get; private set; }
     public static Pen TechnoTypeFakePen { get; private set; }
     public static Pen BaseNumberPen { get; private set; }

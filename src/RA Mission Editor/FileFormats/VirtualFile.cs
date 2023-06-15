@@ -10,8 +10,8 @@ namespace RA_Mission_Editor.FileFormats
   public class VirtualFile : Stream
   {
     public Stream BaseStream { get; internal protected set; }
-    protected int BaseOffset;
-    protected long Size;
+    public int BaseOffset { get; internal protected set; }
+    public long Size { get; internal protected set; }
     protected long Pos;
     virtual public string FileName { get; set; }
 

@@ -116,6 +116,12 @@
     </Compile>
     <Compile Include="RulesData\EditorFeatures.cs" />
     <Compile Include="RulesData\IntValueDesc.cs" />
+    <Compile Include="RulesData\SpecialWeapons.cs" />
+    <Compile Include="RulesData\Themes.cs" />
+    <Compile Include="RulesData\SpeechType.cs" />
+    <Compile Include="RulesData\SoundType.cs" />
+    <Compile Include="RulesData\Speeches.cs" />
+    <Compile Include="RulesData\Sounds.cs" />
     <Compile Include="RulesData\TechnoSets\Infantries.cs" />
     <Compile Include="EntityTypes\IEntityType.cs" />
     <Compile Include="RulesData\Ruleset\LovalmidasModRules.cs" />
@@ -210,6 +216,24 @@
     <Compile Include="Renderers\TechnoTypeRenderer.cs" />
     <Compile Include="Renderers\RenderUtils.cs" />
     <Compile Include="Renderers\EnvironmentRenderer.cs" />
+    <Compile Include="UI\Dialogs\MapPickDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\MapPickDialog.Designer.cs">
+      <DependentUpon>MapPickDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\SelectTarcomDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\SelectTarcomDialog.Designer.cs">
+      <DependentUpon>SelectTarcomDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\OtherEditorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\OtherEditorDialog.Designer.cs">
+      <DependentUpon>OtherEditorDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Dialogs\SaveExtractDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -288,6 +312,12 @@
     <Compile Include="UI\UserControls\BasicControl.Designer.cs">
       <DependentUpon>BasicControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\UserControls\ReferenceControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\ReferenceControl.Designer.cs">
+      <DependentUpon>ReferenceControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\UserControls\GlobalsControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -311,6 +341,12 @@
     </Compile>
     <Compile Include="UI\UserControls\HouseStatsControl.Designer.cs">
       <DependentUpon>HouseStatsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\ShpPaletteConverterControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\ShpPaletteConverterControl.Designer.cs">
+      <DependentUpon>ShpPaletteConverterControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\UserControls\MiniMapCanvasControl.cs">
       <SubType>Component</SubType>
@@ -348,6 +384,12 @@
     <Compile Include="UI\UserControls\TriggerTypesControl.Designer.cs">
       <DependentUpon>TriggerTypesControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\UserControls\LanguageFileControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\LanguageFileControl.Designer.cs">
+      <DependentUpon>LanguageFileControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\UserControls\TutorialControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -378,6 +420,15 @@
     <EmbeddedResource Include="Resources\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\MapPickDialog.resx">
+      <DependentUpon>MapPickDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\SelectTarcomDialog.resx">
+      <DependentUpon>SelectTarcomDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\OtherEditorDialog.resx">
+      <DependentUpon>OtherEditorDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\SaveExtractDialog.resx">
       <DependentUpon>SaveExtractDialog.cs</DependentUpon>
@@ -415,6 +466,9 @@
     <EmbeddedResource Include="UI\UserControls\BasicControl.resx">
       <DependentUpon>BasicControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\ReferenceControl.resx">
+      <DependentUpon>ReferenceControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\UserControls\GlobalsControl.resx">
       <DependentUpon>GlobalsControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -426,6 +480,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UserControls\HouseStatsControl.resx">
       <DependentUpon>HouseStatsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\ShpPaletteConverterControl.resx">
+      <DependentUpon>ShpPaletteConverterControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UserControls\MiniMapCanvasControl.resx">
       <DependentUpon>MiniMapCanvasControl.cs</DependentUpon>
@@ -447,6 +504,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UserControls\TriggerTypesControl.resx">
       <DependentUpon>TriggerTypesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\LanguageFileControl.resx">
+      <DependentUpon>LanguageFileControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UserControls\TutorialControl.resx">
       <DependentUpon>TutorialControl.cs</DependentUpon>

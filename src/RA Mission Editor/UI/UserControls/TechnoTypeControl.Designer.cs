@@ -207,7 +207,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbSellable.Text = "AI Sellable";
       this.cbSellable.UseVisualStyleBackColor = true;
       this.cbSellable.CheckedChanged += new System.EventHandler(this.Value_Changed);
-      this.cbSellable.Enter += new System.EventHandler(this.cbSellable_Enter);
+      this.cbSellable.MouseEnter += new System.EventHandler(this.cbSellable_MouseEnter);
       // 
       // cbRepairable
       // 
@@ -219,7 +219,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbRepairable.Text = "AI Repair";
       this.cbRepairable.UseVisualStyleBackColor = true;
       this.cbRepairable.CheckedChanged += new System.EventHandler(this.Value_Changed);
-      this.cbRepairable.Enter += new System.EventHandler(this.cbRepairable_Enter);
+      this.cbRepairable.MouseEnter += new System.EventHandler(this.cbRepairable_MouseEnter);
       // 
       // nudY
       // 
@@ -233,7 +233,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.nudY.Size = new System.Drawing.Size(58, 20);
       this.nudY.TabIndex = 49;
       this.nudY.ValueChanged += new System.EventHandler(this.Value_Changed);
-      this.nudY.Enter += new System.EventHandler(this.nudXY_Enter);
+      this.nudY.MouseEnter += new System.EventHandler(this.nudXY_MouseEnter);
       // 
       // nudX
       // 
@@ -247,7 +247,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.nudX.Size = new System.Drawing.Size(58, 20);
       this.nudX.TabIndex = 48;
       this.nudX.ValueChanged += new System.EventHandler(this.Value_Changed);
-      this.nudX.Enter += new System.EventHandler(this.nudXY_Enter);
+      this.nudX.MouseEnter += new System.EventHandler(this.nudXY_MouseEnter);
       // 
       // nudStrength
       // 
@@ -261,7 +261,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.nudStrength.Size = new System.Drawing.Size(120, 20);
       this.nudStrength.TabIndex = 47;
       this.nudStrength.ValueChanged += new System.EventHandler(this.Value_Changed);
-      this.nudStrength.Enter += new System.EventHandler(this.nudStrength_Enter);
+      this.nudStrength.MouseEnter += new System.EventHandler(this.nudStrength_MouseEnter);
       // 
       // cbType
       // 
@@ -274,7 +274,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbType.Size = new System.Drawing.Size(121, 21);
       this.cbType.TabIndex = 43;
       this.cbType.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
-      this.cbType.Enter += new System.EventHandler(this.cbType_Enter);
+      this.cbType.MouseEnter += new System.EventHandler(this.cbType_MouseEnter);
       // 
       // cbOwner
       // 
@@ -287,7 +287,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbOwner.Size = new System.Drawing.Size(121, 21);
       this.cbOwner.TabIndex = 42;
       this.cbOwner.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
-      this.cbOwner.Enter += new System.EventHandler(this.cbOwner_Enter);
+      this.cbOwner.MouseEnter += new System.EventHandler(this.cbOwner_MouseEnter);
       // 
       // lblOwner
       // 
@@ -338,7 +338,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.rbBR.TabIndex = 38;
       this.rbBR.TabStop = true;
       this.rbBR.UseVisualStyleBackColor = true;
-      this.rbBR.Enter += new System.EventHandler(this.cbSubcell_Enter);
+      this.rbBR.MouseEnter += new System.EventHandler(this.cbSubcell_MouseEnter);
       // 
       // rbBL
       // 
@@ -349,7 +349,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.rbBL.TabIndex = 37;
       this.rbBL.TabStop = true;
       this.rbBL.UseVisualStyleBackColor = true;
-      this.rbBL.Enter += new System.EventHandler(this.cbSubcell_Enter);
+      this.rbBL.MouseEnter += new System.EventHandler(this.cbSubcell_MouseEnter);
       // 
       // rbTR
       // 
@@ -360,7 +360,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.rbTR.TabIndex = 36;
       this.rbTR.TabStop = true;
       this.rbTR.UseVisualStyleBackColor = true;
-      this.rbTR.Enter += new System.EventHandler(this.cbSubcell_Enter);
+      this.rbTR.MouseEnter += new System.EventHandler(this.cbSubcell_MouseEnter);
       // 
       // rbC
       // 
@@ -371,7 +371,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.rbC.TabIndex = 35;
       this.rbC.TabStop = true;
       this.rbC.UseVisualStyleBackColor = true;
-      this.rbC.Enter += new System.EventHandler(this.cbSubcell_Enter);
+      this.rbC.MouseEnter += new System.EventHandler(this.cbSubcell_MouseEnter);
       // 
       // lblSubcell
       // 
@@ -390,7 +390,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.rbTL.Size = new System.Drawing.Size(14, 13);
       this.rbTL.TabIndex = 33;
       this.rbTL.UseVisualStyleBackColor = false;
-      this.rbTL.Enter += new System.EventHandler(this.cbSubcell_Enter);
+      this.rbTL.MouseEnter += new System.EventHandler(this.cbSubcell_MouseEnter);
       // 
       // pCommon2
       // 
@@ -416,7 +416,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.nudFacing.Size = new System.Drawing.Size(120, 20);
       this.nudFacing.TabIndex = 50;
       this.nudFacing.ValueChanged += new System.EventHandler(this.Value_Changed);
-      this.nudFacing.Enter += new System.EventHandler(this.nudFacing_Enter);
+      this.nudFacing.MouseEnter += new System.EventHandler(this.nudFacing_MouseEnter);
       // 
       // lblTag
       // 
@@ -438,7 +438,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbTag.Size = new System.Drawing.Size(121, 21);
       this.cbTag.TabIndex = 44;
       this.cbTag.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
-      this.cbTag.Enter += new System.EventHandler(this.cbTag_Enter);
+      this.cbTag.MouseEnter += new System.EventHandler(this.cbTag_MouseEnter);
       // 
       // lblFacing
       // 
@@ -480,7 +480,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbMission.TabIndex = 27;
       this.cbMission.SelectedIndexChanged += new System.EventHandler(this.Value_Changed);
       this.cbMission.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
-      this.cbMission.Enter += new System.EventHandler(this.cbMission_Enter);
+      this.cbMission.MouseEnter += new System.EventHandler(this.cbMission_MouseEnter);
       // 
       // pStructure
       // 

@@ -57,6 +57,10 @@ namespace RA_Mission_Editor.UI.UserControls
       cbPlayer.Items.Clear();
       cbPlayer.Items.AddRange(Map.AttachedRules.Houses.GetAll());
       cbPlayer.SelectedItem = s.Player.HasValue ? Map.AttachedRules.Houses.GetHouse(s.Player.Value) : Map.AttachedRules.Houses.GetHouse(0);
+
+      cbTheme.Items.Clear();
+      cbTheme.Items.AddRange(Map.AttachedRules.Themes.GetAll());
+      //cbTheme.SelectedItem = s.Theme.HasValue ? Map.AttachedRules.Houses.GetHouse(s.Theme.Value) : null;
       cbTheme.Text = s.Theme.HasValue ? s.Theme.Value : null;
 
       cbNewIniFormat.Text = s.NewINIFormat.HasValue ? s.NewINIFormat.Value.ToString() : "3";

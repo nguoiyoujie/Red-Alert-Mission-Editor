@@ -1,15 +1,37 @@
-﻿using RA_Mission_Editor.FileFormats;
+﻿using RA_Mission_Editor.Common;
+using RA_Mission_Editor.Entities;
+using RA_Mission_Editor.FileFormats;
 using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.RulesData;
+using RA_Mission_Editor.RulesData.Ruleset;
 using RA_Mission_Editor.Util;
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace RA_Mission_Editor.Renderers
 {
   public static class EnvironmentRenderer
   {
+    private static ColorMatrix _highlightMatrix = new ColorMatrix()
+    {
+      Matrix00 = 1.5f,
+      Matrix11 = 1.5f,
+      Matrix22 = 1.5f,
+      Matrix33 = 1f,
+      Matrix04 = 25f,
+      Matrix14 = 25f,
+      Matrix24 = 25f,
+      Matrix44 = 1f,
+    };
+    private static ImageAttributes _highlightImageAttributes = new ImageAttributes();
+
+    static EnvironmentRenderer()
+    {
+      _highlightImageAttributes.SetColorMatrix(_highlightMatrix, ColorMatrixFlag.Default, ColorAdjustType.Default);
+    }
+
     public static void CheckTheatre(Map map, MapCache cache, VirtualFileSystem vfs, out TheaterType tt, out PalFile palFile)
     {
       string ts = map.MapSection.Theater.ToUpperInvariant();
@@ -119,6 +141,46 @@ namespace RA_Mission_Editor.Renderers
         }
     }
 
+    public static void DrawTemplate(Map map, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, Graphics g, int x, int y, int numID, bool highlight = false)
+    {
+      Bitmap bmp = null;
+      if (cache.GetOrOpen(typeID + tt.Extension, vfs, out TmpFile tmpFile))
+      {
+        int c = map.CellNumber(x, y);
+        // fetch bitmap
+        // if this is a clear tile (ID=0), the template has multiple tiles, pseudo-randomize them according to Clear_Icon() in
+        // https://github.com/electronicarts/CnC_Remastered_Collection/blob/7d496e8a633a8bbf8a14b65f490b4d21fa32ca03/TIBERIANDAWN/CELL.CPP
+        if (Templates.GetID(typeID) == 0)
+        {
+          bmp = RenderUtils.RenderTemplate(cache, tmpFile, palFile, map.ClearIcon(c));
+        }
+        else
+        {
+          if (numID != 0xFF)
+          {
+            bmp = RenderUtils.RenderTemplate(cache, tmpFile, palFile, numID);
+          }
+          else
+          {
+            bmp = RenderUtils.RenderTemplate(cache, tmpFile, palFile);
+          }
+        }
+
+      }
+      if (bmp != null)
+      {
+        if (highlight)
+        {
+          Rectangle rd = new Rectangle(x * Constants.CELL_PIXEL_W, y * Constants.CELL_PIXEL_H, bmp.Width, bmp.Height);
+          g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _highlightImageAttributes);
+        }
+        else
+        {
+          g.DrawImage(bmp, x * Constants.CELL_PIXEL_W, y * Constants.CELL_PIXEL_H);
+        }
+      }
+    }
+
     public static void DrawOverlays(Map map, MapCache cache, VirtualFileSystem vfs, Graphics g)
     {
       CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
@@ -223,6 +285,28 @@ namespace RA_Mission_Editor.Renderers
         }
     }
 
+    public static void DrawOverlay(Map map, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, Graphics g, int x, int y, bool highlight = false)
+    {
+      Bitmap bmp = null;
+      if (cache.GetOrOpen(typeID + tt.Extension, vfs, out ShpFile shpFile) ||
+          cache.GetOrOpen(typeID + ".SHP", vfs, out shpFile))
+      {
+        bmp = RenderUtils.RenderShp(cache, shpFile, palFile, 0);
+      }
+      if (bmp != null)
+      {
+        if (highlight)
+        {
+          Rectangle rd = new Rectangle(x * Constants.CELL_PIXEL_W, y * Constants.CELL_PIXEL_H, bmp.Width, bmp.Height);
+          g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _highlightImageAttributes);
+        }
+        else
+        {
+          g.DrawImage(bmp, x * Constants.CELL_PIXEL_W, y * Constants.CELL_PIXEL_H);
+        }
+      }
+    }
+
     public static void DrawTerrainObjects(Map map, MapCache cache, VirtualFileSystem vfs, Graphics g)
     {
       DrawOverlays(map, cache, vfs, g);
@@ -311,6 +395,52 @@ namespace RA_Mission_Editor.Renderers
       }
     }
 
+    public static void DrawSmudge(Map map, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, Graphics g, int x, int y, int block_x, int block_y, bool highlight = false)
+    {
+      Bitmap bmp = null;
+      if (cache.GetOrOpen(typeID + tt.Extension, vfs, out ShpFile shpFile) ||
+          cache.GetOrOpen(typeID + ".SHP", vfs, out shpFile))
+      {
+        int tx = block_x;
+        int ty = block_y;
+        if (tx == 1 && ty == 1)
+        {
+          bmp = RenderUtils.RenderShp(cache, shpFile, palFile, 0);
+        }
+        else
+        {
+          bmp = new Bitmap(tx * Constants.CELL_PIXEL_W, ty * Constants.CELL_PIXEL_H);
+          using (Graphics gb = Graphics.FromImage(bmp))
+          {
+            int tile = 0;
+            for (int yd = 0; yd < ty; yd++)
+              for (int xd = 0; xd < tx; xd++)
+              {
+                Bitmap b = RenderUtils.RenderShp(cache, shpFile, palFile, tile++);
+                if (b != null)
+                {
+                  // draw
+                  gb.DrawImage(b, xd * Constants.CELL_PIXEL_W, yd * Constants.CELL_PIXEL_H);
+                }
+              }
+          }
+        }
+      }
+      if (bmp != null)
+      {
+        if (highlight)
+        {
+          Rectangle rd = new Rectangle(x * Constants.CELL_PIXEL_W, y * Constants.CELL_PIXEL_H, bmp.Width, bmp.Height);
+          g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _highlightImageAttributes);
+        }
+        else
+        {
+          g.DrawImage(bmp, x * Constants.CELL_PIXEL_W, y * Constants.CELL_PIXEL_H);
+        }
+      }
+      bmp?.DisposeIfNotCached();
+    }
+
     public static void GetTerrainSizeInCells(MapCache cache, VirtualFileSystem vfs, TheaterType tt, string typeID, out int x, out int y)
     {
       x = 1;
@@ -392,6 +522,28 @@ namespace RA_Mission_Editor.Renderers
         else
         {
           Debug.WriteLine($"Terrain '{tInfo.ID}' at cell {{{extract.CellX(c)},{extract.CellY(c)}}} does not exist!");
+        }
+      }
+    }
+
+    public static void DrawTerrain(Map map, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, Graphics g, int x, int y, bool highlight = false)
+    {
+      Bitmap bmp = null;
+      if (cache.GetOrOpen(typeID + tt.Extension, vfs, out ShpFile shpFile) ||
+          cache.GetOrOpen(typeID + ".SHP", vfs, out shpFile))
+      {
+        bmp = RenderUtils.RenderShp(cache, shpFile, palFile, 0);
+      }
+      if (bmp != null)
+      {
+        if (highlight)
+        {
+          Rectangle rd = new Rectangle(x * Constants.CELL_PIXEL_W, y * Constants.CELL_PIXEL_H, bmp.Width, bmp.Height);
+          g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _highlightImageAttributes);
+        }
+        else
+        {
+          g.DrawImage(bmp, x * Constants.CELL_PIXEL_W, y * Constants.CELL_PIXEL_H);
         }
       }
     }

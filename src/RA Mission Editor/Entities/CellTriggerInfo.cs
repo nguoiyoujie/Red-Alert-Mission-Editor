@@ -72,14 +72,14 @@ namespace RA_Mission_Editor.Entities
       Bitmap bmp = new Bitmap(Constants.CELL_PIXEL_W, Constants.CELL_PIXEL_H);
       using (Graphics g = Graphics.FromImage(bmp))
       {
-        WidgetsRenderer.DrawCellTrigger(g, ID, 0, 0);
+        WidgetsRenderer.DrawCellTrigger(g, ID, 0, 0, false);
       }
       return bmp;
     }
 
-    public void DrawOnMap(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo entity)
+    public void DrawOnMap(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo entity, bool highlight)
     {
-      WidgetsRenderer.DrawCellTrigger(g, ID, entity.X, entity.Y);
+      WidgetsRenderer.DrawCellTrigger(g, ID, entity.X, entity.Y, true);
     }
   }
 }

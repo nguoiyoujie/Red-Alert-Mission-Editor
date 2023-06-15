@@ -26,12 +26,44 @@ namespace RA_Mission_Editor.Renderers
     };
     private static ImageAttributes _translucentImageAttributes = new ImageAttributes();
 
+    private static ColorMatrix _highlightMatrix = new ColorMatrix()
+    {
+      Matrix00 = 1.5f,
+      Matrix11 = 1.5f,
+      Matrix22 = 1.5f,
+      Matrix33 = 1f,
+      Matrix04 = 25f,
+      Matrix14 = 25f,
+      Matrix24 = 25f,
+      Matrix44 = 1f,
+    };
+    private static ImageAttributes _highlightImageAttributes = new ImageAttributes();
+
+    private static ColorMatrix _translucenthighlightMatrix = new ColorMatrix()
+    {
+      Matrix00 = 1.5f,
+      Matrix11 = 1.5f,
+      Matrix22 = 1.5f,
+      Matrix03 = 0.9f,
+      Matrix13 = 0.01f,
+      Matrix23 = 0.1f,
+      Matrix33 = 0.01f,
+      Matrix43 = 0.01f,
+      Matrix04 = 25f,
+      Matrix14 = 25f,
+      Matrix24 = 25f,
+      Matrix44 = 1f,
+    };
+    private static ImageAttributes _translucenthighlightImageAttributes = new ImageAttributes();
+
     static TechnoTypeRenderer()
     {
       _triggerTagStringFormat = new StringFormat(StringFormat.GenericTypographic);
       _fakeStringFormat = new StringFormat(StringFormat.GenericTypographic);
 
       _translucentImageAttributes.SetColorMatrix(_translucentMatrix, ColorMatrixFlag.Default, ColorAdjustType.Default);
+      _highlightImageAttributes.SetColorMatrix(_highlightMatrix, ColorMatrixFlag.Default, ColorAdjustType.Default);
+      _translucenthighlightImageAttributes.SetColorMatrix(_translucenthighlightMatrix , ColorMatrixFlag.Default, ColorAdjustType.Default);
 
       _triggerTagStringFormat.Alignment = StringAlignment.Center;
       _triggerTagStringFormat.LineAlignment = StringAlignment.Center;
@@ -131,7 +163,7 @@ namespace RA_Mission_Editor.Renderers
       }
     }
 
-    public static void DrawStructureBib(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, Graphics g, int x, int y, bool translucent)
+    public static void DrawStructureBib(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, Graphics g, int x, int y, bool translucent, bool highlight = false)
     {
       if (!map.IsCellInMap(x, y)) { return; }
 
@@ -172,10 +204,20 @@ namespace RA_Mission_Editor.Renderers
                 if (bmp != null)
                 {
                   // draw
-                  if (translucent)
+                  if (translucent && highlight)
+                  {
+                    Rectangle rd = new Rectangle((x + xd) * Constants.CELL_PIXEL_W, (y + yd) * Constants.CELL_PIXEL_H + yOffset, bmp.Width, bmp.Height);
+                    g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _translucenthighlightImageAttributes);
+                  }
+                  else if (translucent)
                   {
                     Rectangle rd = new Rectangle((x + xd) * Constants.CELL_PIXEL_W, (y + yd) * Constants.CELL_PIXEL_H + yOffset, bmp.Width, bmp.Height);
                     g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _translucentImageAttributes);
+                  }
+                  else if (highlight)
+                  {
+                    Rectangle rd = new Rectangle((x + xd) * Constants.CELL_PIXEL_W, (y + yd) * Constants.CELL_PIXEL_H + yOffset, bmp.Width, bmp.Height);
+                    g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _highlightImageAttributes);
                   }
                   else
                   {
@@ -285,7 +327,7 @@ namespace RA_Mission_Editor.Renderers
       }
     }
 
-    private static void DrawStructureInner(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, StructureType stype, string imageID, HouseType owner, int health, int facing, Graphics g, int x, int y, bool translucent, ref Bitmap bmp)
+    private static void DrawStructureInner(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, StructureType stype, string imageID, HouseType owner, int health, int facing, Graphics g, int x, int y, bool translucent, bool highlight, ref Bitmap bmp)
     {
       if (stype != null && 
          (cache.GetOrOpen(imageID + tt.Extension, vfs, out ShpFile shpFile) ||
@@ -306,10 +348,22 @@ namespace RA_Mission_Editor.Renderers
           g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
           g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
           g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
-          if (translucent)
+
+
+          if (translucent && highlight)
+          {
+            Rectangle rd = new Rectangle(x * Constants.CELL_PIXEL_W, y * Constants.CELL_PIXEL_H, bmp.Width, bmp.Height);
+            g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _translucenthighlightImageAttributes);
+          }
+          else if (translucent)
           {
             Rectangle rd = new Rectangle(x * Constants.CELL_PIXEL_W, y * Constants.CELL_PIXEL_H, bmp.Width, bmp.Height);
             g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _translucentImageAttributes);
+          }
+          else if (highlight)
+          {
+            Rectangle rd = new Rectangle(x * Constants.CELL_PIXEL_W, y * Constants.CELL_PIXEL_H, bmp.Width, bmp.Height);
+            g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _highlightImageAttributes);
           }
           else
           {
@@ -323,7 +377,7 @@ namespace RA_Mission_Editor.Renderers
       }
     }
 
-    public static void DrawStructure(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, HouseType owner, int health, int facing, Graphics g, int x, int y, string tag, int baseListIndex, bool translucent)
+    public static void DrawStructure(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, HouseType owner, int health, int facing, Graphics g, int x, int y, string tag, int baseListIndex, bool translucent, bool highlight = false)
     {
       if (!map.IsCellInMap(x, y)) { return; }
 
@@ -332,11 +386,11 @@ namespace RA_Mission_Editor.Renderers
       if (stype != null)
       {
         // avoid array allocation in this function
-        DrawStructureInner(map, rules, cache, vfs, tt, palFile, stype, stype.RulesImage, owner, health, facing, g, x, y, translucent, ref bmp);
+        DrawStructureInner(map, rules, cache, vfs, tt, palFile, stype, stype.RulesImage, owner, health, facing, g, x, y, translucent, highlight, ref bmp);
         // account for structures with second Image
         if (stype.SecondImage != null && !stype.SecondImage.Equals("none", StringComparison.OrdinalIgnoreCase))
         {
-          DrawStructureInner(map, rules, cache, vfs, tt, palFile, stype, stype.SecondImage, owner, health, facing, g, x, y, translucent, ref bmp);
+          DrawStructureInner(map, rules, cache, vfs, tt, palFile, stype, stype.SecondImage, owner, health, facing, g, x, y, translucent, highlight, ref bmp);
         }
       }
       else
@@ -421,7 +475,7 @@ namespace RA_Mission_Editor.Renderers
       }
     }
 
-    public static void DrawUnit(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, HouseType owner, int facing, Graphics g, int x, int y, string tag)
+    public static void DrawUnit(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, HouseType owner, int facing, Graphics g, int x, int y, string tag, bool highlight = false)
     {
       if (!map.IsCellInMap(x, y)) { return; }
 
@@ -458,8 +512,15 @@ namespace RA_Mission_Editor.Renderers
 
         if (bmp != null)
         {
-          // draw centered
-          g.DrawImage(bmp, xd, yd);
+          if (highlight)
+          {
+            Rectangle rd = new Rectangle(xd, yd, bmp.Width, bmp.Height);
+            g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _highlightImageAttributes);
+          }
+          else
+          {
+            g.DrawImage(bmp, xd, yd);
+          }
         }
 
         if (ttype.TurretLocations != null) // all units use the same SHP for turrets
@@ -489,7 +550,15 @@ namespace RA_Mission_Editor.Renderers
                 xd = x * Constants.CELL_PIXEL_W + Constants.CELL_PIXEL_W / 2 - (bmp.Width / 2);
                 yd = y * Constants.CELL_PIXEL_H + Constants.CELL_PIXEL_H / 2 - (bmp.Height / 2);
                 Point mov = turrLoc(i, facing);
-                g.DrawImage(bmp, xd + mov.X, yd + mov.Y);
+                if (highlight)
+                {
+                  Rectangle rd = new Rectangle(xd + mov.X, yd + mov.Y, bmp.Width, bmp.Height);
+                  g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _highlightImageAttributes);
+                }
+                else
+                {
+                  g.DrawImage(bmp, xd + mov.X, yd + mov.Y);
+                }
               }
             }
           }
@@ -497,7 +566,10 @@ namespace RA_Mission_Editor.Renderers
 
         if (bmp != null && tag != null && tag.ToUpperInvariant() != "NONE")
         {
-          Rectangle r = new Rectangle(x * Constants.CELL_PIXEL_W, y * Constants.CELL_PIXEL_H, bmp.Width, bmp.Height);
+          // draw cell centered
+          xd = x * Constants.CELL_PIXEL_W + Constants.CELL_PIXEL_W / 2 - (bmp.Width / 2);
+          yd = y * Constants.CELL_PIXEL_H + Constants.CELL_PIXEL_H / 2 - (bmp.Height / 2);
+          Rectangle r = new Rectangle(xd, yd, bmp.Width, bmp.Height);
           g.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
           g.DrawString(tag, MapUserThemes.TechnoTypeTagFont, MapUserThemes.TechnoTypeTagBrush, r, _triggerTagStringFormat);
         }
@@ -546,7 +618,7 @@ namespace RA_Mission_Editor.Renderers
       }
     }
 
-    public static void DrawShip(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, HouseType owner, int facing, Graphics g, int x, int y, string tag)
+    public static void DrawShip(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, HouseType owner, int facing, Graphics g, int x, int y, string tag, bool highlight = false)
     {
       if (!map.IsCellInMap(x, y)) { return; }
 
@@ -575,7 +647,15 @@ namespace RA_Mission_Editor.Renderers
         if (bmp != null)
         {
           // draw centered
-          g.DrawImage(bmp, xd, yd);
+          if (highlight)
+          {
+            Rectangle rd = new Rectangle(xd, yd, bmp.Width, bmp.Height);
+            g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _highlightImageAttributes);
+          }
+          else
+          {
+            g.DrawImage(bmp, xd, yd);
+          }
         }
 
         if (ttype.TurretLocations != null) // all units use the same SHP for turrets
@@ -605,7 +685,15 @@ namespace RA_Mission_Editor.Renderers
                 xd = x * Constants.CELL_PIXEL_W + Constants.CELL_PIXEL_W / 2 - (bmp.Width / 2);
                 yd = y * Constants.CELL_PIXEL_H + Constants.CELL_PIXEL_H / 2 - (bmp.Height / 2);
                 Point mov = turrLoc(i, facing);
-                g.DrawImage(bmp, xd + mov.X, yd + mov.Y);
+                if (highlight)
+                {
+                  Rectangle rd = new Rectangle(xd + mov.X, yd + mov.Y, bmp.Width, bmp.Height);
+                  g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _highlightImageAttributes);
+                }
+                else
+                {
+                  g.DrawImage(bmp, xd + mov.X, yd + mov.Y);
+                }
               }
             }
           }
@@ -613,7 +701,10 @@ namespace RA_Mission_Editor.Renderers
 
         if (tag != null && tag.ToUpperInvariant() != "NONE")
         {
-          Rectangle r = new Rectangle(x * Constants.CELL_PIXEL_W, y * Constants.CELL_PIXEL_H, bmp.Width, bmp.Height);
+          // draw centered
+          xd = x * Constants.CELL_PIXEL_W + Constants.CELL_PIXEL_W / 2 - (bmp.Width / 2);
+          yd = y * Constants.CELL_PIXEL_H + Constants.CELL_PIXEL_H / 2 - (bmp.Height / 2);
+          Rectangle r = new Rectangle(xd, yd, bmp.Width, bmp.Height);
           g.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
           g.DrawString(tag, MapUserThemes.TechnoTypeTagFont, MapUserThemes.TechnoTypeTagBrush, r, _triggerTagStringFormat);
         }
@@ -646,7 +737,7 @@ namespace RA_Mission_Editor.Renderers
       */
     }
 
-    public static void DrawAircraft(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, HouseType owner, int facing, Graphics g, int x, int y, string tag)
+    public static void DrawAircraft(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, HouseType owner, int facing, Graphics g, int x, int y, string tag, bool highlight = false)
     {
       if (!map.IsCellInMap(x, y)) { return; }
 
@@ -675,12 +766,20 @@ namespace RA_Mission_Editor.Renderers
         if (bmp != null)
         {
           // draw centered
-          g.DrawImage(bmp, xd, yd);
+          if (highlight)
+          {
+            Rectangle rd = new Rectangle(xd, yd, bmp.Width, bmp.Height);
+            g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _highlightImageAttributes);
+          }
+          else
+          {
+            g.DrawImage(bmp, xd, yd);
+          }
         }
 
         if (tag != null && tag.ToUpperInvariant() != "NONE")
         {
-          Rectangle r = new Rectangle(x * Constants.CELL_PIXEL_W, y * Constants.CELL_PIXEL_H, bmp.Width, bmp.Height);
+          Rectangle r = new Rectangle(xd, yd, bmp.Width, bmp.Height);
           g.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
           g.DrawString(tag, MapUserThemes.TechnoTypeTagFont, MapUserThemes.TechnoTypeTagBrush, r, _triggerTagStringFormat);
         }
@@ -729,7 +828,7 @@ namespace RA_Mission_Editor.Renderers
       }
     }
 
-    public static void DrawInfantry(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, HouseType owner, int facing, Graphics g, int x, int y, int subCell, string tag)
+    public static void DrawInfantry(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, HouseType owner, int facing, Graphics g, int x, int y, int subCell, string tag, bool highlight = false)
     {
       if (!map.IsCellInMap(x, y)) { return; }
 
@@ -763,7 +862,15 @@ namespace RA_Mission_Editor.Renderers
         if (bmp != null)
         {
           // draw centered
-          g.DrawImage(bmp, xt, yt);
+          if (highlight)
+          {
+            Rectangle rd = new Rectangle(xt, yt, bmp.Width, bmp.Height);
+            g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _highlightImageAttributes);
+          }
+          else
+          {
+            g.DrawImage(bmp, xt, yt);
+          }
         }
 
         if (tag != null && tag.ToUpperInvariant() != "NONE")

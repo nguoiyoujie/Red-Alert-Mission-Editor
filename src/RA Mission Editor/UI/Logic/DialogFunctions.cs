@@ -16,5 +16,29 @@ namespace RA_Mission_Editor.UI.Logic
       }
       return null;
     }
+
+    public static OtherEditorDialog GetOtherEditorDialog()
+    {
+      foreach (Form f in Application.OpenForms)
+      {
+        if (f is OtherEditorDialog d)
+        {
+          return d;
+        }
+      }
+      return null;
+    }
+
+    public static MapPickDialog GetMapPickDialog()
+    {
+      foreach (Form f in Application.OpenForms)
+      {
+        if (f is MapPickDialog d)
+        {
+          return d;
+        }
+      }
+      return null;
+    }
   }
 }

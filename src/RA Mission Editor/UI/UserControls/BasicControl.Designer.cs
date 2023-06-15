@@ -312,6 +312,11 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0,
             0});
+      this.nudCarryOverMoney.Minimum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            -2147483648});
       this.nudCarryOverMoney.Name = "nudCarryOverMoney";
       this.nudCarryOverMoney.Size = new System.Drawing.Size(60, 20);
       this.nudCarryOverMoney.TabIndex = 52;
@@ -427,6 +432,11 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0,
             0});
+      this.nudCarryOverCap.Minimum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            -2147483648});
       this.nudCarryOverCap.Name = "nudCarryOverCap";
       this.nudCarryOverCap.Size = new System.Drawing.Size(60, 20);
       this.nudCarryOverCap.TabIndex = 19;
@@ -459,18 +469,23 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       this.nudPercent.Location = new System.Drawing.Point(131, 186);
       this.nudPercent.Maximum = new decimal(new int[] {
-            99,
+            99999999,
             0,
             0,
             0});
+      this.nudPercent.Minimum = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            -2147483648});
       this.nudPercent.Name = "nudPercent";
       this.nudPercent.Size = new System.Drawing.Size(60, 20);
       this.nudPercent.TabIndex = 18;
       this.nudPercent.Value = new decimal(new int[] {
-            10,
+            99999999,
             0,
             0,
-            0});
+            -2147483648});
       this.nudPercent.ValueChanged += new System.EventHandler(this.Value_Changed);
       // 
       // lblBriefing

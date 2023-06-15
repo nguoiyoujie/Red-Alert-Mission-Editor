@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Xml.Linq;
 
 namespace RA_Mission_Editor.RulesData
 {
-	public class TriggerActionType
+  public class TriggerActionType
 	{
 		public string ID { get; }
 		public string Description { get; }

@@ -1,6 +1,9 @@
-﻿using RA_Mission_Editor.MapData;
+﻿using RA_Mission_Editor.Common;
+using RA_Mission_Editor.Entities;
+using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.UI;
 using RA_Mission_Editor.Util;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
@@ -18,24 +21,20 @@ namespace RA_Mission_Editor.Renderers
       _textStringFormat.FormatFlags = StringFormatFlags.MeasureTrailingSpaces | StringFormatFlags.NoClip;
     }
 
-    public static void DrawWidgets(Map map, Graphics g)
-    {
-      DrawWaypoints(map, g);
-      DrawCellTriggers(map, g);
-    }
-
-    public static void DrawWaypoints(Map map, Graphics g)
+    public static void DrawWaypoints(Map map, PlaceEntityInfo placeEntity, Graphics g)
     {
       foreach (var wInfo in map.WaypointSection.WaypointList)
       {
         int c = wInfo.Cell;
         int x = map.CellX(c);
         int y = map.CellY(c);
-        DrawWaypoint(map, g, wInfo.ID.ToString(), x, y);
+        bool selected = placeEntity != null && placeEntity.Type is WaypointInfo wpt && wpt.ID.Equals(wInfo.ID, StringComparison.OrdinalIgnoreCase);
+
+        DrawWaypoint(map, g, wInfo.ID.ToString(), x, y, selected);
       }
     }
 
-    public static void DrawWaypoint(Map map, Graphics g, string id, int x, int y)
+    public static void DrawWaypoint(Map map, Graphics g, string id, int x, int y, bool selected)
     {
       int c = map.CellNumber(x, y);
       if (!map.IsCellInMap(c)) { return; }
@@ -46,12 +45,12 @@ namespace RA_Mission_Editor.Renderers
       g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
       g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
       g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
-      g.DrawRectangle(MapUserThemes.WaypointPen, xt, yt, Constants.CELL_PIXEL_W, Constants.CELL_PIXEL_H);
+      g.DrawRectangle(selected ? MapUserThemes.SelectedWaypointPen : MapUserThemes.WaypointPen, xt, yt, Constants.CELL_PIXEL_W, Constants.CELL_PIXEL_H);
 
       // draw text
       Rectangle r = new Rectangle(xt, yt, Constants.CELL_PIXEL_W, Constants.CELL_PIXEL_H);
       g.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
-      g.DrawString(id.ToUpperInvariant(), MapUserThemes.WaypointFont, MapUserThemes.WaypointBrush, r, _textStringFormat);
+      g.DrawString(id.ToUpperInvariant(), MapUserThemes.WaypointFont, selected ? MapUserThemes.SelectedWaypointBrush : MapUserThemes.WaypointBrush, r, _textStringFormat);
     }
 
     private static float[] _dash_pattern = new float[] { 1, 5 };
@@ -70,19 +69,19 @@ namespace RA_Mission_Editor.Renderers
       g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
       g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
       // use dotted style
-      System.Drawing.Drawing2D.DashStyle dstyle = MapUserThemes.WaypointPen.DashStyle;
-      MapUserThemes.WaypointPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-      MapUserThemes.WaypointPen.DashPattern = _dash_pattern;
+      System.Drawing.Drawing2D.DashStyle dstyle = MapUserThemes.SelectedWaypointPen.DashStyle;
+      MapUserThemes.SelectedWaypointPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+      MapUserThemes.SelectedWaypointPen.DashPattern = _dash_pattern;
 
-      g.DrawLine(MapUserThemes.WaypointPen, xt, yt, x2t, y2t);
-      g.DrawLine(MapUserThemes.WaypointPen, xt + Constants.CELL_PIXEL_W, yt, x2t + Constants.CELL_PIXEL_W, y2t);
-      g.DrawLine(MapUserThemes.WaypointPen, xt, yt + Constants.CELL_PIXEL_H, x2t, y2t + Constants.CELL_PIXEL_H);
-      g.DrawLine(MapUserThemes.WaypointPen, xt + Constants.CELL_PIXEL_W, yt + Constants.CELL_PIXEL_H, x2t + Constants.CELL_PIXEL_W, y2t + Constants.CELL_PIXEL_H);
+      g.DrawLine(MapUserThemes.SelectedWaypointPen, xt, yt, x2t, y2t);
+      g.DrawLine(MapUserThemes.SelectedWaypointPen, xt + Constants.CELL_PIXEL_W, yt, x2t + Constants.CELL_PIXEL_W, y2t);
+      g.DrawLine(MapUserThemes.SelectedWaypointPen, xt, yt + Constants.CELL_PIXEL_H, x2t, y2t + Constants.CELL_PIXEL_H);
+      g.DrawLine(MapUserThemes.SelectedWaypointPen, xt + Constants.CELL_PIXEL_W, yt + Constants.CELL_PIXEL_H, x2t + Constants.CELL_PIXEL_W, y2t + Constants.CELL_PIXEL_H);
       // restore style
-      MapUserThemes.WaypointPen.DashStyle = dstyle;
+      MapUserThemes.SelectedWaypointPen.DashStyle = dstyle;
     }
 
-    public static void DrawCellTriggers(Map map, Graphics g)
+    public static void DrawCellTriggers(Map map, PlaceEntityInfo placeEntity, Graphics g)
     {
       foreach (var wInfo in map.CellTriggerSection.Triggers)
       {
@@ -91,12 +90,14 @@ namespace RA_Mission_Editor.Renderers
           int c = wInfo.Cell;
           int x = map.CellX(c);
           int y = map.CellY(c);
-          DrawCellTrigger(g, wInfo.ID.ToString(), x, y);
+          bool selected = placeEntity != null && placeEntity.Type is CellTriggerInfo ctrig && ctrig.ID.Equals(wInfo.ID, StringComparison.OrdinalIgnoreCase); 
+
+          DrawCellTrigger(g, wInfo.ID.ToString(), x, y, selected);
         }
       }
     }
 
-    public static void DrawCellTrigger(Graphics g, string id, int x, int y)
+    public static void DrawCellTrigger(Graphics g, string id, int x, int y, bool selected)
     {
       // draw rectangle
       int xt = x * Constants.CELL_PIXEL_W + 1;
@@ -104,12 +105,12 @@ namespace RA_Mission_Editor.Renderers
       g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
       g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
       g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
-      g.DrawRectangle(MapUserThemes.CellTriggerPen, xt, yt, Constants.CELL_PIXEL_W - 2, Constants.CELL_PIXEL_H - 2);
+      g.DrawRectangle(selected ? MapUserThemes.SelectedCellTriggerPen : MapUserThemes.CellTriggerPen, xt, yt, Constants.CELL_PIXEL_W - 2, Constants.CELL_PIXEL_H - 2);
 
       // draw text
       Rectangle r = new Rectangle(xt, yt, Constants.CELL_PIXEL_W, Constants.CELL_PIXEL_H);
       g.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
-      g.DrawString(id.ToUpperInvariant(), MapUserThemes.CellTriggerFont, MapUserThemes.CellTriggerBrush, r, _textStringFormat);
+      g.DrawString(id.ToUpperInvariant(), MapUserThemes.CellTriggerFont, selected ? MapUserThemes.SelectedCellTriggerBrush : MapUserThemes.CellTriggerBrush, r, _textStringFormat);
     }
 
     public static void DrawBounds(Map map, Graphics g)

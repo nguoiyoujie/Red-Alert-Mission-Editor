@@ -67,6 +67,15 @@ namespace RA_Mission_Editor.UI.UserControls
       this.bOK = new System.Windows.Forms.Button();
       this.bCancel = new System.Windows.Forms.Button();
       this.tbHint = new System.Windows.Forms.TextBox();
+      this.groupBox1 = new System.Windows.Forms.GroupBox();
+      this.nudMaxVessels = new System.Windows.Forms.NumericUpDown();
+      this.nudMaxUnits = new System.Windows.Forms.NumericUpDown();
+      this.nudMaxInfantry = new System.Windows.Forms.NumericUpDown();
+      this.nudMaxBuildings = new System.Windows.Forms.NumericUpDown();
+      this.label1 = new System.Windows.Forms.Label();
+      this.label3 = new System.Windows.Forms.Label();
+      this.label5 = new System.Windows.Forms.Label();
+      this.label6 = new System.Windows.Forms.Label();
       this.gbMultipliers.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.nudBuildTime)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudCost)).BeginInit();
@@ -80,6 +89,11 @@ namespace RA_Mission_Editor.UI.UserControls
       ((System.ComponentModel.ISupportInitialize)(this.nudCredits)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudIQ)).BeginInit();
       this.gbGeneral.SuspendLayout();
+      this.groupBox1.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.nudMaxVessels)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudMaxUnits)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudMaxInfantry)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudMaxBuildings)).BeginInit();
       this.SuspendLayout();
       // 
       // lblColor
@@ -128,7 +142,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbNoBuildingCrew.Text = "No Building Crew";
       this.cbNoBuildingCrew.UseVisualStyleBackColor = true;
       this.cbNoBuildingCrew.CheckedChanged += new System.EventHandler(this.Value_Changed);
-      this.cbNoBuildingCrew.Enter += new System.EventHandler(this.cbNoBuildingCrew_Enter);
+      this.cbNoBuildingCrew.MouseEnter += new System.EventHandler(this.cbNoBuildingCrew_MouseEnter);
       // 
       // cbBuildingsInstantCapture
       // 
@@ -140,7 +154,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbBuildingsInstantCapture.Text = "Buildings Get Instantly Captured";
       this.cbBuildingsInstantCapture.UseVisualStyleBackColor = true;
       this.cbBuildingsInstantCapture.CheckedChanged += new System.EventHandler(this.Value_Changed);
-      this.cbBuildingsInstantCapture.Enter += new System.EventHandler(this.cbBuildingsInstantCapture_Enter);
+      this.cbBuildingsInstantCapture.MouseEnter += new System.EventHandler(this.cbBuildingsInstantCapture_MouseEnter);
       // 
       // cbEnableIranOverrides
       // 
@@ -253,7 +267,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudBuildTime.ValueChanged += new System.EventHandler(this.Value_Changed);
-      this.nudBuildTime.Enter += new System.EventHandler(this.nudMultipliers_Enter);
+      this.nudBuildTime.MouseEnter += new System.EventHandler(this.nudMultipliers_MouseEnter);
       // 
       // nudCost
       // 
@@ -278,7 +292,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudCost.ValueChanged += new System.EventHandler(this.Value_Changed);
-      this.nudCost.Enter += new System.EventHandler(this.nudMultipliers_Enter);
+      this.nudCost.MouseEnter += new System.EventHandler(this.nudMultipliers_MouseEnter);
       // 
       // nudROF
       // 
@@ -303,7 +317,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudROF.ValueChanged += new System.EventHandler(this.Value_Changed);
-      this.nudROF.Enter += new System.EventHandler(this.nudMultipliers_Enter);
+      this.nudROF.MouseEnter += new System.EventHandler(this.nudMultipliers_MouseEnter);
       // 
       // nudArmor
       // 
@@ -328,7 +342,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudArmor.ValueChanged += new System.EventHandler(this.Value_Changed);
-      this.nudArmor.Enter += new System.EventHandler(this.nudMultipliers_Enter);
+      this.nudArmor.MouseEnter += new System.EventHandler(this.nudMultipliers_MouseEnter);
       // 
       // nudAirSpeed
       // 
@@ -353,7 +367,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudAirSpeed.ValueChanged += new System.EventHandler(this.Value_Changed);
-      this.nudAirSpeed.Enter += new System.EventHandler(this.nudMultipliers_Enter);
+      this.nudAirSpeed.MouseEnter += new System.EventHandler(this.nudMultipliers_MouseEnter);
       // 
       // nudGroundSpeed
       // 
@@ -378,7 +392,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudGroundSpeed.ValueChanged += new System.EventHandler(this.Value_Changed);
-      this.nudGroundSpeed.Enter += new System.EventHandler(this.nudMultipliers_Enter);
+      this.nudGroundSpeed.MouseEnter += new System.EventHandler(this.nudMultipliers_MouseEnter);
       // 
       // nudFirepower
       // 
@@ -403,7 +417,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudFirepower.ValueChanged += new System.EventHandler(this.Value_Changed);
-      this.nudFirepower.Enter += new System.EventHandler(this.nudMultipliers_Enter);
+      this.nudFirepower.MouseEnter += new System.EventHandler(this.nudMultipliers_MouseEnter);
       // 
       // gbIran
       // 
@@ -432,7 +446,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbCountry.TabIndex = 20;
       this.cbCountry.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbCountry.TextChanged += new System.EventHandler(this.Value_Changed);
-      this.cbCountry.Enter += new System.EventHandler(this.cbCountry_Enter);
+      this.cbCountry.MouseEnter += new System.EventHandler(this.cbCountry_MouseEnter);
       // 
       // cbSecondaryColor
       // 
@@ -444,7 +458,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbSecondaryColor.TabIndex = 19;
       this.cbSecondaryColor.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbSecondaryColor.TextChanged += new System.EventHandler(this.Value_Changed);
-      this.cbSecondaryColor.Enter += new System.EventHandler(this.cbSecondaryColor_Enter);
+      this.cbSecondaryColor.MouseEnter += new System.EventHandler(this.cbSecondaryColor_MouseEnter);
       // 
       // cbColor
       // 
@@ -456,7 +470,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbColor.TabIndex = 18;
       this.cbColor.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbColor.TextChanged += new System.EventHandler(this.Value_Changed);
-      this.cbColor.Enter += new System.EventHandler(this.cbColor_Enter);
+      this.cbColor.MouseEnter += new System.EventHandler(this.cbColor_MouseEnter);
       // 
       // nudTechLevel
       // 
@@ -475,7 +489,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudTechLevel.ValueChanged += new System.EventHandler(this.Value_Changed);
-      this.nudTechLevel.Enter += new System.EventHandler(this.nudTechLevel_Enter);
+      this.nudTechLevel.MouseEnter += new System.EventHandler(this.nudTechLevel_MouseEnter);
       // 
       // nudCredits
       // 
@@ -494,7 +508,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudCredits.ValueChanged += new System.EventHandler(this.Value_Changed);
-      this.nudCredits.Enter += new System.EventHandler(this.nudCredits_Enter);
+      this.nudCredits.MouseEnter += new System.EventHandler(this.nudCredits_MouseEnter);
       // 
       // lblTechLevel
       // 
@@ -533,7 +547,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbPlayerControl.Text = "Player Control";
       this.cbPlayerControl.UseVisualStyleBackColor = true;
       this.cbPlayerControl.CheckedChanged += new System.EventHandler(this.Value_Changed);
-      this.cbPlayerControl.Enter += new System.EventHandler(this.cbPlayerControl_Enter);
+      this.cbPlayerControl.MouseEnter += new System.EventHandler(this.cbPlayerControl_MouseEnter);
       // 
       // nudIQ
       // 
@@ -552,7 +566,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudIQ.ValueChanged += new System.EventHandler(this.Value_Changed);
-      this.nudIQ.Enter += new System.EventHandler(this.nudIQ_Enter);
+      this.nudIQ.MouseEnter += new System.EventHandler(this.nudIQ_MouseEnter);
       // 
       // gbAllies
       // 
@@ -607,18 +621,160 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       this.tbHint.AcceptsReturn = true;
       this.tbHint.Font = new System.Drawing.Font("Consolas", 7.25F);
-      this.tbHint.Location = new System.Drawing.Point(3, 301);
+      this.tbHint.Location = new System.Drawing.Point(3, 341);
       this.tbHint.Multiline = true;
       this.tbHint.Name = "tbHint";
       this.tbHint.ReadOnly = true;
       this.tbHint.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-      this.tbHint.Size = new System.Drawing.Size(423, 149);
+      this.tbHint.Size = new System.Drawing.Size(423, 109);
       this.tbHint.TabIndex = 93;
+      // 
+      // groupBox1
+      // 
+      this.groupBox1.Controls.Add(this.nudMaxVessels);
+      this.groupBox1.Controls.Add(this.nudMaxUnits);
+      this.groupBox1.Controls.Add(this.nudMaxInfantry);
+      this.groupBox1.Controls.Add(this.nudMaxBuildings);
+      this.groupBox1.Controls.Add(this.label1);
+      this.groupBox1.Controls.Add(this.label3);
+      this.groupBox1.Controls.Add(this.label5);
+      this.groupBox1.Controls.Add(this.label6);
+      this.groupBox1.Location = new System.Drawing.Point(250, 209);
+      this.groupBox1.Name = "groupBox1";
+      this.groupBox1.Size = new System.Drawing.Size(176, 126);
+      this.groupBox1.TabIndex = 94;
+      this.groupBox1.TabStop = false;
+      this.groupBox1.Text = "Maximums";
+      // 
+      // nudMaxVessels
+      // 
+      this.nudMaxVessels.Location = new System.Drawing.Point(105, 97);
+      this.nudMaxVessels.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+      this.nudMaxVessels.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+      this.nudMaxVessels.Name = "nudMaxVessels";
+      this.nudMaxVessels.Size = new System.Drawing.Size(60, 20);
+      this.nudMaxVessels.TabIndex = 19;
+      this.nudMaxVessels.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+      // 
+      // nudMaxUnits
+      // 
+      this.nudMaxUnits.Location = new System.Drawing.Point(105, 71);
+      this.nudMaxUnits.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+      this.nudMaxUnits.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+      this.nudMaxUnits.Name = "nudMaxUnits";
+      this.nudMaxUnits.Size = new System.Drawing.Size(60, 20);
+      this.nudMaxUnits.TabIndex = 18;
+      this.nudMaxUnits.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+      // 
+      // nudMaxInfantry
+      // 
+      this.nudMaxInfantry.Location = new System.Drawing.Point(105, 45);
+      this.nudMaxInfantry.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+      this.nudMaxInfantry.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+      this.nudMaxInfantry.Name = "nudMaxInfantry";
+      this.nudMaxInfantry.Size = new System.Drawing.Size(60, 20);
+      this.nudMaxInfantry.TabIndex = 17;
+      this.nudMaxInfantry.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+      // 
+      // nudMaxBuildings
+      // 
+      this.nudMaxBuildings.Location = new System.Drawing.Point(105, 19);
+      this.nudMaxBuildings.Maximum = new decimal(new int[] {
+            9999999,
+            0,
+            0,
+            0});
+      this.nudMaxBuildings.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+      this.nudMaxBuildings.Name = "nudMaxBuildings";
+      this.nudMaxBuildings.Size = new System.Drawing.Size(60, 20);
+      this.nudMaxBuildings.TabIndex = 16;
+      this.nudMaxBuildings.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+      // 
+      // label1
+      // 
+      this.label1.AutoSize = true;
+      this.label1.Location = new System.Drawing.Point(6, 47);
+      this.label1.Name = "label1";
+      this.label1.Size = new System.Drawing.Size(79, 13);
+      this.label1.TabIndex = 5;
+      this.label1.Text = "Max Infantry";
+      // 
+      // label3
+      // 
+      this.label3.AutoSize = true;
+      this.label3.Location = new System.Drawing.Point(7, 73);
+      this.label3.Name = "label3";
+      this.label3.Size = new System.Drawing.Size(55, 13);
+      this.label3.TabIndex = 14;
+      this.label3.Text = "Max Unit";
+      // 
+      // label5
+      // 
+      this.label5.AutoSize = true;
+      this.label5.Location = new System.Drawing.Point(7, 99);
+      this.label5.Name = "label5";
+      this.label5.Size = new System.Drawing.Size(67, 13);
+      this.label5.TabIndex = 15;
+      this.label5.Text = "Max Vessel";
+      // 
+      // label6
+      // 
+      this.label6.AutoSize = true;
+      this.label6.Location = new System.Drawing.Point(6, 21);
+      this.label6.Name = "label6";
+      this.label6.Size = new System.Drawing.Size(79, 13);
+      this.label6.TabIndex = 11;
+      this.label6.Text = "Max Building";
       // 
       // HouseControl
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.Controls.Add(this.groupBox1);
       this.Controls.Add(this.tbHint);
       this.Controls.Add(this.bOK);
       this.Controls.Add(this.bCancel);
@@ -646,6 +802,12 @@ namespace RA_Mission_Editor.UI.UserControls
       ((System.ComponentModel.ISupportInitialize)(this.nudIQ)).EndInit();
       this.gbGeneral.ResumeLayout(false);
       this.gbGeneral.PerformLayout();
+      this.groupBox1.ResumeLayout(false);
+      this.groupBox1.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.nudMaxVessels)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudMaxUnits)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudMaxInfantry)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudMaxBuildings)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -689,5 +851,14 @@ namespace RA_Mission_Editor.UI.UserControls
     private System.Windows.Forms.Button bOK;
     private System.Windows.Forms.Button bCancel;
     private System.Windows.Forms.TextBox tbHint;
+    private System.Windows.Forms.GroupBox groupBox1;
+    private System.Windows.Forms.NumericUpDown nudMaxVessels;
+    private System.Windows.Forms.NumericUpDown nudMaxUnits;
+    private System.Windows.Forms.NumericUpDown nudMaxInfantry;
+    private System.Windows.Forms.NumericUpDown nudMaxBuildings;
+    private System.Windows.Forms.Label label1;
+    private System.Windows.Forms.Label label3;
+    private System.Windows.Forms.Label label5;
+    private System.Windows.Forms.Label label6;
   }
 }

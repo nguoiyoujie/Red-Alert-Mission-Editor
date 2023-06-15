@@ -14,9 +14,13 @@
 
 using RA_Mission_Editor.Common;
 using RA_Mission_Editor.FileFormats.Encodings;
+using RA_Mission_Editor.Resources;
 using RA_Mission_Editor.Util;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace RA_Mission_Editor.FileFormats
 {
@@ -163,6 +167,44 @@ namespace RA_Mission_Editor.FileFormats
         imageData[i] = baseImage[i];
 
       return imageData;
+    }
+
+    public void Save(string filename)
+    {
+      using (var fs = new FileStream(filename, FileMode.Create, FileAccess.ReadWrite))
+      {
+        var compressedFrames = Images.Select(f => WWCompression.LcwCompress(f.Image)).ToList();
+
+        // note: end-of-file and all-zeroes headers
+        var dataOffset = 14 + (compressedFrames.Count + 2) * 8;
+
+        using (var bw = new BinaryWriter(fs))
+        {
+          bw.Write((ushort)compressedFrames.Count);
+          bw.Write((ushort)0);
+          bw.Write((ushort)0);
+          bw.Write(Width);
+          bw.Write(Height);
+          bw.Write(0U);
+
+          foreach (var f in compressedFrames)
+          {
+            var ih = new ShpImage { Format = EncodingFormat.Format80, Offset = (uint)dataOffset };
+            dataOffset += f.Length;
+
+            ih.WriteTo(bw);
+          }
+
+          var eof = new ShpImage { Offset = (uint)dataOffset };
+          eof.WriteTo(bw);
+
+          var allZeroes = new ShpImage { };
+          allZeroes.WriteTo(bw);
+
+          foreach (var f in compressedFrames)
+            bw.Write(f);
+        }
+      }
     }
   }
 }

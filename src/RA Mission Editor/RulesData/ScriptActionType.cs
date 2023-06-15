@@ -26,8 +26,8 @@
 		QUARRY,
 		WAYPOINT,
 		FORMATION,
-		MISSIONTYPE
-	}
-
-
+		MISSIONTYPE,
+    GLOBALS,
+    TARGET
+  }
 }

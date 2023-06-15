@@ -8,42 +8,12 @@ namespace RA_Mission_Editor.FileFormats
 {
   public class VirtualFileSystem
   {
-    public static readonly VirtualFileSystem Instance = new VirtualFileSystem();
+    //public static readonly VirtualFileSystem Instance = new VirtualFileSystem();
     public readonly List<IArchive> AllArchives = new List<IArchive>();
-
-    public static VirtualFile Open(string filename)
-    {
-      return Instance.OpenFile(filename);
-    }
-
-    public static T Open<T>(string filename, BufferingMode m = BufferingMode.Default) where T : VirtualFile
-    {
-      return Open(filename, FormatHelper.GetFormatFromTypeclass(typeof(T)), m) as T;
-    }
-
-    public static T Open<T>(string filename, FileFormat f, BufferingMode m) where T : VirtualFile
-    {
-      return Open(filename, f, m) as T;
-    }
 
     public T OpenFile<T>(string filename, BufferingMode m = BufferingMode.Default) where T : VirtualFile
     {
       return OpenFile(filename, FormatHelper.GetFormatFromTypeclass(typeof(T)), m) as T;
-    }
-
-    public static VirtualFile Open(string filename, FileFormat f, BufferingMode m)
-    {
-      return Instance.OpenFile(filename, f, m);
-    }
-
-    public static bool Add(string filename, BufferingMode mode = BufferingMode.Default)
-    {
-      return Instance.AddItem(filename, mode);
-    }
-
-    public static bool Exists(string imageFileName)
-    {
-      return Instance.FileExists(imageFileName);
     }
 
     private bool FileExists(string filename)

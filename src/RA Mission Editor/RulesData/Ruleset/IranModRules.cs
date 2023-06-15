@@ -4,9 +4,9 @@ namespace RA_Mission_Editor.RulesData.Ruleset
 {
   public class IranModRules : VanillaRules
   {
-    public override void ApplyRulesWithMap(Map map)
+    public override void ApplyRules()
     {
-      base.ApplyRulesWithMap(map);
+      base.ApplyRules();
 
       // new units according to Iran's additions must be used in the Rules file. They are not read in the Map
       foreach (var entry in GameRules.GetOrCreateSection("BuildingTypes").OrderedEntries)
@@ -38,8 +38,11 @@ namespace RA_Mission_Editor.RulesData.Ruleset
         // like HELI
         Aircrafts.AddRulesObject(new AircraftType(entry.Value.Value) { Directions = 32 });
       }
+    }
 
-      UpdateTechnoTypeNames(map);
+    public override void ApplyRulesWithMap(Map map)
+    {
+      base.ApplyRulesWithMap(map);
 
       foreach (var s in Houses.GetAll())
       {

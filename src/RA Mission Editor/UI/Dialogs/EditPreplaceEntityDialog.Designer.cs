@@ -66,7 +66,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.cbOwner.Name = "cbOwner";
       this.cbOwner.Size = new System.Drawing.Size(121, 21);
       this.cbOwner.TabIndex = 2;
-      this.cbOwner.Enter += new System.EventHandler(this.cbOwner_Enter);
+      this.cbOwner.MouseEnter += new System.EventHandler(this.cbOwner_MouseEnter);
       // 
       // bOK
       // 
@@ -104,7 +104,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.nudStrength.Name = "nudStrength";
       this.nudStrength.Size = new System.Drawing.Size(120, 20);
       this.nudStrength.TabIndex = 11;
-      this.nudStrength.Enter += new System.EventHandler(this.nudStrength_Enter);
+      this.nudStrength.MouseEnter += new System.EventHandler(this.nudStrength_MouseEnter);
       // 
       // nudFacing
       // 
@@ -117,7 +117,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.nudFacing.Name = "nudFacing";
       this.nudFacing.Size = new System.Drawing.Size(120, 20);
       this.nudFacing.TabIndex = 14;
-      this.nudFacing.Enter += new System.EventHandler(this.nudFacing_Enter);
+      this.nudFacing.MouseEnter += new System.EventHandler(this.nudFacing_MouseEnter);
       // 
       // label2
       // 
@@ -174,7 +174,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.cbMission.Name = "cbMission";
       this.cbMission.Size = new System.Drawing.Size(121, 21);
       this.cbMission.TabIndex = 25;
-      this.cbMission.Enter += new System.EventHandler(this.cbMission_Enter);
+      this.cbMission.MouseEnter += new System.EventHandler(this.cbMission_MouseEnter);
       // 
       // tbType
       // 
@@ -193,7 +193,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.cbSellable.TabIndex = 35;
       this.cbSellable.Text = "AI Sellable";
       this.cbSellable.UseVisualStyleBackColor = true;
-      this.cbSellable.Enter += new System.EventHandler(this.cbSellable_Enter);
+      this.cbSellable.MouseEnter += new System.EventHandler(this.cbSellable_MouseEnter);
       // 
       // cbRepairable
       // 
@@ -204,7 +204,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.cbRepairable.TabIndex = 34;
       this.cbRepairable.Text = "AI Repair";
       this.cbRepairable.UseVisualStyleBackColor = true;
-      this.cbRepairable.Enter += new System.EventHandler(this.cbRepairable_Enter);
+      this.cbRepairable.MouseEnter += new System.EventHandler(this.cbRepairable_MouseEnter);
       // 
       // EditPreplaceEntityDialog
       // 

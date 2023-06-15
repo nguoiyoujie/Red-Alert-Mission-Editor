@@ -47,10 +47,10 @@ namespace RA_Mission_Editor.RulesData
 			return bmp;
 		}
 
-		public void DrawOnMap(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo entity)
+		public void DrawOnMap(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo entity, bool highlight)
 		{
 			TechnoTypeRenderer.CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
-			TechnoTypeRenderer.DrawUnit(map, rules, cache, vfs, tt, palFile, ID, rules.Houses.GetHouse(entity.Owner), entity.Facing, g, entity.X, entity.Y, entity.Tag);
+			TechnoTypeRenderer.DrawUnit(map, rules, cache, vfs, tt, palFile, ID, rules.Houses.GetHouse(entity.Owner), entity.Facing, g, entity.X, entity.Y, entity.Tag, highlight);
 		}
 	}
 }

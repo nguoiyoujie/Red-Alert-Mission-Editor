@@ -25,7 +25,7 @@ namespace RA_Mission_Editor.RulesData.Ruleset
       LanguageText = vfs.OpenFile<LanguageFile>("conquer.eng");
     }
 
-    public override void ApplyRulesWithMap(Map map)
+    public override void ApplyRules()
     {
       // new units?
       Structures.ClearRulesAdditions();
@@ -34,6 +34,11 @@ namespace RA_Mission_Editor.RulesData.Ruleset
       Infantries.ClearRulesAdditions();
       Aircrafts.ClearRulesAdditions();
 
+      //UpdateTechnoTypeNames(null);
+    }
+
+    public override void ApplyRulesWithMap(Map map)
+    {
       UpdateTechnoTypeNames(map);
     }
 

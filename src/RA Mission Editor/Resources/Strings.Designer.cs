@@ -19,7 +19,7 @@ namespace RA_Mission_Editor.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Strings {
@@ -57,6 +57,17 @@ namespace RA_Mission_Editor.Resources {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comment
+        ///
+        ///Saves a comment for the map designer&apos;s convenience. Comments have no impact on gameplay..
+        /// </summary>
+        internal static string Comment {
+            get {
+                return ResourceManager.GetString("Comment", resourceCulture);
             }
         }
         
@@ -293,6 +304,17 @@ namespace RA_Mission_Editor.Resources {
         internal static string TeamType_Suicide {
             get {
                 return ResourceManager.GetString("TeamType_Suicide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Team Missions
+        ///
+        ///Lists, in order of execution, the actions to be undertaken by the Team..
+        /// </summary>
+        internal static string TeamType_TeamMissions {
+            get {
+                return ResourceManager.GetString("TeamType_TeamMissions", resourceCulture);
             }
         }
         

@@ -48,19 +48,20 @@ namespace RA_Mission_Editor.RulesData
 			return bmp;
 		}
 
-		public void DrawOnMap(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo entity)
+		public void DrawOnMap(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo entity, bool highlight)
 		{
 			EnvironmentRenderer.CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
-			Bitmap bmp = null;
-			if (cache.GetOrOpen(ID + tt.Extension, vfs, out ShpFile shpFile) ||
-					cache.GetOrOpen(ID + ".SHP", vfs, out shpFile))
-			{
-				bmp = RenderUtils.RenderShp(cache, shpFile, palFile, 0);
-			}
-			if (bmp != null)
-			{
-				g.DrawImage(bmp, entity.X * Constants.CELL_PIXEL_W, entity.Y * Constants.CELL_PIXEL_H);
-			}
-		}
-	}
+      EnvironmentRenderer.DrawOverlay(map, cache, vfs, tt, palFile, ID, g, entity.X, entity.Y, highlight);
+      //Bitmap bmp = null;
+      //if (cache.GetOrOpen(ID + tt.Extension, vfs, out ShpFile shpFile) ||
+      //		cache.GetOrOpen(ID + ".SHP", vfs, out shpFile))
+      //{
+      //	bmp = RenderUtils.RenderShp(cache, shpFile, palFile, 0);
+      //}
+      //if (bmp != null)
+      //{
+      //	g.DrawImage(bmp, entity.X * Constants.CELL_PIXEL_W, entity.Y * Constants.CELL_PIXEL_H);
+      //}
+    }
+  }
 }

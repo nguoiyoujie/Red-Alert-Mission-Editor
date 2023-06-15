@@ -117,6 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Comment" xml:space="preserve">
+    <value>Comment
+
+Saves a comment for the map designer's convenience. Comments have no impact on gameplay.</value>
+  </data>
   <data name="HouseType_Allies" xml:space="preserve">
     <value>Allies
 
@@ -226,6 +231,11 @@ Toggles whether the AI will dip into its unit pool to join an instance of the te
 
 Toggles whether the team will follow their script without breaking from it when attacked.
 When it is off, the team will interrupt their current mission if attacked.</value>
+  </data>
+  <data name="TeamType_TeamMissions" xml:space="preserve">
+    <value>Team Missions
+
+Lists, in order of execution, the actions to be undertaken by the Team.</value>
   </data>
   <data name="TeamType_Techno" xml:space="preserve">
     <value>Members

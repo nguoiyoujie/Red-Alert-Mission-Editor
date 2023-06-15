@@ -50,6 +50,13 @@ namespace RA_Mission_Editor.MapData
     public StoredIniValue<bool> BuildingsGetInstantlyCaptured = StoredIniValueExt.CreateIniLink_Bool(nameof(BuildingsGetInstantlyCaptured));
     public StoredIniValue<bool> NoBuildingCrew = StoredIniValueExt.CreateIniLink_Bool(nameof(NoBuildingCrew));
 
+    // Maximum Overrides
+    public StoredIniValue<int> MaxBuilding = StoredIniValueExt.CreateIniLink_Int(nameof(MaxBuilding));
+    public StoredIniValue<int> MaxInfantry = StoredIniValueExt.CreateIniLink_Int(nameof(MaxInfantry));
+    public StoredIniValue<int> MaxUnit = StoredIniValueExt.CreateIniLink_Int(nameof(MaxUnit));
+    public StoredIniValue<int> MaxVessel = StoredIniValueExt.CreateIniLink_Int(nameof(MaxVessel));
+
+
     public void Read(IniFile.IniSection section)
     {
       TechLevel.Read(section);
@@ -71,6 +78,11 @@ namespace RA_Mission_Editor.MapData
       SecondaryColorScheme.Read(section);
       BuildingsGetInstantlyCaptured.Read(section);
       NoBuildingCrew.Read(section);
+
+      MaxBuilding.Read(section);
+      MaxInfantry.Read(section);
+      MaxUnit.Read(section);
+      MaxVessel.Read(section);
     }
 
     public void Update(IniFile.IniSection section)
@@ -96,6 +108,11 @@ namespace RA_Mission_Editor.MapData
       SecondaryColorScheme.Update(section);
       BuildingsGetInstantlyCaptured.Update(section);
       NoBuildingCrew.Update(section);
+
+      MaxBuilding.Update(section);
+      MaxInfantry.Update(section);
+      MaxUnit.Update(section);
+      MaxVessel.Update(section);
     }
   }
 }

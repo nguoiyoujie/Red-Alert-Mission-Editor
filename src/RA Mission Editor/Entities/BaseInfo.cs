@@ -32,7 +32,7 @@ namespace RA_Mission_Editor.Entities
       {
         throw new Exception($"Map Base {index} contains less than expected parameters");
       }
-      s.ID = tokens[0];
+      s.ID = tokens[0].ToUpperInvariant();
       s.Cell = int.Parse(tokens[1]);
 
       return s;

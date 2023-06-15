@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using RA_Mission_Editor.FileFormats;
+using RA_Mission_Editor.MapData;
+using RA_Mission_Editor.Renderers;
+using RA_Mission_Editor.RulesData.Ruleset;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 
 namespace RA_Mission_Editor.RulesData
 {
@@ -482,6 +488,18 @@ namespace RA_Mission_Editor.RulesData
 		public static string GetName(int id)
     {
 			return id >= 0 && id < _listString.Count ? _listString[id] : null;
+		}
+
+		public static void Extract(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, string dirpath)
+		{
+			Directory.CreateDirectory(Path.Combine(dirpath, map.MapSection.Theater.ToUpperInvariant()));
+			foreach (TemplateType tem in GetAll())
+			{
+				using (Bitmap bmp = tem.DrawPreview(map, rules, cache, vfs, new Common.PlaceEntityInfo()))
+				{
+					bmp?.Save(Path.Combine(dirpath, map.MapSection.Theater.ToUpperInvariant(), tem.ID + ".png"));
+				}
+			}
 		}
 	}
 }

@@ -66,7 +66,7 @@ namespace RA_Mission_Editor.UI.UserControls
           Enabled = true,
           Visible = true,
         };
-        AlliesCheckBoxes[i].Enter += cbAllies_Enter;
+        AlliesCheckBoxes[i].MouseEnter += cbAllies_MouseEnter;
         AlliesCheckBoxes[i].CheckedChanged += Value_Changed;
         y += incrY;
       }
@@ -128,6 +128,11 @@ namespace RA_Mission_Editor.UI.UserControls
 
         cbEnableIranOverrides.Checked = hasOverride;
 
+        if (house.MaxBuilding.HasValue) { nudMaxBuildings.Value = Math.Min(nudMaxBuildings.Maximum, Math.Max(nudMaxBuildings.Minimum, house.MaxBuilding.Value)); } else { nudMaxBuildings.Value = -1; }
+        if (house.MaxInfantry.HasValue) { nudMaxInfantry.Value = Math.Min(nudMaxInfantry.Maximum, Math.Max(nudMaxInfantry.Minimum, house.MaxInfantry.Value)); } else { nudMaxInfantry.Value = -1; }
+        if (house.MaxUnit.HasValue) { nudMaxUnits.Value = Math.Min(nudMaxUnits.Maximum, Math.Max(nudMaxUnits.Minimum, house.MaxUnit.Value)); } else { nudMaxUnits.Value = -1; }
+        if (house.MaxVessel.HasValue) { nudMaxVessels.Value = Math.Min(nudMaxVessels.Maximum, Math.Max(nudMaxVessels.Minimum, house.MaxVessel.Value)); } else { nudMaxVessels.Value = -1; }
+
         gbAllies.Enabled = true;
         gbIran.Enabled = hasOverride;
         gbMultipliers.Enabled = true;
@@ -156,6 +161,45 @@ namespace RA_Mission_Editor.UI.UserControls
         HouseData.Cost.Set((float)nudCost.Value);
         HouseData.BuildTime.Set((float)nudBuildTime.Value);
 
+        if ((int)nudMaxBuildings.Value < 0)
+        {
+          HouseData.MaxBuilding.Clear();
+        }
+        else
+        {
+          HouseData.MaxBuilding.Set((int)nudMaxBuildings.Value);
+        }
+
+
+        if ((int)nudMaxInfantry.Value < 0)
+        {
+          HouseData.MaxInfantry.Clear();
+        }
+        else
+        {
+          HouseData.MaxInfantry.Set((int)nudMaxInfantry.Value);
+        }
+
+
+        if ((int)nudMaxUnits.Value < 0)
+        {
+          HouseData.MaxUnit.Clear();
+        }
+        else
+        {
+          HouseData.MaxUnit.Set((int)nudMaxUnits.Value);
+        }
+
+
+        if ((int)nudMaxVessels.Value < 0)
+        {
+          HouseData.MaxVessel.Clear();
+        }
+        else
+        {
+          HouseData.MaxVessel.Set((int)nudMaxVessels.Value);
+        }
+
         List<string> allies = new List<string>();
         for (int i = 0; i < AlliesCheckBoxes.Length; i++)
         {
@@ -165,7 +209,7 @@ namespace RA_Mission_Editor.UI.UserControls
           }
         }
 
-        if (allies.Count > 1)
+        if (allies.Count > 0)
         {
           HouseData.Allies.Set(allies);
         }
@@ -188,6 +232,7 @@ namespace RA_Mission_Editor.UI.UserControls
           HouseData.NoBuildingCrew.Clear();
         }
         Map.Update();
+        Map.AttachedRules.ApplyRules();
         Map.AttachedRules.ApplyRulesWithMap(Map);
         Map.Dirty = true;
         Map.InvalidateObjectDisplay?.Invoke();
@@ -218,19 +263,19 @@ namespace RA_Mission_Editor.UI.UserControls
       SetHouse(HouseData);
     }
 
-    private void nudTechLevel_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_TechLevel; }
-    private void nudIQ_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_IQ; }
-    private void nudCredits_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_Credits; }
-    private void nudMultipliers_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_Multipliers; }
+    private void nudTechLevel_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_TechLevel; }
+    private void nudIQ_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_IQ; }
+    private void nudCredits_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_Credits; }
+    private void nudMultipliers_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_Multipliers; }
 
-    private void cbPlayerControl_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_PlayerControl; }
-    private void cbColor_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_SecondaryColor; }
-    private void cbSecondaryColor_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_Color; }
-    private void cbCountry_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_Country; }
-    private void cbBuildingsInstantCapture_Enter(object sender, EventArgs e) {  tbHint.Text = Resources.Strings.HouseType_InstantCapture; }
-    private void cbNoBuildingCrew_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_NoCrew; }
+    private void cbPlayerControl_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_PlayerControl; }
+    private void cbColor_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_SecondaryColor; }
+    private void cbSecondaryColor_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_Color; }
+    private void cbCountry_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_Country; }
+    private void cbBuildingsInstantCapture_MouseEnter(object sender, EventArgs e) {  tbHint.Text = Resources.Strings.HouseType_InstantCapture; }
+    private void cbNoBuildingCrew_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_NoCrew; }
 
-    private void cbAllies_Enter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_Allies; }
+    private void cbAllies_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.HouseType_Allies; }
 
   }
 }

@@ -8,6 +8,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace RA_Mission_Editor.Renderers
 {
@@ -92,6 +93,8 @@ namespace RA_Mission_Editor.Renderers
     private Stopwatch _ostopwatch = new Stopwatch();
     private bool _dirty = false;
     private bool _templateDirty = false;
+    private bool _pleplacedHighlight = false;
+    private Timer _timer = new Timer();
 
     public bool Dirty { get { return _dirty; } private set { if (_dirty != value) { _dirty = value; if (_dirty) { MapDirtied?.Invoke(); } } } }
     public bool TemplateDirty { get { return _templateDirty; } private set { if (_templateDirty != value) { _templateDirty = value; if (_templateDirty) { MapDirtied?.Invoke(); } } } }
@@ -113,6 +116,12 @@ namespace RA_Mission_Editor.Renderers
       Dirty = true;
     }
 
+    public void TimerSetDirty(object sender, EventArgs e)
+    {
+      Dirty = true;
+      _pleplacedHighlight = !_pleplacedHighlight;
+    }
+
     public void SetTemplateDirty()
     {
       TemplateDirty = true;
@@ -126,7 +135,10 @@ namespace RA_Mission_Editor.Renderers
         Visible[i] = true;
       }
       Reset();
-    }
+      _timer.Enabled = false;
+      _timer.Interval = 500;
+      _timer.Tick += TimerSetDirty; 
+     }
 
     public void Reset(Map map = null)
     {
@@ -196,7 +208,7 @@ namespace RA_Mission_Editor.Renderers
           // Preplaced Template, if any
           if (Visible[(int)LayerType.PreplaceEntity] && preplaceEntity != null && preplaceEntity.Type is TemplateType)
             using (new TimeKeeper(_stopwatch, nameof(DrawPreplaceEntity)))
-              DrawPreplaceEntity(map, rules, cache, vfs, g, preplaceEntity);
+              DrawPreplaceEntity(map, rules, cache, vfs, g, preplaceEntity, _pleplacedHighlight);
 
           // Bib layers
           if (Visible[(int)LayerType.Bases])
@@ -244,11 +256,11 @@ namespace RA_Mission_Editor.Renderers
           // Editor widgets layer
           if (Visible[(int)LayerType.CellTriggers])
             using (new TimeKeeper(_stopwatch, nameof(WidgetsRenderer.DrawCellTriggers)))
-              WidgetsRenderer.DrawCellTriggers(map, g);
+              WidgetsRenderer.DrawCellTriggers(map, preplaceEntity, g);
 
           if (Visible[(int)LayerType.Waypoints])
             using (new TimeKeeper(_stopwatch, nameof(WidgetsRenderer.DrawWaypoints)))
-              WidgetsRenderer.DrawWaypoints(map, g);
+              WidgetsRenderer.DrawWaypoints(map, preplaceEntity, g);
 
           if (Visible[(int)LayerType.Bounds])
             using (new TimeKeeper(_stopwatch, nameof(WidgetsRenderer.DrawBounds)))
@@ -264,8 +276,21 @@ namespace RA_Mission_Editor.Renderers
 
           // Preplaced objects, if any
           if (Visible[(int)LayerType.PreplaceEntity] && preplaceEntity != null && preplaceEntity.Type != null && !(preplaceEntity.Type is TemplateType))
+          {
             using (new TimeKeeper(_stopwatch, nameof(DrawPreplaceEntity)))
-              DrawPreplaceEntity(map, rules, cache, vfs, g, preplaceEntity);
+              DrawPreplaceEntity(map, rules, cache, vfs, g, preplaceEntity, _pleplacedHighlight);
+          }
+
+          if (Visible[(int)LayerType.PreplaceEntity] && preplaceEntity != null)
+          {
+            if (!_timer.Enabled)
+              _timer.Start();
+          }
+          else
+          {
+            if (_timer.Enabled)
+              _timer.Stop();
+          }
         }
         Dirty = false;
       }
@@ -273,10 +298,10 @@ namespace RA_Mission_Editor.Renderers
       //  MapUpdated.Invoke();
     }
     
-    public void DrawPreplaceEntity(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo preplaceEntity)
+    public void DrawPreplaceEntity(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo preplaceEntity, bool highlight)
     {
       if (preplaceEntity.Type == null) { return; }     
-      preplaceEntity.Type.DrawOnMap(map, rules, cache, vfs, g, preplaceEntity);
+      preplaceEntity.Type.DrawOnMap(map, rules, cache, vfs, g, preplaceEntity, highlight);
     }
   }
 }

@@ -87,14 +87,14 @@ namespace RA_Mission_Editor.Entities
       Bitmap bmp = new Bitmap(Constants.CELL_PIXEL_W * 3, Constants.CELL_PIXEL_H * 3);
       using (Graphics g = Graphics.FromImage(bmp))
       {
-        WidgetsRenderer.DrawWaypoint(map, g, ID, 1, 1);
+        WidgetsRenderer.DrawWaypoint(map, g, ID, 1, 1, false);
       }
       return bmp;
     }
 
-    public void DrawOnMap(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo entity)
+    public void DrawOnMap(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo entity, bool highlight)
     {
-      WidgetsRenderer.DrawWaypoint(map, g, ID, entity.X, entity.Y);
+      WidgetsRenderer.DrawWaypoint(map, g, ID, entity.X, entity.Y, true);
       if (int.TryParse(ID, out int nid) && map.IsCellInMap(map.WaypointSection.WaypointList[nid].Cell))
       {
         int cell = map.WaypointSection.WaypointList[nid].Cell;

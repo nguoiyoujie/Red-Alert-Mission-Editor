@@ -43,7 +43,7 @@ namespace RA_Mission_Editor.RulesData
 			return bmp;
 		}
 
-		public void DrawOnMap(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo entity)
+		public void DrawOnMap(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo entity, bool highlight)
 		{
 			EnvironmentRenderer.DrawTemplates(map, Extract, entity.X, entity.Y, cache, vfs, g);
 			TechnoTypeRenderer.DrawStructureBibs(map, Extract, entity.X, entity.Y, rules, cache, vfs, g);

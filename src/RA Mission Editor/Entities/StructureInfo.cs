@@ -48,7 +48,7 @@ namespace RA_Mission_Editor.Entities
       unchecked
       {
         Owner = tokens[0];
-        ID = tokens[1];
+        ID = tokens[1].ToUpperInvariant();
         Health = short.Parse(tokens[2]);
         Cell = int.Parse(tokens[3]);
         Facing = byte.Parse(tokens[4]);

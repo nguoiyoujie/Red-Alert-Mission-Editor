@@ -133,11 +133,11 @@ namespace RA_Mission_Editor.RulesData.Ruleset
             int adjustY = GameRules.GetSection(entry.Value.Value).ReadInt("TurretAdjustY");
             if (GameRules.GetSection(entry.Value.Value).ReadBool("HasSecondTurret", false))
             {
-              ship.TurretLocations = new TurretLocationDelegate[] { (id, fac) => { MapHelper.MoveCoord(0, 0, offset, 256 - fac, out int x, out int y); return new Point(x, y + adjustY); }, (id, fac) => { MapHelper.MoveCoord(0, 0, -offset, 256 - fac, out int x, out int y); return new Point(x, y + adjustY); } };
+              ship.TurretLocations = new TurretLocationDelegate[] { (id, fac) => { MapHelper.MoveCoord(0, 0, offset, 128 - fac, out int x, out int y); return new Point(x, y + adjustY); }, (id, fac) => { MapHelper.MoveCoord(0, 0, -offset, 128 - fac, out int x, out int y); return new Point(x, y + adjustY); } };
             }
             else
             {
-              ship.TurretLocations = new TurretLocationDelegate[] { (id, fac) => { MapHelper.MoveCoord(0, 0, offset, 256 - fac, out int x, out int y); return new Point(x, y + adjustY); } };
+              ship.TurretLocations = new TurretLocationDelegate[] { (id, fac) => { MapHelper.MoveCoord(0, 0, offset, 128 - fac, out int x, out int y); return new Point(x, y + adjustY); } };
             }
             ship.TurretDirections = 32;
           }

@@ -19,7 +19,7 @@ namespace RA_Mission_Editor.RulesData.TechnoSets
 				{
 					FullName = "Destroyer",
 					TurretName = "SSAM",
-					TurretLocations = new TurretLocationDelegate[] { (id, fac) => { MapHelper.MoveCoord(0, 0, -8, 256 - fac, out int x, out int y); return new Point(x, y - 4); } },
+					TurretLocations = new TurretLocationDelegate[] { (id, fac) => { MapHelper.MoveCoord(0, 0, -8, 128 - fac, out int x, out int y); return new Point(x, y - 4); } },
 					Directions = 16,
 					TurretDirections = 32,
 					TurretShpFrame = 0
@@ -28,7 +28,7 @@ namespace RA_Mission_Editor.RulesData.TechnoSets
 				{
 					FullName = "Cruiser",
 					TurretName = "TURR", 
-					TurretLocations = new TurretLocationDelegate[] { (id, fac) => { MapHelper.MoveCoord(0, 0, 22, 256 - fac, out int x, out int y); return new Point(x, y - 4); }, (id, fac) => { MapHelper.MoveCoord(0, 0, -22, 256 - fac, out int x, out int y); return new Point(x, y - 4); } },
+					TurretLocations = new TurretLocationDelegate[] { (id, fac) => { MapHelper.MoveCoord(0, 0, 22, 128 - fac, out int x, out int y); return new Point(x, y - 4); }, (id, fac) => { MapHelper.MoveCoord(0, 0, -22, 128 - fac, out int x, out int y); return new Point(x, y - 4); } },
 					Directions = 16,
 					TurretDirections = 32,
 					TurretShpFrame = 0
@@ -38,7 +38,7 @@ namespace RA_Mission_Editor.RulesData.TechnoSets
         {
           FullName = "Gunboat",
           TurretName = "MGUN",
-          TurretLocations = new TurretLocationDelegate[] { (id, fac) => { MapHelper.MoveCoord(0, 0, 14, 256 - fac, out int x, out int y); return new Point(x, y + 1); } },
+          TurretLocations = new TurretLocationDelegate[] { (id, fac) => { MapHelper.MoveCoord(0, 0, 14, 128 - fac, out int x, out int y); return new Point(x, y + 1); } },
           Directions = 16,
           TurretDirections = 32,
           TurretShpFrame = 0

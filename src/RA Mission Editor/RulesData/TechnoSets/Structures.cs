@@ -23,7 +23,7 @@ namespace RA_Mission_Editor.RulesData.TechnoSets
       _listType = new List<StructureType>()
 			{
 				new StructureType("ATEK") { FullName = "Allied Tech Center", BibName = "BIB3", Occupancy = { p0_0, p1_0, p0_1, p1_1 } },
-				new StructureType("IRON") { FullName = "Iron Curtain",  Occupancy = { p0_0, p1_0 } },
+				new StructureType("IRON") { FullName = "Iron Curtain",  Occupancy = { p0_1, p1_1 } },
 				new StructureType("WEAP") { FullName = "War Factory", BibName = "BIB2", SecondImage = "WEAP2", Occupancy = { p0_0, p1_0, p2_0, p0_1, p1_1, p2_1 } },
 				new StructureType("PDOX") { FullName = "Chronosphere", Occupancy = { p0_0, p1_0, p0_1, p1_1 } },
 				new StructureType("PBOX") { FullName = "Pillbox", Occupancy = { p0_0 } },
@@ -38,9 +38,9 @@ namespace RA_Mission_Editor.RulesData.TechnoSets
 				new StructureType("SILO") { FullName = "Ore Silo", Occupancy = { p0_0 } },
 				new StructureType("HPAD") { FullName = "Helipad", BibName = "BIB3", Occupancy = { p0_0, p1_0, p0_1, p1_1 } },
 				new StructureType("SAM") { FullName = "SAM Site", TurretDirections = 32, Occupancy = { p0_0, p1_0 } },
-				new StructureType("AFLD") { FullName = "Airfield", BibName = "BIB2", Occupancy = { p0_0, p1_0, p2_0, p0_1, p1_1, p2_1 } },
+				new StructureType("AFLD") { FullName = "Airfield", Occupancy = { p0_0, p1_0, p2_0, p0_1, p1_1, p2_1 } },
 				new StructureType("POWR") { FullName = "Power Plant", BibName = "BIB3", Occupancy = { p0_0, p1_0, p0_1, p1_1 } },
-				new StructureType("APWR") { FullName = "Adv. Power Plant", BibName = "BIB2", Occupancy = { p0_0, p1_0, p2_0, p0_1, p1_1, p2_1 } },
+				new StructureType("APWR") { FullName = "Adv. Power Plant", BibName = "BIB2", Occupancy = { p0_1, p1_1, p2_1, p0_2, p1_2, p2_2 } },
 				new StructureType("STEK") { FullName = "Soviet Tech Center", BibName = "BIB2", Occupancy = { p0_0, p1_0, p2_0, p0_1, p1_1, p2_1 } },
 				new StructureType("HOSP") { FullName = "Hospital", BibName = "BIB3", Occupancy = { p0_0, p1_0, p0_1, p1_1 } },
 				new StructureType("BARR") { FullName = "Barracks (Soviet)", BibName = "BIB3", Occupancy = { p0_0, p1_0, p0_1, p1_1 } },

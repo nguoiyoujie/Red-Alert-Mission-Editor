@@ -5,6 +5,7 @@ Red Alert Mission Editor
  - [About the Project](#about-the-project)
  - [Requirements](#requirements)
  - [Features](#features) 
+ - [How to Use](#how-to-use) 
  - [Development](#development) 
 
 -------
@@ -100,6 +101,11 @@ A working copy of RA95 should exist in the machine. You need not unpack this pro
  - Supports launching the game via the command line and load the specific mission as testmap.ini. Supported only by the "s" series executable. 
  
 ![window_test_map](doc/img/window_test_map.png)
+
+
+## How to Use
+
+You may find the interface documentation [here](./docs/controls.md).
 
 
 ## Development

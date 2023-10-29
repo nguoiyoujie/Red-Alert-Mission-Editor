@@ -79,7 +79,7 @@ namespace RA_Mission_Editor.UI.UserControls
         {
           Size = expectedSize;
         }
-        if (Renderer.Dirty || Renderer.TemplateDirty)
+        if (Renderer.AnyDirty)
         {
           if (RequestDraw != null)
           {

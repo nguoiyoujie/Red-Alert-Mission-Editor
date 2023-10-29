@@ -288,7 +288,7 @@ namespace RA_Mission_Editor.UI
           // we care about changing subcells only if Infantry is involved
           if (!xy_unchanged || MainModel.PreplaceEntity.Type is InfantryType)
           {
-            pbMapCanvas.Renderer.SetDirty();
+            pbMapCanvas.Renderer.SetPreplaceDirty();
           }
         }
       }

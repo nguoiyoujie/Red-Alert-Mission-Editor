@@ -59,6 +59,8 @@ namespace RA_Mission_Editor.Renderers
 
 
     public Bitmap Image;
+    private Bitmap ImagePreplaced;
+    private Bitmap ImageNoPreplaced;
     private Bitmap TemplateImage;
 
     public enum LayerType
@@ -85,6 +87,7 @@ namespace RA_Mission_Editor.Renderers
       Selection,
       //Comment,
       //UserActive,
+      //PreplaceTemplateEntity,
       PreplaceEntity,
       COUNT
     }
@@ -92,23 +95,41 @@ namespace RA_Mission_Editor.Renderers
     private readonly bool[] Visible = new bool[(int)LayerType.COUNT];
     private Stopwatch _stopwatch = new Stopwatch();
     private Stopwatch _ostopwatch = new Stopwatch();
+    private bool _suspend = false;
     private bool _dirty = false;
+    private bool _preplaceDirty = false;
     private bool _templateDirty = false;
     private bool _pleplacedHighlight = false;
     private Timer _timer = new Timer();
 
+    public bool SuspendDrawing { get { return _suspend; } set { if (_suspend != value) { _suspend = value; if (!_suspend) { MapDirtied?.Invoke(); } } } }
     public bool Dirty { get { return _dirty; } private set { if (_dirty != value) { _dirty = value; if (_dirty) { MapDirtied?.Invoke(); } } } }
+    public bool PreplaceDirty { get { return _preplaceDirty; } private set { if (_preplaceDirty != value) { _preplaceDirty = value; if (_preplaceDirty) { MapDirtied?.Invoke(); } } } }
     public bool TemplateDirty { get { return _templateDirty; } private set { if (_templateDirty != value) { _templateDirty = value; if (_templateDirty) { MapDirtied?.Invoke(); } } } }
     public MapUpdatedDelegate MapUpdated;
     public MapUpdatedDelegate MapDirtied;
 
+    public bool AnyDirty { get { return _dirty || _preplaceDirty || _templateDirty; } }
+
     public void SetVisible(LayerType ltype, bool visibility)
     {
-      if (Visible[(int)ltype] != visibility
-      )
+      if (Visible[(int)ltype] != visibility)
       {
         Visible[(int)ltype] = visibility;
-        Dirty = true;
+        switch (ltype)
+        {
+          case LayerType.Templates:
+          case LayerType.Template_SingleColor:
+            TemplateDirty = true;
+            break;
+          case LayerType.PreplaceEntity:
+            PreplaceDirty = true;
+            break;
+          //case LayerType.PreplaceTemplateEntity:
+          default:
+            Dirty = true;
+            break;
+        }
       }
     }
 
@@ -117,9 +138,14 @@ namespace RA_Mission_Editor.Renderers
       Dirty = true;
     }
 
+    public void SetPreplaceDirty()
+    {
+      PreplaceDirty = true;
+    }
+
     public void TimerSetDirty(object sender, EventArgs e)
     {
-      Dirty = true;
+      PreplaceDirty = true;
       _pleplacedHighlight = !_pleplacedHighlight;
     }
 
@@ -135,6 +161,7 @@ namespace RA_Mission_Editor.Renderers
       {
         Visible[i] = true;
       }
+      Visible[(int)LayerType.Template_SingleColor] = false;
       Reset();
       _timer.Enabled = false;
       _timer.Interval = 500;
@@ -151,10 +178,16 @@ namespace RA_Mission_Editor.Renderers
         height = map.Ext_MapSection.FullHeight * Constants.CELL_PIXEL_H;
       }
 
-      if (Image == null || Image.Size != new Size(width, height))
+      if (ImagePreplaced == null || ImagePreplaced.Size != new Size(width, height))
       {
-        Image?.Dispose();
-        Image = new Bitmap(width, height);
+        ImagePreplaced?.Dispose();
+        ImagePreplaced = new Bitmap(width, height);
+      }
+
+      if (ImageNoPreplaced == null || ImageNoPreplaced.Size != new Size(width, height))
+      {
+        ImageNoPreplaced?.Dispose();
+        ImageNoPreplaced = new Bitmap(width, height);
       }
 
       if (TemplateImage == null || TemplateImage.Size != new Size(width, height))
@@ -163,9 +196,11 @@ namespace RA_Mission_Editor.Renderers
         TemplateImage = new Bitmap(width, height);
       }
 
-      using (Graphics g = Graphics.FromImage(Image)) { g.Clear(Color.Black); }
+      using (Graphics g = Graphics.FromImage(ImagePreplaced)) { g.Clear(Color.Black); }
+      using (Graphics g = Graphics.FromImage(ImageNoPreplaced)) { g.Clear(Color.Black); }
       using (Graphics g = Graphics.FromImage(TemplateImage)) { g.Clear(Color.Black); }
-      
+      Image = ImageNoPreplaced;
+
       Dirty = true;
       TemplateDirty = true;
 
@@ -178,110 +213,141 @@ namespace RA_Mission_Editor.Renderers
         g.Clear(Color.Black);
       }
     }
-    
+
     public void Draw(MainModel model, Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, PlaceEntityInfo preplaceEntity = null)
     {
-      if (!Dirty && !TemplateDirty) { return; }
+      if (!AnyDirty) { return; }
+      if (SuspendDrawing) { return; }
+      bool preplaceTemplate = Visible[(int)LayerType.PreplaceEntity] && preplaceEntity != null && preplaceEntity.Type is TemplateType;
+
       using (new TimeKeeper(_ostopwatch, nameof(Draw)))
       {
-        using (Graphics g = Graphics.FromImage(Image))
+        if (Dirty || TemplateDirty || preplaceTemplate)
         {
-          // skip if Template can cover
-          //g.Clear(Color.Black);
-
-          // Ground layer, only drawn if Template is Dirty
-          if (TemplateDirty)
+          using (Graphics g = Graphics.FromImage(ImageNoPreplaced))
           {
-            using (Graphics tg = Graphics.FromImage(TemplateImage))
-            using (new TimeKeeper(_stopwatch, nameof(EnvironmentRenderer.DrawTemplates)))
+            // skip if Template can cover
+            //g.Clear(Color.Black);
+
+            // Ground layer, only drawn if Template is Dirty
+            if (TemplateDirty)
             {
-              tg.CompositingMode = CompositingMode.SourceCopy;
-              EnvironmentRenderer.DrawTemplates(map, cache, vfs, tg);
+              using (new TimeKeeper(_stopwatch, nameof(EnvironmentRenderer.DrawTemplates)))
+              using (Graphics tg = Graphics.FromImage(TemplateImage))
+              {
+                tg.CompositingMode = CompositingMode.SourceCopy;
+                EnvironmentRenderer.DrawTemplates(map, cache, vfs, tg, Visible[(int)LayerType.Template_SingleColor]);
+              }
+              TemplateDirty = false;
             }
-            TemplateDirty = false;
+
+            using (new TimeKeeper(_stopwatch, "PaintTemplate"))
+            {
+              g.CompositingMode = CompositingMode.SourceCopy;
+              g.DrawImage(TemplateImage, Point.Empty);
+              g.CompositingMode = CompositingMode.SourceOver;
+            }
+
+            // Preplaced Template, if any
+            if (Visible[(int)LayerType.PreplaceEntity] && preplaceEntity != null && preplaceEntity.Type is TemplateType)
+              using (new TimeKeeper(_stopwatch, nameof(DrawPreplaceEntity)))
+                DrawPreplaceEntity(map, rules, cache, vfs, g, preplaceEntity, _pleplacedHighlight);
+
+            // Bib layers
+            if (Visible[(int)LayerType.Bases])
+              using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawBaseBibs)))
+                TechnoTypeRenderer.DrawBaseBibs(map, rules, cache, vfs, g);
+
+            if (Visible[(int)LayerType.Structures])
+              using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawStructureBibs)))
+                TechnoTypeRenderer.DrawStructureBibs(map, rules, cache, vfs, g);
+
+            // Terrain layers
+            if (Visible[(int)LayerType.Overlays])
+              using (new TimeKeeper(_stopwatch, nameof(EnvironmentRenderer.DrawOverlays)))
+                EnvironmentRenderer.DrawOverlays(map, cache, vfs, g);
+
+            if (Visible[(int)LayerType.Smudges])
+              using (new TimeKeeper(_stopwatch, nameof(EnvironmentRenderer.DrawSmudges)))
+                EnvironmentRenderer.DrawSmudges(map, cache, vfs, g);
+
+            if (Visible[(int)LayerType.Terrain])
+              using (new TimeKeeper(_stopwatch, nameof(EnvironmentRenderer.DrawTerrain)))
+                EnvironmentRenderer.DrawTerrain(map, cache, vfs, g);
+
+            // Object layers
+            if (Visible[(int)LayerType.Bases])
+              using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawBases)))
+                TechnoTypeRenderer.DrawBases(map, rules, cache, vfs, g);
+
+            if (Visible[(int)LayerType.Structures])
+              using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawStructures)))
+                TechnoTypeRenderer.DrawStructures(map, rules, cache, vfs, g);
+
+            if (Visible[(int)LayerType.Units])
+              using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawUnits)))
+                TechnoTypeRenderer.DrawUnits(map, rules, cache, vfs, g);
+
+            if (Visible[(int)LayerType.Ships])
+              using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawShips)))
+                TechnoTypeRenderer.DrawShips(map, rules, cache, vfs, g);
+
+            if (Visible[(int)LayerType.Infantry])
+              using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawInfantries)))
+                TechnoTypeRenderer.DrawInfantries(map, rules, cache, vfs, g);
+
+            // Editor widgets layer
+            if (Visible[(int)LayerType.CellTriggers])
+              using (new TimeKeeper(_stopwatch, nameof(WidgetsRenderer.DrawCellTriggers)))
+                WidgetsRenderer.DrawCellTriggers(map, preplaceEntity, g);
+
+            if (Visible[(int)LayerType.Waypoints])
+              using (new TimeKeeper(_stopwatch, nameof(WidgetsRenderer.DrawWaypoints)))
+                WidgetsRenderer.DrawWaypoints(map, preplaceEntity, g);
+
+            if (Visible[(int)LayerType.Bounds])
+              using (new TimeKeeper(_stopwatch, nameof(WidgetsRenderer.DrawBounds)))
+                WidgetsRenderer.DrawBounds(map, g);
+
+            if (Visible[(int)LayerType.Selection])
+              using (new TimeKeeper(_stopwatch, nameof(WidgetsRenderer.DrawSelection)))
+                WidgetsRenderer.DrawSelection(model, map, g);
+
+            if (Visible[(int)LayerType.Grid])
+              using (new TimeKeeper(_stopwatch, nameof(WidgetsRenderer.DrawGrid)))
+                WidgetsRenderer.DrawGrid(map, g);
           }
+          Dirty = false;
+        }
 
-          g.CompositingMode = CompositingMode.SourceCopy;
-          using (new TimeKeeper(_stopwatch, "PaintTemplate"))
-            g.DrawImage(TemplateImage, Point.Empty);
-          g.CompositingMode = CompositingMode.SourceOver;
-
-          // Preplaced Template, if any
-          if (Visible[(int)LayerType.PreplaceEntity] && preplaceEntity != null && preplaceEntity.Type is TemplateType)
-            using (new TimeKeeper(_stopwatch, nameof(DrawPreplaceEntity)))
-              DrawPreplaceEntity(map, rules, cache, vfs, g, preplaceEntity, _pleplacedHighlight);
-
-          // Bib layers
-          if (Visible[(int)LayerType.Bases])
-            using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawBaseBibs)))
-              TechnoTypeRenderer.DrawBaseBibs(map, rules, cache, vfs, g);
-
-          if (Visible[(int)LayerType.Structures])
-            using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawStructureBibs)))
-              TechnoTypeRenderer.DrawStructureBibs(map, rules, cache, vfs, g);
-
-          // Terrain layers
-          if (Visible[(int)LayerType.Overlays])
-            using (new TimeKeeper(_stopwatch, nameof(EnvironmentRenderer.DrawOverlays)))
-              EnvironmentRenderer.DrawOverlays(map, cache, vfs, g);
-
-          if (Visible[(int)LayerType.Smudges])
-            using (new TimeKeeper(_stopwatch, nameof(EnvironmentRenderer.DrawSmudges)))
-              EnvironmentRenderer.DrawSmudges(map, cache, vfs, g);
-
-          if (Visible[(int)LayerType.Terrain])
-            using (new TimeKeeper(_stopwatch, nameof(EnvironmentRenderer.DrawTerrain)))
-              EnvironmentRenderer.DrawTerrain(map, cache, vfs, g);
-
-          // Object layers
-          if (Visible[(int)LayerType.Bases])
-            using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawBases)))
-              TechnoTypeRenderer.DrawBases(map, rules, cache, vfs, g);
-
-          if (Visible[(int)LayerType.Structures])
-            using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawStructures)))
-              TechnoTypeRenderer.DrawStructures(map, rules, cache, vfs, g);
-
-          if (Visible[(int)LayerType.Units])
-            using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawUnits)))
-              TechnoTypeRenderer.DrawUnits(map, rules, cache, vfs, g);
-
-          if (Visible[(int)LayerType.Ships])
-            using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawShips)))
-              TechnoTypeRenderer.DrawShips(map, rules, cache, vfs, g);
-
-          if (Visible[(int)LayerType.Infantry])
-            using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawInfantries)))
-              TechnoTypeRenderer.DrawInfantries(map, rules, cache, vfs, g);
-
-          // Editor widgets layer
-          if (Visible[(int)LayerType.CellTriggers])
-            using (new TimeKeeper(_stopwatch, nameof(WidgetsRenderer.DrawCellTriggers)))
-              WidgetsRenderer.DrawCellTriggers(map, preplaceEntity, g);
-
-          if (Visible[(int)LayerType.Waypoints])
-            using (new TimeKeeper(_stopwatch, nameof(WidgetsRenderer.DrawWaypoints)))
-              WidgetsRenderer.DrawWaypoints(map, preplaceEntity, g);
-
-          if (Visible[(int)LayerType.Bounds])
-            using (new TimeKeeper(_stopwatch, nameof(WidgetsRenderer.DrawBounds)))
-              WidgetsRenderer.DrawBounds(map, g);
-
-          if (Visible[(int)LayerType.Selection])
-            using (new TimeKeeper(_stopwatch, nameof(WidgetsRenderer.DrawSelection)))
-              WidgetsRenderer.DrawSelection(model, map, g);
-
-          if (Visible[(int)LayerType.Grid])
-            using (new TimeKeeper(_stopwatch, nameof(WidgetsRenderer.DrawGrid)))
-              WidgetsRenderer.DrawGrid(map, g);
-
-          // Preplaced objects, if any
+        // Preplaced objects, if any
+        if (PreplaceDirty)
+        {
           if (Visible[(int)LayerType.PreplaceEntity] && preplaceEntity != null && preplaceEntity.Type != null && !(preplaceEntity.Type is TemplateType))
           {
-            using (new TimeKeeper(_stopwatch, nameof(DrawPreplaceEntity)))
-              DrawPreplaceEntity(map, rules, cache, vfs, g, preplaceEntity, _pleplacedHighlight);
-          }
+            using (Graphics g = Graphics.FromImage(ImagePreplaced))
+            {
+              using (new TimeKeeper(_stopwatch, "PaintImageNoPreplaced"))
+              {
+                g.CompositingMode = CompositingMode.SourceCopy;
+                g.DrawImage(ImageNoPreplaced, Point.Empty);
+                g.CompositingMode = CompositingMode.SourceOver;
+              }
 
+              using (new TimeKeeper(_stopwatch, nameof(DrawPreplaceEntity)))
+                DrawPreplaceEntity(map, rules, cache, vfs, g, preplaceEntity, _pleplacedHighlight);
+            }
+            Image = ImagePreplaced;
+          }
+          else
+          {
+            Image = ImageNoPreplaced;
+          }
+          PreplaceDirty = false;
+        }
+
+        using (new TimeKeeper(_stopwatch, "SetTimer"))
+        {
           if (Visible[(int)LayerType.PreplaceEntity] && preplaceEntity != null)
           {
             if (!_timer.Enabled)
@@ -293,10 +359,9 @@ namespace RA_Mission_Editor.Renderers
               _timer.Stop();
           }
         }
-        Dirty = false;
+        //if (MapUpdated != null)
+        //  MapUpdated.Invoke();
       }
-      //if (MapUpdated != null)
-      //  MapUpdated.Invoke();
     }
     
     public void DrawPreplaceEntity(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo preplaceEntity, bool highlight)

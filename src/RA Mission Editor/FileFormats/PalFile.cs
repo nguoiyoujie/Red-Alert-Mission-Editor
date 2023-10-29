@@ -169,6 +169,19 @@ namespace RA_Mission_Editor.FileFormats
       return colorPalette;
     }
 
+    public Bitmap GenerateColorPreview()
+    {
+      Bitmap bmp = new Bitmap(16, 16);
+      for (int i = 0; i < colors.Length; i++)
+      {
+        Color c = GetColor(i);
+        int x = i / 16;
+        int y = i % 16;
+        bmp.SetPixel(x, y, c);
+      }
+      return bmp;
+    }
+
     public static uint Value_From_Color(Color rgb)
     {
       byte r = rgb.R;

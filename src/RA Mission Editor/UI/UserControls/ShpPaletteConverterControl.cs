@@ -5,9 +5,10 @@ using RA_Mission_Editor.UI.Logic;
 using RA_Mission_Editor.Util;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace RA_Mission_Editor.UI.UserControls
@@ -28,14 +29,27 @@ namespace RA_Mission_Editor.UI.UserControls
         }
       }
 
+      _bwConvert = new BackgroundWorker();
+      _bwConvert.WorkerSupportsCancellation = true;
+      _bwConvert.WorkerReportsProgress = true;
+      _bwConvert.ProgressChanged += _bwConvert_ProgressChanged;
+      _bwConvert.DoWork += _bwConvert_DoWork;
+      _bwConvert.RunWorkerCompleted += _bwConvert_RunWorkerCompleted;
       RefreshView();
     }
 
     private MapCache _cache = new MapCache();
     private ShpFile _shp;
     private PalFile _palSrc;
+    private Bitmap _palSrcbmp;
     private ShpFile _shpConverted;
     private PalFile _palDst;
+    private Bitmap _palDstbmp;
+    private string _progressText;
+    private Dictionary<Color, int> _cacheDefault = new Dictionary<Color, int>();
+    private Dictionary<Color, int> _cacheExcludeHouseColor = new Dictionary<Color, int>();
+
+    private BackgroundWorker _bwConvert;
 
     static List<int> DefaultExcludeIndex = new List<int>{ 0, 1, 2, 3, 4 }; // transparent and shadows
     static List<int> DefaultHouseColorIndex = new List<int> { 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95 };
@@ -48,23 +62,61 @@ namespace RA_Mission_Editor.UI.UserControls
       _cache.Clear();
       nudFrameSrc.Maximum = Math.Max(1, (int)_shp.NumImages);
       nudFrameDst.Maximum = Math.Max(1, (int)_shp.NumImages);
-      Convert();
+      StartConvert();
       RefreshView();
     }
 
     public void SetSourcePalette(PalFile pal)
     {
       _palSrc = pal;
+      using (Bitmap bmp = pal?.GenerateColorPreview())
+      {
+        if (bmp != null)
+        {
+          if (_palSrcbmp == null || _palSrcbmp.Width != pbSrc.Width || _palSrcbmp.Height != pbSrc.Height)
+          {
+            _palSrcbmp = new Bitmap(pbSrc.Width, pbSrc.Height);
+          }
+          using (Graphics g = Graphics.FromImage(_palSrcbmp))
+          {
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+            Rectangle rd = new Rectangle(0,0, _palSrcbmp.Width, _palSrcbmp.Height);
+            g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel);
+          }
+        }
+      }
+
       _cache.Clear();
-      Convert();
+      StartConvert();
       RefreshView();
     }
 
     public void SetDestinationPalette(PalFile pal)
     {
       _palDst = pal;
+      using (Bitmap bmp = pal?.GenerateColorPreview())
+      {
+        if (bmp != null)
+        {
+          if (_palDstbmp == null || _palDstbmp.Width != pbDst.Width || _palDstbmp.Height != pbDst.Height)
+          {
+            _palDstbmp = new Bitmap(pbDst.Width, pbDst.Height);
+          }
+          using (Graphics g = Graphics.FromImage(_palDstbmp))
+          {
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+            g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+            Rectangle rd = new Rectangle(0, 0, _palDstbmp.Width, _palDstbmp.Height);
+            g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel);
+          }
+        }
+      }
+
       _cache.Clear();
-      Convert();
+      StartConvert();
       RefreshView();
     }
 
@@ -77,20 +129,26 @@ namespace RA_Mission_Editor.UI.UserControls
       {
         PalFile phSrc = RenderUtils.FetchHouseRemapPalette(_cache, _palSrc, color);
         pbSrc.BackgroundImage = RenderUtils.RenderShp(_cache, _shp, phSrc, (int)(nudFrameSrc.Value - 1));
+        pbSrcPal.Image = _palSrcbmp;
       }
       else
       {
         pbSrc.BackgroundImage = null;
+        pbSrcPal.Image = null;
       }
 
       if (_shpConverted != null && _palDst != null)
       {
+        lblProgressText.Text = null;
         PalFile phDst = RenderUtils.FetchHouseRemapPalette(_cache, _palDst, color);
         pbDst.BackgroundImage = RenderUtils.RenderShp(_cache, _shpConverted, phDst, (int)(nudFrameDst.Value - 1));
+        pbDstPal.Image = _palDstbmp;
       }
       else
       {
+        lblProgressText.Text = _progressText;
         pbDst.BackgroundImage = null;
+        pbDstPal.Image = null;
       }
 
       lblSrcShp.Text = _shp?.FileName;
@@ -98,13 +156,41 @@ namespace RA_Mission_Editor.UI.UserControls
       lblDstPal.Text = _palDst?.FileName;
     }
 
+    public void StartConvert()
+    {
+      if (_bwConvert.IsBusy)
+      {
+        _bwConvert.CancelAsync();
+        Thread.Sleep(500);
+      }
+      _bwConvert.RunWorkerAsync();
+    }
 
-    public void Convert()
+    private void _bwConvert_ProgressChanged(object sender, ProgressChangedEventArgs e)
+    {
+      if (e.UserState is string state)
+      {
+        _progressText = state;
+        Invoke(new Action(RefreshView));
+      }
+    }
+
+    private void _bwConvert_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+    {
+      _progressText = null;
+      Invoke(new Action(RefreshView));
+    }
+
+
+    private void _bwConvert_DoWork(object sender, DoWorkEventArgs e)
     {
       if (_shp != null && _palSrc != null && _palDst != null)
       {
         try
         {
+          _shpConverted = null;
+          _cacheDefault.Clear();
+          _cacheExcludeHouseColor.Clear();
           MemoryStream inMemoryCopy = new MemoryStream();
           //_shp.CopyTo(inMemoryCopy);
           ShpFile convert = new ShpFile(inMemoryCopy, _shp.FileName, _shp.BaseOffset, (int)_shp.Size, false);
@@ -121,6 +207,8 @@ namespace RA_Mission_Editor.UI.UserControls
           convert.Images = new List<ShpFile.ShpImage>(_shp.NumImages);
           for (int n = 0; n < _shp.NumImages; n++)
           {
+            if (e.Cancel) { break; }
+            _bwConvert?.ReportProgress((int)(n * 100 / _shp.NumImages), string.Format("Generating frame {0} of {1}", n, _shp.NumImages));
             convert.Images.Add(new ShpFile.ShpImage() { Image = new byte[_shp.Images[n].Image.Length] });
             if (_shp.Images[n].Image != null)
             {
@@ -135,21 +223,28 @@ namespace RA_Mission_Editor.UI.UserControls
                 {
                   if ((!cbPalSrcTD.Checked && DefaultHouseColorIndex.Contains(src)) || (cbPalSrcTD.Checked && DefaultTDHouseColorIndex.Contains(src)))
                   {
-                    convert.Images[n].Image[i] = (byte)_palDst.ClosestIndex(_palSrc.GetColor(src), ExcludeHouseColorIndex);
+                    convert.Images[n].Image[i] = ClosestIndex(_palSrc.GetColor(src), _palDst, _cacheExcludeHouseColor, ExcludeHouseColorIndex);
                   }
                   else
                   {
-                    convert.Images[n].Image[i] = (byte)_palDst.ClosestIndex(_palSrc.GetColor(src), exclude);
+                    convert.Images[n].Image[i] = ClosestIndex(_palSrc.GetColor(src), _palDst, _cacheDefault, exclude);
                   }
                 }
                 else
                 {
-                  convert.Images[n].Image[i] = (byte)_palDst.ClosestIndex(_palSrc.GetColor(src), exclude);
+                  convert.Images[n].Image[i] = ClosestIndex(_palSrc.GetColor(src), _palDst, _cacheDefault, exclude);
                 }
               }
             }
           }
-          _shpConverted = convert;
+          if (!e.Cancel)
+          {
+            _shpConverted = convert;
+          }
+          else
+          {
+            _shpConverted = null;
+          }
         }
         catch
         {
@@ -160,6 +255,17 @@ namespace RA_Mission_Editor.UI.UserControls
       {
         _shpConverted = null;
       }
+    }
+
+    private byte ClosestIndex(Color color, PalFile pal, Dictionary<Color, int> cache, List<int> exclude)
+    {
+      if (cache != null && cache.TryGetValue(color, out int value))
+      {
+        return (byte)value;
+      }
+      int ret = pal.ClosestIndex(color, exclude);
+      cache?.Add(color, ret);
+      return (byte)ret;
     }
 
     private void bLoadShp_Click(object sender, EventArgs e)
@@ -273,13 +379,13 @@ namespace RA_Mission_Editor.UI.UserControls
 
     private void cbPalSrcTD_CheckedChanged(object sender, EventArgs e)
     {
-      Convert();
+      StartConvert();
       RefreshView();
     }
 
     private void cbPreserveHouseColors_CheckedChanged(object sender, EventArgs e)
     {
-      Convert();
+      StartConvert();
       RefreshView();
     }
   }

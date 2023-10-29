@@ -47,10 +47,15 @@ namespace RA_Mission_Editor.UI.UserControls
       this.label3 = new System.Windows.Forms.Label();
       this.cbPalSrcTD = new System.Windows.Forms.CheckBox();
       this.lblSrcShp = new System.Windows.Forms.Label();
+      this.lblProgressText = new System.Windows.Forms.Label();
+      this.pbSrcPal = new System.Windows.Forms.PictureBox();
+      this.pbDstPal = new System.Windows.Forms.PictureBox();
       ((System.ComponentModel.ISupportInitialize)(this.pbSrc)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudFrameSrc)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudFrameDst)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.pbDst)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.pbSrcPal)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.pbDstPal)).BeginInit();
       this.SuspendLayout();
       // 
       // lblTutorial
@@ -64,7 +69,7 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       // bOK
       // 
-      this.bOK.Location = new System.Drawing.Point(679, 362);
+      this.bOK.Location = new System.Drawing.Point(695, 362);
       this.bOK.Name = "bOK";
       this.bOK.Size = new System.Drawing.Size(92, 32);
       this.bOK.TabIndex = 50;
@@ -129,7 +134,7 @@ namespace RA_Mission_Editor.UI.UserControls
       // label2
       // 
       this.label2.AutoSize = true;
-      this.label2.Location = new System.Drawing.Point(515, 76);
+      this.label2.Location = new System.Drawing.Point(531, 76);
       this.label2.Name = "label2";
       this.label2.Size = new System.Drawing.Size(36, 13);
       this.label2.TabIndex = 66;
@@ -137,7 +142,7 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       // nudFrameDst
       // 
-      this.nudFrameDst.Location = new System.Drawing.Point(557, 74);
+      this.nudFrameDst.Location = new System.Drawing.Point(573, 74);
       this.nudFrameDst.Maximum = new decimal(new int[] {
             1,
             0,
@@ -162,7 +167,7 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       this.pbDst.BackColor = System.Drawing.Color.Black;
       this.pbDst.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-      this.pbDst.Location = new System.Drawing.Point(515, 100);
+      this.pbDst.Location = new System.Drawing.Point(531, 100);
       this.pbDst.Name = "pbDst";
       this.pbDst.Size = new System.Drawing.Size(256, 256);
       this.pbDst.TabIndex = 64;
@@ -181,7 +186,7 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       // bLoadDestPal
       // 
-      this.bLoadDestPal.Location = new System.Drawing.Point(515, 36);
+      this.bLoadDestPal.Location = new System.Drawing.Point(531, 36);
       this.bLoadDestPal.Name = "bLoadDestPal";
       this.bLoadDestPal.Size = new System.Drawing.Size(92, 32);
       this.bLoadDestPal.TabIndex = 68;
@@ -203,7 +208,7 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       this.lblDstPal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.lblDstPal.AutoSize = true;
-      this.lblDstPal.Location = new System.Drawing.Point(410, 343);
+      this.lblDstPal.Location = new System.Drawing.Point(426, 343);
       this.lblDstPal.Name = "lblDstPal";
       this.lblDstPal.Size = new System.Drawing.Size(99, 13);
       this.lblDstPal.TabIndex = 70;
@@ -226,7 +231,7 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       this.cbRemapColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.cbRemapColor.FormattingEnabled = true;
-      this.cbRemapColor.Location = new System.Drawing.Point(515, 364);
+      this.cbRemapColor.Location = new System.Drawing.Point(531, 364);
       this.cbRemapColor.Name = "cbRemapColor";
       this.cbRemapColor.Size = new System.Drawing.Size(147, 21);
       this.cbRemapColor.TabIndex = 72;
@@ -236,7 +241,7 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.label3.AutoSize = true;
-      this.label3.Location = new System.Drawing.Point(468, 367);
+      this.label3.Location = new System.Drawing.Point(484, 367);
       this.label3.Name = "label3";
       this.label3.Size = new System.Drawing.Size(41, 13);
       this.label3.TabIndex = 73;
@@ -264,10 +269,46 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblSrcShp.TabIndex = 75;
       this.lblSrcShp.Text = "(source SHP)";
       // 
+      // lblProgressText
+      // 
+      this.lblProgressText.AutoSize = true;
+      this.lblProgressText.BackColor = System.Drawing.Color.Black;
+      this.lblProgressText.ForeColor = System.Drawing.Color.Yellow;
+      this.lblProgressText.Location = new System.Drawing.Point(540, 110);
+      this.lblProgressText.Name = "lblProgressText";
+      this.lblProgressText.Size = new System.Drawing.Size(53, 13);
+      this.lblProgressText.TabIndex = 76;
+      this.lblProgressText.Text = "(progress)";
+      // 
+      // pbSrcPal
+      // 
+      this.pbSrcPal.BackColor = System.Drawing.Color.Black;
+      this.pbSrcPal.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+      this.pbSrcPal.Location = new System.Drawing.Point(275, 211);
+      this.pbSrcPal.Margin = new System.Windows.Forms.Padding(0);
+      this.pbSrcPal.Name = "pbSrcPal";
+      this.pbSrcPal.Size = new System.Drawing.Size(120, 120);
+      this.pbSrcPal.TabIndex = 77;
+      this.pbSrcPal.TabStop = false;
+      // 
+      // pbDstPal
+      // 
+      this.pbDstPal.BackColor = System.Drawing.Color.Black;
+      this.pbDstPal.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+      this.pbDstPal.Location = new System.Drawing.Point(408, 211);
+      this.pbDstPal.Margin = new System.Windows.Forms.Padding(0);
+      this.pbDstPal.Name = "pbDstPal";
+      this.pbDstPal.Size = new System.Drawing.Size(120, 120);
+      this.pbDstPal.TabIndex = 78;
+      this.pbDstPal.TabStop = false;
+      // 
       // ShpPaletteConverterControl
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.Controls.Add(this.pbDstPal);
+      this.Controls.Add(this.pbSrcPal);
+      this.Controls.Add(this.lblProgressText);
       this.Controls.Add(this.lblSrcShp);
       this.Controls.Add(this.cbPalSrcTD);
       this.Controls.Add(this.label3);
@@ -292,6 +333,8 @@ namespace RA_Mission_Editor.UI.UserControls
       ((System.ComponentModel.ISupportInitialize)(this.nudFrameSrc)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudFrameDst)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.pbDst)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.pbSrcPal)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.pbDstPal)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -316,5 +359,8 @@ namespace RA_Mission_Editor.UI.UserControls
     private System.Windows.Forms.Label label3;
     private System.Windows.Forms.CheckBox cbPalSrcTD;
     private System.Windows.Forms.Label lblSrcShp;
+    private System.Windows.Forms.Label lblProgressText;
+    private System.Windows.Forms.PictureBox pbSrcPal;
+    private System.Windows.Forms.PictureBox pbDstPal;
   }
 }

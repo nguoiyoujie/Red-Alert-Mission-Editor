@@ -3,13 +3,15 @@ using RA_Mission_Editor.FileFormats;
 using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.Renderers;
 using RA_Mission_Editor.RulesData.Ruleset;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace RA_Mission_Editor.RulesData
 {
-  public class TerrainType : IEntityType
+  public class TerrainType : IEntityType, IOccupancyType
   {
     public string ID { get; }
+    public List<Point> Occupancy { get; } = new List<Point>(); // only care for actual occupancy, ignore visual refresh areas
 
     public TerrainType(string id)
     {

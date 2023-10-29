@@ -3,11 +3,12 @@ using RA_Mission_Editor.FileFormats;
 using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.Renderers;
 using RA_Mission_Editor.RulesData.Ruleset;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace RA_Mission_Editor.RulesData
 {
-  public class StructureType : ITechnoType, IEntityType
+  public class StructureType : ITechnoType, IEntityType, IOccupancyType
 	{
 		public string ID { get; }
 		public string FullName;
@@ -17,9 +18,11 @@ namespace RA_Mission_Editor.RulesData
 		public int TurretDirections; // use 0 for no Turret
 		public string BibName;
 		public bool UseNeutralRemap;
+    public bool IsNaval;
+    public List<Point> Occupancy { get; } = new List<Point>(); // only care for actual occupancy, ignore visual refresh areas
 
-		// rules overrides
-		public string RulesName;
+    // rules overrides
+    public string RulesName;
 		public string RulesImage;
 
 		public StructureType(string id)
@@ -51,7 +54,8 @@ namespace RA_Mission_Editor.RulesData
 		public void DrawOnMap(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo entity, bool highlight)
 		{
 			TechnoTypeRenderer.CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
-			TechnoTypeRenderer.DrawStructureBib(map, rules, cache, vfs, tt, palFile, ID, g, entity.X, entity.Y, entity.IsBase, highlight);
+      TechnoTypeRenderer.DrawPlacementGrid(map, rules, cache, vfs, tt, palFile, ID, g, entity.X, entity.Y, true);
+      TechnoTypeRenderer.DrawStructureBib(map, rules, cache, vfs, tt, palFile, ID, g, entity.X, entity.Y, entity.IsBase, highlight);
 			TechnoTypeRenderer.DrawStructure(map, rules, cache, vfs, tt, palFile, ID, entity.IsBase ? rules.Houses.GetHouse(map.BaseSection.Player) : rules.Houses.GetHouse(entity.Owner), entity.IsBase ? 256 : entity.Health, entity.IsBase ? 0 : entity.Facing, g, entity.X, entity.Y, entity.Tag, entity.IsBase ? entity.BaseNumber : -1, entity.IsBase, highlight);
 		}
 	}

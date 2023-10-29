@@ -3,6 +3,7 @@ using RA_Mission_Editor.FileFormats;
 using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.Renderers;
 using RA_Mission_Editor.RulesData.Ruleset;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace RA_Mission_Editor.RulesData
@@ -22,5 +23,10 @@ namespace RA_Mission_Editor.RulesData
 
   public interface ITechnoType : IEntityType
   {
+  }
+
+  public interface IOccupancyType : IEntityType
+  {
+    List<Point> Occupancy { get; }
   }
 }

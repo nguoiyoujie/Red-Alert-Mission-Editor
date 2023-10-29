@@ -13,6 +13,7 @@ namespace RA_Mission_Editor.RulesData
   public class TemplateType : IEntityType, IEntity
 	{
 		public string ID { get; }
+    public bool IsBridge;
 
     public LandType LandType;
 

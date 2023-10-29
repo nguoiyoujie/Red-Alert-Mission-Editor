@@ -97,6 +97,17 @@ namespace RA_Mission_Editor.Renderers
       }
     }
 
+    public static bool IsTemplateBridge(Map map, int x, int y)
+    {
+      int c = map.CellNumber(x, y);
+      TemplateType tem = Templates.Get(map.MapPackSection.Template[c]);
+      // template
+      if (tem == null)
+      {
+        tem = Templates.Get(0);
+      }
+      return tem.IsBridge;
+    }
 
     public static Color GetTileTypeColor(Map map, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, int x, int y)
     {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace RA_Mission_Editor.RulesData
 {
@@ -9,50 +10,62 @@ namespace RA_Mission_Editor.RulesData
 
 		static Terrains()
     {
-			// See https://github.com/electronicarts/CnC_Remastered_Collection/blob/7d496e8a633a8bbf8a14b65f490b4d21fa32ca03/REDALERT/TDATA.CPP
-			_listTerrain = new List<TerrainType>()
+      Point p0_0 = new Point(0, 0);
+      Point p1_0 = new Point(1, 0);
+      Point p2_0 = new Point(2, 0);
+      Point p3_0 = new Point(3, 0);
+      Point p0_1 = new Point(0, 1);
+      Point p1_1 = new Point(1, 1);
+      Point p2_1 = new Point(2, 1);
+      Point p3_1 = new Point(3, 1);
+      Point p0_2 = new Point(0, 2);
+      Point p1_2 = new Point(1, 2);
+      Point p2_2 = new Point(2, 2);
+
+      // See https://github.com/electronicarts/CnC_Remastered_Collection/blob/7d496e8a633a8bbf8a14b65f490b4d21fa32ca03/REDALERT/TDATA.CPP
+      _listTerrain = new List<TerrainType>()
 			{
-				new TerrainType("T01"),
-				new TerrainType("T02"),
-				new TerrainType("T03"),
+				new TerrainType("T01") {Occupancy = { p0_1 } },
+				new TerrainType("T02") {Occupancy = { p0_1 } },
+				new TerrainType("T03") {Occupancy = { p0_1 } },
 				//new TerrainType("T04"), // not present 
-				new TerrainType("T05"),
-				new TerrainType("T06"),
-				new TerrainType("T07"),
-				new TerrainType("T08"),
+				new TerrainType("T05") {Occupancy = { p0_1 } },
+				new TerrainType("T06") {Occupancy = { p0_1 } },
+				new TerrainType("T07") {Occupancy = { p0_1 } },
+				new TerrainType("T08") {Occupancy = { p0_0 } },
 				//new TerrainType("T09"), // not present 
-				new TerrainType("T10"),
-				new TerrainType("T11"),
-				new TerrainType("T12"),
-				new TerrainType("T13"),
-				new TerrainType("T14"),
-				new TerrainType("T15"),
-				new TerrainType("T16"),
-				new TerrainType("T17"),
+				new TerrainType("T10") {Occupancy = { p0_1, p1_1 } },
+				new TerrainType("T11") {Occupancy = { p0_1, p1_1 } },
+				new TerrainType("T12") {Occupancy = { p0_1 } },
+				new TerrainType("T13") {Occupancy = { p0_1 } },
+				new TerrainType("T14") {Occupancy = { p0_1, p1_1 } },
+				new TerrainType("T15") {Occupancy = { p0_1, p1_1 } },
+				new TerrainType("T16") {Occupancy = { p0_1 } },
+				new TerrainType("T17") {Occupancy = { p0_1 } },
 				// Tree Clusters
-				new TerrainType("TC01"),
-				new TerrainType("TC02"),
-				new TerrainType("TC03"),
-				new TerrainType("TC04"),
-				new TerrainType("TC05"),
+				new TerrainType("TC01") {Occupancy = { p0_1, p1_1 } },
+				new TerrainType("TC02") {Occupancy = { p1_0, p0_1, p1_1 } },
+				new TerrainType("TC03") {Occupancy = { p0_0, p1_0, p0_1, p1_1 } },
+				new TerrainType("TC04") {Occupancy = { p0_1, p1_1, p2_1, p0_2 } },
+				new TerrainType("TC05") {Occupancy = { p2_0, p0_1, p1_1, p2_1, p1_2, p2_2 } },
 				// Ice Clusters
-				new TerrainType("ICE01"),
-				new TerrainType("ICE02"),
-				new TerrainType("ICE03"),
-				new TerrainType("ICE04"),
-				new TerrainType("ICE05"),
+				new TerrainType("ICE01") {Occupancy = { p0_0, p1_0, p0_1, p1_1 } },
+				new TerrainType("ICE02") {Occupancy = { p0_0, p0_1 } },
+				new TerrainType("ICE03") {Occupancy = { p0_0, p1_0 } },
+				new TerrainType("ICE04") {Occupancy = { p0_0 } },
+				new TerrainType("ICE05") {Occupancy = { p0_0 } },
 				// Boxes // limited to interior only?
-				new TerrainType("BOX01"),
-				new TerrainType("BOX02"),
-				new TerrainType("BOX03"),
-				new TerrainType("BOX04"),
-				new TerrainType("BOX05"),
-				new TerrainType("BOX06"),
-				new TerrainType("BOX07"),
-				new TerrainType("BOX08"),
-				new TerrainType("BOX09"),
+				new TerrainType("BOX01") {Occupancy = { p0_0 } },
+				new TerrainType("BOX02") {Occupancy = { p0_0 } },
+				new TerrainType("BOX03") {Occupancy = { p0_0 } },
+				new TerrainType("BOX04") {Occupancy = { p0_0 } },
+				new TerrainType("BOX05") {Occupancy = { p0_0 } },
+				new TerrainType("BOX06") {Occupancy = { p0_0 } },
+				new TerrainType("BOX07") {Occupancy = { p0_0 } },
+				new TerrainType("BOX08") {Occupancy = { p0_0 } },
+				new TerrainType("BOX09") {Occupancy = { p0_0 } },
 				// Ore Mine
-				new TerrainType("MINE"),
+				new TerrainType("MINE") {Occupancy = { p0_0 } },
 			};
 
 			string[] lStr = new string[_listTerrain.Count];

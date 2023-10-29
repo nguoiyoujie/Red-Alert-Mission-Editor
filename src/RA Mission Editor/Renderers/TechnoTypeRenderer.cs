@@ -1,9 +1,11 @@
-﻿using RA_Mission_Editor.FileFormats;
+﻿using RA_Mission_Editor.Entities;
+using RA_Mission_Editor.FileFormats;
 using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.RulesData;
 using RA_Mission_Editor.RulesData.Ruleset;
 using RA_Mission_Editor.Util;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -55,6 +57,9 @@ namespace RA_Mission_Editor.Renderers
       Matrix44 = 1f,
     };
     private static ImageAttributes _translucenthighlightImageAttributes = new ImageAttributes();
+
+    private static List<Point> _cachePlacement = new List<Point>();
+    private static List<Point> _cachePlacement2 = new List<Point>();
 
     static TechnoTypeRenderer()
     {
@@ -160,6 +165,150 @@ namespace RA_Mission_Editor.Renderers
         int y = yoffset + extract.CellY(c);
 
         DrawStructureBib(map, rules, cache, vfs, tt, palFile, tInfo.ID, g, x, y, false);
+      }
+    }
+
+    private static void FillOccupancyGrid(List<Point> grid, MapCache cache, VirtualFileSystem vfs, TheaterType tt, StructureType stype, bool includeBib)
+    {
+      if (stype == null)
+      {
+        return;
+      }
+      grid.Clear();
+      grid.AddRange(stype.Occupancy);
+      int ycOffset = 0;
+      string bibName = null;
+      if (includeBib)
+      {
+        string imageID = stype.RulesImage;
+        if (cache.GetOrOpen(imageID + tt.Extension, vfs, out ShpFile structureShpFile) || cache.GetOrOpen(imageID + ".SHP", vfs, out structureShpFile)) // template extension provided no files, try .shp instead
+        {
+          ycOffset = structureShpFile.Height / Constants.CELL_PIXEL_H - 1;
+          bibName = stype.BibName;
+        }
+      }
+
+      if (bibName != null)
+      {
+        SmudgeType smd = Smudges.Get(bibName);
+        int tx = 1;
+        int ty = 1;
+        if (stype != null)
+        {
+          tx = smd.BlockWidth;
+          ty = smd.BlockHeight;
+        }
+
+        for (int yd = 0; yd < ty; yd++)
+          for (int xd = 0; xd < tx; xd++)
+          {
+            Point p = new Point(xd, yd + ycOffset);
+            if (!grid.Contains(p))
+            {
+              grid.Add(p);
+            }
+          }
+      }
+    }
+
+    private static void FillOccupancyGrid(List<Point> grid, TerrainType ttype)
+    {
+      if (ttype == null)
+      {
+        return;
+      }
+      grid.Clear();
+      grid.AddRange(ttype.Occupancy);
+    }
+
+    public static void DrawPlacementGrid(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, Graphics g, int x, int y, bool includeBib)
+    {
+      if (!map.IsCellInMap(x, y)) { return; }
+
+      Bitmap bmp;
+      StructureType stype = rules.Structures.Get(typeID);
+      FillOccupancyGrid(_cachePlacement, cache, vfs, tt, stype, includeBib);
+
+      if (cache.GetOrOpen("TRANS.ICN", vfs, out TmpFile tmpFile))
+      {
+        foreach (Point p in _cachePlacement)
+        {
+          bool clear = true;
+          if (MinimapRenderer.IsTemplateBridge(map, x + p.X, y + p.Y))
+          {
+            clear = false;
+          }
+          if (clear)
+          {
+            TileType tilet = MinimapRenderer.GetTileType(map, cache, vfs, tt, palFile, x + p.X, y + p.Y);
+            switch (tilet)
+            {
+              case TileType.BEACH_6:
+              case TileType.ROCK_8:
+              //case TileType.ROAD_9:
+              case TileType.RIVER_B:
+              case TileType.ROUGH_E:
+                clear = false;
+                break;
+              case TileType.WATER_A:
+                clear = stype.IsNaval;
+                break;
+              default:
+                clear = !stype.IsNaval;
+                break;
+            }
+          }
+          if (clear)
+          {
+            foreach (IEntity e in map.MapOccupancyList.Pick(map, x + p.X, y + p.Y))
+            {
+              IEntityType etype = e.GetEntityType(rules);
+              if (etype is InfantryType || etype is UnitType || etype is ShipType || etype is AircraftType || etype is OverlayType)
+              {
+                // each of these occupy the exact tile
+                clear = false;
+                break;
+              }
+              else if (etype is TerrainType trt && e is TerrainInfo tinfo)
+              {
+                FillOccupancyGrid(_cachePlacement2, trt);
+                int x2 = map.CellX(tinfo.Cell);
+                int y2 = map.CellY(tinfo.Cell);
+                Point poff = new Point(x + p.X - x2, y + p.Y - y2);
+                if (_cachePlacement2.Contains(poff))
+                {
+                  clear = false;
+                  break;
+                }
+              }
+              else if (etype is StructureType st && e is StructureInfo sinfo)
+              {
+                FillOccupancyGrid(_cachePlacement2, cache, vfs, tt, st, includeBib);
+                int x2 = map.CellX(sinfo.Cell);
+                int y2 = map.CellY(sinfo.Cell);
+                Point poff = new Point(x + p.X - x2, y + p.Y - y2);
+                if (_cachePlacement2.Contains(poff))
+                {
+                  clear = false;
+                  break;
+                }
+              }
+            }
+          }
+          if (clear)
+          {
+            bmp = RenderUtils.RenderTemplate(cache, tmpFile, palFile, 0);
+          }
+          else
+          {
+            bmp = RenderUtils.RenderTemplate(cache, tmpFile, palFile, 2);
+          }
+          if (bmp != null)
+          {
+            Rectangle rd = new Rectangle((x + p.X) * Constants.CELL_PIXEL_W, (y + p.Y) * Constants.CELL_PIXEL_H, bmp.Width, bmp.Height);
+            g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _translucenthighlightImageAttributes);
+          }
+        }
       }
     }
 

@@ -34,7 +34,9 @@ namespace RA_Mission_Editor.RulesData
 
 		public string DisplayName { get => ToString(); }
 
-		public override string ToString()
+    public EditorSelectMode SelectMode { get { return EditorSelectMode.Structures; } }
+
+    public override string ToString()
 		{
 			return RulesName ?? FullName ?? ID;
 		}
@@ -54,9 +56,9 @@ namespace RA_Mission_Editor.RulesData
 		public void DrawOnMap(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo entity, bool highlight)
 		{
 			TechnoTypeRenderer.CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
-      TechnoTypeRenderer.DrawPlacementGrid(map, rules, cache, vfs, tt, palFile, ID, g, entity.X, entity.Y, true);
       TechnoTypeRenderer.DrawStructureBib(map, rules, cache, vfs, tt, palFile, ID, g, entity.X, entity.Y, entity.IsBase, highlight);
 			TechnoTypeRenderer.DrawStructure(map, rules, cache, vfs, tt, palFile, ID, entity.IsBase ? rules.Houses.GetHouse(map.BaseSection.Player) : rules.Houses.GetHouse(entity.Owner), entity.IsBase ? 256 : entity.Health, entity.IsBase ? 0 : entity.Facing, g, entity.X, entity.Y, entity.Tag, entity.IsBase ? entity.BaseNumber : -1, entity.IsBase, highlight);
-		}
-	}
+      TechnoTypeRenderer.DrawPlacementGrid(map, rules, cache, vfs, tt, palFile, ID, g, entity.X, entity.Y, true);
+    }
+  }
 }

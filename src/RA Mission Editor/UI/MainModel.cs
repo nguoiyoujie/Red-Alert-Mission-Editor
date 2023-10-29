@@ -432,8 +432,10 @@ namespace RA_Mission_Editor.UI
       {
         foreach (var p in PickCache)
         {
-          IEntityType etype = p.GetEntityType(CurrentMap.AttachedRules);
-          if (placeEntity.Type != null && etype != null && etype.GetType() == placeEntity.Type.GetType())
+          // note: p.GetEntityType returns null if the type is not present in the rules. Mostly because the definitions may have been changed
+          // We still want to be able to delete items from the same select mode
+          EditorSelectMode smode = p.SelectMode;
+          if (placeEntity.Type != null && smode == placeEntity.Type.SelectMode)
           {
             CurrentMap.DeleteEntity(Cache, GameFileSystem, p, placeEntity.X, placeEntity.Y);
             if (placeEntity.Type is TemplateType)

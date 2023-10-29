@@ -25,7 +25,9 @@ namespace RA_Mission_Editor.RulesData
 
 		public string DisplayName { get => ToString(); }
 
-		public override string ToString()
+    public EditorSelectMode SelectMode { get { return EditorSelectMode.None; } }
+
+    public override string ToString()
 		{
 			return RulesName ?? FullName ?? ID;
 		}

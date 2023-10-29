@@ -11,6 +11,8 @@ namespace RA_Mission_Editor.RulesData
   public interface IEntityType
   {
     string ID { get; }
+    EditorSelectMode SelectMode { get; }
+
     Bitmap DrawPreview(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, PlaceEntityInfo preview);
     void DrawOnMap(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo entity, bool highlight);
   }

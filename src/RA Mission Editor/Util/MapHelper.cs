@@ -376,8 +376,9 @@ namespace RA_Mission_Editor.Util
     public static void MoveCoord(int x, int y, int distance, int facing, out int new_x, out int new_y)
     {
       // x, y in pixel coordinate units
-      new_x = x + (sbyte)cosTable[facing % 256] * distance / 0x7f;
-      new_y = y + (sbyte)sinTable[facing % 256] * distance / 0x7f / 2;  // yes, divide by 2 
+      int f = (facing % 256 + 256) % 256;
+      new_x = x + (sbyte)cosTable[f] * distance / 0x7f;
+      new_y = y + (sbyte)sinTable[f] * distance / 0x7f / 2;  // yes, divide by 2 
     }
   }
 }

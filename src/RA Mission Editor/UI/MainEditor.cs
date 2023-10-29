@@ -435,6 +435,16 @@ namespace RA_Mission_Editor.UI
               MainModel.PreplaceEntity.Update(MainModel.CurrentMap, MainModel.PickEntity);
               RefreshObjectCanvas();
             }
+            else
+            {
+              // default to first item
+              if (lboxObjects.Items.Count > 0)
+              {
+                etype = (IEntityType)(lboxObjects.Items[0]);
+                lboxObjects.SelectedIndex = 0;
+                //MainModel.PickEntity = 
+              }
+            }
           }
         }
       }

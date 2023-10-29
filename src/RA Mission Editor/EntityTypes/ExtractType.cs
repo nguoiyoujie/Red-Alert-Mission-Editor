@@ -20,7 +20,9 @@ namespace RA_Mission_Editor.RulesData
 
 		public string DisplayName { get => ID; }
 
-		public override string ToString()
+    public EditorSelectMode SelectMode { get { return EditorSelectMode.None; } }
+
+    public override string ToString()
 		{
 			return ID;
 		}

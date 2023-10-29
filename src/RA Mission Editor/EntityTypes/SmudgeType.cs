@@ -21,6 +21,8 @@ namespace RA_Mission_Editor.RulesData
 
     public string DisplayName { get => ToString(); }
 
+    public EditorSelectMode SelectMode { get { return EditorSelectMode.Smudges; } }
+
     public override string ToString()
     {
       return ID;

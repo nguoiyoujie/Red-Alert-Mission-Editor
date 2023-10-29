@@ -33,17 +33,17 @@ namespace RA_Mission_Editor.RulesData.TechnoSets
 					TurretDirections = 32,
 					TurretShpFrame = 0
 				},
-				new ShipType("PT")
-				{
-					FullName = "Gunboat",
-					TurretName = "MGUN", 
-					TurretLocations = new TurretLocationDelegate[] { (id, fac) => { MapHelper.MoveCoord(0, 0, 14, 256 - fac, out int x, out int y); return new Point(x, y + 1); } },
-					Directions = 16,
-					TurretDirections = 32,
-					TurretShpFrame = 0
-				},
 				new ShipType("LST") { FullName = "Transport" },
-				new ShipType("MSUB")
+        new ShipType("PT")
+        {
+          FullName = "Gunboat",
+          TurretName = "MGUN",
+          TurretLocations = new TurretLocationDelegate[] { (id, fac) => { MapHelper.MoveCoord(0, 0, 14, 256 - fac, out int x, out int y); return new Point(x, y + 1); } },
+          Directions = 16,
+          TurretDirections = 32,
+          TurretShpFrame = 0
+        },
+        new ShipType("MSUB")
 				{
 					FullName = "Missile Sub",
 					Directions = 16

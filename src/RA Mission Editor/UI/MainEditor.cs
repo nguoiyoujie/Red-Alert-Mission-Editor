@@ -1133,6 +1133,11 @@ namespace RA_Mission_Editor.UI
       boundsToolStripMenuItem.Checked = !boundsToolStripMenuItem.Checked;
       pbMapCanvas.Renderer.SetVisible(MapCanvas.LayerType.Bounds, boundsToolStripMenuItem.Checked);
     }
+    private void templateColorsToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      templateColorsToolStripMenuItem.Checked = !templateColorsToolStripMenuItem.Checked;
+      pbMapCanvas.Renderer.SetVisible(MapCanvas.LayerType.Template_SingleColor, templateColorsToolStripMenuItem.Checked);
+    }
 
     private void viewStatisticsToolStripMenuItem_Click(object sender, EventArgs e)
     {

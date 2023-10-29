@@ -361,6 +361,26 @@
     LAND_RIVER,
   }
 
+  public enum TileType
+  {
+    CLEAR_0 = 0,
+    CLEAR_1 = 1,
+    CLEAR_2 = 2,
+    CLEAR_3 = 3,
+    CLEAR_4 = 4,
+    CLEAR_5 = 5,
+    BEACH_6 = 6,
+    CLEAR_7 = 7,
+    ROCK_8 = 8,
+    ROAD_9 = 9,
+    WATER_A = 10,
+    RIVER_B = 11,
+    CLEAR_C = 12,
+    CLEAR_D = 13,
+    ROUGH_E = 14,
+    CLEAR_F = 15
+  }
+
   /// <summary>Special behavior for the overlay</summary>
   public enum OverlaySubType
   {

@@ -16,12 +16,13 @@ using RA_Mission_Editor.Common;
 using RA_Mission_Editor.Util;
 using System.Collections.Generic;
 using System.IO;
+using static RA_Mission_Editor.FileFormats.TmpFile;
 
 namespace RA_Mission_Editor.FileFormats
 {
   public class TmpFile : VirtualFile
 	{
-		public class TmpImage
+    public class TmpImage
 		{
 			public byte[] TileData;
 		}
@@ -34,8 +35,14 @@ namespace RA_Mission_Editor.FileFormats
 		public int BlockHeight;            // height of each block
 
 		public List<TmpImage> Images;
+    public List<TileType> TileTypes;
 
-		static TmpFile()
+    public bool IsClearTile
+		{
+			get { return BlockWidth * BlockHeight == 1 && Images.Count > 1; }
+		}
+
+    static TmpFile()
 		{
 			Cache<TmpFile>.SetCreateFunction((s, f) => FormatHelper.OpenAsFormat(s, f, format: FormatHelper.GetFormatFromTypeclass(typeof(TmpFile))) as TmpFile);
 		}
@@ -49,17 +56,16 @@ namespace RA_Mission_Editor.FileFormats
 		private void Parse()
 		{
 			Position = 0;
-
-			Width = ReadUInt16();
-			Height = ReadUInt16();
-			ReadUInt16(); // NumTiles
-			ReadUInt16(); // Zero1
+			
+			Width = ReadUInt16(); // tileX
+			Height = ReadUInt16(); // tileY
+      int Frames = ReadInt32(); // Frames 
 			BlockWidth = ReadInt32();
 			BlockHeight = ReadInt32();
 			uint imgStart = ReadUInt32();
 			ReadUInt32(); // Zero2
 
-			int IndexEnd, IndexStart;
+			int IndexEnd, IndexStart, TypeStart = 0;
 			if (ReadUInt16() == 65535) // ID1 = FFFFh for cnc
 			{
 				ReadUInt16(); // ID2 
@@ -69,24 +75,24 @@ namespace RA_Mission_Editor.FileFormats
 			else // Load as a ra .tem
 			{
 				Position = 0;
-				Width = ReadUInt16();
-				Height = ReadUInt16();
+				Width = ReadUInt16(); // tileX
+        Height = ReadUInt16(); // tileY
 
-				ReadUInt16(); // NumTiles
-				ReadUInt16(); // Zero1
-				BlockWidth = ReadUInt16(); // XDim
-				BlockHeight = ReadUInt16(); // YDim
-				ReadUInt32(); // FileSize
-				imgStart = ReadUInt32();
-				ReadUInt32();
-				ReadUInt32();
+        Frames = ReadInt32(); // Frames 
+        BlockWidth = ReadUInt16(); // FrameX
+				BlockHeight = ReadUInt16(); // FrameY
+        ReadUInt32(); // FileSize
+				imgStart = ReadUInt32(); // first frame (0x28)
+				ReadUInt32(); // always 0
+				ReadUInt32(); // ??
 				IndexEnd = ReadInt32();
-				ReadUInt32();
+				TypeStart = ReadInt32();
 				IndexStart = ReadInt32();
 			}
 			Position = IndexStart;
 
 			Images = new List<TmpImage>();
+      TileTypes = new List<TileType>();
 			foreach (byte b in new BinaryReader(this).ReadBytes(IndexEnd - IndexStart))
 			{
 				if (b != 255)
@@ -96,8 +102,14 @@ namespace RA_Mission_Editor.FileFormats
 					img.TileData = new BinaryReader(this).ReadBytes(Width * Height);
 					Images.Add(img);
 				}
-				else
-				{ Images.Add(null); }
+        else
+        { Images.Add(null); }
+      }
+
+			for (int i = 0; i < BlockWidth * BlockHeight; i++)
+			{
+				Position = TypeStart + TileTypes.Count;
+				TileTypes.Add((TileType)new BinaryReader(this).ReadByte());
 			}
 		}
 	}

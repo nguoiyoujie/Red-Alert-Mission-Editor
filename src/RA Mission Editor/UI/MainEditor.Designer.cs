@@ -143,6 +143,7 @@ namespace RA_Mission_Editor.UI
       this.tssBlank = new System.Windows.Forms.ToolStripStatusLabel();
       this.tssRemark = new System.Windows.Forms.ToolStripStatusLabel();
       this.ttipInfo = new System.Windows.Forms.ToolTip(this.components);
+      this.templateColorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       ((System.ComponentModel.ISupportInitialize)(this.splitMain)).BeginInit();
       this.splitMain.Panel1.SuspendLayout();
       this.splitMain.Panel2.SuspendLayout();
@@ -1096,7 +1097,8 @@ namespace RA_Mission_Editor.UI
             this.basesToolStripMenuItem,
             this.waypointsToolStripMenuItem,
             this.cellTriggersToolStripMenuItem,
-            this.boundsToolStripMenuItem});
+            this.boundsToolStripMenuItem,
+            this.templateColorsToolStripMenuItem});
       this.visibilityToolStripMenuItem.Name = "visibilityToolStripMenuItem";
       this.visibilityToolStripMenuItem.Size = new System.Drawing.Size(89, 20);
       this.visibilityToolStripMenuItem.Text = "Visibility";
@@ -1106,7 +1108,7 @@ namespace RA_Mission_Editor.UI
       this.overlayToolStripMenuItem1.Checked = true;
       this.overlayToolStripMenuItem1.CheckState = System.Windows.Forms.CheckState.Checked;
       this.overlayToolStripMenuItem1.Name = "overlayToolStripMenuItem1";
-      this.overlayToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
+      this.overlayToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
       this.overlayToolStripMenuItem1.Text = "Overlay";
       this.overlayToolStripMenuItem1.Click += new System.EventHandler(this.overlayToolStripMenuItem1_Click);
       // 
@@ -1115,7 +1117,7 @@ namespace RA_Mission_Editor.UI
       this.terrainToolStripMenuItem1.Checked = true;
       this.terrainToolStripMenuItem1.CheckState = System.Windows.Forms.CheckState.Checked;
       this.terrainToolStripMenuItem1.Name = "terrainToolStripMenuItem1";
-      this.terrainToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
+      this.terrainToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
       this.terrainToolStripMenuItem1.Text = "Terrain";
       this.terrainToolStripMenuItem1.Click += new System.EventHandler(this.terrainToolStripMenuItem1_Click);
       // 
@@ -1124,7 +1126,7 @@ namespace RA_Mission_Editor.UI
       this.smudgeToolStripMenuItem1.Checked = true;
       this.smudgeToolStripMenuItem1.CheckState = System.Windows.Forms.CheckState.Checked;
       this.smudgeToolStripMenuItem1.Name = "smudgeToolStripMenuItem1";
-      this.smudgeToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
+      this.smudgeToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
       this.smudgeToolStripMenuItem1.Text = "Smudge";
       this.smudgeToolStripMenuItem1.Click += new System.EventHandler(this.smudgeToolStripMenuItem1_Click);
       // 
@@ -1133,7 +1135,7 @@ namespace RA_Mission_Editor.UI
       this.infantryToolStripMenuItem1.Checked = true;
       this.infantryToolStripMenuItem1.CheckState = System.Windows.Forms.CheckState.Checked;
       this.infantryToolStripMenuItem1.Name = "infantryToolStripMenuItem1";
-      this.infantryToolStripMenuItem1.Size = new System.Drawing.Size(165, 22);
+      this.infantryToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
       this.infantryToolStripMenuItem1.Text = "Infantry";
       this.infantryToolStripMenuItem1.Click += new System.EventHandler(this.infantryToolStripMenuItem1_Click);
       // 
@@ -1142,7 +1144,7 @@ namespace RA_Mission_Editor.UI
       this.unitsToolStripMenuItem.Checked = true;
       this.unitsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
       this.unitsToolStripMenuItem.Name = "unitsToolStripMenuItem";
-      this.unitsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+      this.unitsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
       this.unitsToolStripMenuItem.Text = "Units";
       this.unitsToolStripMenuItem.Click += new System.EventHandler(this.unitsToolStripMenuItem_Click);
       // 
@@ -1151,7 +1153,7 @@ namespace RA_Mission_Editor.UI
       this.shipsToolStripMenuItem.Checked = true;
       this.shipsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
       this.shipsToolStripMenuItem.Name = "shipsToolStripMenuItem";
-      this.shipsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+      this.shipsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
       this.shipsToolStripMenuItem.Text = "Ships";
       this.shipsToolStripMenuItem.Click += new System.EventHandler(this.shipsToolStripMenuItem_Click);
       // 
@@ -1160,7 +1162,7 @@ namespace RA_Mission_Editor.UI
       this.structuresToolStripMenuItem.Checked = true;
       this.structuresToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
       this.structuresToolStripMenuItem.Name = "structuresToolStripMenuItem";
-      this.structuresToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+      this.structuresToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
       this.structuresToolStripMenuItem.Text = "Structures";
       this.structuresToolStripMenuItem.Click += new System.EventHandler(this.structuresToolStripMenuItem_Click);
       // 
@@ -1169,7 +1171,7 @@ namespace RA_Mission_Editor.UI
       this.basesToolStripMenuItem.Checked = true;
       this.basesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
       this.basesToolStripMenuItem.Name = "basesToolStripMenuItem";
-      this.basesToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+      this.basesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
       this.basesToolStripMenuItem.Text = "Bases";
       this.basesToolStripMenuItem.Click += new System.EventHandler(this.basesToolStripMenuItem_Click);
       // 
@@ -1178,7 +1180,7 @@ namespace RA_Mission_Editor.UI
       this.waypointsToolStripMenuItem.Checked = true;
       this.waypointsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
       this.waypointsToolStripMenuItem.Name = "waypointsToolStripMenuItem";
-      this.waypointsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+      this.waypointsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
       this.waypointsToolStripMenuItem.Text = "Waypoints";
       this.waypointsToolStripMenuItem.Click += new System.EventHandler(this.waypointsToolStripMenuItem_Click);
       // 
@@ -1187,7 +1189,7 @@ namespace RA_Mission_Editor.UI
       this.cellTriggersToolStripMenuItem.Checked = true;
       this.cellTriggersToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
       this.cellTriggersToolStripMenuItem.Name = "cellTriggersToolStripMenuItem";
-      this.cellTriggersToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+      this.cellTriggersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
       this.cellTriggersToolStripMenuItem.Text = "Cell Triggers";
       this.cellTriggersToolStripMenuItem.Click += new System.EventHandler(this.cellTriggersToolStripMenuItem_Click);
       // 
@@ -1196,7 +1198,7 @@ namespace RA_Mission_Editor.UI
       this.boundsToolStripMenuItem.Checked = true;
       this.boundsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
       this.boundsToolStripMenuItem.Name = "boundsToolStripMenuItem";
-      this.boundsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+      this.boundsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
       this.boundsToolStripMenuItem.Text = "Bounds";
       this.boundsToolStripMenuItem.Click += new System.EventHandler(this.boundsToolStripMenuItem_Click);
       // 
@@ -1333,6 +1335,13 @@ namespace RA_Mission_Editor.UI
       this.ttipInfo.ShowAlways = true;
       this.ttipInfo.Draw += new System.Windows.Forms.DrawToolTipEventHandler(this.ttipInfo_Draw);
       this.ttipInfo.Popup += new System.Windows.Forms.PopupEventHandler(this.ttipInfo_Popup);
+      // 
+      // templateColorsToolStripMenuItem
+      // 
+      this.templateColorsToolStripMenuItem.Name = "templateColorsToolStripMenuItem";
+      this.templateColorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.templateColorsToolStripMenuItem.Text = "Template Colors";
+      this.templateColorsToolStripMenuItem.Click += new System.EventHandler(this.templateColorsToolStripMenuItem_Click);
       // 
       // MainEditor
       // 
@@ -1498,5 +1507,6 @@ namespace RA_Mission_Editor.UI
     private System.Windows.Forms.Panel pObjectCanvas;
     private System.Windows.Forms.ToolStripMenuItem reloadDirectoryContentsToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem openOtherEditorToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem templateColorsToolStripMenuItem;
   }
 }

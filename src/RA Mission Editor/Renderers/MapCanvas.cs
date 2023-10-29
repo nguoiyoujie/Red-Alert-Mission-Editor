@@ -64,6 +64,7 @@ namespace RA_Mission_Editor.Renderers
     public enum LayerType
     {
       Templates,
+      Template_SingleColor,
       //BaseBibs, // combined with Bases
       //StructureBibs,  // combined with Structures
       Overlays,

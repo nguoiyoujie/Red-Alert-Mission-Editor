@@ -8,21 +8,22 @@ namespace RA_Mission_Editor.RulesData
     private readonly static Dictionary<ColorType, Color[]> _listHouseRemaps = new Dictionary<ColorType, Color[]>();
     private readonly static Dictionary<string, byte[]> _listOverrideRemaps = new Dictionary<string, byte[]>();
     private readonly static Dictionary<LandType, byte> _landTypeRadarColor = new Dictionary<LandType, byte>();
+    private readonly static Dictionary<TileType, byte> _tileTypePassableColor = new Dictionary<TileType, byte>();
 
     //private readonly static Dictionary<ColorType, Color[]> _listUnitRemaps = new Dictionary<ColorType, Color[]>();
 
     static ColorRemaps()
     {
       _listHouseRemaps.Add(ColorType.YELLOW, new Color[] {
-          Color.FromArgb(244, 212, 120), 
-          Color.FromArgb(228, 200, 112), 
-          Color.FromArgb(212, 188, 104), 
-          Color.FromArgb(196, 176, 96), 
-          Color.FromArgb(180, 164, 88), 
-          Color.FromArgb(168, 152, 84), 
-          Color.FromArgb(144, 136, 76), 
-          Color.FromArgb(144, 116, 64), 
-          Color.FromArgb(132, 112, 56), 
+          Color.FromArgb(244, 212, 120),
+          Color.FromArgb(228, 200, 112),
+          Color.FromArgb(212, 188, 104),
+          Color.FromArgb(196, 176, 96),
+          Color.FromArgb(180, 164, 88),
+          Color.FromArgb(168, 152, 84),
+          Color.FromArgb(144, 136, 76),
+          Color.FromArgb(144, 116, 64),
+          Color.FromArgb(132, 112, 56),
           Color.FromArgb(108, 100, 56),
           Color.FromArgb(88, 84, 44),
           Color.FromArgb(84, 76, 36),
@@ -30,7 +31,7 @@ namespace RA_Mission_Editor.RulesData
           Color.FromArgb(56, 52, 28),
           Color.FromArgb(52, 44, 20),
           Color.FromArgb(40, 32, 8),
-				}
+        }
 );
 
       _listHouseRemaps.Add(ColorType.WHITE, new Color[] {
@@ -434,6 +435,23 @@ namespace RA_Mission_Editor.RulesData
       _landTypeRadarColor.Add(LandType.LAND_BEACH, 141);
       _landTypeRadarColor.Add(LandType.LAND_ROUGH, 141);
       _landTypeRadarColor.Add(LandType.LAND_RIVER, 174);
+
+      _tileTypePassableColor.Add(TileType.CLEAR_0, 254);
+      _tileTypePassableColor.Add(TileType.CLEAR_1, 253);
+      _tileTypePassableColor.Add(TileType.CLEAR_2, 252);
+      _tileTypePassableColor.Add(TileType.CLEAR_3, 251);
+      _tileTypePassableColor.Add(TileType.CLEAR_4, 250);
+      _tileTypePassableColor.Add(TileType.CLEAR_5, 249);
+      _tileTypePassableColor.Add(TileType.BEACH_6, 211);
+      _tileTypePassableColor.Add(TileType.CLEAR_7, 248);
+      _tileTypePassableColor.Add(TileType.ROCK_8, 21);
+      _tileTypePassableColor.Add(TileType.ROAD_9, 114);
+      _tileTypePassableColor.Add(TileType.WATER_A, 172);
+      _tileTypePassableColor.Add(TileType.RIVER_B, 165);
+      _tileTypePassableColor.Add(TileType.CLEAR_C, 247);
+      _tileTypePassableColor.Add(TileType.CLEAR_D, 246);
+      _tileTypePassableColor.Add(TileType.ROUGH_E, 119);
+      _tileTypePassableColor.Add(TileType.CLEAR_F, 245);
     }
 
     public static Color[] GetColorRemap(ColorType color)
@@ -451,6 +469,12 @@ namespace RA_Mission_Editor.RulesData
     public static byte GetRadarColor(LandType landType)
     {
       _landTypeRadarColor.TryGetValue(landType, out byte b);
+      return b;
+    }
+
+    public static byte GetTileColor(TileType tileType)
+    {
+      _tileTypePassableColor.TryGetValue(tileType, out byte b);
       return b;
     }
 

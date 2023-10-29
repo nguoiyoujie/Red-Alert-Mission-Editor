@@ -26,7 +26,7 @@ namespace RA_Mission_Editor.Renderers
       }
     }
 
-    public static Color PutPixel(Map map, MapCache cache, PalFile palFile, int x, int y)
+    public static Color GetTemplateColor(Map map, MapCache cache, PalFile palFile, int x, int y)
     {
       int c = map.CellNumber(x, y);
       // template
@@ -69,6 +69,42 @@ namespace RA_Mission_Editor.Renderers
       return color;
     }
 
+    public static TileType GetTileType(Map map, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, int x, int y)
+    {
+      int c = map.CellNumber(x, y);
+      TemplateType tem = Templates.Get(map.MapPackSection.Template[c]);
+      // template
+      if (tem == null)
+      {
+        tem = Templates.Get(0);
+      }
+
+      byte tile = map.MapPackSection.Tile[c];
+
+      string tfile = tem.ID + tt.Extension;
+      if (!cache.GetOrOpen(tfile, vfs, out TmpFile tmpFile))
+      {
+        throw new Exception($"Theater clear tile {tfile} does not exist!");
+      }
+
+      if (tmpFile.IsClearTile)
+      {
+        return tmpFile.TileTypes[0];
+      }
+      else
+      {
+        return tmpFile.TileTypes[tile];
+      }
+    }
+
+
+    public static Color GetTileTypeColor(Map map, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, int x, int y)
+    {
+      TileType tilet = GetTileType(map, cache, vfs, tt, palFile, x, y);
+      Color color = palFile.GetColor(ColorRemaps.GetTileColor(tilet));
+      return color;
+    }
+
     public static void DrawMinimap(Map map, MapCache cache, VirtualFileSystem vfs, Graphics g)
     {
       CheckTheatre(map, cache, vfs, out TheaterType _, out PalFile palFile);
@@ -80,7 +116,7 @@ namespace RA_Mission_Editor.Renderers
       for (int xc = 0; xc < map.Ext_MapSection.FullWidth; xc++)
         for (int yc = 0; yc < map.Ext_MapSection.FullHeight; yc++)
         {
-          if (cache.GetOrCreate(PutPixel(map, cache, palFile, xc, yc), out Brush br))
+          if (cache.GetOrCreate(GetTemplateColor(map, cache, palFile, xc, yc), out Brush br))
             g.FillRectangle(br, xc, yc, 1, 1);
         }
 

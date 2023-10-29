@@ -1,9 +1,6 @@
-﻿using RA_Mission_Editor.Common;
-using RA_Mission_Editor.Entities;
-using RA_Mission_Editor.FileFormats;
+﻿using RA_Mission_Editor.FileFormats;
 using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.RulesData;
-using RA_Mission_Editor.RulesData.Ruleset;
 using RA_Mission_Editor.Util;
 using System;
 using System.Diagnostics;
@@ -48,7 +45,7 @@ namespace RA_Mission_Editor.Renderers
       }
     }
 
-    public static void DrawTemplates(Map map, MapCache cache, VirtualFileSystem vfs, Graphics g)
+    public static void DrawTemplates(Map map, MapCache cache, VirtualFileSystem vfs, Graphics g, bool asSingleColor)
     {
       CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
 
@@ -69,31 +66,41 @@ namespace RA_Mission_Editor.Renderers
           TemplateType tem = Templates.Get(map.MapPackSection.Template[c]);
           Bitmap bmp = null;
 
-          if (tem != null && cache.GetOrOpen(tem.ID + tt.Extension, vfs, out TmpFile tmpFile))
+          if (asSingleColor)
           {
-            // fetch bitmap
-            // if this is a clear tile (ID=0), the template has multiple tiles, pseudo-randomize them according to Clear_Icon() in
-            // https://github.com/electronicarts/CnC_Remastered_Collection/blob/7d496e8a633a8bbf8a14b65f490b4d21fa32ca03/TIBERIANDAWN/CELL.CPP
-            int tile = map.MapPackSection.Template[c] == 0 ? map.ClearIcon(c) : map.MapPackSection.Tile[c];
-            bmp = RenderUtils.RenderTemplate(cache, tmpFile, palFile, tile);
+            if (cache.GetOrCreate(MinimapRenderer.GetTileTypeColor(map, cache, vfs, tt, palFile, xc, yc), out Brush br))
+            {
+              g.FillRectangle(br, new RectangleF(xc * Constants.CELL_PIXEL_W, yc * Constants.CELL_PIXEL_H, Constants.CELL_PIXEL_W, Constants.CELL_PIXEL_H));
+            }
           }
-          else if (map.MapPackSection.Template[c] != 0xFFFF) // meant to have something, but does not exist in the definitions
+          else
           {
-            // just warn, but draw the clear tile anyway
-            // !!! Performance expensive when several cells have this issue, better to move this out to an explicit check function...
-            Debug.WriteLine($"Template 'ID {map.OverlayPackSection.Overlay[c]}' at cell {{{map.CellX(c)},{map.CellY(c)}}} does not exist!");
-          }
+            if (tem != null && cache.GetOrOpen(tem.ID + tt.Extension, vfs, out TmpFile tmpFile))
+            {
+              // fetch bitmap
+              // if this is a clear tile (ID=0), the template has multiple tiles, pseudo-randomize them according to Clear_Icon() in
+              // https://github.com/electronicarts/CnC_Remastered_Collection/blob/7d496e8a633a8bbf8a14b65f490b4d21fa32ca03/TIBERIANDAWN/CELL.CPP
+              int tile = map.MapPackSection.Template[c] == 0 ? map.ClearIcon(c) : map.MapPackSection.Tile[c];
+              bmp = RenderUtils.RenderTemplate(cache, tmpFile, palFile, tile);
+            }
+            else if (map.MapPackSection.Template[c] != 0xFFFF) // meant to have something, but does not exist in the definitions
+            {
+              // just warn, but draw the clear tile anyway
+              // !!! Performance expensive when several cells have this issue, better to move this out to an explicit check function...
+              Debug.WriteLine($"Template 'ID {map.OverlayPackSection.Overlay[c]}' at cell {{{map.CellX(c)},{map.CellY(c)}}} does not exist!");
+            }
 
-          // either the tile in the template does not exist, or the template does not exist (e.g. ID is 0xFFFF)
-          if (bmp == null)
-          {
-            // use the clear tile
-            int tile = map.ClearIcon(c);
-            bmp = RenderUtils.RenderTemplate(cache, cleartmpFile, palFile, tile);
-          }
+            // either the tile in the template does not exist, or the template does not exist (e.g. ID is 0xFFFF)
+            if (bmp == null)
+            {
+              // use the clear tile
+              int tile = map.ClearIcon(c);
+              bmp = RenderUtils.RenderTemplate(cache, cleartmpFile, palFile, tile);
+            }
 
-          // draw
-          g.DrawImage(bmp, xc * Constants.CELL_PIXEL_W, yc * Constants.CELL_PIXEL_H);
+            // draw
+            g.DrawImage(bmp, xc * Constants.CELL_PIXEL_W, yc * Constants.CELL_PIXEL_H);
+          }
         }
     }
 

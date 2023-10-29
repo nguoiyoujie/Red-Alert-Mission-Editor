@@ -16,6 +16,10 @@ namespace RA_Mission_Editor.UI.UserControls
     public MapCanvas Renderer { get; private set; }
     public float Zoom { get { return _zoom; } set { if (_zoom != value) { _zoom = value; Invalidate(); } } }
     private float _zoom = 1;
+    private int _init_x = -1;
+    private int _init_y = -1;
+    private int _prev_x = -1;
+    private int _prev_y = -1;
     private int _hover_x = -1;
     private int _hover_y = -1;
     private int _hover_subcell = -1;
@@ -136,6 +140,17 @@ namespace RA_Mission_Editor.UI.UserControls
     private void MapCanvasControl_MouseMove(object sender, MouseEventArgs e)
     {
       UpdateCoord((int)(e.X / Zoom), (int)(e.Y / Zoom), e.Button);
+      if (e.Button == MouseButtons.Middle && sender is Control c && c.Parent is Panel p)
+      {
+        // scroll
+        c.Cursor = Cursors.SizeAll;
+        p.HorizontalScroll.Value = Math.Max(p.HorizontalScroll.Minimum, Math.Min(p.HorizontalScroll.Maximum, p.HorizontalScroll.Value - MousePosition.X + _prev_x));
+        p.VerticalScroll.Value = Math.Max(p.VerticalScroll.Minimum, Math.Min(p.VerticalScroll.Maximum, p.VerticalScroll.Value - MousePosition.Y + _prev_y));
+        _prev_x = MousePosition.X;
+        _prev_y = MousePosition.Y;
+        Renderer.SuspendDrawing = true;
+        //p.Invalidate();
+      }
     }
 
     private void MapCanvasControl_MouseClick(object sender, MouseEventArgs e)
@@ -153,6 +168,13 @@ namespace RA_Mission_Editor.UI.UserControls
     {
       _mouseDown = true;
       UpdateMouseDown?.Invoke(_hover_x, _hover_y, _hover_subcell, e.Button);
+      if (e.Button == MouseButtons.Middle && sender is Control c)
+      {
+        c.Cursor = Cursors.SizeAll;
+        _prev_x = MousePosition.X;
+        _prev_y = MousePosition.Y;
+        Renderer.SuspendDrawing = true;
+      }
     }
 
     private void MapCanvasControl_MouseUp(object sender, MouseEventArgs e)
@@ -161,6 +183,11 @@ namespace RA_Mission_Editor.UI.UserControls
       {
         _mouseDown = false;
         UpdateMouseUp?.Invoke(_hover_x, _hover_y, _hover_subcell, e.Button);
+        if (e.Button == MouseButtons.Middle && sender is Control c)
+        {
+          c.Cursor = Cursors.Default;
+          Renderer.SuspendDrawing = false;
+        }
       }
     }
   }

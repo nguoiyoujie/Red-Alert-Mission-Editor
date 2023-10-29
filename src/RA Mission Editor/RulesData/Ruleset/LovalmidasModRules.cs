@@ -1,6 +1,8 @@
 ﻿using RA_Mission_Editor.FileFormats;
 using RA_Mission_Editor.MapData;
+using RA_Mission_Editor.Util;
 using System;
+using System.Drawing;
 
 namespace RA_Mission_Editor.RulesData.Ruleset
 {
@@ -55,6 +57,34 @@ namespace RA_Mission_Editor.RulesData.Ruleset
           }
         }
         structure.FullName = file?.Get(nameindex++);
+
+        string customfoundation = GameRules.GetSection(entry.Value.Value).ReadString("CustomFoundationList", "");
+        if (!string.IsNullOrEmpty(customfoundation))
+        {
+          structure.Occupancy.Clear();
+          Point cursor = new Point(0, 0);
+          foreach (char c in customfoundation)
+          {
+            switch (c)
+            {
+              case 'S':
+                cursor = new Point(0, cursor.Y - 1);
+                break;
+              case 'X':
+                structure.Occupancy.Add(cursor);
+                cursor = new Point(cursor.X + 1, cursor.Y);
+                break;
+              case 'O':
+                cursor = new Point(cursor.X + 1, cursor.Y);
+                break;
+              case '|':
+                cursor = new Point(0, cursor.Y + 1);
+                break;
+            }
+          }
+        }
+          
+
         Structures.AddRulesObject(structure);
       }
 
@@ -90,7 +120,31 @@ namespace RA_Mission_Editor.RulesData.Ruleset
       foreach (var entry in GameRules.GetOrCreateSection("VesselTypes").OrderedEntries)
       {
         // like SS
-        Ships.AddRulesObject(new ShipType(entry.Value.Value) { FullName = file?.Get(nameindex++), Directions = 16 });
+        var ship = new ShipType(entry.Value.Value) { FullName = file?.Get(nameindex++), Directions = 16 };
+        if (GameRules.GetSection(entry.Value.Value).HasKey("HasTurret"))
+        {
+          if (!GameRules.GetSection(entry.Value.Value).ReadBool("HasTurret", false))
+          {
+            ship.TurretLocations = new TurretLocationDelegate[0];
+          }
+          else
+          {
+            int offset = GameRules.GetSection(entry.Value.Value).ReadInt("TurretOffset");
+            int adjustY = GameRules.GetSection(entry.Value.Value).ReadInt("TurretAdjustY");
+            if (GameRules.GetSection(entry.Value.Value).ReadBool("HasSecondTurret", false))
+            {
+              ship.TurretLocations = new TurretLocationDelegate[] { (id, fac) => { MapHelper.MoveCoord(0, 0, offset, 256 - fac, out int x, out int y); return new Point(x, y + adjustY); }, (id, fac) => { MapHelper.MoveCoord(0, 0, -offset, 256 - fac, out int x, out int y); return new Point(x, y + adjustY); } };
+            }
+            else
+            {
+              ship.TurretLocations = new TurretLocationDelegate[] { (id, fac) => { MapHelper.MoveCoord(0, 0, offset, 256 - fac, out int x, out int y); return new Point(x, y + adjustY); } };
+            }
+            ship.TurretDirections = 32;
+          }
+          ship.TurretName = GameRules.GetSection(entry.Value.Value).ReadString("TurretName", ship.TurretName);
+
+        }
+        Ships.AddRulesObject(ship);
       }
 
       nameindex = aircraftNameIndex + 1;

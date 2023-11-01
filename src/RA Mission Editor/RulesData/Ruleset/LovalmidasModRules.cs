@@ -11,8 +11,8 @@ namespace RA_Mission_Editor.RulesData.Ruleset
     public override void ApplyRules()
     {
       // new units?
-      Structures.ClearRulesAdditions();
-      Ships.ClearRulesAdditions();
+      Buildings.ClearRulesAdditions();
+      Vessels.ClearRulesAdditions();
       Units.ClearRulesAdditions();
       Infantries.ClearRulesAdditions();
       Aircrafts.ClearRulesAdditions();
@@ -22,15 +22,15 @@ namespace RA_Mission_Editor.RulesData.Ruleset
       int infantryNameIndex = ReadInt("StringTableOffsets", "Infantry", out _, int.MinValue);
       int unitNameIndex = ReadInt("StringTableOffsets", "Unit", out _, int.MinValue);
       int aircraftNameIndex = ReadInt("StringTableOffsets", "Aircraft", out _, int.MinValue);
-      int shipNameIndex = ReadInt("StringTableOffsets", "Vessel", out _, int.MinValue);
-      int structureNameIndex = ReadInt("StringTableOffsets", "Building", out _, int.MinValue);
+      int vesselNameIndex = ReadInt("StringTableOffsets", "Vessel", out _, int.MinValue);
+      int buildingNameIndex = ReadInt("StringTableOffsets", "Building", out _, int.MinValue);
 
       // new units according to Iran's additions must be used in the Rules file. They are not read in the Map
       // special additions by lovalmidas over Iran's additions
-      int nameindex = structureNameIndex + 1;
+      int nameindex = buildingNameIndex + 1;
       foreach (var entry in GameRules.GetOrCreateSection("BuildingTypes").OrderedEntries)
       {
-        var structure = new StructureType(entry.Value.Value);
+        var building = new BuildingType(entry.Value.Value);
         // BYTE, 0-8, BSIZE_11, BSIZE_21, BSIZE_12, BSIZE_22, BSIZE_23, BSIZE_32, BSIZE_33, BSIZE_42, BSIZE_55 
         if (GameRules.GetSection(entry.Value.Value).ReadBool("Bib", true))
         {
@@ -38,14 +38,14 @@ namespace RA_Mission_Editor.RulesData.Ruleset
           {
             case 3:
             case 4:
-              structure.BibName = "BIB3";
+              building.BibName = "BIB3";
               break;
             case 5:
             case 6:
-              structure.BibName = "BIB2";
+              building.BibName = "BIB2";
               break;
             case 7:
-              structure.BibName = "BIB1";
+              building.BibName = "BIB1";
               break;
             default:
               break;
@@ -53,15 +53,15 @@ namespace RA_Mission_Editor.RulesData.Ruleset
 
           if (GameRules.GetSection(entry.Value.Value).ReadBool("HasTurret", false))
           {
-            structure.TurretDirections = 32;
+            building.TurretDirections = 32;
           }
         }
-        structure.FullName = file?.Get(nameindex++);
+        building.FullName = file?.Get(nameindex++);
 
         string customfoundation = GameRules.GetSection(entry.Value.Value).ReadString("CustomFoundationList", "");
         if (!string.IsNullOrEmpty(customfoundation))
         {
-          structure.Occupancy.Clear();
+          building.Occupancy.Clear();
           Point cursor = new Point(0, 0);
           foreach (char c in customfoundation)
           {
@@ -71,7 +71,7 @@ namespace RA_Mission_Editor.RulesData.Ruleset
                 cursor = new Point(0, cursor.Y - 1);
                 break;
               case 'X':
-                structure.Occupancy.Add(cursor);
+                building.Occupancy.Add(cursor);
                 cursor = new Point(cursor.X + 1, cursor.Y);
                 break;
               case 'O':
@@ -85,7 +85,7 @@ namespace RA_Mission_Editor.RulesData.Ruleset
         }
           
 
-        Structures.AddRulesObject(structure);
+        Buildings.AddRulesObject(building);
       }
 
       nameindex = infantryNameIndex + 1;
@@ -116,16 +116,16 @@ namespace RA_Mission_Editor.RulesData.Ruleset
         }
       }
 
-      nameindex = shipNameIndex + 1;
+      nameindex = vesselNameIndex + 1;
       foreach (var entry in GameRules.GetOrCreateSection("VesselTypes").OrderedEntries)
       {
         // like SS
-        var ship = new ShipType(entry.Value.Value) { FullName = file?.Get(nameindex++), Directions = 16 };
+        var vessel = new VesselType(entry.Value.Value) { FullName = file?.Get(nameindex++), Directions = 16 };
         if (GameRules.GetSection(entry.Value.Value).HasKey("HasTurret"))
         {
           if (!GameRules.GetSection(entry.Value.Value).ReadBool("HasTurret", false))
           {
-            ship.TurretLocations = new TurretLocationDelegate[0];
+            vessel.TurretLocations = new TurretLocationDelegate[0];
           }
           else
           {
@@ -133,18 +133,18 @@ namespace RA_Mission_Editor.RulesData.Ruleset
             int adjustY = GameRules.GetSection(entry.Value.Value).ReadInt("TurretAdjustY");
             if (GameRules.GetSection(entry.Value.Value).ReadBool("HasSecondTurret", false))
             {
-              ship.TurretLocations = new TurretLocationDelegate[] { (id, fac) => { MapHelper.MoveCoord(0, 0, offset, 128 - fac, out int x, out int y); return new Point(x, y + adjustY); }, (id, fac) => { MapHelper.MoveCoord(0, 0, -offset, 128 - fac, out int x, out int y); return new Point(x, y + adjustY); } };
+              vessel.TurretLocations = new TurretLocationDelegate[] { (id, fac) => { MapHelper.MoveCoord(0, 0, offset, 128 - fac, out int x, out int y); return new Point(x, y + adjustY); }, (id, fac) => { MapHelper.MoveCoord(0, 0, -offset, 128 - fac, out int x, out int y); return new Point(x, y + adjustY); } };
             }
             else
             {
-              ship.TurretLocations = new TurretLocationDelegate[] { (id, fac) => { MapHelper.MoveCoord(0, 0, offset, 128 - fac, out int x, out int y); return new Point(x, y + adjustY); } };
+              vessel.TurretLocations = new TurretLocationDelegate[] { (id, fac) => { MapHelper.MoveCoord(0, 0, offset, 128 - fac, out int x, out int y); return new Point(x, y + adjustY); } };
             }
-            ship.TurretDirections = 32;
+            vessel.TurretDirections = 32;
           }
-          ship.TurretName = GameRules.GetSection(entry.Value.Value).ReadString("TurretName", ship.TurretName);
+          vessel.TurretName = GameRules.GetSection(entry.Value.Value).ReadString("TurretName", vessel.TurretName);
 
         }
-        Ships.AddRulesObject(ship);
+        Vessels.AddRulesObject(vessel);
       }
 
       nameindex = aircraftNameIndex + 1;
@@ -158,14 +158,14 @@ namespace RA_Mission_Editor.RulesData.Ruleset
     public override void ApplyRulesWithMap(Map map)
     {
       // apply Name= etc.
-      foreach (var s in Structures.GetAll())
+      foreach (var s in Buildings.GetAll())
       {
         s.RulesName = ReadString(s.ID, "Name", out _, s.FullName, map?.SourceFile);
         s.RulesImage = ReadString(s.ID, "Image", out _, s.IsFake ? s.TrueID : s.ID, map?.SourceFile);
         s.SecondImage = ReadString(s.ID, "WarFactoryOverlayAnim", out _, s.SecondImage, map?.SourceFile);
       }
 
-      foreach (var s in Ships.GetAll())
+      foreach (var s in Vessels.GetAll())
       {
         s.RulesName = ReadString(s.ID, "Name", out _, s.FullName, map?.SourceFile);
         s.RulesImage = ReadString(s.ID, "Image", out _, s.ID, map?.SourceFile);

@@ -10,17 +10,17 @@ namespace RA_Mission_Editor.MapData
     // Player=HOUSE
     // Count=x
     public string Player; // House
-    public List<BaseInfo> BaseList = new List<BaseInfo>();
+    public List<BaseInfo> EntityList = new List<BaseInfo>();
 
     public void Read(Map map, IniFile.IniSection section)
     {
       Player = section.ReadString("Player", map.AttachedRules.Houses.GetName(0));
       int count = section.ReadInt("Count", 0);
-      BaseList.Clear();
+      EntityList.Clear();
       for (int i = 0; i < count; i++)
       {
         string key = $"{i:000}";
-        BaseList.Add(BaseInfo.Parse(key, section.ReadString(key, "")));
+        EntityList.Add(BaseInfo.Parse(key, section.ReadString(key, "")));
       }
     }
 
@@ -28,14 +28,14 @@ namespace RA_Mission_Editor.MapData
     {
       section.Clear();
       int index = 0;
-      foreach (BaseInfo @base in BaseList)
+      foreach (BaseInfo @base in EntityList)
       {
         string key = $"{index:000}";
         section.SetValue(key, @base.GetValueAsString());
         index++;
       }
       section.SetValue("Player", Player ?? map.AttachedRules.Houses.GetName(0));
-      section.SetValue("Count", BaseList.Count.ToString());
+      section.SetValue("Count", EntityList.Count.ToString());
     }
   }
 }

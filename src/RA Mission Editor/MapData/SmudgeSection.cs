@@ -7,17 +7,17 @@ namespace RA_Mission_Editor.MapData
 {
   public class SmudgeSection
   {
-    public List<SmudgeInfo> SmudgeList = new List<SmudgeInfo>();
+    public List<SmudgeInfo> EntityList = new List<SmudgeInfo>();
 
     public void Read(IniFile.IniSection section)
     {
-      SmudgeList.Clear();
+      EntityList.Clear();
       // do not care about indices
       foreach (var kvp in section.OrderedEntries)
       {
         SmudgeInfo u = new SmudgeInfo();
         if (u.Parse(kvp.Value.Value))
-          SmudgeList.Add(u);
+          EntityList.Add(u);
         else
         {
           // feedback the error
@@ -30,7 +30,7 @@ namespace RA_Mission_Editor.MapData
     {
       section.Clear();
       int index = 0;
-      foreach (SmudgeInfo smudge in SmudgeList)
+      foreach (SmudgeInfo smudge in EntityList)
       {
         section.SetValue(index.ToString(), smudge.GetValueAsString());
         index++;

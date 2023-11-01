@@ -39,14 +39,14 @@ namespace RA_Mission_Editor.Renderers
     // Approximate benchmark for a full draw onto Image
     //    DrawTemplates: 127 ms
     //    DrawBaseBibs: 1 ms
-    //    DrawStructureBibs: 2 ms
+    //    DrawBuildingBibs: 2 ms
     //    DrawOverlays: 5 ms
     //    DrawSmudges: 0 ms
     //    DrawTerrain: 9 ms
     //    DrawBases: 0 ms
-    //    DrawStructures: 4 ms
+    //    DrawBuildings: 4 ms
     //    DrawUnits: 3 ms
-    //    DrawShips: 0 ms
+    //    DrawVessels: 0 ms
     //    DrawInfantries: 6 ms
     //    DrawCellTriggers: 4 ms
     //    DrawWaypoints: 1 ms
@@ -68,15 +68,15 @@ namespace RA_Mission_Editor.Renderers
       Templates,
       Template_SingleColor,
       //BaseBibs, // combined with Bases
-      //StructureBibs,  // combined with Structures
+      //BuildingBibs,  // combined with Buildings
       Overlays,
       Smudges,
       Terrain,
       // Technotypes
       Bases,
-      Structures,
+      Buildings,
       Units,
-      Ships,
+      Vessels,
       Infantry,
       // Widgets
       CellTriggers,
@@ -258,9 +258,9 @@ namespace RA_Mission_Editor.Renderers
               using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawBaseBibs)))
                 TechnoTypeRenderer.DrawBaseBibs(map, rules, cache, vfs, g);
 
-            if (Visible[(int)LayerType.Structures])
-              using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawStructureBibs)))
-                TechnoTypeRenderer.DrawStructureBibs(map, rules, cache, vfs, g);
+            if (Visible[(int)LayerType.Buildings])
+              using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawBuildingBibs)))
+                TechnoTypeRenderer.DrawBuildingBibs(map, rules, cache, vfs, g);
 
             // Terrain layers
             if (Visible[(int)LayerType.Overlays])
@@ -280,17 +280,17 @@ namespace RA_Mission_Editor.Renderers
               using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawBases)))
                 TechnoTypeRenderer.DrawBases(map, rules, cache, vfs, g);
 
-            if (Visible[(int)LayerType.Structures])
-              using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawStructures)))
-                TechnoTypeRenderer.DrawStructures(map, rules, cache, vfs, g);
+            if (Visible[(int)LayerType.Buildings])
+              using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawBuildings)))
+                TechnoTypeRenderer.DrawBuildings(map, rules, cache, vfs, g);
 
             if (Visible[(int)LayerType.Units])
               using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawUnits)))
                 TechnoTypeRenderer.DrawUnits(map, rules, cache, vfs, g);
 
-            if (Visible[(int)LayerType.Ships])
-              using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawShips)))
-                TechnoTypeRenderer.DrawShips(map, rules, cache, vfs, g);
+            if (Visible[(int)LayerType.Vessels])
+              using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawVessels)))
+                TechnoTypeRenderer.DrawVessels(map, rules, cache, vfs, g);
 
             if (Visible[(int)LayerType.Infantry])
               using (new TimeKeeper(_stopwatch, nameof(TechnoTypeRenderer.DrawInfantries)))

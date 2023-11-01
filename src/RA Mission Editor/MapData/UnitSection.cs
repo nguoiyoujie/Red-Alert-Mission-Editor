@@ -7,17 +7,17 @@ namespace RA_Mission_Editor.MapData
 {
   public class UnitSection
   {
-    public List<UnitInfo> UnitList = new List<UnitInfo>();
+    public List<UnitInfo> EntityList = new List<UnitInfo>();
 
     public void Read(IniFile.IniSection section)
     {
-      UnitList.Clear();
+      EntityList.Clear();
       // do not care about indices
       foreach (var kvp in section.OrderedEntries)
       {
         UnitInfo u = new UnitInfo();
         if (u.Parse(kvp.Value.Value))
-          UnitList.Add(u);
+          EntityList.Add(u);
         else
         {
           // feedback the error
@@ -30,7 +30,7 @@ namespace RA_Mission_Editor.MapData
     {
       section.Clear();
       int index = 0;
-      foreach (UnitInfo unit in UnitList)
+      foreach (UnitInfo unit in EntityList)
       {
         section.SetValue(index.ToString(), unit.GetValueAsString());
         index++;

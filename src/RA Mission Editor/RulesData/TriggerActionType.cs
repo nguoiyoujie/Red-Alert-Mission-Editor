@@ -57,9 +57,9 @@ namespace RA_Mission_Editor.RulesData
 		TEAMTYPE = 1 << 11,
 
 		// TechnoTypes
-		STRUCTURETYPE = 1 << 12,
+		BUILDINGTYPE = 1 << 12,
 		UNITTYPE = 1 << 13,
-		SHIPTYPE = 1 << 14,
+		VESSELTYPE = 1 << 14,
 		AIRCRAFTTYPE = 1 << 15,
 		INFANTRYTYPE = 1 << 16,
 

@@ -45,8 +45,8 @@ namespace RA_Mission_Editor.MapData
     public TerrainSection TerrainSection = new TerrainSection();
     public InfantrySection InfantrySection = new InfantrySection();
     public UnitSection UnitSection = new UnitSection();
-    public ShipSection ShipSection = new ShipSection();
-    public StructureSection StructureSection = new StructureSection();
+    public VesselSection VesselSection = new VesselSection();
+    public BuildingSection BuildingSection = new BuildingSection();
     public BaseSection BaseSection = new BaseSection();
     public SmudgeSection SmudgeSection = new SmudgeSection();
     public TeamTypeSection TeamTypeSection = new TeamTypeSection();
@@ -113,8 +113,8 @@ namespace RA_Mission_Editor.MapData
       TerrainSection.Read(blankSection);
       InfantrySection.Read(blankSection);
       UnitSection.Read(blankSection);
-      ShipSection.Read(blankSection);
-      StructureSection.Read(blankSection);
+      VesselSection.Read(blankSection);
+      BuildingSection.Read(blankSection);
       BaseSection.Read(this, blankSection);
       SmudgeSection.Read(blankSection);
       TeamTypeSection.ReadFirst(blankSection);
@@ -175,13 +175,13 @@ namespace RA_Mission_Editor.MapData
       // bugged, don't use
 
       /* [SHIPS] */
-      ShipSection.Read(f.GetOrCreateSection("SHIPS"));
+      VesselSection.Read(f.GetOrCreateSection("SHIPS"));
 
       /* [INFANTRY] */
       InfantrySection.Read(f.GetOrCreateSection("INFANTRY"));
 
       /* [STRUCTURES] */
-      StructureSection.Read(f.GetOrCreateSection("STRUCTURES"));
+      BuildingSection.Read(f.GetOrCreateSection("STRUCTURES"));
 
       /* [Base] */
       BaseSection.Read(this, f.GetOrCreateSection("Base"));
@@ -249,13 +249,13 @@ namespace RA_Mission_Editor.MapData
       // bugged, don't use
 
       /* [SHIPS] */
-      ShipSection.Update(f.GetOrCreateSection("SHIPS"));
+      VesselSection.Update(f.GetOrCreateSection("SHIPS"));
 
       /* [INFANTRY] */
       InfantrySection.Update(f.GetOrCreateSection("INFANTRY"));
 
       /* [STRUCTURES] */
-      StructureSection.Update(f.GetOrCreateSection("STRUCTURES"));
+      BuildingSection.Update(f.GetOrCreateSection("STRUCTURES"));
 
       /* [Base] */
       BaseSection.Update(this, f.GetOrCreateSection("Base"));
@@ -325,14 +325,14 @@ namespace RA_Mission_Editor.MapData
       foreach (int cell in cells)
       {
         if (!this.IsCellInMap(cell)) { continue; }
-        ClearObjectOnCell(UnitSection.UnitList, cell);
-        ClearObjectOnCell(InfantrySection.InfantryList, cell);
-        ClearObjectOnCell(ShipSection.ShipList, cell);
-        ClearObjectOnCell(StructureSection.StructureList, cell);
-        ClearObjectOnCell(BaseSection.BaseList, cell);
+        ClearObjectOnCell(UnitSection.EntityList, cell);
+        ClearObjectOnCell(InfantrySection.EntityList, cell);
+        ClearObjectOnCell(VesselSection.EntityList, cell);
+        ClearObjectOnCell(BuildingSection.EntityList, cell);
+        ClearObjectOnCell(BaseSection.EntityList, cell);
         ClearObjectOnCell(WaypointSection.WaypointList, cell, true);
-        ClearObjectOnCell(TerrainSection.TerrainList, cell);
-        ClearObjectOnCell(SmudgeSection.SmudgeList, cell);
+        ClearObjectOnCell(TerrainSection.EntityList, cell);
+        ClearObjectOnCell(SmudgeSection.EntityList, cell);
 
         // Overlays
         OverlayPackSection.Overlay[cell] = OverlayPack.defaultOverlayPackOverlays[0];
@@ -348,14 +348,14 @@ namespace RA_Mission_Editor.MapData
     public void Shift(MapCache cache, VirtualFileSystem vfs, int x, int y)
     {
       if (x == 0 && y == 0) { return; }
-      Shift(UnitSection.UnitList, x, y);
-      Shift(InfantrySection.InfantryList, x, y);
-      Shift(ShipSection.ShipList, x, y);
-      Shift(StructureSection.StructureList, x, y);
-      Shift(BaseSection.BaseList, x, y);
+      Shift(UnitSection.EntityList, x, y);
+      Shift(InfantrySection.EntityList, x, y);
+      Shift(VesselSection.EntityList, x, y);
+      Shift(BuildingSection.EntityList, x, y);
+      Shift(BaseSection.EntityList, x, y);
       Shift(WaypointSection.WaypointList, x, y, true);
-      Shift(TerrainSection.TerrainList, x, y);
-      Shift(SmudgeSection.SmudgeList, x, y);
+      Shift(TerrainSection.EntityList, x, y);
+      Shift(SmudgeSection.EntityList, x, y);
 
       // Templates
       Shift(MapPackSection.Template, MapPack.defaultMapPackTemplates, x, y);
@@ -508,13 +508,13 @@ namespace RA_Mission_Editor.MapData
       else if (entityInfo.Type is TerrainType terr)
       {
         TerrainInfo terrain = new TerrainInfo() { ID = terr.ID, Cell = c };
-        TerrainSection.TerrainList.Add(terrain);
+        TerrainSection.EntityList.Add(terrain);
         MapOccupancyList.UpdateEntity(this, cache, vfs, terrain);
       }
       else if (entityInfo.Type is SmudgeType smud)
       {
         SmudgeInfo smudge = new SmudgeInfo() { ID = smud.ID, Cell = c };
-        SmudgeSection.SmudgeList.Add(smudge);
+        SmudgeSection.EntityList.Add(smudge);
         MapOccupancyList.UpdateEntity(this, cache, vfs, smudge);
       }
       else if (entityInfo.Type is InfantryType inft)
@@ -530,7 +530,7 @@ namespace RA_Mission_Editor.MapData
           Mission = entityInfo.Mission.Name,
           SubCell = entityInfo.SubCell
         };
-        InfantrySection.InfantryList.Add(infantry);
+        InfantrySection.EntityList.Add(infantry);
         MapOccupancyList.UpdateEntity(this, cache, vfs, infantry);
       }
       else if (entityInfo.Type is UnitType unit)
@@ -545,14 +545,14 @@ namespace RA_Mission_Editor.MapData
           Tag = entityInfo.Tag,
           Mission = entityInfo.Mission.Name
         };
-        UnitSection.UnitList.Add(uinfo);
+        UnitSection.EntityList.Add(uinfo);
         MapOccupancyList.UpdateEntity(this, cache, vfs, uinfo);
       }
-      else if (entityInfo.Type is ShipType ship)
+      else if (entityInfo.Type is VesselType vessel)
       {
-        ShipInfo sinfo = new ShipInfo()
+        VesselInfo sinfo = new VesselInfo()
         {
-          ID = ship.ID,
+          ID = vessel.ID,
           Cell = c,
           Health = entityInfo.Health,
           Facing = entityInfo.Facing,
@@ -560,22 +560,22 @@ namespace RA_Mission_Editor.MapData
           Tag = entityInfo.Tag,
           Mission = entityInfo.Mission.Name
         };
-        ShipSection.ShipList.Add(sinfo);
+        VesselSection.EntityList.Add(sinfo);
         MapOccupancyList.UpdateEntity(this, cache, vfs, sinfo);
       }
-      else if (entityInfo.Type is StructureType stru)
+      else if (entityInfo.Type is BuildingType building)
       {
         if (entityInfo.IsBase)
         {
-          BaseInfo binfo = new BaseInfo() { ID = stru.ID, Cell = c };
-          BaseSection.BaseList.Add(binfo);
+          BaseInfo binfo = new BaseInfo() { ID = building.ID, Cell = c };
+          BaseSection.EntityList.Add(binfo);
           MapOccupancyList.UpdateEntity(this, cache, vfs, binfo);
         }
         else
         {
-          StructureInfo sinfo = new StructureInfo()
+          BuildingInfo sinfo = new BuildingInfo()
           {
-            ID = stru.ID,
+            ID = building.ID,
             Cell = c,
             Health = entityInfo.Health,
             Facing = entityInfo.Facing,
@@ -584,7 +584,7 @@ namespace RA_Mission_Editor.MapData
             AIRepairable = entityInfo.AIRepairable,
             AISellable = entityInfo.AISellable
           };
-          StructureSection.StructureList.Add(sinfo);
+          BuildingSection.EntityList.Add(sinfo);
           MapOccupancyList.UpdateEntity(this, cache, vfs, sinfo);
         }
       }
@@ -635,38 +635,38 @@ namespace RA_Mission_Editor.MapData
       }
       else if (entity is TerrainInfo terr)
       {
-        TerrainSection.TerrainList.Remove(terr);
+        TerrainSection.EntityList.Remove(terr);
         MapOccupancyList.RemoveEntity(terr);
       }
       else if (entity is SmudgeInfo smud)
       {
-        SmudgeSection.SmudgeList.Remove(smud);
+        SmudgeSection.EntityList.Remove(smud);
         MapOccupancyList.RemoveEntity(smud);
       }
       else if (entity is InfantryInfo inft)
       {
-        InfantrySection.InfantryList.Remove(inft);
+        InfantrySection.EntityList.Remove(inft);
         MapOccupancyList.RemoveEntity(inft);
       }
       else if (entity is UnitInfo unit)
       {
-        UnitSection.UnitList.Remove(unit);
+        UnitSection.EntityList.Remove(unit);
         MapOccupancyList.RemoveEntity(unit);
       }
-      else if (entity is ShipInfo ship)
+      else if (entity is VesselInfo vessel)
       {
-        ShipSection.ShipList.Remove(ship);
-        MapOccupancyList.RemoveEntity(ship);
+        VesselSection.EntityList.Remove(vessel);
+        MapOccupancyList.RemoveEntity(vessel);
       }
       else if (entity is BaseInfo @base)
       {
-        BaseSection.BaseList.Remove(@base);
+        BaseSection.EntityList.Remove(@base);
         MapOccupancyList.RemoveEntity(@base);
       }
-      else if (entity is StructureInfo stru)
+      else if (entity is BuildingInfo building)
       {
-        StructureSection.StructureList.Remove(stru);
-        MapOccupancyList.RemoveEntity(stru);
+        BuildingSection.EntityList.Remove(building);
+        MapOccupancyList.RemoveEntity(building);
       }
       else if (entity is WaypointInfo wayp)
       {

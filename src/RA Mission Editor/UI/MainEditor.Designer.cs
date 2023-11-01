@@ -60,8 +60,8 @@ namespace RA_Mission_Editor.UI
       this.bLayerCellTriggers = new System.Windows.Forms.Button();
       this.bLayerWaypoints = new System.Windows.Forms.Button();
       this.bLayerBases = new System.Windows.Forms.Button();
-      this.bLayerStructures = new System.Windows.Forms.Button();
-      this.bLayerShips = new System.Windows.Forms.Button();
+      this.bLayerBuildings = new System.Windows.Forms.Button();
+      this.bLayerVessels = new System.Windows.Forms.Button();
       this.bLayerUnits = new System.Windows.Forms.Button();
       this.bLayerInfantry = new System.Windows.Forms.Button();
       this.bLayerSmudge = new System.Windows.Forms.Button();
@@ -101,8 +101,8 @@ namespace RA_Mission_Editor.UI
       this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
       this.infantryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.unitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.shipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.structureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.vesselToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.buildingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.baseBuildingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
       this.waypointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -123,8 +123,8 @@ namespace RA_Mission_Editor.UI
       this.smudgeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
       this.infantryToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
       this.unitsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.shipsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.structuresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.vesselsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.buildingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.basesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.waypointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.cellTriggersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -476,8 +476,8 @@ namespace RA_Mission_Editor.UI
       this.panel1.Controls.Add(this.bLayerCellTriggers);
       this.panel1.Controls.Add(this.bLayerWaypoints);
       this.panel1.Controls.Add(this.bLayerBases);
-      this.panel1.Controls.Add(this.bLayerStructures);
-      this.panel1.Controls.Add(this.bLayerShips);
+      this.panel1.Controls.Add(this.bLayerBuildings);
+      this.panel1.Controls.Add(this.bLayerVessels);
       this.panel1.Controls.Add(this.bLayerUnits);
       this.panel1.Controls.Add(this.bLayerInfantry);
       this.panel1.Controls.Add(this.bLayerSmudge);
@@ -549,29 +549,29 @@ namespace RA_Mission_Editor.UI
       this.bLayerBases.UseVisualStyleBackColor = true;
       this.bLayerBases.Click += new System.EventHandler(this.bLayerBases_Click);
       // 
-      // bLayerStructures
+      // bLayerBuildings
       // 
-      this.bLayerStructures.Dock = System.Windows.Forms.DockStyle.Left;
-      this.bLayerStructures.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-      this.bLayerStructures.Image = global::RA_Mission_Editor.Properties.Resources.button_structures;
-      this.bLayerStructures.Location = new System.Drawing.Point(210, 0);
-      this.bLayerStructures.Name = "bLayerStructures";
-      this.bLayerStructures.Size = new System.Drawing.Size(30, 30);
-      this.bLayerStructures.TabIndex = 7;
-      this.bLayerStructures.UseVisualStyleBackColor = true;
-      this.bLayerStructures.Click += new System.EventHandler(this.bLayerStructures_Click);
+      this.bLayerBuildings.Dock = System.Windows.Forms.DockStyle.Left;
+      this.bLayerBuildings.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+      this.bLayerBuildings.Image = global::RA_Mission_Editor.Properties.Resources.button_buildings;
+      this.bLayerBuildings.Location = new System.Drawing.Point(210, 0);
+      this.bLayerBuildings.Name = "bLayerBuildings";
+      this.bLayerBuildings.Size = new System.Drawing.Size(30, 30);
+      this.bLayerBuildings.TabIndex = 7;
+      this.bLayerBuildings.UseVisualStyleBackColor = true;
+      this.bLayerBuildings.Click += new System.EventHandler(this.bLayerBuildings_Click);
       // 
-      // bLayerShips
+      // bLayerVessels
       // 
-      this.bLayerShips.Dock = System.Windows.Forms.DockStyle.Left;
-      this.bLayerShips.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-      this.bLayerShips.Image = global::RA_Mission_Editor.Properties.Resources.button_ships;
-      this.bLayerShips.Location = new System.Drawing.Point(180, 0);
-      this.bLayerShips.Name = "bLayerShips";
-      this.bLayerShips.Size = new System.Drawing.Size(30, 30);
-      this.bLayerShips.TabIndex = 6;
-      this.bLayerShips.UseVisualStyleBackColor = true;
-      this.bLayerShips.Click += new System.EventHandler(this.bLayerShips_Click);
+      this.bLayerVessels.Dock = System.Windows.Forms.DockStyle.Left;
+      this.bLayerVessels.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+      this.bLayerVessels.Image = global::RA_Mission_Editor.Properties.Resources.button_vessels;
+      this.bLayerVessels.Location = new System.Drawing.Point(180, 0);
+      this.bLayerVessels.Name = "bLayerVessels";
+      this.bLayerVessels.Size = new System.Drawing.Size(30, 30);
+      this.bLayerVessels.TabIndex = 6;
+      this.bLayerVessels.UseVisualStyleBackColor = true;
+      this.bLayerVessels.Click += new System.EventHandler(this.bLayerVessels_Click);
       // 
       // bLayerUnits
       // 
@@ -882,8 +882,8 @@ namespace RA_Mission_Editor.UI
             this.toolStripSeparator1,
             this.infantryToolStripMenuItem,
             this.unitToolStripMenuItem,
-            this.shipToolStripMenuItem,
-            this.structureToolStripMenuItem,
+            this.vesselToolStripMenuItem,
+            this.buildingToolStripMenuItem,
             this.baseBuildingToolStripMenuItem,
             this.toolStripSeparator2,
             this.waypointToolStripMenuItem,
@@ -960,21 +960,21 @@ namespace RA_Mission_Editor.UI
       // 
       // shipToolStripMenuItem
       // 
-      this.shipToolStripMenuItem.Image = global::RA_Mission_Editor.Properties.Resources.button_ships;
-      this.shipToolStripMenuItem.Name = "shipToolStripMenuItem";
-      this.shipToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D7)));
-      this.shipToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
-      this.shipToolStripMenuItem.Text = "Ship";
-      this.shipToolStripMenuItem.Click += new System.EventHandler(this.bLayerShips_Click);
+      this.vesselToolStripMenuItem.Image = global::RA_Mission_Editor.Properties.Resources.button_vessels;
+      this.vesselToolStripMenuItem.Name = "vesselToolStripMenuItem";
+      this.vesselToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D7)));
+      this.vesselToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
+      this.vesselToolStripMenuItem.Text = "Vessel";
+      this.vesselToolStripMenuItem.Click += new System.EventHandler(this.bLayerVessels_Click);
       // 
       // structureToolStripMenuItem
       // 
-      this.structureToolStripMenuItem.Image = global::RA_Mission_Editor.Properties.Resources.button_structures;
-      this.structureToolStripMenuItem.Name = "structureToolStripMenuItem";
-      this.structureToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D8)));
-      this.structureToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
-      this.structureToolStripMenuItem.Text = "Structure";
-      this.structureToolStripMenuItem.Click += new System.EventHandler(this.bLayerStructures_Click);
+      this.buildingToolStripMenuItem.Image = global::RA_Mission_Editor.Properties.Resources.button_buildings;
+      this.buildingToolStripMenuItem.Name = "buildingToolStripMenuItem";
+      this.buildingToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D8)));
+      this.buildingToolStripMenuItem.Size = new System.Drawing.Size(333, 22);
+      this.buildingToolStripMenuItem.Text = "Building";
+      this.buildingToolStripMenuItem.Click += new System.EventHandler(this.bLayerBuildings_Click);
       // 
       // baseBuildingToolStripMenuItem
       // 
@@ -1092,8 +1092,8 @@ namespace RA_Mission_Editor.UI
             this.smudgeToolStripMenuItem1,
             this.infantryToolStripMenuItem1,
             this.unitsToolStripMenuItem,
-            this.shipsToolStripMenuItem,
-            this.structuresToolStripMenuItem,
+            this.vesselsToolStripMenuItem,
+            this.buildingsToolStripMenuItem,
             this.basesToolStripMenuItem,
             this.waypointsToolStripMenuItem,
             this.cellTriggersToolStripMenuItem,
@@ -1150,21 +1150,21 @@ namespace RA_Mission_Editor.UI
       // 
       // shipsToolStripMenuItem
       // 
-      this.shipsToolStripMenuItem.Checked = true;
-      this.shipsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.shipsToolStripMenuItem.Name = "shipsToolStripMenuItem";
-      this.shipsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-      this.shipsToolStripMenuItem.Text = "Ships";
-      this.shipsToolStripMenuItem.Click += new System.EventHandler(this.shipsToolStripMenuItem_Click);
+      this.vesselsToolStripMenuItem.Checked = true;
+      this.vesselsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.vesselsToolStripMenuItem.Name = "vesselsToolStripMenuItem";
+      this.vesselsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.vesselsToolStripMenuItem.Text = "Vessels";
+      this.vesselsToolStripMenuItem.Click += new System.EventHandler(this.vesselsToolStripMenuItem_Click);
       // 
       // structuresToolStripMenuItem
       // 
-      this.structuresToolStripMenuItem.Checked = true;
-      this.structuresToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.structuresToolStripMenuItem.Name = "structuresToolStripMenuItem";
-      this.structuresToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-      this.structuresToolStripMenuItem.Text = "Structures";
-      this.structuresToolStripMenuItem.Click += new System.EventHandler(this.structuresToolStripMenuItem_Click);
+      this.buildingsToolStripMenuItem.Checked = true;
+      this.buildingsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.buildingsToolStripMenuItem.Name = "buildingsToolStripMenuItem";
+      this.buildingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.buildingsToolStripMenuItem.Text = "Buildings";
+      this.buildingsToolStripMenuItem.Click += new System.EventHandler(this.buildingsToolStripMenuItem_Click);
       // 
       // basesToolStripMenuItem
       // 
@@ -1406,8 +1406,8 @@ namespace RA_Mission_Editor.UI
     private System.Windows.Forms.Button bLayerOverlay;
     private System.Windows.Forms.Button bLayerTemplate;
     private System.Windows.Forms.Panel panel2;
-    private System.Windows.Forms.Button bLayerStructures;
-    private System.Windows.Forms.Button bLayerShips;
+    private System.Windows.Forms.Button bLayerBuildings;
+    private System.Windows.Forms.Button bLayerVessels;
     private System.Windows.Forms.Button bLayerUnits;
     private System.Windows.Forms.Button bLayerInfantry;
     private System.Windows.Forms.Button bLayerBases;
@@ -1443,8 +1443,8 @@ namespace RA_Mission_Editor.UI
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     private System.Windows.Forms.ToolStripMenuItem infantryToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem unitToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem shipToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem structureToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem vesselToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem buildingToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem baseBuildingToolStripMenuItem;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     private System.Windows.Forms.ToolStripMenuItem waypointToolStripMenuItem;
@@ -1474,8 +1474,8 @@ namespace RA_Mission_Editor.UI
     private System.Windows.Forms.ToolStripMenuItem smudgeToolStripMenuItem1;
     private System.Windows.Forms.ToolStripMenuItem infantryToolStripMenuItem1;
     private System.Windows.Forms.ToolStripMenuItem unitsToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem shipsToolStripMenuItem;
-    private System.Windows.Forms.ToolStripMenuItem structuresToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem vesselsToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem buildingsToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem basesToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem waypointsToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem cellTriggersToolStripMenuItem;

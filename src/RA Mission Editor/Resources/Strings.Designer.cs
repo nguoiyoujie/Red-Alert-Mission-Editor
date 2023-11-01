@@ -362,7 +362,7 @@ namespace RA_Mission_Editor.Resources {
         ///
         ///This serves two functions:
         /// 1. If the owning house has its IQ above [IQ]RepairSell, the AI will repair the building once its health depletes below the rules RepairThreshhold
-        /// 2. If the owning house matches the Player in the [Base] section, the AI will add this building to the base node once it is destroyed. This allows the mapper to skip placement of base nodes for already placed structures.
+        /// 2. If the owning house matches the Player in the [Base] section, the AI will add this building to the base node once it is destroyed. This allows the mapper to skip placement of base nodes for already placed buildings.
         ///
         ///Note: Construction Yards are hardcoded to always repair..
         /// </summary>

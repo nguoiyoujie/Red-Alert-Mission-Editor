@@ -44,7 +44,7 @@ namespace RA_Mission_Editor.Renderers
         {
           hasOwnedEntity = true;
           ColorType ctype = map.AttachedRules.Houses.GetHouse(ov.Owner).RulesSecondaryColor;
-          if (ov.GetEntityType(map.AttachedRules) is StructureType sv)
+          if (ov.GetEntityType(map.AttachedRules) is BuildingType sv)
           {
             ctype = map.AttachedRules.Houses.GetHouse(ov.Owner).RulesPrimaryColor;
             PalFile temp = RenderUtils.FetchHouseRemapPalette(cache, palFile, ctype);

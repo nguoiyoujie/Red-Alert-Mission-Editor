@@ -14,9 +14,9 @@ namespace RA_Mission_Editor.RulesData.Ruleset
     public Houses Houses = new Houses();
     public Infantries Infantries = new Infantries();
     public Units Units = new Units();
-    public Ships Ships = new Ships();
+    public Vessels Vessels = new Vessels();
     public Aircrafts Aircrafts = new Aircrafts();
-    public Structures Structures = new Structures();
+    public Buildings Buildings = new Buildings();
     public Sounds Sounds = new Sounds();
     public Speeches Speeches = new Speeches();
     public Themes Themes = new Themes();

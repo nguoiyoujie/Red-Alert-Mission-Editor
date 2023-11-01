@@ -757,21 +757,21 @@ namespace RA_Mission_Editor.UI
           lboxObjects.SelectedIndex = 0;
           bSetEntity.Enabled = true;
           break;
-        case EditorSelectMode.Ships:
-          lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Ships.GetAsObjectList());
+        case EditorSelectMode.Vessels:
+          lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Vessels.GetAsObjectList());
           lboxObjects.MultiColumn = false;
           lboxObjects.SelectedIndex = 0;
           bSetEntity.Enabled = true;
           break;
-        case EditorSelectMode.Structures:
-          lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Structures.GetAsObjectList());
+        case EditorSelectMode.Buildings:
+          lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Buildings.GetAsObjectList());
           _listBoxIsBase = false;
           lboxObjects.MultiColumn = false;
           lboxObjects.SelectedIndex = 0;
           bSetEntity.Enabled = true;
           break;
         case EditorSelectMode.Bases:
-          lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Structures.GetAsObjectList());
+          lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Buildings.GetAsObjectList());
           _listBoxIsBase = true;
           lboxObjects.MultiColumn = false;
           lboxObjects.SelectedIndex = 0;
@@ -805,8 +805,8 @@ namespace RA_Mission_Editor.UI
     private void bLayerSmudge_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Smudges); }
     private void bLayerInfantry_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Infantry); }
     private void bLayerUnits_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Units); }
-    private void bLayerShips_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Ships); }
-    private void bLayerStructures_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Structures); }
+    private void bLayerVessels_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Vessels); }
+    private void bLayerBuildings_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Buildings); }
     private void bLayerBases_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Bases); }
     private void bLayerWaypoints_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.Waypoints); }
     private void bLayerCellTriggers_Click(object sender, EventArgs e) { SetObjectSelectionItems(EditorSelectMode.CellTriggers); }
@@ -836,6 +836,7 @@ namespace RA_Mission_Editor.UI
       if (sfd.ShowDialog() == DialogResult.OK)
       {
         MainModel.SaveMap(sfd.FileName);
+        MainModel.LoadMap(sfd.FileName);
       }
     }
 
@@ -956,7 +957,7 @@ namespace RA_Mission_Editor.UI
             lblPreplaceHouse.Visible = true;
 
             ColorType color;
-            if (etype is StructureType || (etype is UnitType utype && utype.UsePrimaryColor))
+            if (etype is BuildingType || (etype is UnitType utype && utype.UsePrimaryColor))
             {
               color = owner.RulesPrimaryColor;
             }
@@ -1108,16 +1109,16 @@ namespace RA_Mission_Editor.UI
       pbMapCanvas.Renderer.SetVisible(MapCanvas.LayerType.Units, unitsToolStripMenuItem.Checked);
     }
 
-    private void shipsToolStripMenuItem_Click(object sender, EventArgs e)
+    private void vesselsToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      shipsToolStripMenuItem.Checked = !shipsToolStripMenuItem.Checked;
-      pbMapCanvas.Renderer.SetVisible(MapCanvas.LayerType.Ships, shipsToolStripMenuItem.Checked);
+      vesselsToolStripMenuItem.Checked = !vesselsToolStripMenuItem.Checked;
+      pbMapCanvas.Renderer.SetVisible(MapCanvas.LayerType.Vessels, vesselsToolStripMenuItem.Checked);
     }
 
-    private void structuresToolStripMenuItem_Click(object sender, EventArgs e)
+    private void buildingsToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      structuresToolStripMenuItem.Checked = !structuresToolStripMenuItem.Checked;
-      pbMapCanvas.Renderer.SetVisible(MapCanvas.LayerType.Structures, structuresToolStripMenuItem.Checked);
+      buildingsToolStripMenuItem.Checked = !buildingsToolStripMenuItem.Checked;
+      pbMapCanvas.Renderer.SetVisible(MapCanvas.LayerType.Buildings, buildingsToolStripMenuItem.Checked);
     }
 
     private void basesToolStripMenuItem_Click(object sender, EventArgs e)

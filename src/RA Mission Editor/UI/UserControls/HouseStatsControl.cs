@@ -24,7 +24,7 @@ namespace RA_Mission_Editor.UI.UserControls
       int power = 0;
       int drain = 0;
       int value = 0;
-      foreach (Entities.StructureInfo building in map.StructureSection.StructureList)
+      foreach (Entities.BuildingInfo building in map.BuildingSection.EntityList)
       {
         if (building.Owner == house.Name)
         {
@@ -36,7 +36,7 @@ namespace RA_Mission_Editor.UI.UserControls
         }
       }
 
-      foreach (Entities.UnitInfo unit in map.UnitSection.UnitList)
+      foreach (Entities.UnitInfo unit in map.UnitSection.EntityList)
       {
         if (unit.Owner == house.Name)
         {
@@ -46,7 +46,7 @@ namespace RA_Mission_Editor.UI.UserControls
         }
       }
 
-      foreach (Entities.InfantryInfo infantry in map.InfantrySection.InfantryList)
+      foreach (Entities.InfantryInfo infantry in map.InfantrySection.EntityList)
       {
         if (infantry.Owner == house.Name)
         {
@@ -56,12 +56,12 @@ namespace RA_Mission_Editor.UI.UserControls
         }
       }
 
-      foreach (Entities.ShipInfo ship in map.ShipSection.ShipList)
+      foreach (Entities.VesselInfo vessel in map.VesselSection.EntityList)
       {
-        if (ship.Owner == house.Name)
+        if (vessel.Owner == house.Name)
         {
           numVessel++;
-          int v = rules.ReadInt(ship.ID, "Cost", out _, 0, map?.SourceFile);
+          int v = rules.ReadInt(vessel.ID, "Cost", out _, 0, map?.SourceFile);
           value += v;
         }
       }

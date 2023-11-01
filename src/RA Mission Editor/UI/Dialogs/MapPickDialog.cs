@@ -59,13 +59,13 @@ namespace RA_Mission_Editor.UI.Dialogs
             bUnit.Visible = true;
             bitfield |= 1 << (int)EditorSelectMode.Units;
             break;
-          case EditorSelectMode.Ships:
+          case EditorSelectMode.Vessels:
             bVessel.Visible = true;
-            bitfield |= 1 << (int)EditorSelectMode.Ships;
+            bitfield |= 1 << (int)EditorSelectMode.Vessels;
             break;
-          case EditorSelectMode.Structures:
+          case EditorSelectMode.Buildings:
             bBuilding.Visible = true;
-            bitfield |= 1 << (int)EditorSelectMode.Structures;
+            bitfield |= 1 << (int)EditorSelectMode.Buildings;
             break;
           case EditorSelectMode.Bases:
             bBase.Visible = true;
@@ -130,13 +130,13 @@ namespace RA_Mission_Editor.UI.Dialogs
 
     private void bVessel_Click(object sender, EventArgs e)
     {
-      EditorSelectMode = EditorSelectMode.Ships;
+      EditorSelectMode = EditorSelectMode.Vessels;
       Close();
     }
 
     private void bBuilding_Click(object sender, EventArgs e)
     {
-      EditorSelectMode = EditorSelectMode.Structures;
+      EditorSelectMode = EditorSelectMode.Buildings;
       Close();
     }
 

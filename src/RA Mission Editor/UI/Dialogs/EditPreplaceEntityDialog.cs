@@ -37,7 +37,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       cbSellable.Checked = entity.AISellable;
       cbRepairable.Checked = entity.AIRepairable;
 
-      if (entity.Type is StructureType)
+      if (entity.Type is BuildingType)
       {
         cbMission.Enabled = false;
       }

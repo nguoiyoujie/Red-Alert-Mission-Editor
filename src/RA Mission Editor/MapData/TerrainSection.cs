@@ -7,16 +7,16 @@ namespace RA_Mission_Editor.MapData
 {
   public class TerrainSection
   {
-    public List<TerrainInfo> TerrainList = new List<TerrainInfo>();
+    public List<TerrainInfo> EntityList = new List<TerrainInfo>();
 
     public void Read(IniFile.IniSection section)
     {
-      TerrainList.Clear();
+      EntityList.Clear();
       foreach (var kvp in section.OrderedEntries)
       {
         TerrainInfo u = new TerrainInfo();
         if (u.Parse(kvp.Key, kvp.Value.Value))
-          TerrainList.Add(u);
+          EntityList.Add(u);
         else
         {
           // feedback the error
@@ -28,7 +28,7 @@ namespace RA_Mission_Editor.MapData
     public void Update(IniFile.IniSection section)
     {
       section.Clear();
-      foreach (TerrainInfo terrain in TerrainList)
+      foreach (TerrainInfo terrain in EntityList)
       {
         section.SetValue(terrain.GetKeyAsString(), terrain.GetValueAsString());
       }

@@ -24,8 +24,8 @@ namespace RA_Mission_Editor.MapData
     public TerrainSection TerrainSection = new TerrainSection();
     public InfantrySection InfantrySection = new InfantrySection();
     public UnitSection UnitSection = new UnitSection();
-    public ShipSection ShipSection = new ShipSection();
-    public StructureSection StructureSection = new StructureSection();
+    public VesselSection VesselSection = new VesselSection();
+    public BuildingSection BuildingSection = new BuildingSection();
     public SmudgeSection SmudgeSection = new SmudgeSection();
 
     public Ext_MapSection Ext_MapSection = new Ext_MapSection();
@@ -55,8 +55,8 @@ namespace RA_Mission_Editor.MapData
       TerrainSection.Read(blankSection);
       InfantrySection.Read(blankSection);
       UnitSection.Read(blankSection);
-      ShipSection.Read(blankSection);
-      StructureSection.Read(blankSection);
+      VesselSection.Read(blankSection);
+      BuildingSection.Read(blankSection);
       SmudgeSection.Read(blankSection);
 
       Ext_MapSection.Read(blankSection);
@@ -87,13 +87,13 @@ namespace RA_Mission_Editor.MapData
       // bugged, don't use
 
       /* [SHIPS] */
-      ShipSection.Read(f.GetOrCreateSection("SHIPS"));
+      VesselSection.Read(f.GetOrCreateSection("SHIPS"));
 
       /* [INFANTRY] */
       InfantrySection.Read(f.GetOrCreateSection("INFANTRY"));
 
       /* [STRUCTURES] */
-      StructureSection.Read(f.GetOrCreateSection("STRUCTURES"));
+      BuildingSection.Read(f.GetOrCreateSection("STRUCTURES"));
 
       /* [OverlayPack] */
       OverlayPackSection.Read(f.GetOrCreateSection("OverlayPack"));
@@ -124,13 +124,13 @@ namespace RA_Mission_Editor.MapData
       // bugged, don't use
 
       /* [SHIPS] */
-      ShipSection.Update(f.GetOrCreateSection("SHIPS"));
+      VesselSection.Update(f.GetOrCreateSection("SHIPS"));
 
       /* [INFANTRY] */
       InfantrySection.Update(f.GetOrCreateSection("INFANTRY"));
 
       /* [STRUCTURES] */
-      StructureSection.Update(f.GetOrCreateSection("STRUCTURES"));
+      BuildingSection.Update(f.GetOrCreateSection("STRUCTURES"));
 
       /* [OverlayPack] */
       OverlayPackSection.Update(f.GetOrCreateSection("OverlayPack"));
@@ -186,12 +186,12 @@ namespace RA_Mission_Editor.MapData
 
     public void AddCell(Map map, int cell, int extractX, int extractY)
     {
-      CopyValueParseableTo(map.UnitSection.UnitList, UnitSection.UnitList, map, cell, extractX, extractY);
-      CopyValueParseableTo(map.InfantrySection.InfantryList, InfantrySection.InfantryList, map, cell, extractX, extractY);
-      CopyValueParseableTo(map.ShipSection.ShipList, ShipSection.ShipList, map, cell, extractX, extractY);
-      CopyValueParseableTo(map.StructureSection.StructureList, StructureSection.StructureList, map, cell, extractX, extractY);
-      CopyKeyValueParseableTo(map.TerrainSection.TerrainList, TerrainSection.TerrainList, map, cell, extractX, extractY);
-      CopyValueParseableTo(map.SmudgeSection.SmudgeList, SmudgeSection.SmudgeList, map, cell, extractX, extractY);
+      CopyValueParseableTo(map.UnitSection.EntityList, UnitSection.EntityList, map, cell, extractX, extractY);
+      CopyValueParseableTo(map.InfantrySection.EntityList, InfantrySection.EntityList, map, cell, extractX, extractY);
+      CopyValueParseableTo(map.VesselSection.EntityList, VesselSection.EntityList, map, cell, extractX, extractY);
+      CopyValueParseableTo(map.BuildingSection.EntityList, BuildingSection.EntityList, map, cell, extractX, extractY);
+      CopyKeyValueParseableTo(map.TerrainSection.EntityList, TerrainSection.EntityList, map, cell, extractX, extractY);
+      CopyValueParseableTo(map.SmudgeSection.EntityList, SmudgeSection.EntityList, map, cell, extractX, extractY);
 
       // Templates
       CopyArrayValueTo<ushort>(map.MapPackSection.Template, MapPackSection.Template, map, cell, extractX, extractY, true, 0xFFFF);
@@ -248,12 +248,12 @@ namespace RA_Mission_Editor.MapData
 
     public void Paste(Map destMap, int x, int y)
     {
-      CopyValueParseableTo(UnitSection.UnitList, destMap.UnitSection.UnitList, destMap, x, y);
-      CopyValueParseableTo(InfantrySection.InfantryList, destMap.InfantrySection.InfantryList, destMap, x, y);
-      CopyValueParseableTo(ShipSection.ShipList, destMap.ShipSection.ShipList, destMap, x, y);
-      CopyValueParseableTo(StructureSection.StructureList, destMap.StructureSection.StructureList, destMap, x, y);
-      CopyKeyValueParseableTo(TerrainSection.TerrainList, destMap.TerrainSection.TerrainList, destMap, x, y);
-      CopyValueParseableTo(SmudgeSection.SmudgeList, destMap.SmudgeSection.SmudgeList, destMap, x, y);
+      CopyValueParseableTo(UnitSection.EntityList, destMap.UnitSection.EntityList, destMap, x, y);
+      CopyValueParseableTo(InfantrySection.EntityList, destMap.InfantrySection.EntityList, destMap, x, y);
+      CopyValueParseableTo(VesselSection.EntityList, destMap.VesselSection.EntityList, destMap, x, y);
+      CopyValueParseableTo(BuildingSection.EntityList, destMap.BuildingSection.EntityList, destMap, x, y);
+      CopyKeyValueParseableTo(TerrainSection.EntityList, destMap.TerrainSection.EntityList, destMap, x, y);
+      CopyValueParseableTo(SmudgeSection.EntityList, destMap.SmudgeSection.EntityList, destMap, x, y);
 
       // Templates
       CopyArrayValueTo<ushort>(MapPackSection.Template, destMap.MapPackSection.Template, destMap, x, y, false, 0xFFFF);

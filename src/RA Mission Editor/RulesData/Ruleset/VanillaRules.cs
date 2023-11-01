@@ -28,8 +28,8 @@ namespace RA_Mission_Editor.RulesData.Ruleset
     public override void ApplyRules()
     {
       // new units?
-      Structures.ClearRulesAdditions();
-      Ships.ClearRulesAdditions();
+      Buildings.ClearRulesAdditions();
+      Vessels.ClearRulesAdditions();
       Units.ClearRulesAdditions();
       Infantries.ClearRulesAdditions();
       Aircrafts.ClearRulesAdditions();
@@ -45,13 +45,13 @@ namespace RA_Mission_Editor.RulesData.Ruleset
     public virtual void UpdateTechnoTypeNames(Map map)
     {
       // apply Name= etc.
-      foreach (var s in Structures.GetAll())
+      foreach (var s in Buildings.GetAll())
       {
         s.RulesName = ReadString(s.ID, "Name", out _, s.FullName, map?.SourceFile);
         s.RulesImage = ReadString(s.ID, "Image", out _, s.IsFake ? s.TrueID : s.ID, map?.SourceFile);
       }
 
-      foreach (var s in Ships.GetAll())
+      foreach (var s in Vessels.GetAll())
       {
         s.RulesName = ReadString(s.ID, "Name", out _, s.FullName, map?.SourceFile);
         s.RulesImage = ReadString(s.ID, "Image", out _, s.ID, map?.SourceFile);

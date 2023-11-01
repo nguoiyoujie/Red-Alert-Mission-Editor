@@ -132,9 +132,9 @@ namespace RA_Mission_Editor.UI.UserControls
 
       ITechnoType t = Map.AttachedRules.Infantries.Get(id);
       if (t == null) { t = Map.AttachedRules.Units.Get(id); }
-      if (t == null) { t = Map.AttachedRules.Structures.Get(id); }
+      if (t == null) { t = Map.AttachedRules.Buildings.Get(id); }
       if (t == null) { t = Map.AttachedRules.Aircrafts.Get(id); }
-      if (t == null) { t = Map.AttachedRules.Ships.Get(id); }
+      if (t == null) { t = Map.AttachedRules.Vessels.Get(id); }
       return t;
     }
 
@@ -149,9 +149,9 @@ namespace RA_Mission_Editor.UI.UserControls
         c.Items.Add("");
         c.Items.AddRange(Map.AttachedRules.Infantries.GetAsObjectList());
         c.Items.AddRange(Map.AttachedRules.Units.GetAsObjectList());
-        c.Items.AddRange(Map.AttachedRules.Structures.GetAsObjectList());
+        c.Items.AddRange(Map.AttachedRules.Buildings.GetAsObjectList());
         c.Items.AddRange(Map.AttachedRules.Aircrafts.GetAsObjectList());
-        c.Items.AddRange(Map.AttachedRules.Ships.GetAsObjectList());
+        c.Items.AddRange(Map.AttachedRules.Vessels.GetAsObjectList());
       }
       cbWaypoint.Items.Clear();
       cbWaypoint.Items.Add("-1");

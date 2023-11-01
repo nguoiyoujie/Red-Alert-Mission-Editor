@@ -50,7 +50,7 @@ namespace RA_Mission_Editor.Common
       BaseNumber = baseNumber;
     }
 
-    // structure technotypes
+    // building technotypes
     public PlaceEntityInfo(IEntityType type, int x, int y, HouseType owner, short health, byte facing, string tag, bool aiRepairable, bool aiSellable) : this(type, x, y, owner, health, facing, tag, null)
     {
       IsBase = false;
@@ -79,7 +79,7 @@ namespace RA_Mission_Editor.Common
         Tag = uinfo.Tag;
         Mission = Missions.Get(uinfo.Mission) ?? Missions.Get("Guard");
       }
-      else if (entity is ShipInfo sinfo)
+      else if (entity is VesselInfo sinfo)
       {
         Owner = sinfo.Owner;
         Health = sinfo.Health;
@@ -87,7 +87,7 @@ namespace RA_Mission_Editor.Common
         Tag = sinfo.Tag;
         Mission = Missions.Get(sinfo.Mission) ?? Missions.Get("Guard");
       }
-      if (entity is StructureInfo tinfo)
+      if (entity is BuildingInfo tinfo)
       {
         Owner = tinfo.Owner;
         Health = tinfo.Health;

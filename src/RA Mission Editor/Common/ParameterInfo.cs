@@ -157,10 +157,10 @@ namespace RA_Mission_Editor.Common
       GetValueFunc = (i, m) => Missions.Get(i),
     };
 
-    public static ParameterInfo ParameterStructureType = new ParameterInfo()
+    public static ParameterInfo ParameterBuildingType = new ParameterInfo()
     {
-      GetIndexFunc = (o, m) => { return o is StructureType type ? m.AttachedRules.Structures.GetID(type.ID) : -1; },
-      GetValueFunc = (i, m) => m.AttachedRules.Structures.Get(i),
+      GetIndexFunc = (o, m) => { return o is BuildingType type ? m.AttachedRules.Buildings.GetID(type.ID) : -1; },
+      GetValueFunc = (i, m) => m.AttachedRules.Buildings.Get(i),
     };
 
     public static ParameterInfo ParameterInfantryType = new ParameterInfo()
@@ -175,10 +175,10 @@ namespace RA_Mission_Editor.Common
       GetValueFunc = (i, m) => m.AttachedRules.Units.Get(i),
     };
 
-    public static ParameterInfo ParameterShipType = new ParameterInfo()
+    public static ParameterInfo ParameterVesselType = new ParameterInfo()
     {
-      GetIndexFunc = (o, m) => { return o is ShipType type ? m.AttachedRules.Ships.GetID(type.ID) : -1; },
-      GetValueFunc = (i, m) => m.AttachedRules.Ships.Get(i),
+      GetIndexFunc = (o, m) => { return o is VesselType type ? m.AttachedRules.Vessels.GetID(type.ID) : -1; },
+      GetValueFunc = (i, m) => m.AttachedRules.Vessels.Get(i),
     };
 
     public static ParameterInfo ParameterAircraftType = new ParameterInfo()

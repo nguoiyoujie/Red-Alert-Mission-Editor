@@ -336,7 +336,7 @@ namespace RA_Mission_Editor.Renderers
       g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
       g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
 
-      foreach (var sInfo in map.SmudgeSection.SmudgeList)
+      foreach (var sInfo in map.SmudgeSection.EntityList)
       {
         int c = sInfo.Cell;
         SmudgeType smg = Smudges.Get(sInfo.ID);
@@ -373,7 +373,7 @@ namespace RA_Mission_Editor.Renderers
       g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
       g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
 
-      foreach (var sInfo in extract.SmudgeSection.SmudgeList)
+      foreach (var sInfo in extract.SmudgeSection.EntityList)
       {
         int c = sInfo.Cell;
         SmudgeType smg = Smudges.Get(sInfo.ID);
@@ -479,7 +479,7 @@ namespace RA_Mission_Editor.Renderers
       g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
       g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
 
-      foreach (var tInfo in map.TerrainSection.TerrainList)
+      foreach (var tInfo in map.TerrainSection.EntityList)
       {
         int c = tInfo.Cell;
         TerrainType terr = Terrains.Get(tInfo.ID);
@@ -510,7 +510,7 @@ namespace RA_Mission_Editor.Renderers
       g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
       g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
 
-      foreach (var tInfo in extract.TerrainSection.TerrainList)
+      foreach (var tInfo in extract.TerrainSection.EntityList)
       {
         int c = tInfo.Cell;
         TerrainType terr = Terrains.Get(tInfo.ID);

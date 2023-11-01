@@ -24,9 +24,9 @@ namespace RA_Mission_Editor.MapData
         typeof(TerrainInfo),
         typeof(SmudgeInfo),
         typeof(BaseInfo),
-        typeof(StructureInfo),
+        typeof(BuildingInfo),
         typeof(UnitInfo),
-        typeof(ShipInfo),
+        typeof(VesselInfo),
         typeof(InfantryInfo),
         typeof(WaypointInfo),
         typeof(CellTriggerInfo),
@@ -91,39 +91,39 @@ namespace RA_Mission_Editor.MapData
         }
       }
 
-      foreach (var terr in map.TerrainSection.TerrainList)
+      foreach (var terr in map.TerrainSection.EntityList)
       {
         UpdateEntity(map, cache, vfs, terr, false);
       }
 
-      foreach (var smud in map.SmudgeSection.SmudgeList)
+      foreach (var smud in map.SmudgeSection.EntityList)
       {
         UpdateEntity(map, cache, vfs, smud, false);
       }
 
-      foreach (var @base in map.BaseSection.BaseList)
+      foreach (var @base in map.BaseSection.EntityList)
       {
         UpdateEntity(map, cache, vfs, @base, false);
       }
 
-      foreach (var stru in map.StructureSection.StructureList)
+      foreach (var building in map.BuildingSection.EntityList)
       {
-        UpdateEntity(map, cache, vfs, stru, false);
+        UpdateEntity(map, cache, vfs, building, false);
       }
 
-      foreach (var inft in map.InfantrySection.InfantryList)
+      foreach (var inft in map.InfantrySection.EntityList)
       {
         UpdateEntity(map, cache, vfs, inft, false);
       }
 
-      foreach (var unit in map.UnitSection.UnitList)
+      foreach (var unit in map.UnitSection.EntityList)
       {
         UpdateEntity(map, cache, vfs, unit, false);
       }
 
-      foreach (var ship in map.ShipSection.ShipList)
+      foreach (var vessel in map.VesselSection.EntityList)
       {
-        UpdateEntity(map, cache, vfs, ship, false);
+        UpdateEntity(map, cache, vfs, vessel, false);
       }
 
       foreach (var wayp in map.WaypointSection.WaypointList)
@@ -257,12 +257,12 @@ namespace RA_Mission_Editor.MapData
           cellOccupancy.Add(c);
         }
       }
-      else if (entity is ShipInfo ship)
+      else if (entity is VesselInfo vessel)
       {
-        int c = ship.Cell;
+        int c = vessel.Cell;
         if (c >= 0 && c < OccupancyList.Length)
         {
-          OccupancyList[c].Add(ship);
+          OccupancyList[c].Add(vessel);
           if (autoSort) OccupancyList[c].Sort(_entityComparer);
           cellOccupancy.Add(c);
         }
@@ -271,7 +271,7 @@ namespace RA_Mission_Editor.MapData
       {
         int x0 = map.CellX(@base.Cell);
         int y0 = map.CellY(@base.Cell);
-        TechnoTypeRenderer.GetStructureSizeInCells(map.AttachedRules, cache, vfs, tt, @base.ID, true, out int xd, out int yd);
+        TechnoTypeRenderer.GetBuildingSizeInCells(map.AttachedRules, cache, vfs, tt, @base.ID, true, out int xd, out int yd);
         for (int x = x0; x < x0 + xd; x++)
           for (int y = y0; y < y0 + yd; y++)
           {
@@ -284,18 +284,18 @@ namespace RA_Mission_Editor.MapData
             }
           }
       }
-      else if (entity is StructureInfo stru)
+      else if (entity is BuildingInfo building)
       {
-        int x0 = map.CellX(stru.Cell);
-        int y0 = map.CellY(stru.Cell);
-        TechnoTypeRenderer.GetStructureSizeInCells(map.AttachedRules, cache, vfs, tt, stru.ID, true, out int xd, out int yd);
+        int x0 = map.CellX(building.Cell);
+        int y0 = map.CellY(building.Cell);
+        TechnoTypeRenderer.GetBuildingSizeInCells(map.AttachedRules, cache, vfs, tt, building.ID, true, out int xd, out int yd);
         for (int x = x0; x < x0 + xd; x++)
           for (int y = y0; y < y0 + yd; y++)
           {
             int c = map.CellNumber(x, y);
             if (c >= 0 && c < OccupancyList.Length)
             {
-              OccupancyList[c].Add(stru);
+              OccupancyList[c].Add(building);
               if (autoSort) OccupancyList[c].Sort(_entityComparer);
               cellOccupancy.Add(c);
             }

@@ -3,7 +3,7 @@ using RA_Mission_Editor.RulesData.Ruleset;
 
 namespace RA_Mission_Editor.Entities
 {
-  public class ShipInfo : IValueParsable<ShipInfo>, IEntity<ShipType>, IOwnedEntity, ILocatable
+  public class VesselInfo : IValueParsable<VesselInfo>, IEntity<VesselType>, IOwnedEntity, ILocatable
   {
     // INDEX=OWNER,ID,HEALTH,CELL,FACING,MISSION,TAG
     // Example: 0=Greece,CA,256,2,224,Sticky,c1
@@ -15,7 +15,7 @@ namespace RA_Mission_Editor.Entities
     public string Mission; // Mission
     public string Tag; // Trigger attachment
 
-    public EditorSelectMode SelectMode { get { return EditorSelectMode.Ships; } }
+    public EditorSelectMode SelectMode { get { return EditorSelectMode.Vessels; } }
 
     public string GetValueAsString()
     {
@@ -53,9 +53,9 @@ namespace RA_Mission_Editor.Entities
       return true;
     }
 
-    public ShipType GetEntityType(Rules rules)
+    public VesselType GetEntityType(Rules rules)
     {
-      return rules.Ships.Get(ID);
+      return rules.Vessels.Get(ID);
     }
 
     IEntityType IEntity.GetEntityType(Rules rules)

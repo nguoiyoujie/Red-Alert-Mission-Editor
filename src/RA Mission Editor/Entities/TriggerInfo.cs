@@ -93,9 +93,9 @@ namespace RA_Mission_Editor.Entities
       {
         return ParameterInfo.ParameterHouse;
       }
-      else if (flag.Contains(TriggerParameterFlag.STRUCTURETYPE))
+      else if (flag.Contains(TriggerParameterFlag.BUILDINGTYPE))
       {
-        return ParameterInfo.ParameterStructureType;
+        return ParameterInfo.ParameterBuildingType;
       }
       else if (flag.Contains(TriggerParameterFlag.INFANTRYTYPE))
       {
@@ -105,9 +105,9 @@ namespace RA_Mission_Editor.Entities
       {
         return ParameterInfo.ParameterUnitType;
       }
-      else if (flag.Contains(TriggerParameterFlag.SHIPTYPE))
+      else if (flag.Contains(TriggerParameterFlag.VESSELTYPE))
       {
-        return ParameterInfo.ParameterShipType;
+        return ParameterInfo.ParameterVesselType;
       }
       else if (flag.Contains(TriggerParameterFlag.AIRCRAFTTYPE))
       {

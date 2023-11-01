@@ -220,8 +220,8 @@ namespace RA_Mission_Editor.UI
     public void SaveMap(string mapPath)
     {
       try
-      { 
-      CurrentMap.Save(mapPath);
+      {
+        CurrentMap.Save(mapPath);
         // reload
         //LoadMap(mapPath);
       }
@@ -435,7 +435,7 @@ namespace RA_Mission_Editor.UI
           // note: p.GetEntityType returns null if the type is not present in the rules. Mostly because the definitions may have been changed
           // We still want to be able to delete items from the same select mode
           EditorSelectMode smode = p.SelectMode;
-          if (placeEntity.Type != null && smode == placeEntity.Type.SelectMode)
+          if (placeEntity.Type != null && (smode == placeEntity.Type.SelectMode || (smode == EditorSelectMode.Bases && placeEntity.Type.SelectMode == EditorSelectMode.Buildings)))
           {
             CurrentMap.DeleteEntity(Cache, GameFileSystem, p, placeEntity.X, placeEntity.Y);
             if (placeEntity.Type is TemplateType)

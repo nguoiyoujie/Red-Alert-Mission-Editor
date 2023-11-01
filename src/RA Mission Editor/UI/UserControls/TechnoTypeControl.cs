@@ -78,8 +78,8 @@ namespace RA_Mission_Editor.UI.UserControls
       {
         bShowHide.Text = "Hide";
         pBottom.Enabled = true;
-        pStructure.Enabled = Entity is StructureInfo;
-        pMission.Enabled = Entity is InfantryInfo || Entity is UnitInfo || Entity is ShipInfo;
+        pStructure.Enabled = Entity is BuildingInfo;
+        pMission.Enabled = Entity is InfantryInfo || Entity is UnitInfo || Entity is VesselInfo;
         pInfantry.Enabled = Entity is InfantryInfo;
         pCommon2.Enabled = true;
         pCommon1.Enabled = true;
@@ -133,10 +133,10 @@ namespace RA_Mission_Editor.UI.UserControls
         SetEntity(iinfo as InfantryInfo);
       else if (entity is UnitInfo uinfo)
         SetEntity(uinfo as UnitInfo);
-      else if (entity is ShipInfo sinfo)
-        SetEntity(sinfo as ShipInfo);
-      else if (entity is StructureInfo tinfo)
-        SetEntity(tinfo as StructureInfo);
+      else if (entity is VesselInfo sinfo)
+        SetEntity(sinfo as VesselInfo);
+      else if (entity is BuildingInfo tinfo)
+        SetEntity(tinfo as BuildingInfo);
       else if (entity is BaseInfo binfo)
         SetEntity(binfo as BaseInfo);
     }
@@ -185,14 +185,14 @@ namespace RA_Mission_Editor.UI.UserControls
       bCancel.Enabled = false;
     }
 
-    public void SetEntity(StructureInfo sinfo)
+    public void SetEntity(BuildingInfo sinfo)
     {
       cbType.Items.Clear();
-      cbType.Items.AddRange(Map.AttachedRules.Structures.GetAsObjectList()); // fill with name string
+      cbType.Items.AddRange(Map.AttachedRules.Buildings.GetAsObjectList()); // fill with name string
 
       Entity = sinfo;
       cbOwner.Text = sinfo.Owner;
-      cbType.SelectedItem = Map.AttachedRules.Structures.GetAll().ToList().Find((t) => t.ID == sinfo.ID);
+      cbType.SelectedItem = Map.AttachedRules.Buildings.GetAll().ToList().Find((t) => t.ID == sinfo.ID);
       nudFacing.Value = Math.Min(nudFacing.Maximum, Math.Max(nudFacing.Minimum, sinfo.Facing));
       nudX.Value = Math.Min(nudX.Maximum, Math.Max(nudX.Minimum, Map.CellX(sinfo.Cell)));
       nudY.Value = Math.Min(nudY.Maximum, Math.Max(nudY.Minimum, Map.CellY(sinfo.Cell)));
@@ -214,14 +214,14 @@ namespace RA_Mission_Editor.UI.UserControls
     {
       // requires SetMap()
       cbType.Items.Clear();
-      cbType.Items.AddRange(Map.AttachedRules.Structures.GetAsObjectList());
+      cbType.Items.AddRange(Map.AttachedRules.Buildings.GetAsObjectList());
 
       Entity = binfo;
       cbOwner.Text = Map.BaseSection.Player;
-      cbType.SelectedItem = Map.AttachedRules.Structures.GetAll().ToList().Find((t) => t.ID == binfo.ID);
+      cbType.SelectedItem = Map.AttachedRules.Buildings.GetAll().ToList().Find((t) => t.ID == binfo.ID);
       nudX.Value = Math.Min(nudX.Maximum, Math.Max(nudX.Minimum, Map.CellX(binfo.Cell)));
       nudY.Value = Math.Min(nudY.Maximum, Math.Max(nudY.Minimum, Map.CellY(binfo.Cell)));
-      nudStrength.Value = Math.Min(nudX.Maximum, Math.Max(nudX.Minimum, Map.BaseSection.BaseList.IndexOf(binfo)));
+      nudStrength.Value = Math.Min(nudX.Maximum, Math.Max(nudX.Minimum, Map.BaseSection.EntityList.IndexOf(binfo)));
 
       cbOwner.Enabled = false;
       lblStrength.Text = "Priority";
@@ -257,14 +257,14 @@ namespace RA_Mission_Editor.UI.UserControls
       bCancel.Enabled = false;
     }
 
-    public void SetEntity(ShipInfo sinfo)
+    public void SetEntity(VesselInfo sinfo)
     {
       cbType.Items.Clear();
-      cbType.Items.AddRange(Map.AttachedRules.Ships.GetAsObjectList()); // fill with name string
+      cbType.Items.AddRange(Map.AttachedRules.Vessels.GetAsObjectList()); // fill with name string
 
       Entity = sinfo;
       cbOwner.Text = sinfo.Owner;
-      cbType.SelectedItem = Map.AttachedRules.Ships.GetAll().ToList().Find((t) => t.ID == sinfo.ID);
+      cbType.SelectedItem = Map.AttachedRules.Vessels.GetAll().ToList().Find((t) => t.ID == sinfo.ID);
       nudFacing.Value = Math.Min(nudFacing.Maximum, Math.Max(nudFacing.Minimum, sinfo.Facing));
       nudX.Value = Math.Min(nudX.Maximum, Math.Max(nudX.Minimum, Map.CellX(sinfo.Cell)));
       nudY.Value = Math.Min(nudY.Maximum, Math.Max(nudY.Minimum, Map.CellY(sinfo.Cell)));
@@ -306,17 +306,17 @@ namespace RA_Mission_Editor.UI.UserControls
         string thisinfo = uinfo.GetValueAsString();
         if (previnfo != thisinfo) { Map.Dirty = true; }
       }
-      else if (Entity is ShipInfo sinfo)
+      else if (Entity is VesselInfo sinfo)
       {
         string previnfo = sinfo.GetValueAsString();
         sinfo.Owner = cbOwner.Text;
-        ShipType entitytype = cbType.SelectedItem as ShipType;
+        VesselType entitytype = cbType.SelectedItem as VesselType;
         if (entitytype == null)
         {
-          entitytype = Map.AttachedRules.Ships.GetAll().ToList().Find((u) => cbType.Text == u.ToString());
+          entitytype = Map.AttachedRules.Vessels.GetAll().ToList().Find((u) => cbType.Text == u.ToString());
           if (entitytype == null)
           {
-            MessageBox.Show("Please select a valid ship type.", Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("Please select a valid vessel type.", Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
           }
         }
@@ -362,17 +362,17 @@ namespace RA_Mission_Editor.UI.UserControls
         string thisinfo = iinfo.GetValueAsString();
         if (previnfo != thisinfo) { Map.Dirty = true; }
       }
-      else if (Entity is StructureInfo tinfo)
+      else if (Entity is BuildingInfo tinfo)
       {
         string previnfo = tinfo.GetValueAsString();
         tinfo.Owner = cbOwner.Text;
-        StructureType entitytype = cbType.SelectedItem as StructureType;
+        BuildingType entitytype = cbType.SelectedItem as BuildingType;
         if (entitytype == null)
         {
-          entitytype = Map.AttachedRules.Structures.GetAll().ToList().Find((u) => cbType.Text == u.ToString());
+          entitytype = Map.AttachedRules.Buildings.GetAll().ToList().Find((u) => cbType.Text == u.ToString());
           if (entitytype == null)
           {
-            MessageBox.Show("Please select a valid structure type.", Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("Please select a valid building type.", Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
           }
         }
@@ -388,22 +388,22 @@ namespace RA_Mission_Editor.UI.UserControls
       }
       else if (Entity is BaseInfo binfo)
       {
-        StructureType entitytype = cbType.SelectedItem as StructureType;
+        BuildingType entitytype = cbType.SelectedItem as BuildingType;
         if (entitytype == null)
         {
-          entitytype = Map.AttachedRules.Structures.GetAll().ToList().Find((u) => cbType.Text == u.ToString());
+          entitytype = Map.AttachedRules.Buildings.GetAll().ToList().Find((u) => cbType.Text == u.ToString());
           if (entitytype == null)
           {
-            MessageBox.Show("Please select a valid structure type.", Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("Please select a valid building type.", Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
           }
         }
         binfo.ID = entitytype.ID;
         binfo.Cell = Map.CellNumber((int)nudX.Value, (int)nudY.Value);
         // reorder
-        Map.BaseSection.BaseList.Remove(binfo);
+        Map.BaseSection.EntityList.Remove(binfo);
         int index = (int)nudStrength.Value;
-        Map.BaseSection.BaseList.Insert(Math.Min(Map.BaseSection.BaseList.Count - 1, Math.Max(0, index)), binfo);
+        Map.BaseSection.EntityList.Insert(Math.Min(Map.BaseSection.EntityList.Count - 1, Math.Max(0, index)), binfo);
         Map.Dirty = true;
       }
 
@@ -442,9 +442,9 @@ namespace RA_Mission_Editor.UI.UserControls
         SetEntity(iinfo);
       else if (Entity is UnitInfo uinfo)
         SetEntity(uinfo);
-      else if (Entity is ShipInfo sinfo)
+      else if (Entity is VesselInfo sinfo)
         SetEntity(sinfo);
-      else if (Entity is StructureInfo tinfo)
+      else if (Entity is BuildingInfo tinfo)
         SetEntity(tinfo);
     }
 

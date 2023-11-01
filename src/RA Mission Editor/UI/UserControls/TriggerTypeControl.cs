@@ -281,15 +281,15 @@ namespace RA_Mission_Editor.UI.UserControls
         labelText = string.IsNullOrEmpty(labelText) ? "Unit" : "TechnoType";
         cbox.Items.AddRange(Map.AttachedRules.Units.GetAsObjectList());
       }
-      if (flag.Contains(TriggerParameterFlag.STRUCTURETYPE))
+      if (flag.Contains(TriggerParameterFlag.BUILDINGTYPE))
       {
-        labelText = string.IsNullOrEmpty(labelText) ? "Structure" : "TechnoType";
-        cbox.Items.AddRange(Map.AttachedRules.Structures.GetAsObjectList());
+        labelText = string.IsNullOrEmpty(labelText) ? "Building" : "TechnoType";
+        cbox.Items.AddRange(Map.AttachedRules.Buildings.GetAsObjectList());
       }
-      if (flag.Contains(TriggerParameterFlag.SHIPTYPE))
+      if (flag.Contains(TriggerParameterFlag.VESSELTYPE))
       {
-        labelText = string.IsNullOrEmpty(labelText) ? "Ship" : "TechnoType";
-        cbox.Items.AddRange(Map.AttachedRules.Ships.GetAsObjectList());
+        labelText = string.IsNullOrEmpty(labelText) ? "Vessel" : "TechnoType";
+        cbox.Items.AddRange(Map.AttachedRules.Vessels.GetAsObjectList());
       }
       if (flag.Contains(TriggerParameterFlag.AIRCRAFTTYPE))
       {
@@ -458,13 +458,13 @@ namespace RA_Mission_Editor.UI.UserControls
       {
         return Map.AttachedRules.Units.Get(index);
       }
-      if (flag.Contains(TriggerParameterFlag.STRUCTURETYPE))
+      if (flag.Contains(TriggerParameterFlag.BUILDINGTYPE))
       {
-        return Map.AttachedRules.Structures.Get(index);
+        return Map.AttachedRules.Buildings.Get(index);
       }
-      if (flag.Contains(TriggerParameterFlag.SHIPTYPE))
+      if (flag.Contains(TriggerParameterFlag.VESSELTYPE))
       {
-        return Map.AttachedRules.Ships.Get(index);
+        return Map.AttachedRules.Vessels.Get(index);
       }
       if (flag.Contains(TriggerParameterFlag.AIRCRAFTTYPE))
       {
@@ -503,13 +503,13 @@ namespace RA_Mission_Editor.UI.UserControls
       {
         return Map.AttachedRules.Units.GetID(uinfo.ID);
       }
-      if (value is StructureType stinfo)
+      if (value is BuildingType stinfo)
       {
-        return Map.AttachedRules.Structures.GetID(stinfo.ID);
+        return Map.AttachedRules.Buildings.GetID(stinfo.ID);
       }
-      if (value is ShipType shinfo)
+      if (value is VesselType shinfo)
       {
-        return Map.AttachedRules.Ships.GetID(shinfo.ID);
+        return Map.AttachedRules.Vessels.GetID(shinfo.ID);
       }
       if (value is AircraftType arinfo)
       {

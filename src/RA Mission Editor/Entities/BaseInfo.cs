@@ -4,7 +4,7 @@ using System;
 
 namespace RA_Mission_Editor.Entities
 {
-  public class BaseInfo : IEntity<StructureType>, ILocatable
+  public class BaseInfo : IEntity<BuildingType>, ILocatable
   {
     // INDEX3=CELL,ID
     // Example: 000=PROC,350
@@ -38,9 +38,9 @@ namespace RA_Mission_Editor.Entities
       return s;
     }
 
-    public StructureType GetEntityType(Rules rules)
+    public BuildingType GetEntityType(Rules rules)
     {
-      return rules.Structures.Get(ID);
+      return rules.Buildings.Get(ID);
     }
 
     IEntityType IEntity.GetEntityType(Rules rules)

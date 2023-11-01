@@ -4,18 +4,18 @@ using System.Drawing;
 
 namespace RA_Mission_Editor.RulesData.TechnoSets
 {
-  public class Ships : TechnoList<ShipType>
+  public class Vessels : TechnoList<VesselType>
 	{
-		public Ships()
+		public Vessels()
     {
-			_listType = new List<ShipType>()
+			_listType = new List<VesselType>()
 			{
-				new ShipType("SS")
+				new VesselType("SS")
 				{
 					FullName = "Submarine", 
 					Directions = 16
 				},
-				new ShipType("DD")
+				new VesselType("DD")
 				{
 					FullName = "Destroyer",
 					TurretName = "SSAM",
@@ -24,7 +24,7 @@ namespace RA_Mission_Editor.RulesData.TechnoSets
 					TurretDirections = 32,
 					TurretShpFrame = 0
 				},
-				new ShipType("CA") 
+				new VesselType("CA") 
 				{
 					FullName = "Cruiser",
 					TurretName = "TURR", 
@@ -33,8 +33,8 @@ namespace RA_Mission_Editor.RulesData.TechnoSets
 					TurretDirections = 32,
 					TurretShpFrame = 0
 				},
-				new ShipType("LST") { FullName = "Transport" },
-        new ShipType("PT")
+				new VesselType("LST") { FullName = "Transport" },
+        new VesselType("PT")
         {
           FullName = "Gunboat",
           TurretName = "MGUN",
@@ -43,12 +43,12 @@ namespace RA_Mission_Editor.RulesData.TechnoSets
           TurretDirections = 32,
           TurretShpFrame = 0
         },
-        new ShipType("MSUB")
+        new VesselType("MSUB")
 				{
 					FullName = "Missile Sub",
 					Directions = 16
 				},
-				new ShipType("CARR") { FullName = "Helicarrier" },
+				new VesselType("CARR") { FullName = "Helicarrier" },
 			};
 
 			string[] lStr = new string[_listType.Count];

@@ -122,7 +122,7 @@
     ///<summary>If specified global has been cleared</summary>
     TEVENT_GLOBAL_CLEAR = 27,
 
-    ///<summary>If all fake structures are gone</summary>
+    ///<summary>If all fake buildings are gone</summary>
     TEVENT_FAKES_DESTROYED = 28,
 
     ///<summary>When power drops below 100</summary>
@@ -258,20 +258,20 @@
     /// <summary>Adds specified amount of credits to a House. Negative amounts subtract instead</summary>
     TACTION_ADD_CREDITS = 40,
 
-    /// <summary>Adds vehicle to the Owner's sidebar, without checking for prerequisites</summary>
-    TACTION_ADD_VEHICLE_TO_SIDEBAR = 41,
+    /// <summary>Adds unit to the Owner's sidebar, without checking for prerequisites</summary>
+    TACTION_ADD_UNIT_TO_SIDEBAR = 41,
 
     /// <summary>Adds infantry to the Owner's sidebar, without checking for prerequisites</summary>
     TACTION_ADD_INFANTRY_TO_SIDEBAR = 42,
 
-    /// <summary>Adds structure to the Owner's sidebar, without checking for prerequisites</summary>
-    TACTION_ADD_STRUCTURE_TO_SIDEBAR = 43,
+    /// <summary>Adds building to the Owner's sidebar, without checking for prerequisites</summary>
+    TACTION_ADD_BUILDING_TO_SIDEBAR = 43,
 
     /// <summary>Adds aircraft to the Owner's sidebar, without checking for prerequisites</summary>
     TACTION_ADD_AIRCRAFT_TO_SIDEBAR = 44,
 
-    /// <summary>Adds ship to the Owner's sidebar, without checking for prerequisites</summary>
-    TACTION_ADD_SHIP_TO_SIDEBAR = 45,
+    /// <summary>Adds vessel to the Owner's sidebar, without checking for prerequisites</summary>
+    TACTION_ADD_VESSEL_TO_SIDEBAR = 45,
 
     /// <summary>Center Owner's viewport around a waypoint</summary>
     TACTION_SET_VIEWPORT = 50,
@@ -311,7 +311,7 @@
     TACTION_IRONCURTAIN_ATTACHED_OBJECT = 61,
 
     /// <summary>Create a building at a waypoint</summary>
-    TACTION_CREATE_STRUCTURE = 62,
+    TACTION_CREATE_BUILDING = 62,
 
     /// <summary>Sets the mission for the object this trigger is attached to</summary>
     TACTION_SET_OBJECT_MISSION = 63,
@@ -404,13 +404,13 @@
     BUILDINGS,
     HARVESTERS,
     INFANTRY,
-    VEHICLES,
-    SHIPS,
+    UNITS,
+    VESSELS,
     FACTORIES,
     BASE_DEFENSES,
     BASE_THREATS,
     POWER_PLANTS,
-    FAKE_STRUCTURES
+    FAKE_BUILDINGS
   }
 
   public enum RTTIType
@@ -489,8 +489,8 @@
     // Technotypes
     Infantry,
     Units,
-    Ships,
-    Structures,
+    Vessels,
+    Buildings,
     Bases,
     // Widgets
     CellTriggers,

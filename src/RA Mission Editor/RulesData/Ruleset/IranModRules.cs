@@ -12,7 +12,7 @@ namespace RA_Mission_Editor.RulesData.Ruleset
       foreach (var entry in GameRules.GetOrCreateSection("BuildingTypes").OrderedEntries)
       {
         // like ATEK
-        Structures.AddRulesObject(new StructureType(entry.Value.Value) { BibName = "BIB3" });
+        Buildings.AddRulesObject(new BuildingType(entry.Value.Value) { BibName = "BIB3" });
       }
 
       foreach (var entry in GameRules.GetOrCreateSection("InfantryTypes").OrderedEntries)
@@ -30,7 +30,7 @@ namespace RA_Mission_Editor.RulesData.Ruleset
       foreach (var entry in GameRules.GetOrCreateSection("VesselTypes").OrderedEntries)
       {
         // like SS
-        Ships.AddRulesObject(new ShipType(entry.Value.Value) { Directions = 16 });
+        Vessels.AddRulesObject(new VesselType(entry.Value.Value) { Directions = 16 });
       }
 
       foreach (var entry in GameRules.GetOrCreateSection("AircraftTypes").OrderedEntries)

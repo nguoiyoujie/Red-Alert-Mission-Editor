@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace RA_Mission_Editor.RulesData
 {
-  public class StructureType : ITechnoType, IEntityType, IOccupancyType
+  public class BuildingType : ITechnoType, IEntityType, IOccupancyType
 	{
 		public string ID { get; }
 		public string FullName;
@@ -25,7 +25,7 @@ namespace RA_Mission_Editor.RulesData
     public string RulesName;
 		public string RulesImage;
 
-		public StructureType(string id)
+		public BuildingType(string id)
 		{
 			ID = id;
 			FullName = id;
@@ -34,7 +34,7 @@ namespace RA_Mission_Editor.RulesData
 
 		public string DisplayName { get => ToString(); }
 
-    public EditorSelectMode SelectMode { get { return EditorSelectMode.Structures; } }
+    public EditorSelectMode SelectMode { get { return EditorSelectMode.Buildings; } }
 
     public override string ToString()
     {
@@ -45,11 +45,11 @@ namespace RA_Mission_Editor.RulesData
     public Bitmap DrawPreview(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, PlaceEntityInfo preview)
 		{
 			TechnoTypeRenderer.CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
-			TechnoTypeRenderer.GetStructureSizeInPixels(rules, cache, vfs, tt, ID, out int x, out int y);
+			TechnoTypeRenderer.GetBuildingSizeInPixels(rules, cache, vfs, tt, ID, out int x, out int y);
 			Bitmap bmp = new Bitmap(x, y);
 			using (Graphics g = Graphics.FromImage(bmp))
 			{
-				TechnoTypeRenderer.DrawStructure(map, rules, cache, vfs, tt, palFile, ID, rules.Houses.GetHouse(preview.Owner), preview.Health, preview.Facing, g, 0, 0, null, -1, false);
+				TechnoTypeRenderer.DrawBuilding(map, rules, cache, vfs, tt, palFile, ID, rules.Houses.GetHouse(preview.Owner), preview.Health, preview.Facing, g, 0, 0, null, -1, false);
 			}
 			return bmp;
 		}
@@ -57,8 +57,8 @@ namespace RA_Mission_Editor.RulesData
 		public void DrawOnMap(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo entity, bool highlight)
 		{
 			TechnoTypeRenderer.CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
-      TechnoTypeRenderer.DrawStructureBib(map, rules, cache, vfs, tt, palFile, ID, g, entity.X, entity.Y, entity.IsBase, highlight);
-			TechnoTypeRenderer.DrawStructure(map, rules, cache, vfs, tt, palFile, ID, entity.IsBase ? rules.Houses.GetHouse(map.BaseSection.Player) : rules.Houses.GetHouse(entity.Owner), entity.IsBase ? 256 : entity.Health, entity.IsBase ? 0 : entity.Facing, g, entity.X, entity.Y, entity.Tag, entity.IsBase ? entity.BaseNumber : -1, entity.IsBase, highlight);
+      TechnoTypeRenderer.DrawBuildingBib(map, rules, cache, vfs, tt, palFile, ID, g, entity.X, entity.Y, entity.IsBase, highlight);
+			TechnoTypeRenderer.DrawBuilding(map, rules, cache, vfs, tt, palFile, ID, entity.IsBase ? rules.Houses.GetHouse(map.BaseSection.Player) : rules.Houses.GetHouse(entity.Owner), entity.IsBase ? 256 : entity.Health, entity.IsBase ? 0 : entity.Facing, g, entity.X, entity.Y, entity.Tag, entity.IsBase ? entity.BaseNumber : -1, entity.IsBase, highlight);
       TechnoTypeRenderer.DrawPlacementGrid(map, rules, cache, vfs, tt, palFile, ID, g, entity.X, entity.Y, true);
     }
   }

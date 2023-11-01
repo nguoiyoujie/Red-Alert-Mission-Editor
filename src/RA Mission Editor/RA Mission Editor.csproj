@@ -139,14 +139,14 @@
     <Compile Include="RulesData\TriggerEventType.cs" />
     <Compile Include="RulesData\TriggerActionType.cs" />
     <Compile Include="RulesData\Terrains.cs" />
-    <Compile Include="RulesData\TechnoSets\Structures.cs" />
+    <Compile Include="RulesData\TechnoSets\Buildings.cs" />
     <Compile Include="EntityTypes\SmudgeType.cs" />
     <Compile Include="RulesData\MissionType.cs" />
     <Compile Include="RulesData\TechnoSets\Units.cs" />
-    <Compile Include="EntityTypes\ShipType.cs" />
-    <Compile Include="RulesData\TechnoSets\Ships.cs" />
+    <Compile Include="EntityTypes\VesselType.cs" />
+    <Compile Include="RulesData\TechnoSets\Vessels.cs" />
     <Compile Include="EntityTypes\InfantryType.cs" />
-    <Compile Include="EntityTypes\StructureType.cs" />
+    <Compile Include="EntityTypes\BuildingType.cs" />
     <Compile Include="EntityTypes\UnitType.cs" />
     <Compile Include="EntityTypes\TerrainType.cs" />
     <Compile Include="SettingsData\CacheSection.cs" />
@@ -168,7 +168,7 @@
     <Compile Include="RulesData\HouseType.cs" />
     <Compile Include="RulesData\Smudges.cs" />
     <Compile Include="RulesData\TechnoSets\Houses.cs" />
-    <Compile Include="MapData\ShipSection.cs" />
+    <Compile Include="MapData\VesselSection.cs" />
     <Compile Include="Entities\CellTriggerInfo.cs" />
     <Compile Include="MapData\CellTriggerSection.cs" />
     <Compile Include="Entities\TeamTypeInfo.cs" />
@@ -185,7 +185,7 @@
     <Compile Include="MapData\SmudgeSection.cs" />
     <Compile Include="MapData\WaypointSection.cs" />
     <Compile Include="MapData\TerrainSection.cs" />
-    <Compile Include="MapData\StructureSection.cs" />
+    <Compile Include="MapData\BuildingSection.cs" />
     <Compile Include="MapData\UnitSection.cs" />
     <Compile Include="MapData\InfantrySection.cs" />
     <Compile Include="MapData\BasicSection.cs" />
@@ -203,11 +203,11 @@
     <Compile Include="FileFormats\Encodings\Format40.cs" />
     <Compile Include="MapData\Map.cs" />
     <Compile Include="Entities\InfantryInfo.cs" />
-    <Compile Include="Entities\ShipInfo.cs" />
+    <Compile Include="Entities\VesselInfo.cs" />
     <Compile Include="Entities\TerrainInfo.cs" />
     <Compile Include="Entities\BaseInfo.cs" />
     <Compile Include="Entities\UnitInfo.cs" />
-    <Compile Include="Entities\StructureInfo.cs" />
+    <Compile Include="Entities\BuildingInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderers\WidgetsRenderer.cs" />
@@ -420,6 +420,7 @@
     <EmbeddedResource Include="Resources\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\MapPickDialog.resx">
       <DependentUpon>MapPickDialog.cs</DependentUpon>

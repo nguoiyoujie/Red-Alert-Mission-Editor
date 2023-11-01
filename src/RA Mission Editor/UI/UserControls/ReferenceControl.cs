@@ -167,7 +167,7 @@ namespace RA_Mission_Editor.UI.UserControls
         }
       }
 
-      foreach (var inf in Map.InfantrySection.InfantryList)
+      foreach (var inf in Map.InfantrySection.EntityList)
       {
         if (inf.Tag == info.Name)
         {
@@ -175,7 +175,7 @@ namespace RA_Mission_Editor.UI.UserControls
         }
       }
 
-      foreach (var inf in Map.UnitSection.UnitList)
+      foreach (var inf in Map.UnitSection.EntityList)
       {
         if (inf.Tag == info.Name)
         {
@@ -183,7 +183,7 @@ namespace RA_Mission_Editor.UI.UserControls
         }
       }
 
-      foreach (var inf in Map.ShipSection.ShipList)
+      foreach (var inf in Map.VesselSection.EntityList)
       {
         if (inf.Tag == info.Name)
         {
@@ -191,7 +191,7 @@ namespace RA_Mission_Editor.UI.UserControls
         }
       }
 
-      foreach (var inf in Map.StructureSection.StructureList)
+      foreach (var inf in Map.BuildingSection.EntityList)
       {
         if (inf.Tag == info.Name)
         {

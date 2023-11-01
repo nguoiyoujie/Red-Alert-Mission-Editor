@@ -5,23 +5,23 @@ using System.Collections.Generic;
 
 namespace RA_Mission_Editor.MapData
 {
-  public class ShipSection
+  public class BuildingSection
   {
-    public List<ShipInfo> ShipList = new List<ShipInfo>();
+    public List<BuildingInfo> EntityList = new List<BuildingInfo>();
 
     public void Read(IniFile.IniSection section)
     {
-      ShipList.Clear();
+      EntityList.Clear();
       // do not care about indices
       foreach (var kvp in section.OrderedEntries)
       {
-        ShipInfo u = new ShipInfo();
+        BuildingInfo u = new BuildingInfo();
         if (u.Parse(kvp.Value.Value))
-          ShipList.Add(u);
+          EntityList.Add(u);
         else
         {
           // feedback the error
-          throw new Exception($"Map Ship {kvp.Key} contains less than expected parameters");
+          throw new Exception($"Map Building {kvp.Key} contains less than expected parameters");
         }
       }
     }
@@ -30,9 +30,9 @@ namespace RA_Mission_Editor.MapData
     {
       section.Clear();
       int index = 0;
-      foreach (ShipInfo ship in ShipList)
+      foreach (BuildingInfo unit in EntityList)
       {
-        section.SetValue(index.ToString(), ship.GetValueAsString());
+        section.SetValue(index.ToString(), unit.GetValueAsString());
         index++;
       }
     }

@@ -3,13 +3,13 @@ using RA_Mission_Editor.RulesData.Ruleset;
 
 namespace RA_Mission_Editor.Entities
 {
-  public class StructureInfo : IValueParsable<StructureInfo>, IEntity<StructureType>, IOwnedEntity, ILocatable
+  public class BuildingInfo : IValueParsable<BuildingInfo>, IEntity<BuildingType>, IOwnedEntity, ILocatable
   {
     // INDEX=OWNER,ID,HEALTH,CELL,FACING,TAG,AI_SELLABLE,AI_REBUILDABLE
     // Example: 3=USSR,SILO,256,436,0,None,0,1
 
     public string Owner { get; set; } // Name of owning House
-    public string ID { get; set; } // Structure type ID
+    public string ID { get; set; } // Building type ID
     public short Health; // 0-255
     public int Cell { get; set; }// cell ID
     public byte Facing; // 256 Direction
@@ -19,7 +19,7 @@ namespace RA_Mission_Editor.Entities
     public bool AISellable; // allow Sell, if owning House has the required AI levels
     public bool AIRepairable; // allow Repair, if owning House has the required AI levels
 
-    public EditorSelectMode SelectMode { get { return EditorSelectMode.Structures; } }
+    public EditorSelectMode SelectMode { get { return EditorSelectMode.Buildings; } }
 
     public string GetValueAsString()
     {
@@ -59,9 +59,9 @@ namespace RA_Mission_Editor.Entities
       return true;
     }
 
-    public StructureType GetEntityType(Rules rules)
+    public BuildingType GetEntityType(Rules rules)
     {
-      return rules.Structures.Get(ID);
+      return rules.Buildings.Get(ID);
     }
 
     IEntityType IEntity.GetEntityType(Rules rules)

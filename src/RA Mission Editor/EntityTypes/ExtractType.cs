@@ -33,13 +33,13 @@ namespace RA_Mission_Editor.RulesData
 			using (Graphics g = Graphics.FromImage(bmp))
 			{
 				EnvironmentRenderer.DrawTemplates(map, Extract, 1, 1, cache, vfs, g);
-				TechnoTypeRenderer.DrawStructureBibs(map, Extract, 1, 1, rules, cache, vfs, g);
+				TechnoTypeRenderer.DrawBuildingBibs(map, Extract, 1, 1, rules, cache, vfs, g);
 				EnvironmentRenderer.DrawOverlays(map, Extract, 1, 1, cache, vfs, g);
 				EnvironmentRenderer.DrawSmudges(map, Extract, 1, 1, cache, vfs, g);
 				EnvironmentRenderer.DrawTerrain(map, Extract, 1, 1, cache, vfs, g);
-				TechnoTypeRenderer.DrawStructures(map, Extract, 1, 1, rules, cache, vfs, g);
+				TechnoTypeRenderer.DrawBuildings(map, Extract, 1, 1, rules, cache, vfs, g);
 				TechnoTypeRenderer.DrawUnits(map, Extract, 1, 1, rules, cache, vfs, g);
-				TechnoTypeRenderer.DrawShips(map, Extract, 1, 1, rules, cache, vfs, g);
+				TechnoTypeRenderer.DrawVessels(map, Extract, 1, 1, rules, cache, vfs, g);
 				TechnoTypeRenderer.DrawInfantries(map, Extract, 1, 1, rules, cache, vfs, g);
 			}
 			return bmp;
@@ -48,13 +48,13 @@ namespace RA_Mission_Editor.RulesData
 		public void DrawOnMap(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo entity, bool highlight)
 		{
 			EnvironmentRenderer.DrawTemplates(map, Extract, entity.X, entity.Y, cache, vfs, g);
-			TechnoTypeRenderer.DrawStructureBibs(map, Extract, entity.X, entity.Y, rules, cache, vfs, g);
+			TechnoTypeRenderer.DrawBuildingBibs(map, Extract, entity.X, entity.Y, rules, cache, vfs, g);
 			EnvironmentRenderer.DrawOverlays(map, Extract, entity.X, entity.Y, cache, vfs, g);
 			EnvironmentRenderer.DrawSmudges(map, Extract, entity.X, entity.Y, cache, vfs, g);
 			EnvironmentRenderer.DrawTerrain(map, Extract, entity.X, entity.Y, cache, vfs, g);
-			TechnoTypeRenderer.DrawStructures(map, Extract, entity.X, entity.Y, rules, cache, vfs, g);
+			TechnoTypeRenderer.DrawBuildings(map, Extract, entity.X, entity.Y, rules, cache, vfs, g);
 			TechnoTypeRenderer.DrawUnits(map, Extract, entity.X, entity.Y, rules, cache, vfs, g);
-			TechnoTypeRenderer.DrawShips(map, Extract, entity.X, entity.Y, rules, cache, vfs, g);
+			TechnoTypeRenderer.DrawVessels(map, Extract, entity.X, entity.Y, rules, cache, vfs, g);
 			TechnoTypeRenderer.DrawInfantries(map, Extract, entity.X, entity.Y, rules, cache, vfs, g);
 		}
 	}

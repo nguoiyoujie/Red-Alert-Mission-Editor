@@ -35,11 +35,12 @@ namespace RA_Mission_Editor.RulesData
     public EditorSelectMode SelectMode { get { return EditorSelectMode.Ships; } }
 
     public override string ToString()
-		{
-			return RulesName ?? FullName ?? ID;
-		}
+    {
+      string name = RulesName ?? FullName;
+      return !string.IsNullOrEmpty(name) ? ID + " - " + name : name;
+    }
 
-		public Bitmap DrawPreview(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, PlaceEntityInfo preview)
+    public Bitmap DrawPreview(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, PlaceEntityInfo preview)
 		{
 			Bitmap bmp = new Bitmap(Constants.CELL_PIXEL_W * 3, Constants.CELL_PIXEL_H * 3);
 			TechnoTypeRenderer.CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);

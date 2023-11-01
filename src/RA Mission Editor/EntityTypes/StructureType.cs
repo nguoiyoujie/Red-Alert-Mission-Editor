@@ -37,11 +37,12 @@ namespace RA_Mission_Editor.RulesData
     public EditorSelectMode SelectMode { get { return EditorSelectMode.Structures; } }
 
     public override string ToString()
-		{
-			return RulesName ?? FullName ?? ID;
-		}
+    {
+      string name = RulesName ?? FullName;
+      return !string.IsNullOrEmpty(name) ? ID + " - " + name : name;
+    }
 
-		public Bitmap DrawPreview(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, PlaceEntityInfo preview)
+    public Bitmap DrawPreview(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, PlaceEntityInfo preview)
 		{
 			TechnoTypeRenderer.CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
 			TechnoTypeRenderer.GetStructureSizeInPixels(rules, cache, vfs, tt, ID, out int x, out int y);

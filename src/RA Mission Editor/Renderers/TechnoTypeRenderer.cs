@@ -234,79 +234,82 @@ namespace RA_Mission_Editor.Renderers
         foreach (Point p in _cachePlacement)
         {
           bool clear = true;
-          if (MinimapRenderer.IsTemplateBridge(map, x + p.X, y + p.Y))
+          if (map.IsCellInMap(x + p.X, y + p.Y))
           {
-            clear = false;
-          }
-          if (clear)
-          {
-            TileType tilet = MinimapRenderer.GetTileType(map, cache, vfs, tt, palFile, x + p.X, y + p.Y);
-            switch (tilet)
+            if (MinimapRenderer.IsTemplateBridge(map, x + p.X, y + p.Y))
             {
-              case TileType.BEACH_6:
-              case TileType.ROCK_8:
-              //case TileType.ROAD_9:
-              case TileType.RIVER_B:
-              case TileType.ROUGH_E:
-                clear = false;
-                break;
-              case TileType.WATER_A:
-                clear = stype.IsNaval;
-                break;
-              default:
-                clear = !stype.IsNaval;
-                break;
+              clear = false;
             }
-          }
-          if (clear)
-          {
-            foreach (IEntity e in map.MapOccupancyList.Pick(map, x + p.X, y + p.Y))
+            if (clear)
             {
-              IEntityType etype = e.GetEntityType(rules);
-              if (etype is InfantryType || etype is UnitType || etype is VesselType || etype is AircraftType || etype is OverlayType)
+              TileType tilet = MinimapRenderer.GetTileType(map, cache, vfs, tt, palFile, x + p.X, y + p.Y);
+              switch (tilet)
               {
-                // each of these occupy the exact tile
-                clear = false;
-                break;
+                case TileType.BEACH_6:
+                case TileType.ROCK_8:
+                //case TileType.ROAD_9:
+                case TileType.RIVER_B:
+                case TileType.ROUGH_E:
+                  clear = false;
+                  break;
+                case TileType.WATER_A:
+                  clear = stype.IsNaval;
+                  break;
+                default:
+                  clear = !stype.IsNaval;
+                  break;
               }
-              else if (etype is TerrainType trt && e is TerrainInfo tinfo)
+            }
+            if (clear)
+            {
+              foreach (IEntity e in map.MapOccupancyList.Pick(map, x + p.X, y + p.Y))
               {
-                FillOccupancyGrid(_cachePlacement2, trt);
-                int x2 = map.CellX(tinfo.Cell);
-                int y2 = map.CellY(tinfo.Cell);
-                Point poff = new Point(x + p.X - x2, y + p.Y - y2);
-                if (_cachePlacement2.Contains(poff))
+                IEntityType etype = e.GetEntityType(rules);
+                if (etype is InfantryType || etype is UnitType || etype is VesselType || etype is AircraftType || etype is OverlayType)
                 {
+                  // each of these occupy the exact tile
                   clear = false;
                   break;
                 }
-              }
-              else if (etype is BuildingType st && e is BuildingInfo sinfo)
-              {
-                FillOccupancyGrid(_cachePlacement2, cache, vfs, tt, st, includeBib);
-                int x2 = map.CellX(sinfo.Cell);
-                int y2 = map.CellY(sinfo.Cell);
-                Point poff = new Point(x + p.X - x2, y + p.Y - y2);
-                if (_cachePlacement2.Contains(poff))
+                else if (etype is TerrainType trt && e is TerrainInfo tinfo)
                 {
-                  clear = false;
-                  break;
+                  FillOccupancyGrid(_cachePlacement2, trt);
+                  int x2 = map.CellX(tinfo.Cell);
+                  int y2 = map.CellY(tinfo.Cell);
+                  Point poff = new Point(x + p.X - x2, y + p.Y - y2);
+                  if (_cachePlacement2.Contains(poff))
+                  {
+                    clear = false;
+                    break;
+                  }
+                }
+                else if (etype is BuildingType st && e is BuildingInfo sinfo)
+                {
+                  FillOccupancyGrid(_cachePlacement2, cache, vfs, tt, st, includeBib);
+                  int x2 = map.CellX(sinfo.Cell);
+                  int y2 = map.CellY(sinfo.Cell);
+                  Point poff = new Point(x + p.X - x2, y + p.Y - y2);
+                  if (_cachePlacement2.Contains(poff))
+                  {
+                    clear = false;
+                    break;
+                  }
                 }
               }
             }
-          }
-          if (clear)
-          {
-            bmp = RenderUtils.RenderTemplate(cache, tmpFile, palFile, 0);
-          }
-          else
-          {
-            bmp = RenderUtils.RenderTemplate(cache, tmpFile, palFile, 2);
-          }
-          if (bmp != null)
-          {
-            Rectangle rd = new Rectangle((x + p.X) * Constants.CELL_PIXEL_W, (y + p.Y) * Constants.CELL_PIXEL_H, bmp.Width, bmp.Height);
-            g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _translucenthighlightImageAttributes);
+            if (clear)
+            {
+              bmp = RenderUtils.RenderTemplate(cache, tmpFile, palFile, 0);
+            }
+            else
+            {
+              bmp = RenderUtils.RenderTemplate(cache, tmpFile, palFile, 2);
+            }
+            if (bmp != null)
+            {
+              Rectangle rd = new Rectangle((x + p.X) * Constants.CELL_PIXEL_W, (y + p.Y) * Constants.CELL_PIXEL_H, bmp.Width, bmp.Height);
+              g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _translucenthighlightImageAttributes);
+            }
           }
         }
       }

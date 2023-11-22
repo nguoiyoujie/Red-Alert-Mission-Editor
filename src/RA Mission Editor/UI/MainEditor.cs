@@ -40,6 +40,9 @@ namespace RA_Mission_Editor.UI
     private int _dragSelectionX = -1;
     private int _dragSelectionY = -1;
 
+    private Stopwatch _drawStopwatch = new Stopwatch();
+
+
     // for use to load a map at startup
     internal string InitialFilePath;
 
@@ -47,7 +50,7 @@ namespace RA_Mission_Editor.UI
     {
       InitializeComponent();
       splitMain.Enabled = false;
-      pbMapCanvas.RequestDraw = () => { MainModel.DrawMap(pbMapCanvas.Renderer); MainModel.DrawMinimap(pbMiniMapCanvas.Renderer); pbMiniMapCanvas.Invalidate(); };
+      pbMapCanvas.RequestDraw = Draw;
       pbMapCanvas.UpdateCoordinate += UpdateCoord;
       pbMapCanvas.UpdateCoordinate += UpdatePickEntity;
       pbMapCanvas.UpdateMouseDown = UpdateMouseDown;
@@ -118,6 +121,17 @@ namespace RA_Mission_Editor.UI
       UpdateUI();
     }
 
+    public void Draw()
+    {
+      _drawStopwatch.Restart();
+      MainModel.DrawMap(pbMapCanvas.Renderer); 
+      MainModel.DrawMinimap(pbMiniMapCanvas.Renderer); 
+      pbMiniMapCanvas.Invalidate();
+      _drawStopwatch.Stop();
+      tssRenderTime.Text = string.Format("Render Time: {0} ms", _drawStopwatch.ElapsedMilliseconds);
+    }
+
+
     public void RefreshTitle()
     {
       Text = (MainModel.CurrentMap != null && MainModel.IsMapLoaded) ? $"{MainModel.CurrentMap.FilePath ?? "New map"} - \"{MainModel.CurrentMap.BasicSection.Name}\"" : Resources.Strings.Title;
@@ -187,6 +201,7 @@ namespace RA_Mission_Editor.UI
       _cellInfosb.Clear();
       _toolTipsb.Clear();
       ttipInfoText = null;
+      tssRenderTime.Text = string.Empty;
     }
 
     private void OpenRecentFile(string path)

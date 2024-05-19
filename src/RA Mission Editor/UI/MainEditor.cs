@@ -80,6 +80,13 @@ namespace RA_Mission_Editor.UI
       MapUserThemes.SetRAFont(this);
     }
 
+    public bool ProcessCmdKeyFromChildForm(ref Message msg, Keys keyData)
+    {
+      Message messageCopy = msg;
+      messageCopy.HWnd = Handle;
+      return ProcessCmdKey(ref messageCopy, keyData);
+    }
+
     private void MainEditor_Load(object sender, EventArgs e)
     {
       try
@@ -1473,7 +1480,7 @@ namespace RA_Mission_Editor.UI
 
     private void openOtherEditorToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      OtherEditorDialog oehd = DialogFunctions.GetOtherEditorDialog() ?? new OtherEditorDialog();
+      OtherEditorDialog oehd = DialogFunctions.GetOtherEditorDialog() ?? new OtherEditorDialog(this);
       oehd.Owner = this;
       oehd.Show();
     }

@@ -38,7 +38,7 @@ namespace RA_Mission_Editor.Renderers
       Color color = palFile.GetColor(ColorRemaps.GetRadarColor(tem.LandType));
 
       bool hasOwnedEntity = false;
-      foreach (IEntity v in map.Pick(x, y))
+      foreach (IEntity v in map.Pick(x, y, -1))
       {
         if (v is IOwnedEntity ov)
         {

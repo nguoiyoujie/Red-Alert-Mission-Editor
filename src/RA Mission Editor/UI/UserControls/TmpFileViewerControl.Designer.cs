@@ -57,6 +57,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.bSetSingle = new System.Windows.Forms.Button();
       this.bSetAll = new System.Windows.Forms.Button();
       this.groupBox2 = new System.Windows.Forms.GroupBox();
+      this.cbIsClearTemplate = new System.Windows.Forms.CheckBox();
       ((System.ComponentModel.ISupportInitialize)(this.pbSrc)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudImage)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.pbSingle)).BeginInit();
@@ -391,10 +392,25 @@ namespace RA_Mission_Editor.UI.UserControls
       this.groupBox2.TabStop = false;
       this.groupBox2.Text = "Load from File";
       // 
+      // cbIsClearTemplate
+      // 
+      this.cbIsClearTemplate.AutoSize = true;
+      this.cbIsClearTemplate.Checked = true;
+      this.cbIsClearTemplate.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.cbIsClearTemplate.Location = new System.Drawing.Point(812, 232);
+      this.cbIsClearTemplate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.cbIsClearTemplate.Name = "cbIsClearTemplate";
+      this.cbIsClearTemplate.Size = new System.Drawing.Size(324, 24);
+      this.cbIsClearTemplate.TabIndex = 98;
+      this.cbIsClearTemplate.Text = "Is Clear Template (1x1 Block, 16 Images)";
+      this.cbIsClearTemplate.UseVisualStyleBackColor = true;
+      this.cbIsClearTemplate.CheckedChanged += new System.EventHandler(this.cbIsClearTemplate_CheckedChanged);
+      // 
       // TmpFileViewerControl
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.Controls.Add(this.cbIsClearTemplate);
       this.Controls.Add(this.groupBox2);
       this.Controls.Add(this.bSetAll);
       this.Controls.Add(this.bSetSingle);
@@ -460,5 +476,6 @@ namespace RA_Mission_Editor.UI.UserControls
     private System.Windows.Forms.Button bSetSingle;
     private System.Windows.Forms.Button bSetAll;
     private System.Windows.Forms.GroupBox groupBox2;
+    private System.Windows.Forms.CheckBox cbIsClearTemplate;
   }
 }

@@ -1,4 +1,5 @@
-﻿using RA_Mission_Editor.FileFormats;
+﻿using RA_Mission_Editor.Common;
+using RA_Mission_Editor.FileFormats;
 using RA_Mission_Editor.Renderers;
 using System;
 using System.Collections.Generic;
@@ -102,7 +103,8 @@ namespace RA_Mission_Editor.UI.UserControls
           pbSrc.BackgroundImage = bmp;
         }
         int index = (int)nudImage.Value - 1;
-        cbTileType.SelectedItem = _tmp.TileTypes[index];
+        cbIsClearTemplate.Checked = _tmp.TileTypes.Count == 1 && _tmp.Images.Count > 1;
+        cbTileType.SelectedItem = _tmp.TileTypes[index % _tmp.TileTypes.Count];
         pbSingle.BackgroundImage = RenderUtils.RenderTemplate(_cache, _tmp, phSrc, index);
         if (nudSrcZoom.Value != 1 && pbSingle.BackgroundImage != null)
         {
@@ -377,8 +379,8 @@ namespace RA_Mission_Editor.UI.UserControls
 
     private void bSetSingle_Click(object sender, EventArgs e)
     {
-      int index = (int)nudImage.Value - 1;
-      if (_tmp != null && _tmp.TileTypes.Count > index)
+      int index = ((int)nudImage.Value - 1) % _tmp.TileTypes.Count;
+      if (_tmp != null)
       {
         if (cbTileType.SelectedItem is TileType t)
         {
@@ -404,6 +406,48 @@ namespace RA_Mission_Editor.UI.UserControls
         for (int i = 0; i < _tmp.TileTypes.Count; i++)
         {
           _tmp.TileTypes[i] = t;
+        }
+        RefreshView();
+      }
+    }
+
+    private void cbIsClearTemplate_CheckedChanged(object sender, EventArgs e)
+    {
+      if (_tmp != null)
+      {
+        if (cbIsClearTemplate.Checked)
+        {
+          if (_tmp.TileTypes.Count > 1)
+          {
+            TileType t = _tmp.TileTypes[0];
+            _tmp.TileTypes.Clear();
+            _tmp.TileTypes.Add(t);
+            _tmp.BlockWidth = 1;
+            _tmp.BlockHeight = 1;
+          }
+        }
+        else
+        {
+          TileType t = _tmp.TileTypes[0];
+          if (_tmp.TileTypes.Count == 1 && _tmp.Images.Count > 1)
+          {
+            _tmp.TileTypes.Clear();
+            for (int i = 0; i < _tmp.Images.Count; i++)
+            {
+              _tmp.TileTypes.Add(t);
+            }
+
+            if (_cache.TryGet(_tmp, _palSrc, out Bitmap bmp) && bmp != null)
+            {
+              _tmp.BlockWidth = ((bmp.Width - 1) / TmpFile.TileSize) + 1; ;
+              _tmp.BlockHeight = ((bmp.Height - 1) / TmpFile.TileSize) + 1;
+            }
+            else
+            {
+              _tmp.BlockWidth = _tmp.Images.Count;
+              _tmp.BlockHeight = 1;
+            }
+          }
         }
         RefreshView();
       }

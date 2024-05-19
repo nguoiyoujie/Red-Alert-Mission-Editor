@@ -201,12 +201,12 @@ namespace RA_Mission_Editor.Renderers
               for (int v = 0; v < tmp.BlockHeight; v++)
                 if (tmp.Images[w * tmp.BlockWidth + u + v * tmp.BlockWidth] != null)
                 {
-                  c.GetOrCreate(p.GetColor(ColorRemaps.GetTileColor(tmp.TileTypes[w * tmp.BlockWidth + u + v * tmp.BlockWidth])), out Brush br);
+                  c.GetOrCreate(p.GetColor(ColorRemaps.GetTileColor(tmp.TileTypes[(w * tmp.BlockWidth + u + v * tmp.BlockWidth) % tmp.TileTypes.Count])), out Brush br);
                   RectangleF rect = new RectangleF((w * tmp.Width + u) * tmp.Width, v * tmp.Height, tmp.Width, tmp.Height);
 
                   g.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
                   g.FillRectangle(br, rect);
-                  g.DrawString(((int)tmp.TileTypes[w * tmp.BlockWidth + u + v * tmp.BlockWidth]).ToString("X1"), MapUserThemes.ControlTextFont, Brushes.Black, rect, textStringFormat);
+                  g.DrawString(((int)tmp.TileTypes[(w * tmp.BlockWidth + u + v * tmp.BlockWidth) % tmp.TileTypes.Count]).ToString("X1"), MapUserThemes.ControlTextFont, Brushes.Black, rect, textStringFormat);
                 }
         }
         return bitmap;

@@ -1,4 +1,5 @@
 ﻿using RA_Mission_Editor.MapData;
+using RA_Mission_Editor.MapData.TrackedActions;
 using RA_Mission_Editor.UI.Logic;
 using System;
 using System.Collections.Generic;
@@ -148,6 +149,9 @@ namespace RA_Mission_Editor.UI.UserControls
     {
       if (HouseData != null)
       {
+        HouseSectionSaveAction action = new HouseSectionSaveAction(Map, HouseData.Name);
+        action.SnapshotOld();
+
         HouseData.TechLevel.Set((int)nudTechLevel.Value);
         HouseData.IQ.Set((int)nudIQ.Value);
         HouseData.Credits.Set((int)nudCredits.Value);
@@ -236,6 +240,9 @@ namespace RA_Mission_Editor.UI.UserControls
         Map.AttachedRules.ApplyRulesWithMap(Map);
         Map.Dirty = true;
         Map.InvalidateObjectDisplay?.Invoke();
+
+        action.SnapshotNew();
+        Map.TrackedActions.Push(action);
       }
       return true;
     }

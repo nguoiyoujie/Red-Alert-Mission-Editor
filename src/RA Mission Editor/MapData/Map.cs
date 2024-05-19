@@ -1,6 +1,7 @@
 ﻿using RA_Mission_Editor.Common;
 using RA_Mission_Editor.Entities;
 using RA_Mission_Editor.FileFormats;
+using RA_Mission_Editor.MapData.TrackedActions;
 using RA_Mission_Editor.Renderers;
 using RA_Mission_Editor.RulesData;
 using RA_Mission_Editor.RulesData.Ruleset;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 
 namespace RA_Mission_Editor.MapData
 {
+
   public class Map
   {
     public IniFile SourceFile;
@@ -33,6 +35,7 @@ namespace RA_Mission_Editor.MapData
     public VoidDelegate MapDirtyChanged;
     public VoidDelegate InvalidateObjectDisplay;
     public VoidDelegate InvalidateTemplateDisplay;
+    public VoidDelegate UndoRedoChanged;
     public ActionDelegate<EditorSelectMode> InvalidateSelectionList;
 
     public readonly Rules AttachedRules;
@@ -55,6 +58,8 @@ namespace RA_Mission_Editor.MapData
     public CellTriggerSection CellTriggerSection = new CellTriggerSection();
     public BriefingSection BriefingSection = new BriefingSection();
     public TutorialSection TutorialSection = new TutorialSection();
+
+    public TrackedActionsList TrackedActions;
 
     // extended custom sections
     public Ext_MapSection Ext_MapSection = new Ext_MapSection();
@@ -89,6 +94,7 @@ namespace RA_Mission_Editor.MapData
       {
         HouseSections[i] = new HouseSection();
       }
+      TrackedActions = new TrackedActionsList(this);
     }
 
     public void Clear()
@@ -102,6 +108,7 @@ namespace RA_Mission_Editor.MapData
     private void WriteDefaultSections()
     {
       IniFile.IniSection blankSection = new IniFile.IniSection();
+      TrackedActions.Clear();
       BasicSection.Read(blankSection);
       for (int i = 0; i < HouseSections.Length; i++)
       {
@@ -213,8 +220,11 @@ namespace RA_Mission_Editor.MapData
 
     public void Update(bool keepExtensions = true)
     {
-      IniFile f = SourceFile;
+      Update(SourceFile, keepExtensions);
+    }
 
+    public void Update(IniFile f, bool keepExtensions = true)
+    {
       // try to follow the same order as Read_Scenario_INI() in https://github.com/electronicarts/CnC_Remastered_Collection/blob/7d496e8a633a8bbf8a14b65f490b4d21fa32ca03/REDALERT/SCENARIO.CPP
 
       /* [Basic] */
@@ -482,49 +492,80 @@ namespace RA_Mission_Editor.MapData
       MapOccupancyList.Rebuild(this, cache, vfs);
     }
 
-    public void ClearTemplateOnCells(List<int> cells)
+    public void ClearTemplateOnCells(MapCache cache, VirtualFileSystem vfs, List<int> cells)
     {
+      PaintTemplateAction action = new PaintTemplateAction(this, cache, vfs);
+      action.Description = "Clear Template Cells";
+      action.SnapshotOld();
+      int change = 0;
       foreach (int cell in cells)
       {
-        if (!this.IsCellInMap(cell)) { continue; }
-
-        // Map Pack
-        MapPackSection.Template[cell] = MapPack.defaultMapPackTemplates[0];
-        MapPackSection.Tile[cell] = MapPack.defaultMapPackTiles[0];
+        if (this.IsCellInMap(cell))
+        {
+          // Map Pack
+          MapPackSection.Template[cell] = MapPack.defaultMapPackTemplates[0];
+          MapPackSection.Tile[cell] = MapPack.defaultMapPackTiles[0];
+          change++;
+        }
       }
-      Dirty = true;
-      InvalidateTemplateDisplay?.Invoke();
+      if (change > 0)
+      {
+        Dirty = true;
+        InvalidateTemplateDisplay?.Invoke();
+        action.SnapshotNew();
+        TrackedActions.Push(action);
+      }
     }
-
 
     public void ClearObjectsOnCells(MapCache cache, VirtualFileSystem vfs, List<int> cells)
     {
+      FullMapReplaceAction action = new FullMapReplaceAction(this, cache, vfs);
+      action.Description = "Clear Objects";
+      action.SnapshotOld();
+      int change = 0;
       foreach (int cell in cells)
       {
         if (!this.IsCellInMap(cell)) { continue; }
-        ClearObjectOnCell(UnitSection.EntityList, cell);
-        ClearObjectOnCell(InfantrySection.EntityList, cell);
-        ClearObjectOnCell(VesselSection.EntityList, cell);
-        ClearObjectOnCell(BuildingSection.EntityList, cell);
-        ClearObjectOnCell(BaseSection.EntityList, cell);
-        ClearObjectOnCell(WaypointSection.WaypointList, cell, true);
-        ClearObjectOnCell(TerrainSection.EntityList, cell);
-        ClearObjectOnCell(SmudgeSection.EntityList, cell);
+        change += ClearObjectOnCell(UnitSection.EntityList, cell);
+        change += ClearObjectOnCell(InfantrySection.EntityList, cell);
+        change += ClearObjectOnCell(VesselSection.EntityList, cell);
+        change += ClearObjectOnCell(BuildingSection.EntityList, cell);
+        change += ClearObjectOnCell(BaseSection.EntityList, cell);
+        change += ClearObjectOnCell(WaypointSection.WaypointList, cell, true);
+        change += ClearObjectOnCell(TerrainSection.EntityList, cell);
+        change += ClearObjectOnCell(SmudgeSection.EntityList, cell);
 
         // Overlays
-        OverlayPackSection.Overlay[cell] = OverlayPack.defaultOverlayPackOverlays[0];
+        if (OverlayPackSection.Overlay[cell] != OverlayPack.defaultOverlayPackOverlays[0])
+        {
+          OverlayPackSection.Overlay[cell] = OverlayPack.defaultOverlayPackOverlays[0];
+          change++;
+        }
 
         // CellTriggers, extra step because CellTriggerInfo has its own Cell variable.
-        CellTriggerSection.Triggers[cell] = CellTriggerSection.defaultTriggers[0];
+        if (CellTriggerSection.Triggers[cell] != CellTriggerSection.defaultTriggers[0])
+        {
+          CellTriggerSection.Triggers[cell] = CellTriggerSection.defaultTriggers[0];
+          change++;
+        }
       }
-      RebuildOccupancyList(cache, vfs);
-      Dirty = true;
-      InvalidateObjectDisplay?.Invoke();
+      if (change > 0)
+      {
+        RebuildOccupancyList(cache, vfs);
+        Dirty = true;
+        InvalidateObjectDisplay?.Invoke();
+        action.SnapshotNew();
+        TrackedActions.Push(action);
+      }
     }
 
     public void Shift(MapCache cache, VirtualFileSystem vfs, int x, int y)
     {
       if (x == 0 && y == 0) { return; }
+      FullMapReplaceAction action = new FullMapReplaceAction(this, cache, vfs);
+      action.Description = "Map Shift X" + (x >= 0 ? "+" : "-") + x + " Y" + (y >= 0 ? "+" : "-") + y;
+      action.SnapshotOld();
+      // will always change
       Shift(UnitSection.EntityList, x, y);
       Shift(InfantrySection.EntityList, x, y);
       Shift(VesselSection.EntityList, x, y);
@@ -552,29 +593,65 @@ namespace RA_Mission_Editor.MapData
         }
       }
 
+      foreach (var team in TeamTypeSection.TeamTypeList)
+      {
+        for (int i = 0; i < team.ScriptList.Count; i++)
+        {
+          if (team.ScriptList[i].ScriptType == 4 && team.ScriptList[i].Parameter.Value is int c) // hardcoded: "04 - Move To Cell"
+          {
+            int xs = this.CellX(c) + x;
+            int ys = this.CellY(c) + y;
+            int cs = this.CellNumber(xs, ys);
+
+            TeamTypeInfo.ScriptInfo sinfo = new TeamTypeInfo.ScriptInfo { ScriptType = team.ScriptList[i].ScriptType, Parameter = TeamTypeInfo.SelectParameterInfo(ScriptParameterType.INTEGER) };
+            sinfo.Parameter.UpdateValue(cs, this);
+            team.ScriptList[i] = sinfo;
+          }
+        }
+      }
+
+      MapSection.X = Math.Max(0, MapSection.X + x);
+      MapSection.Y = Math.Max(0, MapSection.Y + y);
+      MapSection.Width = Math.Min(127 - MapSection.X, MapSection.Width);
+      MapSection.Height = Math.Min(127 - MapSection.Y, MapSection.Height);
+
       RebuildOccupancyList(cache, vfs);
       Dirty = true;
       InvalidateObjectDisplay?.Invoke();
       InvalidateTemplateDisplay?.Invoke();
+      action.SnapshotNew();
+      TrackedActions.Push(action);
     }
 
-    private void ClearObjectOnCell<T>(List<T> list, int cell, bool isWaypoint = false) where T : ILocatable
+    private int ClearObjectOnCell<T>(List<T> list, int cell, bool isWaypoint = false) where T : ILocatable
     {
+      int count = 0;
       for (int i = list.Count - 1; i >= 0; i--)
       {
         T item = list[i];
         if (item.Cell == cell)
         {
           if (!isWaypoint)
+          {
             list.RemoveAt(i);
+            count++;
+          }
           else
-            item.Cell = -1;
+          {
+            if (item.Cell != -1)
+            {
+              item.Cell = -1;
+              count++;
+            }
+          }
         }
       }
+      return count;
     }
 
-    private void Shift<T>(List<T> list, int x, int y, bool isWaypoint = false) where T : ILocatable
+    private int Shift<T>(List<T> list, int x, int y, bool isWaypoint = false) where T : ILocatable
     {
+      int count = 0;
       for (int i = list.Count - 1; i >= 0; i--)
       {
         T item = list[i];
@@ -585,16 +662,27 @@ namespace RA_Mission_Editor.MapData
           if (this.IsCellInMap(cx, cy))
           {
             item.Cell = this.CellNumber(cx, cy);
+            count++;
           }
           else
           {
             if (!isWaypoint)
+            {
               list.RemoveAt(i);
+              count++;
+            }
             else
-              item.Cell = -1;
+            {
+              if (item.Cell != -1)
+              {
+                item.Cell = -1;
+                count++;
+              }
+            }
           }
         }
       }
+      return count;
     }
 
     private void Shift<T>(T[] list, T[] defaultList, int x, int y)
@@ -625,9 +713,9 @@ namespace RA_Mission_Editor.MapData
       Array.Copy(copy, 0, list, 0, copy.Length);
     }
 
-    public List<IEntity> Pick(int x, int y)
+    public List<IEntity> Pick(int x, int y, int subcell)
     {
-      return MapOccupancyList.Pick(this, x, y);
+      return MapOccupancyList.Pick(this, x, y, subcell);
     }
 
     public void InsertEntity(MapCache cache, VirtualFileSystem vfs, PlaceEntityInfo entityInfo)
@@ -644,6 +732,10 @@ namespace RA_Mission_Editor.MapData
       {
         if (cache.GetOrOpen(tem.ID + tt.Extension, vfs, out TmpFile tmpFile))
         {
+          bool changed = false;
+          PaintTemplateAction action = new PaintTemplateAction(this, cache, vfs);
+          action.Description = "Paint Template '" + tem.ID + "'";
+          action.SnapshotOld();
           if (entityInfo.TemplateCell == 0xFF)
           {
             byte tile = 0;
@@ -654,8 +746,13 @@ namespace RA_Mission_Editor.MapData
                 {
                   if (cx + xd < Ext_MapSection.FullWidth && cy + yd < Ext_MapSection.FullHeight) // only paint within the map
                   {
-                    MapPackSection.Template[this.CellNumber(cx + xd, cy + yd)] = (ushort)Templates.GetID(tem.ID);
-                    MapPackSection.Tile[this.CellNumber(cx + xd, cy + yd)] = tile;
+                    if (MapPackSection.Template[this.CellNumber(cx + xd, cy + yd)] != (ushort)Templates.GetID(tem.ID)
+                      || MapPackSection.Tile[this.CellNumber(cx + xd, cy + yd)] != tile)
+                    {
+                      MapPackSection.Template[this.CellNumber(cx + xd, cy + yd)] = (ushort)Templates.GetID(tem.ID);
+                      MapPackSection.Tile[this.CellNumber(cx + xd, cy + yd)] = tile;
+                      changed = true;
+                    }
                   }
                 }
                 tile++;
@@ -666,33 +763,52 @@ namespace RA_Mission_Editor.MapData
             // place just a single cell
             if (entityInfo.TemplateCell < tmpFile.Images.Count && tmpFile.Images[entityInfo.TemplateCell] != null) // only replace tiles if there is an image
             {
-              MapPackSection.Template[this.CellNumber(cx, cy)] = (ushort)Templates.GetID(tem.ID);
-              MapPackSection.Tile[this.CellNumber(cx, cy)] = entityInfo.TemplateCell;
+              if (MapPackSection.Template[this.CellNumber(cx, cy)] != (ushort)Templates.GetID(tem.ID)
+               || MapPackSection.Tile[this.CellNumber(cx, cy)] != entityInfo.TemplateCell)
+              {
+                MapPackSection.Template[this.CellNumber(cx, cy)] = (ushort)Templates.GetID(tem.ID);
+                MapPackSection.Tile[this.CellNumber(cx, cy)] = entityInfo.TemplateCell;
+                changed = true;
+              }
             }
           }
-          MapOccupancyList.UpdateEntity(this, cache, vfs, tem);
+          if (changed)
+          {
+            MapOccupancyList.UpdateEntity(this, cache, vfs, tem);
+            action.SnapshotNew();
+            TrackedActions.Push(action);
+          }
         }
       }
       else if (entityInfo.Type is OverlayType ovl)
       {
         int id = Overlays.GetID(ovl.ID);
-        if (id >= 0)
+        if (id >= 0 && OverlayPackSection.Overlay[c] != (byte)id)
         {
+          PaintOverlayAction action = new PaintOverlayAction(this, cache, vfs);
+          action.Description = "Paint Overlay '" + ovl.ID + "'";
+          action.SnapshotOld();
           OverlayPackSection.Overlay[c] = (byte)id;
           MapOccupancyList.UpdateEntity(this, cache, vfs, ovl);
+          action.SnapshotNew();
+          TrackedActions.Push(action);
         }
       }
       else if (entityInfo.Type is TerrainType terr)
       {
         TerrainInfo terrain = new TerrainInfo() { ID = terr.ID, Cell = c };
+        InsertEntityAction<TerrainInfo> action = new InsertEntityAction<TerrainInfo>(this, cache, vfs, terrain, TerrainSection.EntityList);
         TerrainSection.EntityList.Add(terrain);
         MapOccupancyList.UpdateEntity(this, cache, vfs, terrain);
+        TrackedActions.Push(action);
       }
       else if (entityInfo.Type is SmudgeType smud)
       {
         SmudgeInfo smudge = new SmudgeInfo() { ID = smud.ID, Cell = c };
+        InsertEntityAction<SmudgeInfo> action = new InsertEntityAction<SmudgeInfo>(this, cache, vfs, smudge, SmudgeSection.EntityList);
         SmudgeSection.EntityList.Add(smudge);
         MapOccupancyList.UpdateEntity(this, cache, vfs, smudge);
+        TrackedActions.Push(action);
       }
       else if (entityInfo.Type is InfantryType inft)
       {
@@ -707,8 +823,10 @@ namespace RA_Mission_Editor.MapData
           Mission = entityInfo.Mission.Name,
           SubCell = entityInfo.SubCell
         };
+        InsertEntityAction<InfantryInfo> action = new InsertEntityAction<InfantryInfo>(this, cache, vfs, infantry, InfantrySection.EntityList);
         InfantrySection.EntityList.Add(infantry);
         MapOccupancyList.UpdateEntity(this, cache, vfs, infantry);
+        TrackedActions.Push(action);
       }
       else if (entityInfo.Type is UnitType unit)
       {
@@ -722,8 +840,10 @@ namespace RA_Mission_Editor.MapData
           Tag = entityInfo.Tag,
           Mission = entityInfo.Mission.Name
         };
+        InsertEntityAction<UnitInfo> action = new InsertEntityAction<UnitInfo>(this, cache, vfs, uinfo, UnitSection.EntityList);
         UnitSection.EntityList.Add(uinfo);
         MapOccupancyList.UpdateEntity(this, cache, vfs, uinfo);
+        TrackedActions.Push(action);
       }
       else if (entityInfo.Type is VesselType vessel)
       {
@@ -737,16 +857,22 @@ namespace RA_Mission_Editor.MapData
           Tag = entityInfo.Tag,
           Mission = entityInfo.Mission.Name
         };
+        InsertEntityAction<VesselInfo> action = new InsertEntityAction<VesselInfo>(this, cache, vfs, sinfo, VesselSection.EntityList);
         VesselSection.EntityList.Add(sinfo);
         MapOccupancyList.UpdateEntity(this, cache, vfs, sinfo);
+        TrackedActions.Push(action);
       }
       else if (entityInfo.Type is BuildingType building)
       {
         if (entityInfo.IsBase)
         {
           BaseInfo binfo = new BaseInfo() { ID = building.ID, Cell = c };
+          // theoretically, during undo the target BaseInfo should be at the last of the list, so no reordering of other BaseInfo is needed.
+          // if this fails, use BaseSectionSaveAction instead
+          InsertEntityAction<BaseInfo> action = new InsertEntityAction<BaseInfo>(this, cache, vfs, binfo, BaseSection.EntityList);
           BaseSection.EntityList.Add(binfo);
           MapOccupancyList.UpdateEntity(this, cache, vfs, binfo);
+          TrackedActions.Push(action);
         }
         else
         {
@@ -761,29 +887,59 @@ namespace RA_Mission_Editor.MapData
             AIRepairable = entityInfo.AIRepairable,
             AISellable = entityInfo.AISellable
           };
+          InsertEntityAction<BuildingInfo> action = new InsertEntityAction<BuildingInfo>(this, cache, vfs, sinfo, BuildingSection.EntityList);
           BuildingSection.EntityList.Add(sinfo);
           MapOccupancyList.UpdateEntity(this, cache, vfs, sinfo);
+          TrackedActions.Push(action);
         }
       }
       else if (entityInfo.Type is WaypointInfo wayp)
       {
+        MoveEntityAction<WaypointInfo> action = new MoveEntityAction<WaypointInfo>(this, cache, vfs, wayp, WaypointSection.WaypointList);
+        action.SnapshotOld();
         wayp.Cell = c;
         MapOccupancyList.UpdateEntity(this, cache, vfs, wayp);
+        action.SnapshotNew();
+        TrackedActions.Push(action);
       }
       else if (entityInfo.Type is CellTriggerInfo celt)
       {
-        CellTriggerInfo ncelt = new CellTriggerInfo(this)
+        string oldid = CellTriggerSection.Triggers[c]?.ID ?? null;
+        if (oldid != celt.ID)
         {
-           ID = celt.ID,
-           Cell = c
-        };
-        CellTriggerSection.Set(ncelt);
-        MapOccupancyList.UpdateEntity(this, cache, vfs, ncelt);
+          SetCellTriggerAction action = new SetCellTriggerAction(this, cache, vfs, c, oldid, celt.ID);
+          CellTriggerInfo ncelt = new CellTriggerInfo(this)
+          {
+            ID = celt.ID,
+            Cell = c
+          };
+          CellTriggerSection.Set(ncelt);
+          // remove existing celltrigger on same location
+          List<IEntity> rm = new List<IEntity>();
+          foreach (IEntity e in MapOccupancyList.Pick(this, MapHelper.CellX(this, c), MapHelper.CellY(this, c)))
+          {
+            if (e is CellTriggerInfo)
+            {
+              rm.Add(e);
+            }
+          }
+          foreach (IEntity e in rm)
+          {
+            MapOccupancyList.RemoveEntity(e);
+          }
+          MapOccupancyList.UpdateEntity(this, cache, vfs, ncelt);
+          TrackedActions.Push(action);
+        }
       }
       else if (entityInfo.Type is ExtractType extr)
       {
+        FullMapReplaceAction action = new FullMapReplaceAction(this, cache, vfs);
+        action.Description = "Paste Map Extract " + extr.ID;
+        action.SnapshotOld();
         extr.Extract.Paste(this, cx, cy);
         RebuildOccupancyList(cache, vfs);
+        action.SnapshotNew();
+        TrackedActions.Push(action);
       }
       Dirty = true;
     }
@@ -812,50 +968,69 @@ namespace RA_Mission_Editor.MapData
       }
       else if (entity is TerrainInfo terr)
       {
+        RemoveEntityAction<TerrainInfo> action = new RemoveEntityAction<TerrainInfo>(this, cache, vfs, terr, TerrainSection.EntityList);
         TerrainSection.EntityList.Remove(terr);
         MapOccupancyList.RemoveEntity(terr);
+        TrackedActions.Push(action);
       }
       else if (entity is SmudgeInfo smud)
       {
+        RemoveEntityAction<SmudgeInfo> action = new RemoveEntityAction<SmudgeInfo>(this, cache, vfs, smud, SmudgeSection.EntityList);
         SmudgeSection.EntityList.Remove(smud);
         MapOccupancyList.RemoveEntity(smud);
+        TrackedActions.Push(action);
       }
       else if (entity is InfantryInfo inft)
       {
+        RemoveEntityAction<InfantryInfo> action = new RemoveEntityAction<InfantryInfo>(this, cache, vfs, inft, InfantrySection.EntityList);
         InfantrySection.EntityList.Remove(inft);
         MapOccupancyList.RemoveEntity(inft);
+        TrackedActions.Push(action);
       }
       else if (entity is UnitInfo unit)
       {
+        RemoveEntityAction<UnitInfo> action = new RemoveEntityAction<UnitInfo>(this, cache, vfs, unit, UnitSection.EntityList);
         UnitSection.EntityList.Remove(unit);
         MapOccupancyList.RemoveEntity(unit);
+        TrackedActions.Push(action);
       }
       else if (entity is VesselInfo vessel)
       {
+        RemoveEntityAction<VesselInfo> action = new RemoveEntityAction<VesselInfo>(this, cache, vfs, vessel, VesselSection.EntityList);
         VesselSection.EntityList.Remove(vessel);
         MapOccupancyList.RemoveEntity(vessel);
+        TrackedActions.Push(action);
       }
       else if (entity is BaseInfo @base)
       {
+        RemoveEntityAction<BaseInfo> action = new RemoveEntityAction<BaseInfo>(this, cache, vfs, @base, BaseSection.EntityList);
         BaseSection.EntityList.Remove(@base);
         MapOccupancyList.RemoveEntity(@base);
+        TrackedActions.Push(action);
       }
       else if (entity is BuildingInfo building)
       {
+        RemoveEntityAction<BuildingInfo> action = new RemoveEntityAction<BuildingInfo>(this, cache, vfs, building, BuildingSection.EntityList);
         BuildingSection.EntityList.Remove(building);
         MapOccupancyList.RemoveEntity(building);
+        TrackedActions.Push(action);
       }
       else if (entity is WaypointInfo wayp)
       {
+        MoveEntityAction<WaypointInfo> action = new MoveEntityAction<WaypointInfo>(this, cache, vfs, wayp, WaypointSection.WaypointList);
+        action.SnapshotOld();
         wayp.Cell = -1;
         MapOccupancyList.RemoveEntity(wayp);
+        action.SnapshotNew();
+        TrackedActions.Push(action);
       }
       else if (entity is CellTriggerInfo celt)
       {
+        SetCellTriggerAction action = new SetCellTriggerAction(this, cache, vfs, celt.Cell, celt.ID, null);
         CellTriggerSection.Remove(celt.Cell);
         MapOccupancyList.RemoveEntity(celt);
+        TrackedActions.Push(action);
       }
-
       Dirty = true;
     }
   }

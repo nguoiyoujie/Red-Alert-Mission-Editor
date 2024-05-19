@@ -1,6 +1,7 @@
 ﻿using RA_Mission_Editor.Common;
 using RA_Mission_Editor.Entities;
 using RA_Mission_Editor.MapData;
+using RA_Mission_Editor.MapData.TrackedActions;
 using RA_Mission_Editor.RulesData;
 using RA_Mission_Editor.UI.Logic;
 using System;
@@ -561,6 +562,10 @@ namespace RA_Mission_Editor.UI.UserControls
         return false;
       }
 
+      TriggerSectionUpdateAction action = new TriggerSectionUpdateAction(Map, tbName.Text, Trigger.Name);
+      action.Description = "Modify Trigger " + tbName.Text;
+      action.SnapshotOld();
+
       string prevValue = Trigger.GetValueAsString(Map);
       string commentkey = Ext_CommentsSection.TriggerPrefix + Trigger.Name;
 
@@ -622,7 +627,12 @@ namespace RA_Mission_Editor.UI.UserControls
       }
 
       string thisValue = Trigger.GetValueAsString(Map);
-      if (commentChanged || prevValue != thisValue) { Map.Dirty = true; }
+      if (commentChanged || prevValue != thisValue) 
+      {
+        Map.Dirty = true;
+        action.SnapshotNew();
+        Map.TrackedActions.Push(action);
+      }
 
       return true;
     }

@@ -59,6 +59,8 @@ namespace RA_Mission_Editor.MapData
 
     public void Read(IniFile.IniSection section)
     {
+      Name = section.Name;
+
       TechLevel.Read(section);
       IQ.Read(section);
       Allies.Read(section);

@@ -1,5 +1,6 @@
 ﻿using RA_Mission_Editor.Entities;
 using RA_Mission_Editor.MapData;
+using RA_Mission_Editor.MapData.TrackedActions;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -39,6 +40,16 @@ namespace RA_Mission_Editor.UI.UserControls
 
       lboxTriggerList.Items.Clear();
       lboxTriggerList.Items.AddRange(Map.TriggerSection.TriggerList.ToArray());
+      if (selectedTrigger != null)
+      {
+        foreach (TriggerInfo item in Map.TriggerSection.TriggerList)
+        {
+          if (selectedTrigger.Name == item.Name)
+          {
+            selectedTrigger = item;
+          }
+        }
+      }
       lboxTriggerList.SelectedItem = selectedTrigger;
       ttControl.UpdateTriggerSelections();
     }
@@ -65,9 +76,14 @@ namespace RA_Mission_Editor.UI.UserControls
     {
       if (Map != null)
       {
+        TriggerSectionUpdateAction action = new TriggerSectionUpdateAction(Map);
+        action.Description = "Resort Triggers";
+        action.SnapshotOld();
         Map.TriggerSection.TriggerList.Sort(_comparer);
         Map.Dirty = true;
         Map.InvalidateSelectionList?.Invoke(EditorSelectMode.CellTriggers);
+        action.SnapshotNew();
+        Map.TrackedActions.Push(action);
         ResetList();
       }
     }
@@ -81,10 +97,15 @@ namespace RA_Mission_Editor.UI.UserControls
           int index = Map.TriggerSection.TriggerList.IndexOf(tinfo);
           if (index != -1 && index != 0)
           {
+            TriggerSectionUpdateAction action = new TriggerSectionUpdateAction(Map);
+            action.Description = "Move Up Trigger " + tinfo.Name;
+            action.SnapshotOld();
             Map.TriggerSection.TriggerList.RemoveAt(index);
             Map.TriggerSection.TriggerList.Insert(index - 1, tinfo);
             Map.Dirty = true;
             Map.InvalidateSelectionList?.Invoke(EditorSelectMode.CellTriggers);
+            action.SnapshotNew();
+            Map.TrackedActions.Push(action);
           }
           ResetList();
           lboxTriggerList.SelectedItem = tinfo;
@@ -101,10 +122,15 @@ namespace RA_Mission_Editor.UI.UserControls
           int index = Map.TriggerSection.TriggerList.IndexOf(tinfo);
           if (index != -1 && index != Map.TriggerSection.TriggerList.Count - 1)
           {
+            TriggerSectionUpdateAction action = new TriggerSectionUpdateAction(Map);
+            action.Description = "Move Down Trigger " + tinfo.Name;
+            action.SnapshotOld();
             Map.TriggerSection.TriggerList.RemoveAt(index);
             Map.TriggerSection.TriggerList.Insert(index + 1, tinfo);
             Map.Dirty = true;
             Map.InvalidateSelectionList?.Invoke(EditorSelectMode.CellTriggers);
+            action.SnapshotNew();
+            Map.TrackedActions.Push(action);
           }
           ResetList();
           lboxTriggerList.SelectedItem = tinfo;
@@ -119,7 +145,7 @@ namespace RA_Mission_Editor.UI.UserControls
       string name = "x";
       while (!available)
       {
-        name = $"x {runningnum:000}";
+        name = $"x_{runningnum:000}";
         if (Map.TriggerSection.TriggerList.FindIndex((t) => t.Name.Equals(name, StringComparison.OrdinalIgnoreCase)) == -1)
         {
           available = true;
@@ -127,9 +153,14 @@ namespace RA_Mission_Editor.UI.UserControls
         else runningnum++;
       }
       TriggerInfo tinfo = new TriggerInfo() { Name = name };
+      TriggerSectionUpdateAction action = new TriggerSectionUpdateAction(Map);
+      action.Description = "New Trigger " + tinfo.Name;
+      action.SnapshotOld();
       Map.TriggerSection.TriggerList.Add(tinfo);
       Map.Dirty = true;
       Map.InvalidateSelectionList?.Invoke(EditorSelectMode.CellTriggers);
+      action.SnapshotNew();
+      Map.TrackedActions.Push(action);
       ResetList();
       lboxTriggerList.SelectedItem = tinfo;
     }
@@ -143,9 +174,14 @@ namespace RA_Mission_Editor.UI.UserControls
           int index = Map.TriggerSection.TriggerList.IndexOf(tinfo);
           if (index != -1)
           {
+            TriggerSectionUpdateAction action = new TriggerSectionUpdateAction(Map);
+            action.Description = "Delete Trigger " + tinfo.Name;
+            action.SnapshotOld();
             Map.TriggerSection.TriggerList.RemoveAt(index);
             Map.Dirty = true;
             Map.InvalidateSelectionList?.Invoke(EditorSelectMode.CellTriggers);
+            action.SnapshotNew();
+            Map.TrackedActions.Push(action);
           }
           ResetList();
           if (index != -1 && index < lboxTriggerList.Items.Count)
@@ -170,7 +206,7 @@ namespace RA_Mission_Editor.UI.UserControls
           string name = "x";
           while (!available)
           {
-            name = $"x {runningnum:000}";
+            name = $"x_{runningnum:000}";
             if (Map.TriggerSection.TriggerList.FindIndex((t) => t.Name.Equals(name, StringComparison.OrdinalIgnoreCase)) == -1)
             {
               available = true;
@@ -179,9 +215,14 @@ namespace RA_Mission_Editor.UI.UserControls
           }
           dupinfo.Name = name;
           dupinfo.ParseValue(Map, val);
+          TriggerSectionUpdateAction action = new TriggerSectionUpdateAction(Map);
+          action.Description = "Duplicate Trigger " + name;
+          action.SnapshotOld();
           Map.TriggerSection.TriggerList.Add(dupinfo);
           Map.Dirty = true;
           Map.InvalidateSelectionList?.Invoke(EditorSelectMode.CellTriggers);
+          action.SnapshotNew();
+          Map.TrackedActions.Push(action);
           ResetList();
           lboxTriggerList.SelectedItem = dupinfo;
         }

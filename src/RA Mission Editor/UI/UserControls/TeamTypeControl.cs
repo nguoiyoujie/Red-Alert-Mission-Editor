@@ -1,5 +1,7 @@
 ﻿using RA_Mission_Editor.Entities;
 using RA_Mission_Editor.MapData;
+using RA_Mission_Editor.MapData.TrackedActions;
+using RA_Mission_Editor.Renderers;
 using RA_Mission_Editor.RulesData;
 using RA_Mission_Editor.UI.Dialogs;
 using RA_Mission_Editor.UI.Logic;
@@ -55,6 +57,7 @@ namespace RA_Mission_Editor.UI.UserControls
     private List<TeamTypeInfo.ScriptInfo> _scripts = new List<TeamTypeInfo.ScriptInfo>();
     private List<TeamTypeInfo.TechnoCountInfo> _technoList = new List<TeamTypeInfo.TechnoCountInfo>();
     private bool _suspendDirty = false;
+    private MapCanvas _canvas = null;
     public NotifyDelegate TeamTypeUpdated;
 
     public void UpdateTriggerSelections()
@@ -116,6 +119,10 @@ namespace RA_Mission_Editor.UI.UserControls
       DirtyControlsHandler.ResetDirtyColor(this);
       _suspendDirty = false;
       bCancel.Enabled = false;
+    }
+    public void AttachRenderer(MapCanvas canvas)
+    {
+      _canvas = canvas;
     }
 
     public bool IsDirty
@@ -376,8 +383,21 @@ namespace RA_Mission_Editor.UI.UserControls
         return false;
       }
 
+      bool hasCellTarget = false;
+      foreach (var step in TeamType.ScriptList)
+      {
+        if (step.ScriptType == 4 && step.Parameter.Value is int c) // hardcoded: "04 - Move To Cell"
+        {
+          hasCellTarget = true;
+          break;
+        }
+      }
+
       string prevValue = TeamType.GetValueAsString(Map);
       string commentkey = Ext_CommentsSection.TeamTypePrefix + TeamType.Name;
+      TeamTypeSectionUpdateAction action = new TeamTypeSectionUpdateAction(Map, tbName.Text, TeamType.Name);
+      action.Description = "Modify TeamType " + tbName.Text;
+      action.SnapshotOld();
 
       if (TeamType.Name != tbName.Text)
       {
@@ -417,8 +437,28 @@ namespace RA_Mission_Editor.UI.UserControls
       }
 
       string thisValue = TeamType.GetValueAsString(Map);
-      if (commentChanged || prevValue != thisValue) { Map.Dirty = true; }
+      if (commentChanged || prevValue != thisValue) 
+      {
+        action.SnapshotNew();
+        Map.TrackedActions.Push(action);
+      }
 
+      if (!hasCellTarget)
+      {
+        foreach (var step in TeamType.ScriptList)
+        {
+          if (step.ScriptType == 4 && step.Parameter.Value is int c) // hardcoded: "04 - Move To Cell"
+          {
+            hasCellTarget = true;
+            break;
+          }
+        }
+      }
+
+      if (hasCellTarget)
+      {
+        _canvas?.SetDirty();
+      }
       return true;
     }
 

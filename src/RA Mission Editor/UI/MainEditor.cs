@@ -2,6 +2,7 @@
 using RA_Mission_Editor.Entities;
 using RA_Mission_Editor.FileFormats;
 using RA_Mission_Editor.MapData;
+using RA_Mission_Editor.MapData.TrackedActions;
 using RA_Mission_Editor.Renderers;
 using RA_Mission_Editor.RulesData;
 using RA_Mission_Editor.UI.Dialogs;
@@ -14,14 +15,11 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net.Sockets;
 using System.Text;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace RA_Mission_Editor.UI
 {
-
   public partial class MainEditor : Form
   {
     const string cacheDir = "cache";
@@ -39,6 +37,8 @@ namespace RA_Mission_Editor.UI
     private float[] _zooms = new float[] { 0.5f, 1, 2, 4 };
     private int _dragSelectionX = -1;
     private int _dragSelectionY = -1;
+    private IEntity _dragEntity = null;
+    private ITrackedSnapshotAction _dragObjectAction = null;
 
     private Stopwatch _drawStopwatch = new Stopwatch();
 
@@ -118,7 +118,9 @@ namespace RA_Mission_Editor.UI
       MainModel.CurrentMap.InvalidateObjectDisplay = pbMapCanvas.Renderer.SetDirty;
       MainModel.CurrentMap.InvalidateObjectDisplay += RefreshObjectCanvas;
       MainModel.CurrentMap.InvalidateTemplateDisplay = pbMapCanvas.Renderer.SetTemplateDirty;
+      MainModel.CurrentMap.UndoRedoChanged = UpdateUndoRedoUI;
       UpdateUI();
+      UpdateUndoRedoUI();
     }
 
     public void Draw()
@@ -151,6 +153,14 @@ namespace RA_Mission_Editor.UI
       {
         menuStrip1.BackColor = Color.Silver;
       }
+    }
+
+    private void UpdateUndoRedoUI()
+    { 
+      undoToolStripMenuItem.Enabled = MainModel.CurrentMap?.TrackedActions.CanUndo() ?? false;
+      redoToolStripMenuItem.Enabled = MainModel.CurrentMap?.TrackedActions.CanRedo() ?? false;
+      undoToolStripMenuItem.Text = "Undo " + MainModel.CurrentMap?.TrackedActions.PeekUndo()?.Description ?? null;
+      redoToolStripMenuItem.Text = "Redo " + MainModel.CurrentMap?.TrackedActions.PeekRedo()?.Description ?? null;
     }
 
     public void OnClose()
@@ -254,6 +264,43 @@ namespace RA_Mission_Editor.UI
       IEntity pickentity = MainModel.PickEntity;
       if (pickentity != null && pickentity is ILocatable loce && button == MouseButtons.Right)
       {
+        if (_dragEntity != pickentity)
+        {
+          _dragEntity = pickentity;
+          if (pickentity is TerrainInfo terr)
+          {
+            _dragObjectAction = new MoveEntityAction<TerrainInfo>(MainModel.CurrentMap, MainModel.Cache, MainModel.GameFileSystem, terr, MainModel.CurrentMap.TerrainSection.EntityList);
+          }
+          else if (pickentity is SmudgeInfo smud)
+          {
+            _dragObjectAction = new MoveEntityAction<SmudgeInfo>(MainModel.CurrentMap, MainModel.Cache, MainModel.GameFileSystem, smud, MainModel.CurrentMap.SmudgeSection.EntityList);
+          }
+          else if (pickentity is InfantryInfo inft)
+          {
+            _dragObjectAction = new MoveEntityAction<InfantryInfo>(MainModel.CurrentMap, MainModel.Cache, MainModel.GameFileSystem, inft, MainModel.CurrentMap.InfantrySection.EntityList);
+          }
+          else if (pickentity is UnitInfo unit)
+          {
+            _dragObjectAction = new MoveEntityAction<UnitInfo>(MainModel.CurrentMap, MainModel.Cache, MainModel.GameFileSystem, unit, MainModel.CurrentMap.UnitSection.EntityList);
+          }
+          else if (pickentity is VesselInfo vessel)
+          {
+            _dragObjectAction = new MoveEntityAction<VesselInfo>(MainModel.CurrentMap, MainModel.Cache, MainModel.GameFileSystem, vessel, MainModel.CurrentMap.VesselSection.EntityList);
+          }
+          else if (pickentity is BaseInfo @base)
+          {
+            _dragObjectAction = new MoveEntityAction<BaseInfo>(MainModel.CurrentMap, MainModel.Cache, MainModel.GameFileSystem, @base, MainModel.CurrentMap.BaseSection.EntityList);
+          }
+          else if (pickentity is BuildingInfo building)
+          {
+            _dragObjectAction = new MoveEntityAction<BuildingInfo>(MainModel.CurrentMap, MainModel.Cache, MainModel.GameFileSystem, building, MainModel.CurrentMap.BuildingSection.EntityList);
+          }
+          else if (pickentity is WaypointInfo wayp)
+          {
+            _dragObjectAction = new MoveEntityAction<WaypointInfo>(MainModel.CurrentMap, MainModel.Cache, MainModel.GameFileSystem, wayp, MainModel.CurrentMap.WaypointSection.WaypointList);
+          }
+          _dragObjectAction.SnapshotOld();
+        }
         // drag and hold
         bool changed = false;
         int c = MainModel.CurrentMap.CellNumber(x, y);
@@ -314,7 +361,7 @@ namespace RA_Mission_Editor.UI
       tssCellOverlayInfo.Text = "";
       _cellInfosb.Clear();
       _toolTipsb.Clear();
-      foreach (IEntity entity in MainModel.DoPick(x, y))
+      foreach (IEntity entity in MainModel.DoPick(x, y, subcell))
       {
         if (entity is TemplateType tem)
         {
@@ -508,6 +555,14 @@ namespace RA_Mission_Editor.UI
           MainModel.CurrentMap.Update();
         }
 
+        if (_dragObjectAction != null)
+        {
+          _dragObjectAction.SnapshotNew();
+          MainModel.CurrentMap.TrackedActions.Push(_dragObjectAction);
+          _dragObjectAction = null;
+          _dragEntity = null;
+        }
+
         MapPickDialog mpd = DialogFunctions.GetMapPickDialog();
         if (mpd != null)
         {
@@ -566,11 +621,11 @@ namespace RA_Mission_Editor.UI
 
         // edit
         int i = 0;
-        foreach (IEntity entity in MainModel.CurrentMap.Pick(x, y))
+        foreach (IEntity entity in MainModel.CurrentMap.Pick(x, y, subcell))
         {
-          // filter out infantry in other subcells
-          if (entity is InfantryInfo iinfo && iinfo.SubCell != subcell)
-            continue;
+          // filter out infantry in other subcells // filter is now implemented in Pick
+          //if (entity is InfantryInfo iinfo && iinfo.SubCell != subcell)
+          //  continue;
 
           if (entity.GetEntityType(MainModel.CurrentMap.AttachedRules) is ITechnoType)
           {
@@ -1007,8 +1062,9 @@ namespace RA_Mission_Editor.UI
 
     private void triggersToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      EditorDialog etd = DialogFunctions.GetEditorDialog() ?? new EditorDialog();
+      EditorDialog etd = DialogFunctions.GetEditorDialog() ?? new EditorDialog(this);
       etd.Owner = this;
+      etd.AttachRenderer(pbMapCanvas.Renderer);
       etd.SetMap(MainModel.CurrentMap);
       etd.SetSelectionToTriggers();
       etd.Show();
@@ -1016,7 +1072,7 @@ namespace RA_Mission_Editor.UI
 
     private void teamTypesToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      EditorDialog etd = DialogFunctions.GetEditorDialog() ?? new EditorDialog();
+      EditorDialog etd = DialogFunctions.GetEditorDialog() ?? new EditorDialog(this);
       etd.Owner = this;
       etd.SetMap(MainModel.CurrentMap);
       etd.SetSelectionToTeamTypes();
@@ -1025,7 +1081,7 @@ namespace RA_Mission_Editor.UI
 
     private void basicToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      EditorDialog ebd = DialogFunctions.GetEditorDialog() ?? new EditorDialog();
+      EditorDialog ebd = DialogFunctions.GetEditorDialog() ?? new EditorDialog(this);
       ebd.Owner = this;
       ebd.SetMap(MainModel.CurrentMap);
       ebd.SetSelectionToBasic();
@@ -1034,7 +1090,7 @@ namespace RA_Mission_Editor.UI
 
     private void housesToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      EditorDialog ehd = DialogFunctions.GetEditorDialog() ?? new EditorDialog();
+      EditorDialog ehd = DialogFunctions.GetEditorDialog() ?? new EditorDialog(this);
       ehd.Owner = this;
       ehd.SetMap(MainModel.CurrentMap);
       ehd.SetSelectionToHouses();
@@ -1047,7 +1103,7 @@ namespace RA_Mission_Editor.UI
 
     private void missionStringsToolStripMenuItem_Click(object sender, EventArgs e)
     {
-      EditorDialog ebd = DialogFunctions.GetEditorDialog() ?? new EditorDialog();
+      EditorDialog ebd = DialogFunctions.GetEditorDialog() ?? new EditorDialog(this);
       ebd.Owner = this;
       ebd.SetMap(MainModel.CurrentMap);
       ebd.SetSelectionToTutorial();
@@ -1140,6 +1196,12 @@ namespace RA_Mission_Editor.UI
     {
       basesToolStripMenuItem.Checked = !basesToolStripMenuItem.Checked;
       pbMapCanvas.Renderer.SetVisible(MapCanvas.LayerType.Bases, basesToolStripMenuItem.Checked);
+    }
+
+    private void scriptTypeCellTargetsToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      scriptTypeCellTargetsToolStripMenuItem.Checked = !scriptTypeCellTargetsToolStripMenuItem.Checked;
+      pbMapCanvas.Renderer.SetVisible(MapCanvas.LayerType.ScriptTypeCellTargets, scriptTypeCellTargetsToolStripMenuItem.Checked);
     }
 
     private void waypointsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1306,13 +1368,15 @@ namespace RA_Mission_Editor.UI
       {
         IniFile f = new IniFile(str);
         MapExtract mapext = new MapExtract(f);
+        mapext.DisplayName = "Clipboard";
 
         //IniFile f = new IniFile();
         Map map = MainModel.CurrentMap;
         int cell = map.LastClickedCell;
         if (map.IsCellInMap(cell))
         {
-          mapext.Paste(map, map.CellX(cell), map.CellY(cell));
+          map.InsertEntity(MainModel.Cache, MainModel.GameFileSystem, new PlaceEntityInfo(new ExtractType(mapext), map.CellX(cell), map.CellY(cell)));
+          //mapext.Paste(map, map.CellX(cell), map.CellY(cell));
           map.RebuildOccupancyList(MainModel.Cache, MainModel.GameFileSystem);
           map.Dirty = true;
           pbMapCanvas.Renderer.SetTemplateDirty();
@@ -1343,7 +1407,7 @@ namespace RA_Mission_Editor.UI
     private void clearTemplateInSelectionToolStripMenuItem_Click(object sender, EventArgs e)
     {
       Map map = MainModel.CurrentMap;
-      map.ClearTemplateOnCells(MainModel.SelectedCellsList);
+      map.ClearTemplateOnCells(MainModel.Cache, MainModel.GameFileSystem, MainModel.SelectedCellsList);
       pbMapCanvas.Renderer.SetTemplateDirty();
     }
 
@@ -1412,6 +1476,23 @@ namespace RA_Mission_Editor.UI
       OtherEditorDialog oehd = DialogFunctions.GetOtherEditorDialog() ?? new OtherEditorDialog();
       oehd.Owner = this;
       oehd.Show();
+    }
+    private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      if (MainModel.CurrentMap != null)
+      {
+        MainModel.CurrentMap.TrackedActions?.Undo();
+        DialogFunctions.GetEditorDialog()?.SetMap(MainModel.CurrentMap);
+      }
+    }
+
+    private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      if (MainModel.CurrentMap != null)
+      {
+        MainModel.CurrentMap.TrackedActions?.Redo();
+        DialogFunctions.GetEditorDialog()?.SetMap(MainModel.CurrentMap);
+      }
     }
   }
 }

@@ -1,4 +1,5 @@
 ﻿using RA_Mission_Editor.MapData;
+using RA_Mission_Editor.MapData.TrackedActions;
 using RA_Mission_Editor.RulesData;
 using System;
 using System.Windows.Forms;
@@ -59,6 +60,12 @@ namespace RA_Mission_Editor.UI.Dialogs
       DialogResult = DialogResult.OK;
       if (MapSection == null) { MapSection = new MapSection(); }
       bool modified = false;
+      MapSectionUpdateAction action = null;
+      if (Map != null)
+      {
+        action = new MapSectionUpdateAction(Map);
+        action.SnapshotOld();
+      }
       if (MapSection.Theater != ((TheaterType)cbTheater.SelectedItem).Name)
       {
         MapSection.Theater = ((TheaterType)cbTheater.SelectedItem).Name;
@@ -71,7 +78,8 @@ namespace RA_Mission_Editor.UI.Dialogs
       }
       if (MapSection.Y != (int)nudY.Value)
       {
-        MapSection.Y = (int)nudY.Value; modified = true;
+        MapSection.Y = (int)nudY.Value; 
+        modified = true;
       }
       if (MapSection.Width != (int)nudW.Value)
       {
@@ -86,6 +94,9 @@ namespace RA_Mission_Editor.UI.Dialogs
       if (modified && Map != null)
       {
         Map.Dirty = true;
+        Map.InvalidateTemplateDisplay?.Invoke();
+        action.SnapshotNew();
+        Map.TrackedActions.Push(action);
       }
       Close();
     }

@@ -341,11 +341,36 @@ namespace RA_Mission_Editor.MapData
     }
 
     List<IEntity> _empty = new List<IEntity>();
-    public List<IEntity> Pick(Map map, int x, int y)
+    public List<IEntity> Pick(Map map, int x, int y, int subcell = -1)
     {
       int c = map.CellNumber(x, y);
       if (c >= 0 && c < OccupancyList.Length)
       {
+        // check if any object occupies a different subcell (infantry), if so, create a new list to filter
+        if (subcell != -1)
+        {
+          bool filter = false;
+          foreach (IEntity e in OccupancyList[c])
+          {
+            if (e is InfantryInfo iinfo && iinfo.SubCell != subcell)
+            {
+              filter = true;
+              break;
+            }
+          }
+          if (filter)
+          {
+            List<IEntity> result = new List<IEntity>(OccupancyList[c]);
+            foreach (IEntity e in OccupancyList[c])
+            {
+              if (e is InfantryInfo iinfo && iinfo.SubCell != subcell)
+              {
+                result.Remove(e);
+              }
+            }
+            return result;
+          }
+        }
         return OccupancyList[c];
       }
       return _empty;

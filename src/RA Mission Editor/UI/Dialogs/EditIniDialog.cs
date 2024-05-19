@@ -1,5 +1,6 @@
 ﻿using RA_Mission_Editor.FileFormats;
 using RA_Mission_Editor.MapData;
+using RA_Mission_Editor.MapData.TrackedActions;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -76,10 +77,11 @@ namespace RA_Mission_Editor.UI.Dialogs
       string key = lboxKeys.SelectedItem as string;
       if (key != null && section != null)
       {
+        GenericIniSectionSaveAction action = new GenericIniSectionSaveAction(Map, GenericIniSectionSaveAction.ModifyType.SETKEY, section.Name, key, tbValue.Text);
         section.SetValue(key, tbValue.Text);
         Map.Dirty = true;
+        Map.TrackedActions.Push(action);
       }
-
       tbValue.ForeColor = SystemColors.ControlText;
     }
 
@@ -89,8 +91,10 @@ namespace RA_Mission_Editor.UI.Dialogs
       nsd.ForbiddenKeys = new List<string>(Map.SourceFile.Sections.Select((s) => s.Name));
       if (nsd.ShowDialog() == DialogResult.OK)
       {
+        GenericIniSectionSaveAction action = new GenericIniSectionSaveAction(Map, GenericIniSectionSaveAction.ModifyType.ADDSECTION, nsd.Section);
         Map.SourceFile.GetOrCreateSection(nsd.Section);
         Map.Dirty = true;
+        Map.TrackedActions.Push(action);
         SetMap(Map);
         cbSection.SelectedItem = Map.SourceFile.GetSection(nsd.Section);
       }
@@ -105,8 +109,10 @@ namespace RA_Mission_Editor.UI.Dialogs
         nkd.ForbiddenKeys = new List<string>(section.SortedEntries.Keys);
         if (nkd.ShowDialog() == DialogResult.OK)
         {
+          GenericIniSectionSaveAction action = new GenericIniSectionSaveAction(Map, GenericIniSectionSaveAction.ModifyType.SETKEY, section.Name, nkd.Key, nkd.Value);
           section.SetValue(nkd.Key, nkd.Value);
           Map.Dirty = true;
+          Map.TrackedActions.Push(action);
           cbSection_SelectedIndexChanged(null, null);
           lboxKeys.SelectedItem = nkd.Key;
         }
@@ -120,8 +126,10 @@ namespace RA_Mission_Editor.UI.Dialogs
       {
         if (MessageBox.Show("Are you sure you want to delete this section?", "Delete INI Section", MessageBoxButtons.YesNo) == DialogResult.Yes)
         {
+          GenericIniSectionSaveAction action = new GenericIniSectionSaveAction(Map, GenericIniSectionSaveAction.ModifyType.REMOVESECTION, section.Name);
           Map.SourceFile.Sections.Remove(section);
           Map.Dirty = true;
+          Map.TrackedActions.Push(action);
           SetMap(Map);
           cbSection.SelectedItem = null;
         }
@@ -136,8 +144,11 @@ namespace RA_Mission_Editor.UI.Dialogs
       {
         if (MessageBox.Show("Are you sure you want to delete this key?", "Delete INI Key", MessageBoxButtons.YesNo) == DialogResult.Yes)
         {
-          section.OrderedEntries.RemoveAll((kvp) => kvp.Key == key);
+          GenericIniSectionSaveAction action = new GenericIniSectionSaveAction(Map, GenericIniSectionSaveAction.ModifyType.REMOVEKEY, section.Name, key);
+          section.RemoveValue(key);
           Map.Dirty = true;
+          Map.TrackedActions.Push(action);
+          SetMap(Map);
           cbSection_SelectedIndexChanged(null, null);
         }
       }

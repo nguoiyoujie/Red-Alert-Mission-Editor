@@ -1,4 +1,5 @@
 ﻿using RA_Mission_Editor.MapData;
+using RA_Mission_Editor.Renderers;
 using System;
 using System.Windows.Forms;
 
@@ -6,12 +7,15 @@ namespace RA_Mission_Editor.UI.Dialogs
 {
   public partial class EditorDialog : Form
   {
-    public EditorDialog()
+    public EditorDialog(MainEditor form)
     {
       InitializeComponent();
+      Form = form;
     }
 
     public Map Map { get; private set; }
+    public MainEditor Form { get; }
+
 
     public void SetMap(Map map)
     {
@@ -24,6 +28,11 @@ namespace RA_Mission_Editor.UI.Dialogs
       ttControl_Globals.SetMap(map);
       ttControl_Reference.SetMap(map);
       RefreshTab();
+    }
+
+    public void AttachRenderer(MapCanvas canvas) 
+    {
+      ttControl_TeamTypes.AttachRenderer(canvas);
     }
 
     public void SetSelectionToBasic()
@@ -61,7 +70,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       RefreshTab();
     }
 
-    private void RefreshTab()
+    public void RefreshTab()
     { 
       if (Map == null) { return; }
       else if (tabSelection.SelectedTab == pageBasic)

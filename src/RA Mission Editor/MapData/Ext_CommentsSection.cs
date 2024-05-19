@@ -15,7 +15,6 @@ namespace RA_Mission_Editor.MapData
     public const string TriggerPrefix = "TRIG:";
     public const string TeamTypePrefix = "TEAM:";
     public const string GlobalsPrefix = "GLOB:";
-    //public const string TriggerPrefix = "TRIG:";
 
     public void Read(IniFile.IniSection section)
     {

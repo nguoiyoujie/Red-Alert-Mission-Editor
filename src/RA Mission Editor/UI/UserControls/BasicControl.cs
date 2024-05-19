@@ -1,5 +1,6 @@
 ﻿using RA_Mission_Editor.Entities;
 using RA_Mission_Editor.MapData;
+using RA_Mission_Editor.MapData.TrackedActions;
 using RA_Mission_Editor.RulesData;
 using RA_Mission_Editor.UI.Logic;
 using RA_Mission_Editor.Util;
@@ -107,9 +108,12 @@ namespace RA_Mission_Editor.UI.UserControls
       bCancel.Enabled = false;
     }
 
-    public bool Save()
+    public void Save()
     {
+      BasicSectionSaveAction action = new BasicSectionSaveAction(Map);
+      action.SnapshotOld();
       BasicSection s = Map.BasicSection;
+
       s.Name.Set(tbName.Text);
       if (cbPlayer.SelectedItem is HouseType htype) { s.Player.Set(htype.Name); } else { s.Player.Set(Map.AttachedRules.Houses.GetHouse(0).Name); }
       if (cbTheme.SelectedItem is string sTheme) { s.Theme.Set(sTheme); } else { s.Theme.Clear(); }
@@ -164,7 +168,9 @@ namespace RA_Mission_Editor.UI.UserControls
 
       Map.BriefingSection.Briefing = tbBriefing.Text;
       Map.Dirty = true;
-      return true;
+
+      action.SnapshotNew();
+      Map.TrackedActions.Push(action);
     }
 
     private void bCancel_Click(object sender, EventArgs e)
@@ -174,11 +180,9 @@ namespace RA_Mission_Editor.UI.UserControls
 
     private void bOK_Click(object sender, EventArgs e)
     {
-      if (Save())
-      {
-        Map.Update();
-        SetMap(Map);
-      }
+      Save();
+      Map.Update();
+      SetMap(Map);
     }
 
     private void cbEnableIranOverrides_CheckedChanged(object sender, EventArgs e)

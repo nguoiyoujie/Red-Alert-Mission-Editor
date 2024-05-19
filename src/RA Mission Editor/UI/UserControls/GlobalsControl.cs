@@ -1,4 +1,5 @@
 ﻿using RA_Mission_Editor.MapData;
+using RA_Mission_Editor.MapData.TrackedActions;
 using RA_Mission_Editor.UI.Logic;
 using System;
 using System.Text;
@@ -91,8 +92,10 @@ namespace RA_Mission_Editor.UI.UserControls
     private void bSet_Click(object sender, EventArgs e)
     {
       string extkey = Ext_CommentsSection.GlobalsPrefix + ((int)nudIndex.Value).ToString();
+      GenericCommentSaveAction action = new GenericCommentSaveAction(Map, extkey, tbLine.Text);
       Map.Ext_CommentsSection.Put(extkey, tbLine.Text);
       Map.Dirty = true;
+      Map.TrackedActions.Push(action);
       RefreshText();
       RefreshLine();
     }
@@ -100,8 +103,10 @@ namespace RA_Mission_Editor.UI.UserControls
     private void bDelete_Click(object sender, EventArgs e)
     {
       string extkey = Ext_CommentsSection.GlobalsPrefix + ((int)nudIndex.Value).ToString();
+      GenericCommentSaveAction action = new GenericCommentSaveAction(Map, extkey, null);
       Map.Ext_CommentsSection.Remove(extkey);
       Map.Dirty = true;
+      Map.TrackedActions.Push(action);
       RefreshText();
       RefreshLine();
     }

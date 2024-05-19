@@ -1,5 +1,7 @@
 ﻿using RA_Mission_Editor.Entities;
 using RA_Mission_Editor.MapData;
+using RA_Mission_Editor.MapData.TrackedActions;
+using RA_Mission_Editor.Renderers;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -32,6 +34,10 @@ namespace RA_Mission_Editor.UI.UserControls
       ttControl.SetMap(map);
       ResetList();
     }
+    public void AttachRenderer(MapCanvas canvas)
+    {
+      ttControl.AttachRenderer(canvas);
+    }
 
     public void ResetList()
     {
@@ -39,6 +45,16 @@ namespace RA_Mission_Editor.UI.UserControls
 
       lboxTeamTypeList.Items.Clear();
       lboxTeamTypeList.Items.AddRange(Map.TeamTypeSection.TeamTypeList.ToArray());
+      if (selectedTeamType != null)
+      {
+        foreach (TeamTypeInfo item in Map.TeamTypeSection.TeamTypeList)
+        {
+          if (selectedTeamType.Name == item.Name)
+          {
+            selectedTeamType = item;
+          }
+        }
+      }
       lboxTeamTypeList.SelectedItem = selectedTeamType;
     }
 
@@ -64,8 +80,13 @@ namespace RA_Mission_Editor.UI.UserControls
     {
       if (Map != null)
       {
+        TeamTypeSectionUpdateAction action = new TeamTypeSectionUpdateAction(Map);
+        action.Description = "Resort Teamtypes";
+        action.SnapshotOld();
         Map.TeamTypeSection.TeamTypeList.Sort(_comparer);
         Map.Dirty = true;
+        action.SnapshotNew();
+        Map.TrackedActions.Push(action);
         ResetList();
       }
     }
@@ -79,8 +100,13 @@ namespace RA_Mission_Editor.UI.UserControls
           int index = Map.TeamTypeSection.TeamTypeList.IndexOf(tinfo);
           if (index != -1 && index != 0)
           {
+            TeamTypeSectionUpdateAction action = new TeamTypeSectionUpdateAction(Map);
+            action.Description = "Move Up Teamtype " + tinfo.Name;
+            action.SnapshotOld();
             Map.TeamTypeSection.TeamTypeList.RemoveAt(index);
             Map.TeamTypeSection.TeamTypeList.Insert(index - 1, tinfo);
+            action.SnapshotNew();
+            Map.TrackedActions.Push(action);
           }
           Map.Dirty = true;
           ResetList();
@@ -98,8 +124,13 @@ namespace RA_Mission_Editor.UI.UserControls
           int index = Map.TeamTypeSection.TeamTypeList.IndexOf(tinfo);
           if (index != -1 && index != Map.TeamTypeSection.TeamTypeList.Count - 1)
           {
+            TeamTypeSectionUpdateAction action = new TeamTypeSectionUpdateAction(Map);
+            action.Description = "Move Down Teamtype " + tinfo.Name;
+            action.SnapshotOld();
             Map.TeamTypeSection.TeamTypeList.RemoveAt(index);
             Map.TeamTypeSection.TeamTypeList.Insert(index + 1, tinfo);
+            action.SnapshotNew();
+            Map.TrackedActions.Push(action);
           }
           Map.Dirty = true;
           ResetList();
@@ -115,7 +146,7 @@ namespace RA_Mission_Editor.UI.UserControls
       string name = "x";
       while (!available)
       {
-        name = $"x {runningnum:000}";
+        name = $"x_{runningnum:000}";
         if (Map.TeamTypeSection.TeamTypeList.FindIndex((t) => t.Name.Equals(name, StringComparison.OrdinalIgnoreCase)) == -1)
         {
           available = true;
@@ -124,8 +155,13 @@ namespace RA_Mission_Editor.UI.UserControls
       }
       TeamTypeInfo tinfo = new TeamTypeInfo();
       tinfo.Name = name;
+      TeamTypeSectionUpdateAction action = new TeamTypeSectionUpdateAction(Map);
+      action.Description = "New Teamtype " + tinfo.Name;
+      action.SnapshotOld();
       Map.TeamTypeSection.TeamTypeList.Add(tinfo);
       Map.Dirty = true;
+      action.SnapshotNew();
+      Map.TrackedActions.Push(action);
       ResetList();
       lboxTeamTypeList.SelectedItem = tinfo;
     }
@@ -139,8 +175,13 @@ namespace RA_Mission_Editor.UI.UserControls
           int index = Map.TeamTypeSection.TeamTypeList.IndexOf(tinfo);
           if (index != -1)
           {
+            TeamTypeSectionUpdateAction action = new TeamTypeSectionUpdateAction(Map);
+            action.Description = "Delete Teamtype " + tinfo.Name;
+            action.SnapshotOld();
             Map.TeamTypeSection.TeamTypeList.RemoveAt(index);
             Map.Dirty = true;
+            action.SnapshotNew();
+            Map.TrackedActions.Push(action);
           }
           ResetList();
           if (index != -1 && index < lboxTeamTypeList.Items.Count)
@@ -165,7 +206,7 @@ namespace RA_Mission_Editor.UI.UserControls
           string name = "x";
           while (!available)
           {
-            name = $"x {runningnum:000}";
+            name = $"x_{runningnum:000}";
             if (Map.TeamTypeSection.TeamTypeList.FindIndex((t) => t.Name.Equals(name, StringComparison.OrdinalIgnoreCase)) == -1)
             {
               available = true;
@@ -174,10 +215,15 @@ namespace RA_Mission_Editor.UI.UserControls
           }
           dupinfo.Name = name;
           dupinfo.ParseValue(Map, val);
+          TeamTypeSectionUpdateAction action = new TeamTypeSectionUpdateAction(Map);
+          action.Description = "Duplicate Teamtype " + name;
+          action.SnapshotOld();
           Map.TeamTypeSection.TeamTypeList.Add(dupinfo);
           Map.Dirty = true;
           ResetList();
           lboxTeamTypeList.SelectedItem = dupinfo;
+          action.SnapshotNew();
+          Map.TrackedActions.Push(action);
         }
       }
     }

@@ -325,17 +325,17 @@ namespace RA_Mission_Editor.FileFormats
 					string value = line.Substring(pos + 1);
 					FixLine(ref key);
 					FixLine(ref value);
-					SetValue(key, value, false);
+					SetValue(key, value, null, false);
 					return 1;
 				}
 				return 0;
 			}
 
-			public void SetValue(string key, string value, bool @override = true)
+			public void SetValue(string key, string value, string comment = null, bool @override = true)
 			{
 				if (!SortedEntries.ContainsKey(key))
 				{
-					IniLine line = new IniLine(null, key, value, null);
+					IniLine line = new IniLine(null, key, value, comment);
 					OrderedEntries.Add(new KeyValuePair<string, IniLine>(key, line));
 					SortedEntries[key] = line;
 				}

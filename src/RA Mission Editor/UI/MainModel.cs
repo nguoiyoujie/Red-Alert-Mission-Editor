@@ -294,10 +294,10 @@ namespace RA_Mission_Editor.UI
       { if (CurrentMap.SourceFile != null) { canvas.Draw(CurrentMap, Cache, GameFileSystem); } else { canvas.Clear(); } };
     }
 
-    public IEnumerable<IEntity> DoPick(int x, int y)
+    public IEnumerable<IEntity> DoPick(int x, int y, int subcell)
     {
       PickCache.Clear();
-      PickCache.AddRange(CurrentMap.Pick(x, y));
+      PickCache.AddRange(CurrentMap.Pick(x, y, subcell));
       return PickCache;
     }
 

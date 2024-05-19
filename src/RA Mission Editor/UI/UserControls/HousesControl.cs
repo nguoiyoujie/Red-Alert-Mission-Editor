@@ -19,6 +19,7 @@ namespace RA_Mission_Editor.UI.UserControls
     {
       Map = map;
       ucHouse.SetMap(map);
+      ucHouse.SetHouse(ucHouse.HouseData);
       ResetList();
     }
 

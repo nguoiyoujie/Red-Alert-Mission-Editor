@@ -1,5 +1,6 @@
 ﻿using RA_Mission_Editor.Entities;
 using RA_Mission_Editor.MapData;
+using RA_Mission_Editor.MapData.TrackedActions;
 using RA_Mission_Editor.RulesData;
 using RA_Mission_Editor.UI.Logic;
 using RA_Mission_Editor.Util;
@@ -304,7 +305,12 @@ namespace RA_Mission_Editor.UI.UserControls
         uinfo.Tag = cbTag.Text ?? "None";
         uinfo.Mission = cbMission.Text;
         string thisinfo = uinfo.GetValueAsString();
-        if (previnfo != thisinfo) { Map.Dirty = true; }
+        if (previnfo != thisinfo) 
+        {
+          Map.Dirty = true;
+          ModifyEntityAction< UnitInfo> action = new ModifyEntityAction<UnitInfo>(Map, uinfo, Map.UnitSection.EntityList, previnfo, thisinfo);
+          Map.TrackedActions.Push(action);
+        }
       }
       else if (Entity is VesselInfo sinfo)
       {
@@ -327,7 +333,12 @@ namespace RA_Mission_Editor.UI.UserControls
         sinfo.Tag = cbTag.Text ?? "None";
         sinfo.Mission = cbMission.Text;
         string thisinfo = sinfo.GetValueAsString();
-        if (previnfo != thisinfo) { Map.Dirty = true; }
+        if (previnfo != thisinfo)
+        {
+          Map.Dirty = true;
+          ModifyEntityAction<VesselInfo> action = new ModifyEntityAction<VesselInfo>(Map, sinfo, Map.VesselSection.EntityList, previnfo, thisinfo);
+          Map.TrackedActions.Push(action);
+        }
       }
       else if (Entity is InfantryInfo iinfo)
       {
@@ -360,7 +371,12 @@ namespace RA_Mission_Editor.UI.UserControls
         else if (rbBR.Checked)
           iinfo.SubCell = 4;
         string thisinfo = iinfo.GetValueAsString();
-        if (previnfo != thisinfo) { Map.Dirty = true; }
+        if (previnfo != thisinfo)
+        {
+          Map.Dirty = true;
+          ModifyEntityAction<InfantryInfo> action = new ModifyEntityAction<InfantryInfo>(Map, iinfo, Map.InfantrySection.EntityList, previnfo, thisinfo);
+          Map.TrackedActions.Push(action);
+        }
       }
       else if (Entity is BuildingInfo tinfo)
       {
@@ -384,10 +400,18 @@ namespace RA_Mission_Editor.UI.UserControls
         tinfo.AIRepairable = cbRepairable.Checked;
         tinfo.AISellable = cbSellable.Checked;
         string thisinfo = tinfo.GetValueAsString();
-        if (previnfo != thisinfo) { Map.Dirty = true; }
+        if (previnfo != thisinfo)
+        {
+          Map.Dirty = true;
+          ModifyEntityAction<BuildingInfo> action = new ModifyEntityAction<BuildingInfo>(Map, tinfo, Map.BuildingSection.EntityList, previnfo, thisinfo);
+          Map.TrackedActions.Push(action);
+        }
       }
       else if (Entity is BaseInfo binfo)
       {
+        BaseSectionSaveAction action = new BaseSectionSaveAction(Map);
+        action.Description = "Modify base " + binfo.ID;
+        action.SnapshotOld();
         BuildingType entitytype = cbType.SelectedItem as BuildingType;
         if (entitytype == null)
         {
@@ -405,13 +429,14 @@ namespace RA_Mission_Editor.UI.UserControls
         int index = (int)nudStrength.Value;
         Map.BaseSection.EntityList.Insert(Math.Min(Map.BaseSection.EntityList.Count - 1, Math.Max(0, index)), binfo);
         Map.Dirty = true;
+        action.SnapshotNew();
+        Map.TrackedActions.Push(action);
       }
 
       return true;
     }
 
     private void bShowHide_Click(object sender, EventArgs e) { ShowPanels = !ShowPanels; }
-
     private void cbOwner_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_Owner; }
     private void cbType_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_Type; }
     private void nudStrength_MouseEnter(object sender, EventArgs e) { tbHint.Text = Resources.Strings.TechnoType_Strength; }

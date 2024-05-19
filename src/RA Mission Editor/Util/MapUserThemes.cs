@@ -18,7 +18,9 @@ namespace RA_Mission_Editor.Util
       SelectedWaypoint = Color.Orange;
       CellTrigger = Color.GreenYellow;
       SelectedCellTrigger = Color.Orange;
+      CellTarget = Color.Olive;
       TechnoTypeTag = Color.ForestGreen;
+      TechnoTypeTagBackground = Color.FromArgb(160, Color.Black);
       TechnoTypeFake = Color.White;
       BaseNumber = Color.Salmon;
 
@@ -52,7 +54,9 @@ namespace RA_Mission_Editor.Util
     public static Color SelectedWaypoint { get => _selectedwaypoint; set { SelectedWaypointBrush?.Dispose(); SelectedWaypointPen?.Dispose(); SelectedWaypointBrush = new SolidBrush(value); SelectedWaypointPen = new Pen(value, 2); _selectedwaypoint = value; } }
     public static Color CellTrigger { get => _cellTrigger; set { CellTriggerBrush?.Dispose(); CellTriggerPen?.Dispose(); CellTriggerBrush = new SolidBrush(value); CellTriggerPen = new Pen(value); _cellTrigger = value; } }
     public static Color SelectedCellTrigger { get => _selectedcellTrigger; set { SelectedCellTriggerBrush?.Dispose(); SelectedCellTriggerPen?.Dispose(); SelectedCellTriggerBrush = new SolidBrush(value); SelectedCellTriggerPen = new Pen(value, 2); _selectedcellTrigger = value; } }
+    public static Color CellTarget { get => _cellTarget; set { CellTargetBrush?.Dispose(); CellTargetPen?.Dispose(); CellTargetBrush = new SolidBrush(value); CellTargetPen = new Pen(value, 2); _cellTarget = value; } }
     public static Color TechnoTypeTag { get => _technoTypeTag; set { TechnoTypeTagBrush?.Dispose(); TechnoTypeTagPen?.Dispose(); TechnoTypeTagBrush = new SolidBrush(value); TechnoTypeTagPen = new Pen(value); _technoTypeTag = value; } }
+    public static Color TechnoTypeTagBackground { get => _technoTypeTagBackground; set { TechnoTypeTagBackgroundBrush?.Dispose(); TechnoTypeTagBackgroundBrush = new SolidBrush(value); _technoTypeTagBackground = value; } }
     public static Color TechnoTypeFake { get => _technoTypeFake; set { TechnoTypeFakeBrush?.Dispose(); TechnoTypeFakePen?.Dispose(); TechnoTypeFakeBrush = new SolidBrush(value); TechnoTypeFakePen = new Pen(value); _technoTypeFake = value; } }
     public static Color BaseNumber { get => _baseNumber; set { BaseNumberBrush?.Dispose(); BaseNumberPen?.Dispose(); BaseNumberBrush = new SolidBrush(value); BaseNumberPen = new Pen(value); _baseNumber = value; } }
 
@@ -63,7 +67,9 @@ namespace RA_Mission_Editor.Util
     private static Color _selectedwaypoint;
     private static Color _cellTrigger;
     private static Color _selectedcellTrigger;
+    private static Color _cellTarget;
     private static Color _technoTypeTag;
+    private static Color _technoTypeTagBackground;
     private static Color _technoTypeFake;
     private static Color _baseNumber;
 
@@ -74,7 +80,9 @@ namespace RA_Mission_Editor.Util
     public static Brush SelectedWaypointBrush { get; private set; }
     public static Brush CellTriggerBrush { get; private set; }
     public static Brush SelectedCellTriggerBrush { get; private set; }
+    public static Brush CellTargetBrush { get; private set; }
     public static Brush TechnoTypeTagBrush { get; private set; }
+    public static Brush TechnoTypeTagBackgroundBrush { get; private set; }
     public static Brush TechnoTypeFakeBrush { get; private set; }
     public static Brush BaseNumberBrush { get; private set; }
 
@@ -85,16 +93,16 @@ namespace RA_Mission_Editor.Util
     public static Pen SelectedWaypointPen { get; private set; }
     public static Pen CellTriggerPen { get; private set; }
     public static Pen SelectedCellTriggerPen { get; private set; }
+    public static Pen CellTargetPen { get; private set; }
     public static Pen TechnoTypeTagPen { get; private set; }
     public static Pen TechnoTypeFakePen { get; private set; }
     public static Pen BaseNumberPen { get; private set; }
 
-    public static Font TechnoTypeFakeFont = new Font("Consolas", 10);
-    public static Font TechnoTypeTagFont = new Font("Consolas", 7);
+    public static Font TechnoTypeFakeFont = new Font("Consolas", 14);
+    public static Font TechnoTypeTagFont = new Font("Consolas", 8);
     public static Font BaseNumberFont = new Font("Consolas", 6.5f);
     public static Font CellTriggerFont = new Font("Consolas", 7);
     public static Font WaypointFont = new Font("Consolas", 12);
-
     public static Font ControlTextFont = new Font("Consolas", 10);
 
     public static int MinRAFontSize = 10;

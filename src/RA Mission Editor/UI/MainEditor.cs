@@ -1477,6 +1477,38 @@ namespace RA_Mission_Editor.UI
       oehd.Owner = this;
       oehd.Show();
     }
+
+    private void MainEditor_DragEnter(object sender, DragEventArgs e)
+    {
+      IDataObject ido = e.Data;
+      if (ido.GetFormats().Contains(DataFormats.FileDrop))
+      {
+        string[] filelist = ido.GetData(DataFormats.FileDrop) as string[];
+        if (filelist.Length == 1)
+        {
+          e.Effect = DragDropEffects.Move;
+          return;
+        }
+      }
+      e.Effect = DragDropEffects.None;
+    }
+
+    private void MainEditor_DragDrop(object sender, DragEventArgs e)
+    {
+      if (e.Effect == DragDropEffects.Move)
+      {
+        IDataObject ido = e.Data;
+        if (ido.GetFormats().Contains(DataFormats.FileDrop))
+        {
+          string[] filelist = ido.GetData(DataFormats.FileDrop) as string[];
+          if (filelist.Length == 1)
+          {
+            OpenRecentFile(filelist[0]);
+          }
+        }
+      }
+    }
+
     private void undoToolStripMenuItem_Click(object sender, EventArgs e)
     {
       if (MainModel.CurrentMap != null)

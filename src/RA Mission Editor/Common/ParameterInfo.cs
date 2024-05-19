@@ -195,13 +195,15 @@ namespace RA_Mission_Editor.Common
 
     public static ParameterInfo ParameterSoundType = new ParameterInfo()
     {
-      GetIndexFunc = (o, m) => { return o is SoundType stype ? (-256 + (int)stype.ID) : (o is int i ? i : -1); },
+      GetIndexFunc = (o, m) => { return o is SoundType stype ? ((int)stype.ID) : (o is int i ? i : -1); },
+      //GetIndexFunc = (o, m) => { return o is SoundType stype ? (-256 + (int)stype.ID) : (o is int i ? i : -1); },
       GetValueFunc = (i, m) => m.AttachedRules.Sounds.GetSound((VocType)(0xFF & i)),
     };
 
     public static ParameterInfo ParameterSpeechType = new ParameterInfo()
     {
-      GetIndexFunc = (o, m) => { return o is SpeechType stype ? (-256 + (int)stype.ID) : (o is int i ? i : -1); },
+      GetIndexFunc = (o, m) => { return o is SpeechType stype ? ((int)stype.ID) : (o is int i ? i : -1); },
+      //GetIndexFunc = (o, m) => { return o is SpeechType stype ? (-256 + (int)stype.ID) : (o is int i ? i : -1); },
       GetValueFunc = (i, m) => m.AttachedRules.Speeches.GetSpeech((VoxType)(0xFF & i)),
     };
 

@@ -33,6 +33,7 @@ namespace RA_Mission_Editor.RulesData.TechnoSets
 				new InfantryType("EINSTEIN") { FullName = "Prof. Einstein", Directions = 8 },
 				new InfantryType("DELPHI") { FullName = "Agent Delphi", Directions = 8 },
 				new InfantryType("CHAN") { FullName = "Dr. Chan", Directions = 8 },
+				// aftermath
 				new InfantryType("SHOK") { FullName = "Shock Trooper", Directions = 8 },
 				new InfantryType("MECH") { FullName = "Mechanic", Directions = 8 },
 			};

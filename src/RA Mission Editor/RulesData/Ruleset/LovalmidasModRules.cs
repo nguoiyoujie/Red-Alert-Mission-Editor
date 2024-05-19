@@ -98,12 +98,12 @@ namespace RA_Mission_Editor.RulesData.Ruleset
       nameindex = unitNameIndex + 1;
       foreach (var entry in GameRules.GetOrCreateSection("UnitTypes").OrderedEntries)
       {
-        if (GameRules.GetSection(entry.Value.Value).ReadBool("HasTurret", true))
+        if (GameRules.GetSection(entry.Value.Value)?.ReadBool("HasTurret", true) ?? false)
         {
           // like 2TNK
           Units.AddRulesObject(new UnitType(entry.Value.Value) { FullName = file?.Get(nameindex++), Directions = 32, TurretDirections = 32, TurretShpFrame = 32, TurretLocations = Units.DefaultTurretLocations });
         }
-        else if (GameRules.GetSection(entry.Value.Value).ReadBool("HasRotatingTurret", true))
+        else if (GameRules.GetSection(entry.Value.Value)?.ReadBool("HasRotatingTurret", true) ?? false)
         {
           int turrstart = GameRules.GetSection(entry.Value.Value).ReadInt("TurretFrameStart", 32);
           int turrcount = GameRules.GetSection(entry.Value.Value).ReadInt("TurretFrameCount", 32);
@@ -153,6 +153,8 @@ namespace RA_Mission_Editor.RulesData.Ruleset
         // like HELI
         Aircrafts.AddRulesObject(new AircraftType(entry.Value.Value) { FullName = file?.Get(nameindex++), Directions = 32 });
       }
+
+
     }
 
     public override void ApplyRulesWithMap(Map map)
@@ -163,6 +165,35 @@ namespace RA_Mission_Editor.RulesData.Ruleset
         s.RulesName = ReadString(s.ID, "Name", out _, s.FullName, map?.SourceFile);
         s.RulesImage = ReadString(s.ID, "Image", out _, s.IsFake ? s.TrueID : s.ID, map?.SourceFile);
         s.SecondImage = ReadString(s.ID, "WarFactoryOverlayAnim", out _, s.SecondImage, map?.SourceFile);
+        bool oldbib = s.BibName != null;
+        bool bib = ReadBool(s.ID, "Bib", out _, oldbib, map?.SourceFile);
+
+        if (oldbib != bib)
+        {
+          if (bib)
+          {
+            switch (GameRules.GetSection(s.ID).ReadInt("BSize", 0)) // BSize not read in map
+            {
+              case 3:
+              case 4:
+                s.BibName = "BIB3";
+                break;
+              case 5:
+              case 6:
+                s.BibName = "BIB2";
+                break;
+              case 7:
+                s.BibName = "BIB1";
+                break;
+              default:
+                break;
+            }
+          }
+          else
+          {
+            s.BibName = null;
+          }
+        }
       }
 
       foreach (var s in Vessels.GetAll())

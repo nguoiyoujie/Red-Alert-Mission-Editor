@@ -28,9 +28,16 @@ namespace RA_Mission_Editor.UI.Dialogs
       RefreshTab();
     }
 
+    public void SetModel(MainModel model)
+    {
+      languageFileControl1.SetModel(model);
+      shpPaletteConverterControl1.SetModel(model);
+      tmpFileViewerControl1.SetModel(model);
+    }
+
     private void RefreshTab()
     { 
-      if (tabSelection.SelectedTab == pageLanguageFile)
+      if (pageTmpViewer.SelectedTab == pageLanguageFile)
       {
         //ttControl_Basic.ResetList();
       }

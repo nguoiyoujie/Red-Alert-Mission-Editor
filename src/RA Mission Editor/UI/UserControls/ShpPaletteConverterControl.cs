@@ -1,12 +1,10 @@
-﻿using RA_Mission_Editor.Common;
-using RA_Mission_Editor.FileFormats;
+﻿using RA_Mission_Editor.FileFormats;
 using RA_Mission_Editor.Renderers;
-using RA_Mission_Editor.UI.Logic;
-using RA_Mission_Editor.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -38,6 +36,7 @@ namespace RA_Mission_Editor.UI.UserControls
       RefreshView();
     }
 
+    private MainModel _model;
     private MapCache _cache = new MapCache();
     private ShpFile _shp;
     private PalFile _palSrc;
@@ -56,12 +55,20 @@ namespace RA_Mission_Editor.UI.UserControls
     static List<int> DefaultTDHouseColorIndex = new List<int> { 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 };
     static List<int> ExcludeHouseColorIndex = new List<int> { };
 
+    public void SetModel(MainModel model)
+    {
+      _model = model;
+    }
+
     public void SetShpFile(ShpFile shp)
     {
       _shp = shp;
       _cache.Clear();
-      nudFrameSrc.Maximum = Math.Max(1, (int)_shp.NumImages);
-      nudFrameDst.Maximum = Math.Max(1, (int)_shp.NumImages);
+      if (shp != null)
+      {
+        nudFrameSrc.Maximum = Math.Max(1, (int)_shp.NumImages);
+        nudFrameDst.Maximum = Math.Max(1, (int)_shp.NumImages);
+      }
       StartConvert();
       RefreshView();
     }
@@ -73,9 +80,9 @@ namespace RA_Mission_Editor.UI.UserControls
       {
         if (bmp != null)
         {
-          if (_palSrcbmp == null || _palSrcbmp.Width != pbSrc.Width || _palSrcbmp.Height != pbSrc.Height)
+          if (_palSrcbmp == null || _palSrcbmp.Width != pbSrcPal.Width || _palSrcbmp.Height != pbSrcPal.Height)
           {
-            _palSrcbmp = new Bitmap(pbSrc.Width, pbSrc.Height);
+            _palSrcbmp = new Bitmap(pbSrcPal.Width, pbSrcPal.Height);
           }
           using (Graphics g = Graphics.FromImage(_palSrcbmp))
           {
@@ -100,9 +107,9 @@ namespace RA_Mission_Editor.UI.UserControls
       {
         if (bmp != null)
         {
-          if (_palDstbmp == null || _palDstbmp.Width != pbDst.Width || _palDstbmp.Height != pbDst.Height)
+          if (_palDstbmp == null || _palDstbmp.Width != pbDstPal.Width || _palDstbmp.Height != pbDstPal.Height)
           {
-            _palDstbmp = new Bitmap(pbDst.Width, pbDst.Height);
+            _palDstbmp = new Bitmap(pbDstPal.Width, pbDstPal.Height);
           }
           using (Graphics g = Graphics.FromImage(_palDstbmp))
           {
@@ -129,12 +136,25 @@ namespace RA_Mission_Editor.UI.UserControls
       {
         PalFile phSrc = RenderUtils.FetchHouseRemapPalette(_cache, _palSrc, color);
         pbSrc.BackgroundImage = RenderUtils.RenderShp(_cache, _shp, phSrc, (int)(nudFrameSrc.Value - 1));
-        pbSrcPal.Image = _palSrcbmp;
+        if (nudSrcZoom.Value != 1 && pbSrc.BackgroundImage != null)
+        {
+          Bitmap bmp = new Bitmap(pbSrc.BackgroundImage.Width * (int)nudSrcZoom.Value, pbSrc.BackgroundImage.Height * (int)nudSrcZoom.Value);
+          using (Graphics g = Graphics.FromImage(bmp))
+          {
+            g.PixelOffsetMode = PixelOffsetMode.Half;
+            g.SmoothingMode = SmoothingMode.None;
+            g.InterpolationMode = InterpolationMode.NearestNeighbor;
+            g.CompositingMode = CompositingMode.SourceCopy;
+            g.DrawImage(pbSrc.BackgroundImage, new Rectangle(0, 0, bmp.Width, bmp.Height), new Rectangle(0, 0, pbSrc.BackgroundImage.Width, pbSrc.BackgroundImage.Height), GraphicsUnit.Pixel);
+          }
+          pbSrc.BackgroundImage = bmp;
+        }
+        pbSrcPal.BackgroundImage = _palSrcbmp;
       }
       else
       {
         pbSrc.BackgroundImage = null;
-        pbSrcPal.Image = null;
+        pbSrcPal.BackgroundImage = null;
       }
 
       if (_shpConverted != null && _palDst != null)
@@ -142,13 +162,26 @@ namespace RA_Mission_Editor.UI.UserControls
         lblProgressText.Text = null;
         PalFile phDst = RenderUtils.FetchHouseRemapPalette(_cache, _palDst, color);
         pbDst.BackgroundImage = RenderUtils.RenderShp(_cache, _shpConverted, phDst, (int)(nudFrameDst.Value - 1));
-        pbDstPal.Image = _palDstbmp;
+        if (nudDstZoom.Value != 1)
+        {
+          Bitmap bmp = new Bitmap(pbDst.BackgroundImage.Width * (int)nudDstZoom.Value, pbDst.BackgroundImage.Height * (int)nudDstZoom.Value);
+          using (Graphics g = Graphics.FromImage(bmp))
+          {
+            g.PixelOffsetMode = PixelOffsetMode.Half;
+            g.SmoothingMode = SmoothingMode.None;
+            g.InterpolationMode = InterpolationMode.NearestNeighbor;
+            g.CompositingMode = CompositingMode.SourceCopy;
+            g.DrawImage(pbDst.BackgroundImage, new Rectangle(0, 0, bmp.Width, bmp.Height), new Rectangle(0, 0, pbDst.BackgroundImage.Width, pbDst.BackgroundImage.Height), GraphicsUnit.Pixel);
+          }
+          pbDst.BackgroundImage = bmp;
+        }
+        pbDstPal.BackgroundImage = _palDstbmp;
       }
       else
       {
         lblProgressText.Text = _progressText;
         pbDst.BackgroundImage = null;
-        pbDstPal.Image = null;
+        pbDstPal.BackgroundImage = null;
       }
 
       lblSrcShp.Text = _shp?.FileName;
@@ -372,6 +405,16 @@ namespace RA_Mission_Editor.UI.UserControls
       RefreshView();
     }
 
+    private void nubSrcZoom_ValueChanged(object sender, EventArgs e)
+    {
+      RefreshView();
+    }
+
+    private void nudDstZoom_ValueChanged(object sender, EventArgs e)
+    {
+      RefreshView();
+    }
+
     private void cbRemapColor_SelectedIndexChanged(object sender, EventArgs e)
     {
       RefreshView();
@@ -387,6 +430,48 @@ namespace RA_Mission_Editor.UI.UserControls
     {
       StartConvert();
       RefreshView();
+    }
+
+    private void bOpenShpRA_Click(object sender, EventArgs e)
+    {
+      try
+      {
+        SetShpFile(_model.GameFileSystem.OpenFile<ShpFile>(tbShpRADir.Text));
+      }
+      catch
+      {
+        MessageBox.Show("An error has occurred in attempting to load the SHP file");
+      }
+    }
+
+    private void bOpenPalRA_Click(object sender, EventArgs e)
+    {
+      try
+      {
+        if (_model != null)
+        {
+          SetSourcePalette(_model.GameFileSystem.OpenFile<PalFile>(tbPalRADir.Text));
+        }
+      }
+      catch
+      {
+        MessageBox.Show("An error has occurred in attempting to load the SHP file");
+      }
+    }
+
+    private void bOpenPalD_Click(object sender, EventArgs e)
+    {
+      try
+      {
+        if (_model != null)
+        {
+          SetDestinationPalette(_model.GameFileSystem.OpenFile<PalFile>(tbPalDRADir.Text));
+        }
+      }
+      catch
+      {
+        MessageBox.Show("An error has occurred in attempting to load the SHP file");
+      }
     }
   }
 }

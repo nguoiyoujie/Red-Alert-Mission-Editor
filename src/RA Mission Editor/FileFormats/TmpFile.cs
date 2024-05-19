@@ -35,6 +35,7 @@ namespace RA_Mission_Editor.FileFormats
 
 		public List<TmpImage> Images;
     public List<TileType> TileTypes;
+    public List<byte> TransData;
 
     public bool IsClearTile
 		{
@@ -58,18 +59,18 @@ namespace RA_Mission_Editor.FileFormats
 			
 			Width = ReadUInt16(); // tileX
 			Height = ReadUInt16(); // tileY
-      int Frames = ReadInt32(); // Frames 
+      int count = ReadInt32(); // Frames 
 			BlockWidth = ReadInt32();
 			BlockHeight = ReadInt32();
-			uint imgStart = ReadUInt32();
+			uint iconoffset = ReadUInt32();
 			ReadUInt32(); // Zero2
 
-			int IndexEnd, IndexStart, TypeStart = 0;
+			uint indexStart, typeStart = 0, transFlagStart = 0;
 			if (ReadUInt16() == 65535) // ID1 = FFFFh for cnc
 			{
 				ReadUInt16(); // ID2 
-				IndexEnd = ReadInt32();
-				IndexStart = ReadInt32();
+        transFlagStart = ReadUInt32();
+				indexStart = ReadUInt32();
 			}
 			else // Load as a ra .tem
 			{
@@ -77,26 +78,28 @@ namespace RA_Mission_Editor.FileFormats
 				Width = ReadUInt16(); // tileX
         Height = ReadUInt16(); // tileY
 
-        Frames = ReadInt32(); // Frames 
-        BlockWidth = ReadUInt16(); // FrameX
-				BlockHeight = ReadUInt16(); // FrameY
-        ReadUInt32(); // FileSize
-				imgStart = ReadUInt32(); // first frame (0x28)
-				ReadUInt32(); // always 0
-				ReadUInt32(); // ??
-				IndexEnd = ReadInt32();
-				TypeStart = ReadInt32();
-				IndexStart = ReadInt32();
+        count = ReadInt32(); // Frames 
+        BlockWidth = ReadUInt16(); // MapWidth
+        BlockHeight = ReadUInt16(); // MapHeight
+        uint dummy = ReadUInt32(); // FileSize
+        iconoffset = ReadUInt32(); // first frame (0x28)
+        uint paletteOffset = ReadUInt32(); // always 0
+        uint remapOffset = ReadUInt32(); // ??
+				transFlagStart = ReadUInt32();
+        typeStart = ReadUInt32();
+				indexStart = ReadUInt32();
 			}
-			Position = IndexStart;
+			Position = indexStart;
 
-			Images = new List<TmpImage>();
-      TileTypes = new List<TileType>();
-			foreach (byte b in new BinaryReader(this).ReadBytes(IndexEnd - IndexStart))
+			Images = new List<TmpImage>(count);
+      TileTypes = new List<TileType>(count);
+			TransData = new List<byte>(count);
+
+      foreach (byte b in new BinaryReader(this).ReadBytes(count))
 			{
 				if (b != 255)
 				{
-					Position = imgStart + b * Width * Height;
+					Position = iconoffset + b * Width * Height;
 					var img = new TmpImage();
 					img.TileData = new BinaryReader(this).ReadBytes(Width * Height);
 					Images.Add(img);
@@ -107,9 +110,103 @@ namespace RA_Mission_Editor.FileFormats
 
 			for (int i = 0; i < BlockWidth * BlockHeight; i++)
 			{
-				Position = TypeStart + TileTypes.Count;
+				Position = typeStart + TileTypes.Count;
 				TileTypes.Add((TileType)new BinaryReader(this).ReadByte());
 			}
-		}
+
+      for (int i = 0; i < count; i++)
+      {
+        Position = transFlagStart + TransData.Count;
+        if (Images[i] != null)
+        {
+          TransData.Add(new BinaryReader(this).ReadByte());
+        }
+      }
+    }
+
+		public void Save(string filename)
+		{
+      if (Images.Count == 0) { return; }
+      using (var fs = new FileStream(filename, FileMode.Create, FileAccess.ReadWrite))
+      {
+        int[] iconOffsets = new int[Images.Count];
+        int[] indexOffsets = new int[Images.Count];
+        int[] typeOffsets = new int[Images.Count];
+        int[] transOffsets = new int[Images.Count];
+				int offset = 0x28;
+        for (int i = 0; i < Images.Count; i++)
+        {
+          if (Images[i] != null)
+          {
+            iconOffsets[i] = offset;
+            offset += Images[i].TileData.Length;
+          }
+          else
+          {
+            iconOffsets[i] = -1;
+          }
+        }
+        for (int i = 0; i < Images.Count; i++)
+        {
+          indexOffsets[i] = offset;
+          offset++;
+        }
+        for (int i = 0; i < TransData.Count; i++)
+        {
+          transOffsets[i] = offset;
+          offset++;
+        }
+        for (int i = 0; i < TileTypes.Count; i++)
+        {
+          typeOffsets[i] = offset;
+          offset++;
+        }
+
+        // always save as ra .tem?
+        using (var bw = new BinaryWriter(fs))
+        {
+          bw.Write((ushort)Width);
+          bw.Write((ushort)Height);
+          bw.Write(Images.Count);
+          bw.Write((ushort)BlockWidth);
+          bw.Write((ushort)BlockHeight);
+          bw.Write(offset);
+          bw.Write((uint)0x28);
+          bw.Write((uint)0); // palette
+          bw.Write((uint)0x2c730f6e); // remap (seems to be either 0x2c730f6e, 0x2c730f88 or 0x2c730000)
+          bw.Write(transOffsets[0]);
+          bw.Write(typeOffsets[0]);
+          bw.Write(indexOffsets[0]);
+
+          foreach (var img in Images)
+          {
+            if (img != null)
+            {
+              bw.Write(img.TileData);
+            }
+          }
+          int c = 0;
+          for (int i = 0; i < Images.Count; i++)
+          {
+            if (Images[i] != null)
+            {
+              bw.Write((byte)c++);
+            }
+            else
+            {
+              bw.Write((byte)255);
+            }
+          }
+          for (int i = 0; i < TransData.Count; i++)
+          {
+            bw.Write((byte)TransData[i]);
+          }
+          for (int i = 0; i < Images.Count; i++)
+          {
+            bw.Write((byte)((i < TileTypes.Count) ? TileTypes[i] : 0));
+          }
+        }
+      }
+    }
 	}
 }

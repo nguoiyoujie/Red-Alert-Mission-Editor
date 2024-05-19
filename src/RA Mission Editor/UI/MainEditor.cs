@@ -1482,6 +1482,7 @@ namespace RA_Mission_Editor.UI
     {
       OtherEditorDialog oehd = DialogFunctions.GetOtherEditorDialog() ?? new OtherEditorDialog(this);
       oehd.Owner = this;
+      oehd.SetModel(MainModel);
       oehd.Show();
     }
 

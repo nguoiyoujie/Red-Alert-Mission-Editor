@@ -367,6 +367,12 @@
     <Compile Include="UI\UserControls\HouseStatsControl.Designer.cs">
       <DependentUpon>HouseStatsControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\UserControls\TmpFileViewerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\TmpFileViewerControl.Designer.cs">
+      <DependentUpon>TmpFileViewerControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\UserControls\ShpPaletteConverterControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -510,6 +516,9 @@
     <EmbeddedResource Include="UI\UserControls\HouseStatsControl.resx">
       <DependentUpon>HouseStatsControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\TmpFileViewerControl.resx">
+      <DependentUpon>TmpFileViewerControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\UserControls\ShpPaletteConverterControl.resx">
       <DependentUpon>ShpPaletteConverterControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -629,5 +638,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

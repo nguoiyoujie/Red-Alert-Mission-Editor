@@ -17,6 +17,12 @@ namespace RA_Mission_Editor.UI.UserControls
     }
 
     public LanguageFile LanguageFile { get; private set; }
+    private MainModel _model;
+
+    public void SetModel(MainModel model)
+    {
+      _model = model;
+    }
 
     public void SetLanguageFile(LanguageFile lang)
     {
@@ -152,6 +158,21 @@ namespace RA_Mission_Editor.UI.UserControls
         {
           LanguageFile.Save(sfd.FileName);
       }
+      }
+    }
+
+    private void bOpenRADir_Click(object sender, EventArgs e)
+    {
+      try
+      {
+        if (_model != null)
+        {
+          SetLanguageFile(_model.GameFileSystem.OpenFile<LanguageFile>("conquer.eng"));
+        }
+      }
+      catch
+      {
+        MessageBox.Show("An error has occurred in attempting to load the SHP file");
       }
     }
   }

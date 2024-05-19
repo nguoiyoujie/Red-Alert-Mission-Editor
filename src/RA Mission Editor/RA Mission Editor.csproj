@@ -288,6 +288,12 @@
     <Compile Include="UI\Dialogs\TestMapDialog.Designer.cs">
       <DependentUpon>TestMapDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Dialogs\VerifyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\VerifyDialog.Designer.cs">
+      <DependentUpon>VerifyDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Dialogs\ViewStatisticsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -296,7 +302,7 @@
     </Compile>
     <Compile Include="UI\Logic\DialogFunctions.cs" />
     <Compile Include="UI\Logic\DirtyControlsHandler.cs" />
-    <Compile Include="UI\Logic\RecentFIlesHandler.cs" />
+    <Compile Include="UI\Logic\RecentFilesHandler.cs" />
     <Compile Include="UI\Logic\ErrorHandler.cs" />
     <Compile Include="UI\MainEditor.cs">
       <SubType>Form</SubType>
@@ -457,6 +463,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\TestMapDialog.resx">
       <DependentUpon>TestMapDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\VerifyDialog.resx">
+      <DependentUpon>VerifyDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\ViewStatisticsDialog.resx">
       <DependentUpon>ViewStatisticsDialog.cs</DependentUpon>

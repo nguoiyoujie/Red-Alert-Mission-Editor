@@ -37,21 +37,23 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       // tbRef
       // 
-      this.tbRef.Location = new System.Drawing.Point(3, 51);
+      this.tbRef.Location = new System.Drawing.Point(4, 78);
+      this.tbRef.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.tbRef.Multiline = true;
       this.tbRef.Name = "tbRef";
       this.tbRef.ReadOnly = true;
       this.tbRef.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-      this.tbRef.Size = new System.Drawing.Size(794, 458);
+      this.tbRef.Size = new System.Drawing.Size(1189, 702);
       this.tbRef.TabIndex = 63;
       this.tbRef.WordWrap = false;
       // 
       // lblTutorial
       // 
       this.lblTutorial.AutoSize = true;
-      this.lblTutorial.Location = new System.Drawing.Point(13, 9);
+      this.lblTutorial.Location = new System.Drawing.Point(20, 14);
+      this.lblTutorial.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
       this.lblTutorial.Name = "lblTutorial";
-      this.lblTutorial.Size = new System.Drawing.Size(62, 13);
+      this.lblTutorial.Size = new System.Drawing.Size(92, 20);
       this.lblTutorial.TabIndex = 61;
       this.lblTutorial.Text = "References";
       // 
@@ -64,10 +66,12 @@ namespace RA_Mission_Editor.UI.UserControls
             "Trigger",
             "TeamType",
             "Global",
-            "Mission Text"});
-      this.cbCategory.Location = new System.Drawing.Point(3, 25);
+            "Mission Text",
+            "TeamType Cell Targets"});
+      this.cbCategory.Location = new System.Drawing.Point(4, 38);
+      this.cbCategory.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.cbCategory.Name = "cbCategory";
-      this.cbCategory.Size = new System.Drawing.Size(240, 21);
+      this.cbCategory.Size = new System.Drawing.Size(358, 28);
       this.cbCategory.TabIndex = 64;
       this.cbCategory.SelectedIndexChanged += new System.EventHandler(this.cbCategory_SelectedIndexChanged);
       // 
@@ -75,23 +79,25 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       this.cbItem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.cbItem.FormattingEnabled = true;
-      this.cbItem.Location = new System.Drawing.Point(249, 25);
+      this.cbItem.Location = new System.Drawing.Point(374, 38);
+      this.cbItem.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.cbItem.Name = "cbItem";
-      this.cbItem.Size = new System.Drawing.Size(548, 21);
+      this.cbItem.Size = new System.Drawing.Size(820, 28);
       this.cbItem.TabIndex = 65;
       this.cbItem.SelectedIndexChanged += new System.EventHandler(this.UpdateView);
       this.cbItem.SelectedValueChanged += new System.EventHandler(this.UpdateView);
       // 
       // ReferenceControl
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.Controls.Add(this.cbItem);
       this.Controls.Add(this.cbCategory);
       this.Controls.Add(this.tbRef);
       this.Controls.Add(this.lblTutorial);
+      this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.Name = "ReferenceControl";
-      this.Size = new System.Drawing.Size(800, 512);
+      this.Size = new System.Drawing.Size(1200, 788);
       this.ResumeLayout(false);
       this.PerformLayout();
 

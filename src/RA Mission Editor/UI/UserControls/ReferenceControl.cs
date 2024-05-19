@@ -2,6 +2,7 @@
 using RA_Mission_Editor.Entities;
 using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.RulesData;
+using RA_Mission_Editor.Util;
 using System;
 using System.Text;
 using System.Windows.Forms;
@@ -78,6 +79,11 @@ namespace RA_Mission_Editor.UI.UserControls
               olst[i++] = ParameterInfo.ParameterMessage.GetValueFunc(kvp.Key, Map);
             }
             cbItem.Items.AddRange(olst);
+          }
+          break;
+        case "TeamType Cell Targets":
+          {
+            SearchCellTargets();
           }
           break;
       }
@@ -207,7 +213,7 @@ namespace RA_Mission_Editor.UI.UserControls
       _sb.Clear();
       _sb.AppendLine("TeamType " + info.Name);
       _sb.AppendLine("---------------------------------------");
-      
+
       foreach (var trig in Map.TriggerSection.TriggerList)
       {
         TriggerActionType tA1 = TriggerActions.GetTriggerAction((int)trig.Action1.ActionType);
@@ -285,7 +291,7 @@ namespace RA_Mission_Editor.UI.UserControls
         }
 
         int line = 0;
-        foreach (var script in team.ScriptList) 
+        foreach (var script in team.ScriptList)
         {
           ScriptActionType satype = ScriptActions.GetScriptAction(script.ScriptType);
           if (satype.ParameterType == ScriptParameterType.WAYPOINT && waypoint.Equals(script.Parameter.Value))
@@ -404,6 +410,29 @@ namespace RA_Mission_Editor.UI.UserControls
         }
       }
 
+      tbRef.Text = _sb.ToString();
+    }
+
+    private void SearchCellTargets()
+    {
+      _sb.Clear();
+      _sb.AppendLine("Teamtype Cell Targets");
+      _sb.AppendLine("---------------------------------------");
+
+      foreach (var team in Map.TeamTypeSection.TeamTypeList)
+      {
+        int line = 0;
+        foreach (var script in team.ScriptList)
+        {
+          if (script.ScriptType == 4 && script.Parameter.Value is int c) // hardcoded: "04 - Move To Cell"
+          {
+            int x = Map.CellX(c);
+            int y = Map.CellY(c);
+            _sb.AppendLine("TeamType (Script Line " + line + ") \t" + team.Name + "\t" + c + "\t[" + x + "," + y + "]");
+          }
+          line++;
+        }
+      }
       tbRef.Text = _sb.ToString();
     }
   }

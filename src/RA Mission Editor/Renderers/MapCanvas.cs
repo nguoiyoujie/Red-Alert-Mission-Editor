@@ -79,6 +79,7 @@ namespace RA_Mission_Editor.Renderers
       Vessels,
       Infantry,
       // Widgets
+      ScriptTypeCellTargets,
       CellTriggers,
       Waypoints,
       // Editor helpers
@@ -297,6 +298,10 @@ namespace RA_Mission_Editor.Renderers
                 TechnoTypeRenderer.DrawInfantries(map, rules, cache, vfs, g);
 
             // Editor widgets layer
+            if (Visible[(int)LayerType.ScriptTypeCellTargets])
+              using (new TimeKeeper(_stopwatch, nameof(WidgetsRenderer.DrawCellTargets)))
+                WidgetsRenderer.DrawCellTargets(map, g);
+
             if (Visible[(int)LayerType.CellTriggers])
               using (new TimeKeeper(_stopwatch, nameof(WidgetsRenderer.DrawCellTriggers)))
                 WidgetsRenderer.DrawCellTriggers(map, preplaceEntity, g);

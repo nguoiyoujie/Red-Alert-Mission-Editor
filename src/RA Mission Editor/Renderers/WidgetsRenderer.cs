@@ -30,7 +30,7 @@ namespace RA_Mission_Editor.Renderers
         int y = map.CellY(c);
         bool selected = placeEntity != null && placeEntity.Type is WaypointInfo wpt && wpt.ID.Equals(wInfo.ID, StringComparison.OrdinalIgnoreCase);
 
-        DrawWaypoint(map, g, wInfo.ID.ToString(), x, y, selected);
+        DrawWaypoint(map, g, wInfo.ID, x, y, selected);
       }
     }
 
@@ -112,6 +112,39 @@ namespace RA_Mission_Editor.Renderers
       g.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
       g.DrawString(id.ToUpperInvariant(), MapUserThemes.CellTriggerFont, selected ? MapUserThemes.SelectedCellTriggerBrush : MapUserThemes.CellTriggerBrush, r, _textStringFormat);
     }
+
+    public static void DrawCellTargets(Map map, Graphics g)
+    {
+      foreach (var team in map.TeamTypeSection.TeamTypeList)
+      {
+        foreach (var step in team.ScriptList)
+        {
+          if (step.ScriptType == 4 && step.Parameter.Value is int c) // hardcoded: "04 - Move To Cell"
+          {
+            int x = map.CellX(c);
+            int y = map.CellY(c);
+            DrawCellTarget(g, team.Name, x, y);
+          }
+        }
+      }
+    }
+
+    public static void DrawCellTarget(Graphics g, string id, int x, int y)
+    {
+      // draw rectangle
+      int xt = x * Constants.CELL_PIXEL_W + 1;
+      int yt = y * Constants.CELL_PIXEL_H + 1;
+      g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+      g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+      g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+      g.DrawRectangle(MapUserThemes.CellTargetPen, xt, yt, Constants.CELL_PIXEL_W - 2, Constants.CELL_PIXEL_H - 2);
+
+      // draw text
+      Rectangle r = new Rectangle(xt, yt, Constants.CELL_PIXEL_W, Constants.CELL_PIXEL_H);
+      g.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
+      g.DrawString(id.ToUpperInvariant(), MapUserThemes.CellTriggerFont, MapUserThemes.CellTargetBrush, r, _textStringFormat);
+    }
+
 
     public static void DrawBounds(Map map, Graphics g)
     {

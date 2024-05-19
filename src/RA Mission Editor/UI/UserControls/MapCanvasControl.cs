@@ -16,8 +16,6 @@ namespace RA_Mission_Editor.UI.UserControls
     public MapCanvas Renderer { get; private set; }
     public float Zoom { get { return _zoom; } set { if (_zoom != value) { _zoom = value; Invalidate(); } } }
     private float _zoom = 1;
-    private int _init_x = -1;
-    private int _init_y = -1;
     private int _prev_x = -1;
     private int _prev_y = -1;
     private int _hover_x = -1;

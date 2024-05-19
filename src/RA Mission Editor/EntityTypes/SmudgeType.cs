@@ -3,7 +3,6 @@ using RA_Mission_Editor.FileFormats;
 using RA_Mission_Editor.MapData;
 using RA_Mission_Editor.Renderers;
 using RA_Mission_Editor.RulesData.Ruleset;
-using RA_Mission_Editor.Util;
 using System.Drawing;
 
 namespace RA_Mission_Editor.RulesData

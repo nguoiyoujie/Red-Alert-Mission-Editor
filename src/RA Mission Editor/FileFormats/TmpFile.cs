@@ -16,7 +16,6 @@ using RA_Mission_Editor.Common;
 using RA_Mission_Editor.Util;
 using System.Collections.Generic;
 using System.IO;
-using static RA_Mission_Editor.FileFormats.TmpFile;
 
 namespace RA_Mission_Editor.FileFormats
 {

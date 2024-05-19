@@ -111,7 +111,7 @@ namespace RA_Mission_Editor.UI
     {
       pbMapCanvas.Renderer.Reset();
       Cleanup();
-      RecentFIlesHandler.UpdateRecentFileUIList(openRecentMapToolStripMenuItem, MainModel.ApplicationSettings.CacheSection.RecentFiles, OpenRecentFile);
+      RecentFilesHandler.UpdateRecentFileUIList(openRecentMapToolStripMenuItem, MainModel.ApplicationSettings.CacheSection.RecentFiles, OpenRecentFile);
       RefreshTitle();
       MainModel.CurrentMap.MapDirtyChanged = RefreshTitle;
       MainModel.CurrentMap.InvalidateSelectionList = SetObjectSelectionItems;

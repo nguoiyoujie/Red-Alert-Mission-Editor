@@ -10,15 +10,19 @@
     {
       if (string.IsNullOrEmpty(s))
         return defaultValue;
-      switch (s.ToUpperInvariant()[0])
+      switch (s[0])
       {
         case 'Y':
         case 'T':
+        case 'y':
+        case 't':
         case '1':
           return true;
 
         case 'N':
         case 'F':
+        case 'n':
+        case 'f':
         case '0':
           return false;
 

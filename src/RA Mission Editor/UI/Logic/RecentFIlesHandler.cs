@@ -7,7 +7,7 @@ namespace RA_Mission_Editor.UI.Logic
 {
   public delegate void OpenFileDelegate(string path);
 
-  public static class RecentFIlesHandler
+  public static class RecentFilesHandler
   {
     private static Keys[] _keys = new Keys[] { Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6, Keys.D7, Keys.D8, Keys.D9, Keys.D0 };
 

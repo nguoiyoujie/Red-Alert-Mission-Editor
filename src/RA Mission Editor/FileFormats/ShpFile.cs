@@ -14,13 +14,10 @@
 
 using RA_Mission_Editor.Common;
 using RA_Mission_Editor.FileFormats.Encodings;
-using RA_Mission_Editor.Resources;
 using RA_Mission_Editor.Util;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace RA_Mission_Editor.FileFormats
 {

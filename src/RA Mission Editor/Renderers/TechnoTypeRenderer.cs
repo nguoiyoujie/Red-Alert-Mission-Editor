@@ -563,6 +563,8 @@ namespace RA_Mission_Editor.Renderers
       if (tag != null && tag.ToUpperInvariant() != "NONE")
       {
         g.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
+        SizeF size = g.MeasureString(tag, MapUserThemes.TechnoTypeTagFont, r.Size, _triggerTagStringFormat);
+        g.FillRectangle(MapUserThemes.TechnoTypeTagBackgroundBrush, new RectangleF(r.Location.X + r.Size.Width / 2 - size.Width / 2, r.Location.Y + r.Size.Height / 2 - size.Height / 2, size.Width, size.Height));
         g.DrawString(tag, MapUserThemes.TechnoTypeTagFont, MapUserThemes.TechnoTypeTagBrush, r, _triggerTagStringFormat);
       }
 
@@ -679,6 +681,7 @@ namespace RA_Mission_Editor.Renderers
         {
           for (int i = 0; i < ttype.TurretLocations.Length; i++)
           {
+            Bitmap turrbmp = null;
             var turrLoc = ttype.TurretLocations[i];
             if (turrLoc != null)
             {
@@ -688,28 +691,28 @@ namespace RA_Mission_Editor.Renderers
                     cache.GetOrOpen(ttype.TurretName + ".SHP", vfs, out tshpFile))
                 {
                   dir = (256 - facing) % 256 / (256 / ttype.TurretDirections) + ttype.TurretShpFrame;
-                  bmp = RenderUtils.RenderShp(cache, tshpFile, hpalFile, dir);
+                  turrbmp = RenderUtils.RenderShp(cache, tshpFile, hpalFile, dir);
                 }
               }
               else
               {
                 dir = (256 - facing) % 256 / (256 / ttype.TurretDirections) + ttype.TurretShpFrame;
-                bmp = RenderUtils.RenderShp(cache, shpFile, hpalFile, dir);
+                turrbmp = RenderUtils.RenderShp(cache, shpFile, hpalFile, dir);
               }
-              if (bmp != null)
+              if (turrbmp != null)
               {
                 // draw centered
-                xd = x * Constants.CELL_PIXEL_W + Constants.CELL_PIXEL_W / 2 - (bmp.Width / 2);
-                yd = y * Constants.CELL_PIXEL_H + Constants.CELL_PIXEL_H / 2 - (bmp.Height / 2);
+                xd = x * Constants.CELL_PIXEL_W + Constants.CELL_PIXEL_W / 2 - (turrbmp.Width / 2);
+                yd = y * Constants.CELL_PIXEL_H + Constants.CELL_PIXEL_H / 2 - (turrbmp.Height / 2);
                 Point mov = turrLoc(i, facing);
                 if (highlight)
                 {
-                  Rectangle rd = new Rectangle(xd + mov.X, yd + mov.Y, bmp.Width, bmp.Height);
-                  g.DrawImage(bmp, rd, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, _highlightImageAttributes);
+                  Rectangle rd = new Rectangle(xd + mov.X, yd + mov.Y, turrbmp.Width, turrbmp.Height);
+                  g.DrawImage(turrbmp, rd, 0, 0, turrbmp.Width, turrbmp.Height, GraphicsUnit.Pixel, _highlightImageAttributes);
                 }
                 else
                 {
-                  g.DrawImage(bmp, xd + mov.X, yd + mov.Y);
+                  g.DrawImage(turrbmp, xd + mov.X, yd + mov.Y);
                 }
               }
             }
@@ -723,6 +726,8 @@ namespace RA_Mission_Editor.Renderers
           yd = y * Constants.CELL_PIXEL_H + Constants.CELL_PIXEL_H / 2 - (bmp.Height / 2);
           Rectangle r = new Rectangle(xd, yd, bmp.Width, bmp.Height);
           g.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
+          SizeF size = g.MeasureString(tag, MapUserThemes.TechnoTypeTagFont, r.Size, _triggerTagStringFormat);
+          g.FillRectangle(MapUserThemes.TechnoTypeTagBackgroundBrush, new RectangleF(r.Location.X + r.Size.Width / 2 - size.Width / 2, r.Location.Y + r.Size.Height / 2 - size.Height / 2, size.Width, size.Height));
           g.DrawString(tag, MapUserThemes.TechnoTypeTagFont, MapUserThemes.TechnoTypeTagBrush, r, _triggerTagStringFormat);
         }
       }
@@ -858,6 +863,8 @@ namespace RA_Mission_Editor.Renderers
           yd = y * Constants.CELL_PIXEL_H + Constants.CELL_PIXEL_H / 2 - (bmp.Height / 2);
           Rectangle r = new Rectangle(xd, yd, bmp.Width, bmp.Height);
           g.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
+          SizeF size = g.MeasureString(tag, MapUserThemes.TechnoTypeTagFont, r.Size, _triggerTagStringFormat);
+          g.FillRectangle(MapUserThemes.TechnoTypeTagBackgroundBrush, new RectangleF(r.Location.X + r.Size.Width / 2 - size.Width / 2, r.Location.Y + r.Size.Height / 2 - size.Height / 2, size.Width, size.Height));
           g.DrawString(tag, MapUserThemes.TechnoTypeTagFont, MapUserThemes.TechnoTypeTagBrush, r, _triggerTagStringFormat);
         }
       }
@@ -933,6 +940,8 @@ namespace RA_Mission_Editor.Renderers
         {
           Rectangle r = new Rectangle(xd, yd, bmp.Width, bmp.Height);
           g.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
+          SizeF size = g.MeasureString(tag, MapUserThemes.TechnoTypeTagFont, r.Size, _triggerTagStringFormat);
+          g.FillRectangle(MapUserThemes.TechnoTypeTagBackgroundBrush, new RectangleF(r.Location.X + r.Size.Width / 2 - size.Width / 2, r.Location.Y + r.Size.Height / 2 - size.Height / 2, size.Width, size.Height));
           g.DrawString(tag, MapUserThemes.TechnoTypeTagFont, MapUserThemes.TechnoTypeTagBrush, r, _triggerTagStringFormat);
         }
       }
@@ -1011,6 +1020,8 @@ namespace RA_Mission_Editor.Renderers
         MapHelper.GetSubCellOffsets(subCell, out int xd, out int yd);
         int xt = x * Constants.CELL_PIXEL_W + xd;
         int yt = y * Constants.CELL_PIXEL_H + yd;
+        int tagwidth = 24;
+        int tagheight = 24;
         if (bmp != null)
         {
           // draw centered
@@ -1023,12 +1034,16 @@ namespace RA_Mission_Editor.Renderers
           {
             g.DrawImage(bmp, xt, yt);
           }
+          tagwidth = Math.Max(tagwidth, bmp.Width);
+          tagheight = Math.Max(tagheight, bmp.Height);
         }
 
         if (tag != null && tag.ToUpperInvariant() != "NONE")
         {
-          Rectangle r = new Rectangle(xt, yt, bmp.Width, bmp.Height);
+          Rectangle r = new Rectangle(xt, yt, tagwidth, tagheight);
           g.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
+          SizeF size = g.MeasureString(tag, MapUserThemes.TechnoTypeTagFont, r.Size, _triggerTagStringFormat);
+          g.FillRectangle(MapUserThemes.TechnoTypeTagBackgroundBrush, new RectangleF(r.Location.X + r.Size.Width / 2 - size.Width / 2, r.Location.Y + r.Size.Height / 2 - size.Height / 2, size.Width, size.Height));
           g.DrawString(tag, MapUserThemes.TechnoTypeTagFont, MapUserThemes.TechnoTypeTagBrush, r, _triggerTagStringFormat);
         }
       }

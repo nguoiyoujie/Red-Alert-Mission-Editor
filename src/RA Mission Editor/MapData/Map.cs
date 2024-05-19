@@ -300,6 +300,183 @@ namespace RA_Mission_Editor.MapData
       Dirty = false;
     }
 
+    public bool VerifyMap(List<string> errors)
+    {
+      if (errors == null) { errors = new List<string>(128); }
+      int initialcount = errors.Count;
+      // Verify 
+      foreach (var unit in UnitSection.EntityList)
+      {
+        if (AttachedRules.Units.GetID(unit.ID) == -1)
+        {
+          errors.Add("Unit '" + unit.ID + "' has invalid ID");
+        }
+        if (!this.IsCellInMap(unit.Cell))
+        {
+          errors.Add("Unit '" + unit.ID + "' has invalid cell (" + unit.Cell + ")");
+        }
+        if (Missions.GetID(unit.Mission) == -1)
+        {
+          errors.Add("Unit '" + unit.ID + "' has invalid mission (" + unit.Mission + ")");
+        }
+        if (AttachedRules.Houses.GetHouseID(unit.Owner) == -1)
+        {
+          errors.Add("Unit '" + unit.ID + "' has invalid owner (" + unit.Owner + ")");
+        }
+        if (!string.IsNullOrEmpty(unit.Tag) && !"none".Equals(unit.Tag, StringComparison.OrdinalIgnoreCase))
+        {
+          bool found =false;
+          foreach (var trig in TriggerSection.TriggerList)
+          {
+            if (trig.Name == unit.Tag)
+          {
+              found = true;
+              break;
+            }
+          }
+          if (!found)
+          {
+            errors.Add("Unit '" + unit.ID + "' has invalid tag (" + unit.Tag + ")");
+          }
+        }
+      }
+
+      foreach (var inft in InfantrySection.EntityList)
+      {
+        if (AttachedRules.Infantries.GetID(inft.ID) == -1)
+        {
+          errors.Add("Infantry '" + inft.ID + "' has invalid ID");
+        }
+        if (!this.IsCellInMap(inft.Cell))
+        {
+          errors.Add("Infantry '" + inft.ID + "' has invalid cell (" + inft.Cell + ")");
+        }
+        if (inft.SubCell > 4)
+        {
+          errors.Add("Infantry '" + inft.ID + "' has invalid subcell (" + inft.SubCell + ")");
+        }
+        if (Missions.GetID(inft.Mission) == -1)
+        {
+          errors.Add("Infantry '" + inft.ID + "' has invalid mission (" + inft.Mission + ")");
+        }
+        if (AttachedRules.Houses.GetHouseID(inft.Owner) == -1)
+        {
+          errors.Add("Infantry '" + inft.ID + "' has invalid owner (" + inft.Owner + ")");
+        }
+        if (!string.IsNullOrEmpty(inft.Tag) && !"none".Equals(inft.Tag, StringComparison.OrdinalIgnoreCase))
+        {
+          bool found = false;
+          foreach (var trig in TriggerSection.TriggerList)
+          {
+            if (trig.Name == inft.Tag)
+            {
+              found = true;
+              break;
+            }
+          }
+          if (!found)
+          {
+            errors.Add("Infantry '" + inft.ID + "' has invalid tag (" + inft.Tag + ")");
+          }
+        }
+      }
+
+      foreach (var vess in VesselSection.EntityList)
+      {
+        if (AttachedRules.Vessels.GetID(vess.ID) == -1)
+        {
+          errors.Add("Vessel '" + vess.ID + "' has invalid ID");
+        }
+        if (!this.IsCellInMap(vess.Cell))
+        {
+          errors.Add("Vessel '" + vess.ID + "' has invalid cell (" + vess.Cell + ")");
+        }
+        if (Missions.GetID(vess.Mission) == -1)
+        {
+          errors.Add("Vessel '" + vess.ID + "' has invalid mission (" + vess.Mission + ")");
+        }
+        if (AttachedRules.Houses.GetHouseID(vess.Owner) == -1)
+        {
+          errors.Add("Vessel '" + vess.ID + "' has invalid owner (" + vess.Owner + ")");
+        }
+        if (!string.IsNullOrEmpty(vess.Tag) && !"none".Equals(vess.Tag, StringComparison.OrdinalIgnoreCase))
+        {
+          bool found = false;
+          foreach (var trig in TriggerSection.TriggerList)
+          {
+            if (trig.Name == vess.Tag)
+            {
+              found = true;
+              break;
+            }
+          }
+          if (!found)
+          {
+            errors.Add("Vessel '" + vess.ID + "' has invalid tag (" + vess.Tag + ")");
+          }
+        }
+      }
+
+      foreach (var bldg in BuildingSection.EntityList)
+      {
+        if (AttachedRules.Buildings.GetID(bldg.ID) == -1)
+        {
+          errors.Add("Building '" + bldg.ID + "' has invalid ID");
+        }
+        if (!this.IsCellInMap(bldg.Cell))
+        {
+          errors.Add("Building '" + bldg.ID + "' has invalid cell (" + bldg.Cell + ")");
+        }
+        if (AttachedRules.Houses.GetHouseID(bldg.Owner) == -1)
+        {
+          errors.Add("Building '" + bldg.ID + "' has invalid owner (" + bldg.Owner + ")");
+        }
+        if (!string.IsNullOrEmpty(bldg.Tag) && !"none".Equals(bldg.Tag, StringComparison.OrdinalIgnoreCase))
+        {
+          bool found = false;
+          foreach (var trig in TriggerSection.TriggerList)
+          {
+            if (trig.Name == bldg.Tag)
+            {
+              found = true;
+              break;
+            }
+          }
+          if (!found)
+          {
+            errors.Add("Building '" + bldg.ID + "' has invalid tag (" + bldg.Tag + ")");
+          }
+        }
+      }
+
+      foreach (var bldg in BaseSection.EntityList)
+      {
+        if (AttachedRules.Buildings.GetID(bldg.ID) == -1)
+        {
+          errors.Add("Base '" + bldg.ID + "' has invalid ID");
+        }
+        if (!this.IsCellInMap(bldg.Cell))
+        {
+          errors.Add("Base '" + bldg.ID + "' has invalid cell (" + bldg.Cell + ")");
+        }
+      }
+      if (AttachedRules.Houses.GetHouseID(BaseSection.Player) == -1)
+      {
+        errors.Add("The Base Section has invalid owner (" + BaseSection.Player + ")");
+      }
+
+      if (errors.Count == initialcount)
+      {
+        errors.Add("No errors in map!");
+        return true;
+      }
+      else
+      {
+        errors.Add((errors.Count - initialcount) + " errors in map!");
+        return true;
+      }
+    }
+
     public void RebuildOccupancyList(MapCache cache, VirtualFileSystem vfs)
     {
       MapOccupancyList.Rebuild(this, cache, vfs);

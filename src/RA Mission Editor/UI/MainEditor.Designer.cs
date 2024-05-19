@@ -135,6 +135,7 @@ namespace RA_Mission_Editor.UI
       this.renderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.renderToImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.verifyMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.testMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.statusStrip1 = new System.Windows.Forms.StatusStrip();
       this.tssCoord = new System.Windows.Forms.ToolStripStatusLabel();
@@ -1245,16 +1246,25 @@ namespace RA_Mission_Editor.UI
       // testToolStripMenuItem
       // 
       this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.verifyMapToolStripMenuItem,
             this.testMapToolStripMenuItem});
       this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-      this.testToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+      this.testToolStripMenuItem.Size = new System.Drawing.Size(66, 28);
       this.testToolStripMenuItem.Text = "Test";
+      // 
+      // verifyMapToolStripMenuItem
+      // 
+      this.verifyMapToolStripMenuItem.Name = "verifyMapToolStripMenuItem";
+      this.verifyMapToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F5)));
+      this.verifyMapToolStripMenuItem.Size = new System.Drawing.Size(280, 34);
+      this.verifyMapToolStripMenuItem.Text = "Verify Map";
+      this.verifyMapToolStripMenuItem.Click += new System.EventHandler(this.verifyMapToolStripMenuItem_Click);
       // 
       // testMapToolStripMenuItem
       // 
       this.testMapToolStripMenuItem.Name = "testMapToolStripMenuItem";
       this.testMapToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-      this.testMapToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+      this.testMapToolStripMenuItem.Size = new System.Drawing.Size(280, 34);
       this.testMapToolStripMenuItem.Text = "Test Map";
       this.testMapToolStripMenuItem.Click += new System.EventHandler(this.testMapToolStripMenuItem_Click);
       // 
@@ -1515,5 +1525,6 @@ namespace RA_Mission_Editor.UI
     private System.Windows.Forms.ToolStripMenuItem openOtherEditorToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem templateColorsToolStripMenuItem;
     private System.Windows.Forms.ToolStripStatusLabel tssRenderTime;
+    private System.Windows.Forms.ToolStripMenuItem verifyMapToolStripMenuItem;
   }
 }

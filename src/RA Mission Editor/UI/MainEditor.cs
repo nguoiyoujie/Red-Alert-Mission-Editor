@@ -1172,6 +1172,16 @@ namespace RA_Mission_Editor.UI
       vsd.ShowDialog();
     }
 
+    private void verifyMapToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      if (MainModel.CurrentMap != null)
+      {
+        VerifyDialog vmd = new VerifyDialog();
+        vmd.VerifyMap(MainModel.CurrentMap);
+        vmd.ShowDialog();
+      }
+    }
+
     private void testMapToolStripMenuItem_Click(object sender, EventArgs e)
     {
       TestMapDialog tmd = new TestMapDialog();

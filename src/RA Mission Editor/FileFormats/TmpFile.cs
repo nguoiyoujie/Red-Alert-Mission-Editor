@@ -114,7 +114,7 @@ namespace RA_Mission_Editor.FileFormats
 				TileTypes.Add((TileType)new BinaryReader(this).ReadByte());
 			}
 
-      for (int i = 0; i < count; i++)
+      for (int i = 0; i < typeStart - transFlagStart; i++) // it is possible that TransData does not have the same number of entries as Images. Troublesome though.
       {
         Position = transFlagStart + TransData.Count;
         if (Images[i] != null)

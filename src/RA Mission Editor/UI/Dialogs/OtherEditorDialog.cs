@@ -33,6 +33,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       languageFileControl1.SetModel(model);
       shpPaletteConverterControl1.SetModel(model);
       tmpFileViewerControl1.SetModel(model);
+      assetExporterControl1.SetModel(model);
     }
 
     private void RefreshTab()

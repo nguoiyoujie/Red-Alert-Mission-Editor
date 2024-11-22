@@ -36,10 +36,13 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.pageTmpViewer = new System.Windows.Forms.TabControl();
       this.tabPage1 = new System.Windows.Forms.TabPage();
       this.tmpFileViewerControl1 = new RA_Mission_Editor.UI.UserControls.TmpFileViewerControl();
+      this.tabPage2 = new System.Windows.Forms.TabPage();
+      this.assetExporterControl1 = new RA_Mission_Editor.UI.UserControls.AssetExporterControl();
       this.pageShpConverter.SuspendLayout();
       this.pageLanguageFile.SuspendLayout();
       this.pageTmpViewer.SuspendLayout();
       this.tabPage1.SuspendLayout();
+      this.tabPage2.SuspendLayout();
       this.SuspendLayout();
       // 
       // pageShpConverter
@@ -89,6 +92,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.pageTmpViewer.Controls.Add(this.pageLanguageFile);
       this.pageTmpViewer.Controls.Add(this.pageShpConverter);
       this.pageTmpViewer.Controls.Add(this.tabPage1);
+      this.pageTmpViewer.Controls.Add(this.tabPage2);
       this.pageTmpViewer.Dock = System.Windows.Forms.DockStyle.Fill;
       this.pageTmpViewer.Location = new System.Drawing.Point(0, 0);
       this.pageTmpViewer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -118,6 +122,26 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.tmpFileViewerControl1.Size = new System.Drawing.Size(1198, 790);
       this.tmpFileViewerControl1.TabIndex = 0;
       // 
+      // tabPage2
+      // 
+      this.tabPage2.Controls.Add(this.assetExporterControl1);
+      this.tabPage2.Location = new System.Drawing.Point(4, 29);
+      this.tabPage2.Name = "tabPage2";
+      this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+      this.tabPage2.Size = new System.Drawing.Size(1204, 796);
+      this.tabPage2.TabIndex = 4;
+      this.tabPage2.Text = "Asset Exporter";
+      this.tabPage2.UseVisualStyleBackColor = true;
+      // 
+      // assetExporterControl1
+      // 
+      this.assetExporterControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.assetExporterControl1.Location = new System.Drawing.Point(3, 3);
+      this.assetExporterControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.assetExporterControl1.Name = "assetExporterControl1";
+      this.assetExporterControl1.Size = new System.Drawing.Size(1198, 790);
+      this.assetExporterControl1.TabIndex = 0;
+      // 
       // OtherEditorDialog
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -132,6 +156,7 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.pageLanguageFile.ResumeLayout(false);
       this.pageTmpViewer.ResumeLayout(false);
       this.tabPage1.ResumeLayout(false);
+      this.tabPage2.ResumeLayout(false);
       this.ResumeLayout(false);
 
     }
@@ -145,5 +170,7 @@ namespace RA_Mission_Editor.UI.Dialogs
     private System.Windows.Forms.TabControl pageTmpViewer;
     private System.Windows.Forms.TabPage tabPage1;
     private UserControls.TmpFileViewerControl tmpFileViewerControl1;
+    private System.Windows.Forms.TabPage tabPage2;
+    private UserControls.AssetExporterControl assetExporterControl1;
   }
 }

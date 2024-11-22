@@ -468,6 +468,8 @@ namespace RA_Mission_Editor.FileFormats
 
 		public void Save(string filename)
 		{
+			string pathdir = Path.Combine(filename, "..");
+			Directory.CreateDirectory(pathdir);
 			var sw = new StreamWriter(filename, false, Encoding.Default, 64 * 1024);
 			foreach (IniSection section in Sections)
 			{

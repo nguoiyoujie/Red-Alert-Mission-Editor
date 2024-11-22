@@ -254,5 +254,10 @@ namespace RA_Mission_Editor.FileFormats
 				}
 			}
 		}
-	}
+
+    public override string ToString()
+    {
+      return FileName;
+    }
+  }
 }

@@ -45,5 +45,9 @@ namespace RA_Mission_Editor.FileFormats
 
     public void Close() { }
 
+    public override string ToString()
+    {
+      return Path.GetFileName(Directory);
+    }
   }
 }

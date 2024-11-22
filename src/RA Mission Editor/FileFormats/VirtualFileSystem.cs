@@ -59,7 +59,7 @@ namespace RA_Mission_Editor.FileFormats
         // mix file
         if (FormatHelper.GuessFormat(path) == FileFormat.Mix)
         {
-          var mf = new MixFile(File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read), path);
+          var mf = new MixFile(File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read), Path.GetFileName(path));
           AllArchives.Add(mf);
           //Log.Write("log", "Added <MixFile> {0} to VFS", path);
           return true;

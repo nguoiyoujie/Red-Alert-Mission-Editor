@@ -49,8 +49,10 @@ namespace RA_Mission_Editor.RulesData
         if (preview.TemplateCell != 0xFF && bmp != null)
         {
           Bitmap newbmp = new Bitmap(bmp.Width, bmp.Height);
-          int cx = preview.TemplateCell % tmpFile.BlockWidth;
-          int cy = preview.TemplateCell / tmpFile.BlockWidth;
+          // use actual bmp width instead of BlockWidth
+          int width = bmp.Width / TmpFile.TileSize;
+          int cx = preview.TemplateCell % width; // tmpFile.BlockWidth;
+          int cy = preview.TemplateCell / width; //tmpFile.BlockWidth;
           using (Graphics g = Graphics.FromImage(newbmp))
           {
             g.DrawImage(bmp, 0, 0);

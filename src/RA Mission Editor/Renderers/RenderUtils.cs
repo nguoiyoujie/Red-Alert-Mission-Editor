@@ -147,9 +147,21 @@ namespace RA_Mission_Editor.Renderers
           return image;
         }
 
+        // copies are above 1 for special CLEAR1 tiles and some tiles in INTERIOR
         int copies = tmp.Images.Count / tmp.BlockWidth / tmp.BlockHeight;
+        int copies2 = 1;
+        if (copies == 6)
+        {
+          copies2 = 2;
+          copies = 3;
+        }
+        else if (copies > 6)
+        {
+          copies2 = (copies + 3) / 4;
+          copies = 4;
+        }
 
-        Bitmap bitmap = new Bitmap(TmpFile.TileSize * tmp.BlockWidth * copies, TmpFile.TileSize * tmp.BlockHeight,
+        Bitmap bitmap = new Bitmap(TmpFile.TileSize * tmp.BlockWidth * copies, TmpFile.TileSize * tmp.BlockHeight * copies2,
             PixelFormat.Format8bppIndexed);
 
         bitmap.Palette = p.AsSystemPalette();
@@ -163,21 +175,25 @@ namespace RA_Mission_Editor.Renderers
           int stride = data.Stride;
 
           for (int w = 0; w < copies; w++)
-            for (int u = 0; u < tmp.BlockWidth; u++)
-              for (int v = 0; v < tmp.BlockHeight; v++)
-                if (tmp.Images[w * tmp.BlockWidth + u + v * tmp.BlockWidth] != null)
+            for (int w2 = 0; w2 < copies2; w2++)
+              for (int u = 0; u < tmp.BlockWidth; u++)
+                for (int v = 0; v < tmp.BlockHeight; v++)
                 {
-                  TmpFile.TmpImage rawImage = tmp.Images[w * tmp.BlockWidth + u + v * tmp.BlockWidth];
-                  for (int i = 0; i < TmpFile.TileSize; i++)
-                    for (int j = 0; j < TmpFile.TileSize; j++)
-                      q[(v * TmpFile.TileSize + j) * stride + (w * tmp.BlockWidth + u) * TmpFile.TileSize + i] = rawImage.TileData[i + TmpFile.TileSize * j];
-                }
-                else
-                {
-                  for (int i = 0; i < TmpFile.TileSize; i++)
-                    for (int j = 0; j < TmpFile.TileSize; j++)
-                      q[(v * TmpFile.TileSize + j) * stride + (w * tmp.BlockWidth + u) * TmpFile.TileSize + i] = 0;
-                }
+                  int index = w * tmp.BlockWidth + u + v * tmp.BlockWidth;
+                  if (index < tmp.Images.Count && tmp.Images[index] != null)
+                  {
+                    TmpFile.TmpImage rawImage = tmp.Images[index];
+                    for (int i = 0; i < TmpFile.TileSize; i++)
+                      for (int j = 0; j < TmpFile.TileSize; j++)
+                        q[((w2 + v) * TmpFile.TileSize + j) * stride + (w * tmp.BlockWidth + u) * TmpFile.TileSize + i] = rawImage.TileData[i + TmpFile.TileSize * j];
+                  }
+                  else
+                  {
+                    for (int i = 0; i < TmpFile.TileSize; i++)
+                      for (int j = 0; j < TmpFile.TileSize; j++)
+                        q[((w2 + v) * TmpFile.TileSize + j) * stride + (w * tmp.BlockWidth + u) * TmpFile.TileSize + i] = 0;
+                  }
+                }  
         }
 
         bitmap.UnlockBits(data);
@@ -187,8 +203,19 @@ namespace RA_Mission_Editor.Renderers
       else
       {
         int copies = tmp.Images.Count / tmp.BlockWidth / tmp.BlockHeight;
+        int copies2 = 1;
+        if (copies == 6)
+        {
+          copies2 = 2;
+          copies = 3;
+        }
+        else if (copies > 6)
+        {
+          copies2 = (copies + 3) / 4;
+          copies = 4;
+        }
 
-        Bitmap bitmap = new Bitmap(tmp.Width * tmp.BlockWidth * copies, tmp.Height * tmp.BlockHeight);
+        Bitmap bitmap = new Bitmap(tmp.Width * tmp.BlockWidth * copies, tmp.Height * tmp.BlockHeight * copies2);
         using (Graphics g = Graphics.FromImage(bitmap))
         {
           StringFormat textStringFormat = StringFormat.GenericTypographic;
@@ -197,16 +224,20 @@ namespace RA_Mission_Editor.Renderers
           textStringFormat.FormatFlags = StringFormatFlags.MeasureTrailingSpaces | StringFormatFlags.NoClip;
 
           for (int w = 0; w < copies; w++)
-            for (int u = 0; u < tmp.BlockWidth; u++)
-              for (int v = 0; v < tmp.BlockHeight; v++)
-                if (tmp.Images[w * tmp.BlockWidth + u + v * tmp.BlockWidth] != null)
+            for (int w2 = 0; w2 < copies2; w2++)
+              for (int u = 0; u < tmp.BlockWidth; u++)
+                for (int v = 0; v < tmp.BlockHeight; v++)
                 {
-                  c.GetOrCreate(p.GetColor(ColorRemaps.GetTileColor(tmp.TileTypes[(w * tmp.BlockWidth + u + v * tmp.BlockWidth) % tmp.TileTypes.Count])), out Brush br);
-                  RectangleF rect = new RectangleF((w * tmp.Width + u) * tmp.Width, v * tmp.Height, tmp.Width, tmp.Height);
+                  int index = w * tmp.BlockWidth + u + v * tmp.BlockWidth;
+                  if (index < tmp.Images.Count && tmp.Images[index] != null)
+                  {
+                    c.GetOrCreate(p.GetColor(ColorRemaps.GetTileColor(tmp.TileTypes[(w2 * w * tmp.BlockWidth + u + v * tmp.BlockWidth) % tmp.TileTypes.Count])), out Brush br);
+                    RectangleF rect = new RectangleF((w + u) * tmp.Width, (w2 + v) * tmp.Height, tmp.Width, tmp.Height);
 
-                  g.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
-                  g.FillRectangle(br, rect);
-                  g.DrawString(((int)tmp.TileTypes[(w * tmp.BlockWidth + u + v * tmp.BlockWidth) % tmp.TileTypes.Count]).ToString("X1"), MapUserThemes.ControlTextFont, Brushes.Black, rect, textStringFormat);
+                    g.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
+                    g.FillRectangle(br, rect);
+                    g.DrawString(((int)tmp.TileTypes[(w2 * w * tmp.BlockWidth + u + v * tmp.BlockWidth) % tmp.TileTypes.Count]).ToString("X1"), MapUserThemes.ControlTextFont, Brushes.Black, rect, textStringFormat);
+                  }
                 }
         }
         return bitmap;

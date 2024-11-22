@@ -8,6 +8,7 @@ using RA_Mission_Editor.RulesData.Ruleset;
 using RA_Mission_Editor.Util;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace RA_Mission_Editor.MapData
 {
@@ -338,7 +339,7 @@ namespace RA_Mission_Editor.MapData
           bool found =false;
           foreach (var trig in TriggerSection.TriggerList)
           {
-            if (trig.Name == unit.Tag)
+            if (unit.Tag.Equals(trig.Name, StringComparison.OrdinalIgnoreCase))
           {
               found = true;
               break;
@@ -378,7 +379,7 @@ namespace RA_Mission_Editor.MapData
           bool found = false;
           foreach (var trig in TriggerSection.TriggerList)
           {
-            if (trig.Name == inft.Tag)
+            if (inft.Tag.Equals(trig.Name, StringComparison.OrdinalIgnoreCase))
             {
               found = true;
               break;
@@ -414,7 +415,7 @@ namespace RA_Mission_Editor.MapData
           bool found = false;
           foreach (var trig in TriggerSection.TriggerList)
           {
-            if (trig.Name == vess.Tag)
+            if (vess.Tag.Equals(trig.Name, StringComparison.OrdinalIgnoreCase))
             {
               found = true;
               break;
@@ -446,7 +447,7 @@ namespace RA_Mission_Editor.MapData
           bool found = false;
           foreach (var trig in TriggerSection.TriggerList)
           {
-            if (trig.Name == bldg.Tag)
+            if (bldg.Tag.Equals(trig.Name, StringComparison.OrdinalIgnoreCase))
             {
               found = true;
               break;

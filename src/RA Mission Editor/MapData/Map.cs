@@ -475,7 +475,53 @@ namespace RA_Mission_Editor.MapData
         errors.Add("The Base Section has invalid owner (" + BaseSection.Player + ")");
       }
 
-      if (errors.Count == initialcount)
+      foreach (var trigger in CellTriggerSection.Triggers)
+      {
+        if (trigger != null && trigger.ID != null)
+        {
+          bool found = false;
+          foreach (var trig in TriggerSection.TriggerList)
+          {
+            if (trigger.ID.Equals(trig.Name, StringComparison.OrdinalIgnoreCase))
+            {
+              found = true;
+              break;
+            }
+          }
+          if (!found)
+          {
+            errors.Add("Cell Trigger @ {" + MapHelper.CellX(this, trigger.Cell) + "," + MapHelper.CellY(this, trigger.Cell) + "} has invalid tag (" + trigger.ID + ")");
+          }
+        }
+      }
+
+      foreach (var team in TeamTypeSection.TeamTypeList)
+      {
+        if (team.ScriptList.Count > 17) // experimented. It crashes at 18
+        {
+          errors.Add("Teamtype '" + team.Name + "' exceeds allowed script count of 17! (" + team.ScriptList.Count  + ")");
+        }
+
+        if (team.TechnoList.Count > 5)
+        {
+          errors.Add("Teamtype '" + team.Name + "' exceeds allowed techno count of 5! (" + team.TechnoList.Count + ")");
+        }
+
+        int line = 0;
+        foreach (var step in team.ScriptList)
+        {
+          if (step.ScriptType == 4 && step.Parameter.Value is int c) // "04 - Move To Cell"
+          {
+            if (!MapHelper.IsCellInMap(this, c))
+            {
+              errors.Add("Teamtype '" + team.Name + "': Script step " + line + " references an invalid cell number! (" + c + ")");
+            }
+          }
+          line++;
+        }
+      }
+
+        if (errors.Count == initialcount)
       {
         errors.Add("No errors in map!");
         return true;

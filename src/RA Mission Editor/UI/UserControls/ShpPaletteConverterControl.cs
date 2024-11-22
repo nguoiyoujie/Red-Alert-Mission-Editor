@@ -149,11 +149,16 @@ namespace RA_Mission_Editor.UI.UserControls
           }
           pbSrc.BackgroundImage = bmp;
         }
+        if (pbSrc.BackgroundImage != null)
+        {
+          pbSrc.Size = new Size(Math.Max(pbSrc.BackgroundImage.Width, pbSrc.Parent.Size.Width), Math.Max(pbSrc.BackgroundImage.Height, pbSrc.Parent.Size.Height));
+        }
         pbSrcPal.BackgroundImage = _palSrcbmp;
       }
       else
       {
         pbSrc.BackgroundImage = null;
+        pbSrc.Size = pbSrc.Parent.Size;
         pbSrcPal.BackgroundImage = null;
       }
 
@@ -175,12 +180,17 @@ namespace RA_Mission_Editor.UI.UserControls
           }
           pbDst.BackgroundImage = bmp;
         }
+        if (pbDst.BackgroundImage != null)
+        {
+          pbDst.Size = new Size(Math.Max(pbDst.BackgroundImage.Width, pbDst.Parent.Size.Width), Math.Max(pbDst.BackgroundImage.Height, pbDst.Parent.Size.Height));
+        }
         pbDstPal.BackgroundImage = _palDstbmp;
       }
       else
       {
         lblProgressText.Text = _progressText;
         pbDst.BackgroundImage = null;
+        pbDst.Size = pbDst.Parent.Size;
         pbDstPal.BackgroundImage = null;
       }
 

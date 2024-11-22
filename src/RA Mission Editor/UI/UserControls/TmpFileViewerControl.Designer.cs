@@ -58,6 +58,9 @@ namespace RA_Mission_Editor.UI.UserControls
       this.bSetAll = new System.Windows.Forms.Button();
       this.groupBox2 = new System.Windows.Forms.GroupBox();
       this.cbIsClearTemplate = new System.Windows.Forms.CheckBox();
+      this.panel1 = new System.Windows.Forms.Panel();
+      this.panel2 = new System.Windows.Forms.Panel();
+      this.panel3 = new System.Windows.Forms.Panel();
       ((System.ComponentModel.ISupportInitialize)(this.pbSrc)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudImage)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.pbSingle)).BeginInit();
@@ -65,6 +68,9 @@ namespace RA_Mission_Editor.UI.UserControls
       ((System.ComponentModel.ISupportInitialize)(this.nudSrcZoom)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.pbTileTypes)).BeginInit();
       this.groupBox2.SuspendLayout();
+      this.panel1.SuspendLayout();
+      this.panel2.SuspendLayout();
+      this.panel3.SuspendLayout();
       this.SuspendLayout();
       // 
       // lblTutorial
@@ -79,12 +85,12 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       // bOK
       // 
-      this.bOK.Location = new System.Drawing.Point(955, 725);
+      this.bOK.Location = new System.Drawing.Point(316, 638);
       this.bOK.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.bOK.Name = "bOK";
       this.bOK.Size = new System.Drawing.Size(138, 49);
       this.bOK.TabIndex = 50;
-      this.bOK.Text = "Save";
+      this.bOK.Text = "Save as TMP";
       this.bOK.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
       this.bOK.UseVisualStyleBackColor = true;
       this.bOK.Click += new System.EventHandler(this.bSave_Click);
@@ -105,7 +111,7 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       this.pbSrc.BackColor = System.Drawing.Color.Black;
       this.pbSrc.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-      this.pbSrc.Location = new System.Drawing.Point(24, 232);
+      this.pbSrc.Location = new System.Drawing.Point(0, 0);
       this.pbSrc.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.pbSrc.Name = "pbSrc";
       this.pbSrc.Size = new System.Drawing.Size(384, 394);
@@ -150,7 +156,7 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       this.pbSingle.BackColor = System.Drawing.Color.Black;
       this.pbSingle.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-      this.pbSingle.Location = new System.Drawing.Point(808, 342);
+      this.pbSingle.Location = new System.Drawing.Point(0, 0);
       this.pbSingle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.pbSingle.Name = "pbSingle";
       this.pbSingle.Size = new System.Drawing.Size(285, 285);
@@ -332,7 +338,7 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       this.pbTileTypes.BackColor = System.Drawing.Color.Black;
       this.pbTileTypes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-      this.pbTileTypes.Location = new System.Drawing.Point(416, 232);
+      this.pbTileTypes.Location = new System.Drawing.Point(0, 0);
       this.pbTileTypes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.pbTileTypes.Name = "pbTileTypes";
       this.pbTileTypes.Size = new System.Drawing.Size(384, 394);
@@ -400,23 +406,52 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbIsClearTemplate.Location = new System.Drawing.Point(812, 232);
       this.cbIsClearTemplate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.cbIsClearTemplate.Name = "cbIsClearTemplate";
-      this.cbIsClearTemplate.Size = new System.Drawing.Size(324, 24);
+      this.cbIsClearTemplate.Size = new System.Drawing.Size(355, 24);
       this.cbIsClearTemplate.TabIndex = 98;
-      this.cbIsClearTemplate.Text = "Is Clear Template (1x1 Block, 16 Images)";
+      this.cbIsClearTemplate.Text = "Is Clear Template (1x1 Block, muliple Images)";
       this.cbIsClearTemplate.UseVisualStyleBackColor = true;
       this.cbIsClearTemplate.CheckedChanged += new System.EventHandler(this.cbIsClearTemplate_CheckedChanged);
+      // 
+      // panel1
+      // 
+      this.panel1.AutoScroll = true;
+      this.panel1.Controls.Add(this.pbSrc);
+      this.panel1.Location = new System.Drawing.Point(24, 232);
+      this.panel1.Name = "panel1";
+      this.panel1.Size = new System.Drawing.Size(384, 394);
+      this.panel1.TabIndex = 99;
+      // 
+      // panel2
+      // 
+      this.panel2.AutoScroll = true;
+      this.panel2.Controls.Add(this.pbTileTypes);
+      this.panel2.Location = new System.Drawing.Point(414, 233);
+      this.panel2.Name = "panel2";
+      this.panel2.Size = new System.Drawing.Size(384, 394);
+      this.panel2.TabIndex = 100;
+      // 
+      // panel3
+      // 
+      this.panel3.AutoScroll = true;
+      this.panel3.Controls.Add(this.pbSingle);
+      this.panel3.Location = new System.Drawing.Point(805, 342);
+      this.panel3.Name = "panel3";
+      this.panel3.Size = new System.Drawing.Size(285, 285);
+      this.panel3.TabIndex = 101;
       // 
       // TmpFileViewerControl
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.Controls.Add(this.panel3);
+      this.Controls.Add(this.panel2);
+      this.Controls.Add(this.panel1);
       this.Controls.Add(this.cbIsClearTemplate);
       this.Controls.Add(this.groupBox2);
       this.Controls.Add(this.bSetAll);
       this.Controls.Add(this.bSetSingle);
       this.Controls.Add(this.cbTileType);
       this.Controls.Add(this.label2);
-      this.Controls.Add(this.pbTileTypes);
       this.Controls.Add(this.bImportImage);
       this.Controls.Add(this.bExportImage);
       this.Controls.Add(this.label7);
@@ -425,10 +460,8 @@ namespace RA_Mission_Editor.UI.UserControls
       this.Controls.Add(this.groupBox1);
       this.Controls.Add(this.lblSrcTmp);
       this.Controls.Add(this.lblSrcPal);
-      this.Controls.Add(this.pbSingle);
       this.Controls.Add(this.label1);
       this.Controls.Add(this.nudImage);
-      this.Controls.Add(this.pbSrc);
       this.Controls.Add(this.bOK);
       this.Controls.Add(this.lblTutorial);
       this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -442,6 +475,9 @@ namespace RA_Mission_Editor.UI.UserControls
       ((System.ComponentModel.ISupportInitialize)(this.nudSrcZoom)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.pbTileTypes)).EndInit();
       this.groupBox2.ResumeLayout(false);
+      this.panel1.ResumeLayout(false);
+      this.panel2.ResumeLayout(false);
+      this.panel3.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -477,5 +513,8 @@ namespace RA_Mission_Editor.UI.UserControls
     private System.Windows.Forms.Button bSetAll;
     private System.Windows.Forms.GroupBox groupBox2;
     private System.Windows.Forms.CheckBox cbIsClearTemplate;
+    private System.Windows.Forms.Panel panel1;
+    private System.Windows.Forms.Panel panel2;
+    private System.Windows.Forms.Panel panel3;
   }
 }

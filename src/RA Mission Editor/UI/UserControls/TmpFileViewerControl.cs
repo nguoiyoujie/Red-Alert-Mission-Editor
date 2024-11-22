@@ -102,6 +102,14 @@ namespace RA_Mission_Editor.UI.UserControls
           }
           pbSrc.BackgroundImage = bmp;
         }
+        if (pbSrc.BackgroundImage != null)
+        {
+          pbSrc.Size = new Size(Math.Max(pbSrc.BackgroundImage.Width, pbSrc.Parent.Size.Width), Math.Max(pbSrc.BackgroundImage.Height, pbSrc.Parent.Size.Height));
+        }
+        else
+        {
+          pbSrc.Size = pbSrc.Parent.Size;
+        }
         int index = (int)nudImage.Value - 1;
         cbIsClearTemplate.Checked = _tmp.TileTypes.Count == 1 && _tmp.Images.Count > 1;
         cbTileType.SelectedItem = _tmp.TileTypes[index % _tmp.TileTypes.Count];
@@ -119,6 +127,14 @@ namespace RA_Mission_Editor.UI.UserControls
           }
           pbSingle.BackgroundImage = bmp;
         }
+        if (pbSingle.BackgroundImage != null)
+        {
+          pbSingle.Size = new Size(Math.Max(pbSingle.BackgroundImage.Width, pbSingle.Parent.Size.Width), Math.Max(pbSingle.BackgroundImage.Height, pbSingle.Parent.Size.Height));
+        }
+        else
+        {
+          pbSingle.Size = pbSingle.Parent.Size;
+        }
         if (nudSrcZoom.Value != 1 && pbTileTypes.BackgroundImage != null)
         {
           Bitmap bmp = new Bitmap(pbTileTypes.BackgroundImage.Width * (int)nudSrcZoom.Value, pbTileTypes.BackgroundImage.Height * (int)nudSrcZoom.Value);
@@ -132,12 +148,23 @@ namespace RA_Mission_Editor.UI.UserControls
           }
           pbTileTypes.BackgroundImage = bmp;
         }
+        if (pbTileTypes.BackgroundImage != null)
+        {
+          pbTileTypes.Size = new Size(Math.Max(pbTileTypes.BackgroundImage.Width, pbTileTypes.Parent.Size.Width), Math.Max(pbTileTypes.BackgroundImage.Height, pbTileTypes.Parent.Size.Height));
+        }
+        else
+        {
+          pbTileTypes.Size = pbTileTypes.Parent.Size;
+        }
       }
       else
       {
         pbSrc.BackgroundImage = null;
+        pbSrc.Size = pbSrc.Parent.Size;
         pbSingle.BackgroundImage = null;
+        pbSingle.Size = pbSrc.Parent.Size;
         pbTileTypes.BackgroundImage = null;
+        pbTileTypes.Size = pbSrc.Parent.Size;
       }
       lblSrcTmp.Text = _tmp?.FileName;
       lblSrcPal.Text = _palSrc?.FileName;

@@ -101,7 +101,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblColor.AutoSize = true;
       this.lblColor.Location = new System.Drawing.Point(6, 22);
       this.lblColor.Name = "lblColor";
-      this.lblColor.Size = new System.Drawing.Size(37, 13);
+      this.lblColor.Size = new System.Drawing.Size(54, 20);
       this.lblColor.TabIndex = 2;
       this.lblColor.Text = "Color";
       // 
@@ -110,7 +110,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblSecondaryColor.AutoSize = true;
       this.lblSecondaryColor.Location = new System.Drawing.Point(6, 49);
       this.lblSecondaryColor.Name = "lblSecondaryColor";
-      this.lblSecondaryColor.Size = new System.Drawing.Size(97, 13);
+      this.lblSecondaryColor.Size = new System.Drawing.Size(144, 20);
       this.lblSecondaryColor.TabIndex = 3;
       this.lblSecondaryColor.Text = "Secondary Color";
       // 
@@ -119,7 +119,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblCountry.AutoSize = true;
       this.lblCountry.Location = new System.Drawing.Point(6, 76);
       this.lblCountry.Name = "lblCountry";
-      this.lblCountry.Size = new System.Drawing.Size(91, 13);
+      this.lblCountry.Size = new System.Drawing.Size(135, 20);
       this.lblCountry.TabIndex = 4;
       this.lblCountry.Text = "Act as Country";
       // 
@@ -128,7 +128,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblGroundSpeed.AutoSize = true;
       this.lblGroundSpeed.Location = new System.Drawing.Point(6, 47);
       this.lblGroundSpeed.Name = "lblGroundSpeed";
-      this.lblGroundSpeed.Size = new System.Drawing.Size(79, 13);
+      this.lblGroundSpeed.Size = new System.Drawing.Size(117, 20);
       this.lblGroundSpeed.TabIndex = 5;
       this.lblGroundSpeed.Text = "Ground Speed";
       // 
@@ -137,7 +137,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbNoBuildingCrew.AutoSize = true;
       this.cbNoBuildingCrew.Location = new System.Drawing.Point(9, 123);
       this.cbNoBuildingCrew.Name = "cbNoBuildingCrew";
-      this.cbNoBuildingCrew.Size = new System.Drawing.Size(122, 17);
+      this.cbNoBuildingCrew.Size = new System.Drawing.Size(179, 24);
       this.cbNoBuildingCrew.TabIndex = 7;
       this.cbNoBuildingCrew.Text = "No Building Crew";
       this.cbNoBuildingCrew.UseVisualStyleBackColor = true;
@@ -149,7 +149,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbBuildingsInstantCapture.AutoSize = true;
       this.cbBuildingsInstantCapture.Location = new System.Drawing.Point(9, 100);
       this.cbBuildingsInstantCapture.Name = "cbBuildingsInstantCapture";
-      this.cbBuildingsInstantCapture.Size = new System.Drawing.Size(218, 17);
+      this.cbBuildingsInstantCapture.Size = new System.Drawing.Size(323, 24);
       this.cbBuildingsInstantCapture.TabIndex = 8;
       this.cbBuildingsInstantCapture.Text = "Buildings Get Instantly Captured";
       this.cbBuildingsInstantCapture.UseVisualStyleBackColor = true;
@@ -161,7 +161,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbEnableIranOverrides.AutoSize = true;
       this.cbEnableIranOverrides.Location = new System.Drawing.Point(9, 127);
       this.cbEnableIranOverrides.Name = "cbEnableIranOverrides";
-      this.cbEnableIranOverrides.Size = new System.Drawing.Size(188, 17);
+      this.cbEnableIranOverrides.Size = new System.Drawing.Size(278, 24);
       this.cbEnableIranOverrides.TabIndex = 9;
       this.cbEnableIranOverrides.Text = "Enable Iran\'s INI Overrides";
       this.cbEnableIranOverrides.UseVisualStyleBackColor = true;
@@ -172,7 +172,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblBuildTime.AutoSize = true;
       this.lblBuildTime.Location = new System.Drawing.Point(6, 176);
       this.lblBuildTime.Name = "lblBuildTime";
-      this.lblBuildTime.Size = new System.Drawing.Size(67, 13);
+      this.lblBuildTime.Size = new System.Drawing.Size(99, 20);
       this.lblBuildTime.TabIndex = 10;
       this.lblBuildTime.Text = "Build Time";
       // 
@@ -181,7 +181,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblFirepower.AutoSize = true;
       this.lblFirepower.Location = new System.Drawing.Point(6, 21);
       this.lblFirepower.Name = "lblFirepower";
-      this.lblFirepower.Size = new System.Drawing.Size(61, 13);
+      this.lblFirepower.Size = new System.Drawing.Size(90, 20);
       this.lblFirepower.TabIndex = 11;
       this.lblFirepower.Text = "Firepower";
       // 
@@ -190,7 +190,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblCost.AutoSize = true;
       this.lblCost.Location = new System.Drawing.Point(7, 151);
       this.lblCost.Name = "lblCost";
-      this.lblCost.Size = new System.Drawing.Size(31, 13);
+      this.lblCost.Size = new System.Drawing.Size(45, 20);
       this.lblCost.TabIndex = 12;
       this.lblCost.Text = "Cost";
       // 
@@ -199,7 +199,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblROF.AutoSize = true;
       this.lblROF.Location = new System.Drawing.Point(6, 125);
       this.lblROF.Name = "lblROF";
-      this.lblROF.Size = new System.Drawing.Size(79, 13);
+      this.lblROF.Size = new System.Drawing.Size(117, 20);
       this.lblROF.TabIndex = 13;
       this.lblROF.Text = "Rate of Fire";
       // 
@@ -208,7 +208,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblAirSpeed.AutoSize = true;
       this.lblAirSpeed.Location = new System.Drawing.Point(7, 73);
       this.lblAirSpeed.Name = "lblAirSpeed";
-      this.lblAirSpeed.Size = new System.Drawing.Size(61, 13);
+      this.lblAirSpeed.Size = new System.Drawing.Size(90, 20);
       this.lblAirSpeed.TabIndex = 14;
       this.lblAirSpeed.Text = "Air Speed";
       // 
@@ -217,9 +217,9 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblArmor.AutoSize = true;
       this.lblArmor.Location = new System.Drawing.Point(7, 99);
       this.lblArmor.Name = "lblArmor";
-      this.lblArmor.Size = new System.Drawing.Size(37, 13);
+      this.lblArmor.Size = new System.Drawing.Size(117, 20);
       this.lblArmor.TabIndex = 15;
-      this.lblArmor.Text = "Armor";
+      this.lblArmor.Text = "Damage Taken";
       // 
       // gbMultipliers
       // 
@@ -259,7 +259,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudBuildTime.Name = "nudBuildTime";
-      this.nudBuildTime.Size = new System.Drawing.Size(60, 20);
+      this.nudBuildTime.Size = new System.Drawing.Size(60, 27);
       this.nudBuildTime.TabIndex = 22;
       this.nudBuildTime.Value = new decimal(new int[] {
             1,
@@ -284,7 +284,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudCost.Name = "nudCost";
-      this.nudCost.Size = new System.Drawing.Size(60, 20);
+      this.nudCost.Size = new System.Drawing.Size(60, 27);
       this.nudCost.TabIndex = 21;
       this.nudCost.Value = new decimal(new int[] {
             1,
@@ -309,7 +309,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudROF.Name = "nudROF";
-      this.nudROF.Size = new System.Drawing.Size(60, 20);
+      this.nudROF.Size = new System.Drawing.Size(60, 27);
       this.nudROF.TabIndex = 20;
       this.nudROF.Value = new decimal(new int[] {
             1,
@@ -334,7 +334,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudArmor.Name = "nudArmor";
-      this.nudArmor.Size = new System.Drawing.Size(60, 20);
+      this.nudArmor.Size = new System.Drawing.Size(60, 27);
       this.nudArmor.TabIndex = 19;
       this.nudArmor.Value = new decimal(new int[] {
             1,
@@ -359,7 +359,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudAirSpeed.Name = "nudAirSpeed";
-      this.nudAirSpeed.Size = new System.Drawing.Size(60, 20);
+      this.nudAirSpeed.Size = new System.Drawing.Size(60, 27);
       this.nudAirSpeed.TabIndex = 18;
       this.nudAirSpeed.Value = new decimal(new int[] {
             1,
@@ -384,7 +384,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudGroundSpeed.Name = "nudGroundSpeed";
-      this.nudGroundSpeed.Size = new System.Drawing.Size(60, 20);
+      this.nudGroundSpeed.Size = new System.Drawing.Size(60, 27);
       this.nudGroundSpeed.TabIndex = 17;
       this.nudGroundSpeed.Value = new decimal(new int[] {
             1,
@@ -409,7 +409,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudFirepower.Name = "nudFirepower";
-      this.nudFirepower.Size = new System.Drawing.Size(60, 20);
+      this.nudFirepower.Size = new System.Drawing.Size(60, 27);
       this.nudFirepower.TabIndex = 16;
       this.nudFirepower.Value = new decimal(new int[] {
             1,
@@ -442,7 +442,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbCountry.FormattingEnabled = true;
       this.cbCountry.Location = new System.Drawing.Point(109, 73);
       this.cbCountry.Name = "cbCountry";
-      this.cbCountry.Size = new System.Drawing.Size(121, 21);
+      this.cbCountry.Size = new System.Drawing.Size(121, 28);
       this.cbCountry.TabIndex = 20;
       this.cbCountry.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbCountry.TextChanged += new System.EventHandler(this.Value_Changed);
@@ -454,7 +454,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbSecondaryColor.FormattingEnabled = true;
       this.cbSecondaryColor.Location = new System.Drawing.Point(109, 46);
       this.cbSecondaryColor.Name = "cbSecondaryColor";
-      this.cbSecondaryColor.Size = new System.Drawing.Size(121, 21);
+      this.cbSecondaryColor.Size = new System.Drawing.Size(121, 28);
       this.cbSecondaryColor.TabIndex = 19;
       this.cbSecondaryColor.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbSecondaryColor.TextChanged += new System.EventHandler(this.Value_Changed);
@@ -466,7 +466,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbColor.FormattingEnabled = true;
       this.cbColor.Location = new System.Drawing.Point(109, 19);
       this.cbColor.Name = "cbColor";
-      this.cbColor.Size = new System.Drawing.Size(121, 21);
+      this.cbColor.Size = new System.Drawing.Size(121, 28);
       this.cbColor.TabIndex = 18;
       this.cbColor.SelectionChangeCommitted += new System.EventHandler(this.Value_Changed);
       this.cbColor.TextChanged += new System.EventHandler(this.Value_Changed);
@@ -481,7 +481,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudTechLevel.Name = "nudTechLevel";
-      this.nudTechLevel.Size = new System.Drawing.Size(60, 20);
+      this.nudTechLevel.Size = new System.Drawing.Size(60, 27);
       this.nudTechLevel.TabIndex = 18;
       this.nudTechLevel.Value = new decimal(new int[] {
             10,
@@ -500,7 +500,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudCredits.Name = "nudCredits";
-      this.nudCredits.Size = new System.Drawing.Size(60, 20);
+      this.nudCredits.Size = new System.Drawing.Size(60, 27);
       this.nudCredits.TabIndex = 19;
       this.nudCredits.Value = new decimal(new int[] {
             99999,
@@ -515,7 +515,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblTechLevel.AutoSize = true;
       this.lblTechLevel.Location = new System.Drawing.Point(6, 21);
       this.lblTechLevel.Name = "lblTechLevel";
-      this.lblTechLevel.Size = new System.Drawing.Size(61, 13);
+      this.lblTechLevel.Size = new System.Drawing.Size(90, 20);
       this.lblTechLevel.TabIndex = 20;
       this.lblTechLevel.Text = "TechLevel";
       // 
@@ -524,7 +524,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblCredits.AutoSize = true;
       this.lblCredits.Location = new System.Drawing.Point(6, 73);
       this.lblCredits.Name = "lblCredits";
-      this.lblCredits.Size = new System.Drawing.Size(91, 13);
+      this.lblCredits.Size = new System.Drawing.Size(135, 20);
       this.lblCredits.TabIndex = 23;
       this.lblCredits.Text = "Credits (x100)";
       // 
@@ -533,7 +533,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblIQ.AutoSize = true;
       this.lblIQ.Location = new System.Drawing.Point(6, 47);
       this.lblIQ.Name = "lblIQ";
-      this.lblIQ.Size = new System.Drawing.Size(19, 13);
+      this.lblIQ.Size = new System.Drawing.Size(27, 20);
       this.lblIQ.TabIndex = 24;
       this.lblIQ.Text = "IQ";
       // 
@@ -542,7 +542,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.cbPlayerControl.AutoSize = true;
       this.cbPlayerControl.Location = new System.Drawing.Point(6, 97);
       this.cbPlayerControl.Name = "cbPlayerControl";
-      this.cbPlayerControl.Size = new System.Drawing.Size(110, 17);
+      this.cbPlayerControl.Size = new System.Drawing.Size(161, 24);
       this.cbPlayerControl.TabIndex = 25;
       this.cbPlayerControl.Text = "Player Control";
       this.cbPlayerControl.UseVisualStyleBackColor = true;
@@ -558,7 +558,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             0});
       this.nudIQ.Name = "nudIQ";
-      this.nudIQ.Size = new System.Drawing.Size(60, 20);
+      this.nudIQ.Size = new System.Drawing.Size(60, 27);
       this.nudIQ.TabIndex = 26;
       this.nudIQ.Value = new decimal(new int[] {
             10,
@@ -660,7 +660,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             -2147483648});
       this.nudMaxVessels.Name = "nudMaxVessels";
-      this.nudMaxVessels.Size = new System.Drawing.Size(60, 20);
+      this.nudMaxVessels.Size = new System.Drawing.Size(60, 27);
       this.nudMaxVessels.TabIndex = 19;
       this.nudMaxVessels.Value = new decimal(new int[] {
             1,
@@ -682,7 +682,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             -2147483648});
       this.nudMaxUnits.Name = "nudMaxUnits";
-      this.nudMaxUnits.Size = new System.Drawing.Size(60, 20);
+      this.nudMaxUnits.Size = new System.Drawing.Size(60, 27);
       this.nudMaxUnits.TabIndex = 18;
       this.nudMaxUnits.Value = new decimal(new int[] {
             1,
@@ -704,7 +704,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             -2147483648});
       this.nudMaxInfantry.Name = "nudMaxInfantry";
-      this.nudMaxInfantry.Size = new System.Drawing.Size(60, 20);
+      this.nudMaxInfantry.Size = new System.Drawing.Size(60, 27);
       this.nudMaxInfantry.TabIndex = 17;
       this.nudMaxInfantry.Value = new decimal(new int[] {
             1,
@@ -726,7 +726,7 @@ namespace RA_Mission_Editor.UI.UserControls
             0,
             -2147483648});
       this.nudMaxBuildings.Name = "nudMaxBuildings";
-      this.nudMaxBuildings.Size = new System.Drawing.Size(60, 20);
+      this.nudMaxBuildings.Size = new System.Drawing.Size(60, 27);
       this.nudMaxBuildings.TabIndex = 16;
       this.nudMaxBuildings.Value = new decimal(new int[] {
             1,
@@ -739,7 +739,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.label1.AutoSize = true;
       this.label1.Location = new System.Drawing.Point(6, 47);
       this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(79, 13);
+      this.label1.Size = new System.Drawing.Size(117, 20);
       this.label1.TabIndex = 5;
       this.label1.Text = "Max Infantry";
       // 
@@ -748,7 +748,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.label3.AutoSize = true;
       this.label3.Location = new System.Drawing.Point(7, 73);
       this.label3.Name = "label3";
-      this.label3.Size = new System.Drawing.Size(55, 13);
+      this.label3.Size = new System.Drawing.Size(81, 20);
       this.label3.TabIndex = 14;
       this.label3.Text = "Max Unit";
       // 
@@ -757,7 +757,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.label5.AutoSize = true;
       this.label5.Location = new System.Drawing.Point(7, 99);
       this.label5.Name = "label5";
-      this.label5.Size = new System.Drawing.Size(67, 13);
+      this.label5.Size = new System.Drawing.Size(99, 20);
       this.label5.TabIndex = 15;
       this.label5.Text = "Max Vessel";
       // 
@@ -766,13 +766,13 @@ namespace RA_Mission_Editor.UI.UserControls
       this.label6.AutoSize = true;
       this.label6.Location = new System.Drawing.Point(6, 21);
       this.label6.Name = "label6";
-      this.label6.Size = new System.Drawing.Size(79, 13);
+      this.label6.Size = new System.Drawing.Size(117, 20);
       this.label6.TabIndex = 11;
       this.label6.Text = "Max Building";
       // 
       // HouseControl
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.Controls.Add(this.groupBox1);
       this.Controls.Add(this.tbHint);

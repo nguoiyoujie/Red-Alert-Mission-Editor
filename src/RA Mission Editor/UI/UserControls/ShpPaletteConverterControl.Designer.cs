@@ -65,6 +65,8 @@ namespace RA_Mission_Editor.UI.UserControls
       this.label8 = new System.Windows.Forms.Label();
       this.nudDstZoom = new System.Windows.Forms.NumericUpDown();
       this.groupBox2 = new System.Windows.Forms.GroupBox();
+      this.panel1 = new System.Windows.Forms.Panel();
+      this.panel2 = new System.Windows.Forms.Panel();
       ((System.ComponentModel.ISupportInitialize)(this.pbSrc)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudFrameSrc)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudFrameDst)).BeginInit();
@@ -75,6 +77,8 @@ namespace RA_Mission_Editor.UI.UserControls
       ((System.ComponentModel.ISupportInitialize)(this.nudSrcZoom)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudDstZoom)).BeginInit();
       this.groupBox2.SuspendLayout();
+      this.panel1.SuspendLayout();
+      this.panel2.SuspendLayout();
       this.SuspendLayout();
       // 
       // lblTutorial
@@ -115,7 +119,7 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       this.pbSrc.BackColor = System.Drawing.Color.Black;
       this.pbSrc.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-      this.pbSrc.Location = new System.Drawing.Point(24, 306);
+      this.pbSrc.Location = new System.Drawing.Point(0, 0);
       this.pbSrc.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.pbSrc.Name = "pbSrc";
       this.pbSrc.Size = new System.Drawing.Size(384, 394);
@@ -194,7 +198,7 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       this.pbDst.BackColor = System.Drawing.Color.Black;
       this.pbDst.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-      this.pbDst.Location = new System.Drawing.Point(796, 306);
+      this.pbDst.Location = new System.Drawing.Point(0, 0);
       this.pbDst.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.pbDst.Name = "pbDst";
       this.pbDst.Size = new System.Drawing.Size(384, 394);
@@ -311,7 +315,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblProgressText.AutoSize = true;
       this.lblProgressText.BackColor = System.Drawing.Color.Black;
       this.lblProgressText.ForeColor = System.Drawing.Color.Yellow;
-      this.lblProgressText.Location = new System.Drawing.Point(810, 321);
+      this.lblProgressText.Location = new System.Drawing.Point(15, 12);
       this.lblProgressText.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
       this.lblProgressText.Name = "lblProgressText";
       this.lblProgressText.Size = new System.Drawing.Size(81, 20);
@@ -522,10 +526,31 @@ namespace RA_Mission_Editor.UI.UserControls
       this.groupBox2.TabStop = false;
       this.groupBox2.Text = "Load from File";
       // 
+      // panel1
+      // 
+      this.panel1.AutoScroll = true;
+      this.panel1.Controls.Add(this.pbSrc);
+      this.panel1.Location = new System.Drawing.Point(24, 300);
+      this.panel1.Name = "panel1";
+      this.panel1.Size = new System.Drawing.Size(384, 394);
+      this.panel1.TabIndex = 99;
+      // 
+      // panel2
+      // 
+      this.panel2.AutoScroll = true;
+      this.panel2.Controls.Add(this.lblProgressText);
+      this.panel2.Controls.Add(this.pbDst);
+      this.panel2.Location = new System.Drawing.Point(797, 300);
+      this.panel2.Name = "panel2";
+      this.panel2.Size = new System.Drawing.Size(384, 394);
+      this.panel2.TabIndex = 100;
+      // 
       // ShpPaletteConverterControl
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.Controls.Add(this.panel2);
+      this.Controls.Add(this.panel1);
       this.Controls.Add(this.groupBox2);
       this.Controls.Add(this.label8);
       this.Controls.Add(this.nudDstZoom);
@@ -534,7 +559,6 @@ namespace RA_Mission_Editor.UI.UserControls
       this.Controls.Add(this.groupBox1);
       this.Controls.Add(this.pbDstPal);
       this.Controls.Add(this.pbSrcPal);
-      this.Controls.Add(this.lblProgressText);
       this.Controls.Add(this.lblSrcShp);
       this.Controls.Add(this.cbPalSrcTD);
       this.Controls.Add(this.label3);
@@ -544,10 +568,8 @@ namespace RA_Mission_Editor.UI.UserControls
       this.Controls.Add(this.lblSrcPal);
       this.Controls.Add(this.label2);
       this.Controls.Add(this.nudFrameDst);
-      this.Controls.Add(this.pbDst);
       this.Controls.Add(this.label1);
       this.Controls.Add(this.nudFrameSrc);
-      this.Controls.Add(this.pbSrc);
       this.Controls.Add(this.bOK);
       this.Controls.Add(this.lblTutorial);
       this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -564,6 +586,9 @@ namespace RA_Mission_Editor.UI.UserControls
       ((System.ComponentModel.ISupportInitialize)(this.nudSrcZoom)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudDstZoom)).EndInit();
       this.groupBox2.ResumeLayout(false);
+      this.panel1.ResumeLayout(false);
+      this.panel2.ResumeLayout(false);
+      this.panel2.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -606,5 +631,7 @@ namespace RA_Mission_Editor.UI.UserControls
     private System.Windows.Forms.Label label8;
     private System.Windows.Forms.NumericUpDown nudDstZoom;
     private System.Windows.Forms.GroupBox groupBox2;
+    private System.Windows.Forms.Panel panel1;
+    private System.Windows.Forms.Panel panel2;
   }
 }

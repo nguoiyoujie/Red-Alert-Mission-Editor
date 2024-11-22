@@ -306,7 +306,10 @@ namespace RA_Mission_Editor.UI
           {
             _dragObjectAction = new MoveEntityAction<WaypointInfo>(MainModel.CurrentMap, MainModel.Cache, MainModel.GameFileSystem, wayp, MainModel.CurrentMap.WaypointSection.WaypointList);
           }
-          _dragObjectAction.SnapshotOld();
+          if (_dragObjectAction != null)
+          {
+            _dragObjectAction.SnapshotOld();
+          }
         }
         // drag and hold
         bool changed = false;

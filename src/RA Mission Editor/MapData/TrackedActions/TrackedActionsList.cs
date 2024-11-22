@@ -28,9 +28,10 @@ namespace RA_Mission_Editor.MapData.TrackedActions
         _actions.RemoveAt(i);
       }
 
-      if (_actions.Count > Capacity)
+      while (_actions.Count > Capacity)
       {
         _actions.RemoveAt(0);
+        Current--;
       }
       _actions.Add(action);
       Current++;

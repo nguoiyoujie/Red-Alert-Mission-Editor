@@ -29,7 +29,7 @@ namespace RA_Mission_Editor.UI.Dialogs
     public void SetEntity(PlaceEntityInfo entity)
     {
       Entity = entity;
-      tbType.Text = entity.Type.ID; // fixed
+      tbType.Text = entity.Type?.ID ?? null; // fixed
       cbOwner.SelectedItem = Map.AttachedRules.Houses.GetHouse(entity.Owner);
       cbMission.SelectedItem = entity.Mission;
       nudFacing.Value = Math.Min(nudFacing.Maximum, Math.Max(nudFacing.Minimum, entity.Facing));

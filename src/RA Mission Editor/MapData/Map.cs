@@ -1004,13 +1004,23 @@ namespace RA_Mission_Editor.MapData
       if (entity is TemplateType tmpl)
       {
         // set to clear 
+        PaintTemplateAction action = new PaintTemplateAction(this, cache, vfs);
+        action.Description = "Clear Template";
+        action.SnapshotOld();
         MapPackSection.Template[c] = 0xFFFF;
         MapOccupancyList.UpdateEntity(this, cache, vfs, tmpl);
+        action.SnapshotNew();
+        TrackedActions.Push(action);
       }
       else if (entity is OverlayType ovly)
       {
+        PaintOverlayAction action = new PaintOverlayAction(this, cache, vfs);
+        action.Description = "Remove Overlay";
+        action.SnapshotOld();
         OverlayPackSection.Overlay[c] = 0xFF;
         MapOccupancyList.UpdateEntity(this, cache, vfs, ovly);
+        action.SnapshotNew();
+        TrackedActions.Push(action);
       }
       else if (entity is TerrainInfo terr)
       {

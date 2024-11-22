@@ -144,7 +144,8 @@ namespace RA_Mission_Editor.UI.UserControls
 
     private void bSet_Click(object sender, EventArgs e)
     {
-      SetTutorialTextAction action = new SetTutorialTextAction(Map, (int)nudIndex.Value, Map.TutorialSection.Messages[(int)nudIndex.Value], tbLine.Text);
+      Map.TutorialSection.Messages.TryGetValue((int)nudIndex.Value, out string oldValue);
+      SetTutorialTextAction action = new SetTutorialTextAction(Map, (int)nudIndex.Value, oldValue, tbLine.Text);
       Map.TutorialSection.Messages[(int)nudIndex.Value] = tbLine.Text;
       Map.Dirty = true;
       Map.TrackedActions.Push(action);
@@ -156,7 +157,8 @@ namespace RA_Mission_Editor.UI.UserControls
     {
       if (Map.TutorialSection.Messages.ContainsKey((int)nudIndex.Value))
       {
-        SetTutorialTextAction action = new SetTutorialTextAction(Map, (int)nudIndex.Value, Map.TutorialSection.Messages[(int)nudIndex.Value], null);
+        Map.TutorialSection.Messages.TryGetValue((int)nudIndex.Value, out string oldValue);
+        SetTutorialTextAction action = new SetTutorialTextAction(Map, (int)nudIndex.Value, oldValue, null);
         Map.TutorialSection.Messages.Remove((int)nudIndex.Value);
         Map.Dirty = true;
         Map.TrackedActions.Push(action);

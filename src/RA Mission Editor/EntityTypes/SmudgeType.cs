@@ -10,6 +10,7 @@ namespace RA_Mission_Editor.RulesData
   public class SmudgeType : IEntityType
   {
     public string ID { get; }
+    public int Images = 1;
     public int BlockWidth = 1;
     public int BlockHeight = 1;
 
@@ -39,7 +40,27 @@ namespace RA_Mission_Editor.RulesData
         int ty = BlockHeight;
         if (tx == 1 && ty == 1)
         {
-          bmp = RenderUtils.RenderShp(cache, shpFile, palFile, 0);
+          if (Images == 1)
+          {
+            bmp = RenderUtils.RenderShp(cache, shpFile, palFile, 0);
+          }
+          else
+          {
+            bmp = new Bitmap(Images * Constants.CELL_PIXEL_W, Constants.CELL_PIXEL_H);
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+              int tile = 0;
+              for (int i = 0; i < Images; i++)
+              {
+                Bitmap b = RenderUtils.RenderShp(cache, shpFile, palFile, tile++);
+                if (b != null)
+                {
+                  // draw
+                  g.DrawImage(b, i * Constants.CELL_PIXEL_W, 0);
+                }
+              }
+            }
+          }
         }
         else
         {
@@ -66,7 +87,7 @@ namespace RA_Mission_Editor.RulesData
     public void DrawOnMap(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo entity, bool highlight)
     {
       EnvironmentRenderer.CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
-      EnvironmentRenderer.DrawSmudge(map, cache, vfs, tt, palFile, ID, g, entity.X, entity.Y, BlockWidth, BlockHeight, highlight);
+      EnvironmentRenderer.DrawSmudge(map, cache, vfs, tt, palFile, ID, g, entity.X, entity.Y, BlockWidth, BlockHeight, 0, highlight);
 
      //Bitmap bmp = null;
      //if (cache.GetOrOpen(ID + tt.Extension, vfs, out ShpFile shpFile) ||

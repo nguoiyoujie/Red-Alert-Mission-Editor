@@ -9,7 +9,11 @@ namespace RA_Mission_Editor.Entities
     // Example: 4061=TC01,4061,0
     public int Cell { get; set; } // Cell ID
     public string ID { get; set; } // Terrain type ID
-    public bool Ignore; // set to anything other than 0 to ignore creation (for some reason)
+    public int Data;
+
+    // Note: Due to RA loading pecularities, Data doesn't mean anything. To mark a crater to its 2nd stage, two copies of a crater should exist on the cell.
+    // However, this cannot be easily drawn on the map editor, so we use Data to store this info.
+    // When saving or loading the map, the conversion should be made to show the equivalent behavior on the game
 
     public EditorSelectMode SelectMode { get { return EditorSelectMode.Smudges; } }
 
@@ -17,12 +21,19 @@ namespace RA_Mission_Editor.Entities
     {
       return string.Join(",", ID
                             , Cell
-                            , Ignore ? "1" : "0");
+                            , Data);
+    }
+
+    public string GetValueAsWrite()
+    {
+      return string.Join(",", ID
+                            , Cell
+                            , "0");
     }
 
     public override string ToString()
     {
-      return $"{ID} @ {Cell}";
+      return $"{ID}:{Data} @ {Cell}";
     }
 
     public bool Parse(string value)
@@ -34,7 +45,7 @@ namespace RA_Mission_Editor.Entities
       }
       ID = tokens[0];
       Cell = int.Parse(tokens[1]);
-      Ignore = tokens[2] != "0";
+      Data = int.Parse(tokens[2]);
 
       return true;
     }

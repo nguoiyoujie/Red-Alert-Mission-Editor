@@ -850,11 +850,45 @@ namespace RA_Mission_Editor.MapData
       }
       else if (entityInfo.Type is SmudgeType smud)
       {
-        SmudgeInfo smudge = new SmudgeInfo() { ID = smud.ID, Cell = c };
-        InsertEntityAction<SmudgeInfo> action = new InsertEntityAction<SmudgeInfo>(this, cache, vfs, smudge, SmudgeSection.EntityList);
-        SmudgeSection.EntityList.Add(smudge);
-        MapOccupancyList.UpdateEntity(this, cache, vfs, smudge);
-        TrackedActions.Push(action);
+        // check if there is any smudge with the same ID
+        bool upgradeSmudge = false;
+        if (smud.Images > 1)
+        {
+          // possible crater upgrade
+          SmudgeInfo smd = null;
+          foreach (var e in MapOccupancyList.Pick(this, entityInfo.X, entityInfo.Y))
+          {
+            if (e is SmudgeInfo sm && sm.ID == smud.ID)
+            {
+              smd = sm;
+              break;
+            }
+          }
+
+          if (smd != null)
+          {
+            upgradeSmudge = true;
+            // attempt upgrade
+            if (smd.Data < smud.Images - 1)
+            {
+              smd.Data++;
+              ModifyEntityAction<SmudgeInfo> action = new ModifyEntityAction<SmudgeInfo>(this, smd, SmudgeSection.EntityList);
+              action.SnapshotOld();
+              MapOccupancyList.UpdateEntity(this, cache, vfs, smd);
+              action.SnapshotNew();
+              TrackedActions.Push(action);
+            }
+          }
+        }
+        if (!upgradeSmudge)
+        {
+          // add new smudge
+          SmudgeInfo smudge = new SmudgeInfo() { ID = smud.ID, Cell = c };
+          InsertEntityAction<SmudgeInfo> action = new InsertEntityAction<SmudgeInfo>(this, cache, vfs, smudge, SmudgeSection.EntityList);
+          SmudgeSection.EntityList.Add(smudge);
+          MapOccupancyList.UpdateEntity(this, cache, vfs, smudge);
+          TrackedActions.Push(action);
+        }
       }
       else if (entityInfo.Type is InfantryType inft)
       {

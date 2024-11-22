@@ -12,12 +12,12 @@ namespace RA_Mission_Editor.RulesData
 			// See https://github.com/electronicarts/CnC_Remastered_Collection/blob/7d496e8a633a8bbf8a14b65f490b4d21fa32ca03/REDALERT/TDATA.CPP
 			_listSmudge = new List<SmudgeType>()
 			{
-				new SmudgeType("CR1"),
-				new SmudgeType("CR2"),
-				new SmudgeType("CR3"),
-				new SmudgeType("CR4"),
-				new SmudgeType("CR5"),
-				new SmudgeType("CR6"),
+				new SmudgeType("CR1") { Images = 4 },
+				new SmudgeType("CR2") { Images = 4 },
+				new SmudgeType("CR3") { Images = 4 },
+				new SmudgeType("CR4") { Images = 4 },
+				new SmudgeType("CR5") { Images = 4 },
+				new SmudgeType("CR6") { Images = 4 },
 				new SmudgeType("SC1"),
 				new SmudgeType("SC2"),
 				new SmudgeType("SC3"),

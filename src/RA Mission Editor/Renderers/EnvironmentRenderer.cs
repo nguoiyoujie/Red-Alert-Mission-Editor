@@ -347,16 +347,28 @@ namespace RA_Mission_Editor.Renderers
             cache.GetOrOpen(smg.ID + ".SHP", vfs, out shpFile))) // template extension provided no files, try .shp instead
         {
           int tile = 0;
-          for (int yd = 0; yd < smg.BlockHeight; yd++)
-            for (int xd = 0; xd < smg.BlockWidth; xd++)
+          if (smg.Images > 1)
+          {
+            bmp = RenderUtils.RenderShp(cache, shpFile, palFile, sInfo.Data);
+            if (bmp != null && map.IsCellInMap(map.CellX(c), map.CellY(c)))
             {
-              bmp = RenderUtils.RenderShp(cache, shpFile, palFile, tile++);
-              if (bmp != null)
-              {
-                // draw
-                g.DrawImage(bmp, (map.CellX(c) + xd) * Constants.CELL_PIXEL_W, (map.CellY(c) + yd) * Constants.CELL_PIXEL_H);
-              }
+              // draw
+              g.DrawImage(bmp, map.CellX(c) * Constants.CELL_PIXEL_W, map.CellY(c) * Constants.CELL_PIXEL_H);
             }
+          }
+          else
+          {
+            for (int yd = 0; yd < smg.BlockHeight; yd++)
+              for (int xd = 0; xd < smg.BlockWidth; xd++)
+              {
+                bmp = RenderUtils.RenderShp(cache, shpFile, palFile, tile++);
+                if (bmp != null)
+                {
+                  // draw
+                  g.DrawImage(bmp, (map.CellX(c) + xd) * Constants.CELL_PIXEL_W, (map.CellY(c) + yd) * Constants.CELL_PIXEL_H);
+                }
+              }
+          }
         }
         else
         {
@@ -384,16 +396,28 @@ namespace RA_Mission_Editor.Renderers
             cache.GetOrOpen(smg.ID + ".SHP", vfs, out shpFile))) // template extension provided no files, try .shp instead
         {
           int tile = 0;
-          for (int yd = 0; yd < smg.BlockHeight; yd++)
-            for (int xd = 0; xd < smg.BlockWidth; xd++)
+          if (smg.Images > 1)
+          {
+            bmp = RenderUtils.RenderShp(cache, shpFile, palFile, sInfo.Data);
+            if (bmp != null && map.IsCellInMap(xoffset + extract.CellX(c), yoffset + extract.CellY(c)))
             {
-              bmp = RenderUtils.RenderShp(cache, shpFile, palFile, tile++);
-              if (bmp != null && map.IsCellInMap(xoffset + xd + extract.CellX(c), yoffset + yd + extract.CellY(c)))
-              {
-                // draw
-                g.DrawImage(bmp, (extract.CellX(c) + xd + xoffset) * Constants.CELL_PIXEL_W, (extract.CellY(c) + yd + yoffset) * Constants.CELL_PIXEL_H);
-              }
+              // draw
+              g.DrawImage(bmp, (extract.CellX(c) + xoffset) * Constants.CELL_PIXEL_W, (extract.CellY(c) + yoffset) * Constants.CELL_PIXEL_H);
             }
+          }
+          else
+          {
+            for (int yd = 0; yd < smg.BlockHeight; yd++)
+              for (int xd = 0; xd < smg.BlockWidth; xd++)
+              {
+                bmp = RenderUtils.RenderShp(cache, shpFile, palFile, tile++);
+                if (bmp != null && map.IsCellInMap(xoffset + xd + extract.CellX(c), yoffset + yd + extract.CellY(c)))
+                {
+                  // draw
+                  g.DrawImage(bmp, (extract.CellX(c) + xd + xoffset) * Constants.CELL_PIXEL_W, (extract.CellY(c) + yd + yoffset) * Constants.CELL_PIXEL_H);
+                }
+              }
+          }
         }
         else
         {
@@ -402,7 +426,7 @@ namespace RA_Mission_Editor.Renderers
       }
     }
 
-    public static void DrawSmudge(Map map, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, Graphics g, int x, int y, int block_x, int block_y, bool highlight = false)
+    public static void DrawSmudge(Map map, MapCache cache, VirtualFileSystem vfs, TheaterType tt, PalFile palFile, string typeID, Graphics g, int x, int y, int block_x, int block_y, int data, bool highlight = false)
     {
       Bitmap bmp = null;
       if (cache.GetOrOpen(typeID + tt.Extension, vfs, out ShpFile shpFile) ||
@@ -412,7 +436,7 @@ namespace RA_Mission_Editor.Renderers
         int ty = block_y;
         if (tx == 1 && ty == 1)
         {
-          bmp = RenderUtils.RenderShp(cache, shpFile, palFile, 0);
+          bmp = RenderUtils.RenderShp(cache, shpFile, palFile, data);
         }
         else
         {

@@ -50,11 +50,11 @@ namespace RA_Mission_Editor.RulesData.Ruleset
             default:
               break;
           }
+        }
 
-          if (GameRules.GetSection(entry.Value.Value).ReadBool("HasTurret", false))
-          {
-            building.TurretDirections = 32;
-          }
+        if (GameRules.GetSection(entry.Value.Value).ReadBool("HasTurret", false))
+        {
+          building.TurretDirections = 32;
         }
         building.FullName = file?.Get(nameindex++);
 

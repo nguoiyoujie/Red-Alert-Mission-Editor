@@ -29,31 +29,23 @@
     private void InitializeComponent()
     {
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VerifyDialog));
-      this.label1 = new System.Windows.Forms.Label();
       this.listViewErrors = new System.Windows.Forms.ListBox();
       this.bOK = new System.Windows.Forms.Button();
       this.SuspendLayout();
       // 
-      // label1
-      // 
-      this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(17, 11);
-      this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(105, 20);
-      this.label1.TabIndex = 0;
-      this.label1.Text = "Verifying Map";
-      // 
       // listViewErrors
       // 
-      this.listViewErrors.Location = new System.Drawing.Point(16, 46);
+      this.listViewErrors.HorizontalScrollbar = true;
+      this.listViewErrors.ItemHeight = 20;
+      this.listViewErrors.Location = new System.Drawing.Point(16, 6);
       this.listViewErrors.Name = "listViewErrors";
-      this.listViewErrors.Size = new System.Drawing.Size(539, 298);
+      this.listViewErrors.Size = new System.Drawing.Size(850, 484);
       this.listViewErrors.TabIndex = 1;
       // 
       // bOK
       // 
       this.bOK.Image = ((System.Drawing.Image)(resources.GetObject("bOK.Image")));
-      this.bOK.Location = new System.Drawing.Point(455, 350);
+      this.bOK.Location = new System.Drawing.Point(766, 500);
       this.bOK.Name = "bOK";
       this.bOK.Size = new System.Drawing.Size(100, 32);
       this.bOK.TabIndex = 49;
@@ -67,21 +59,17 @@
       this.AcceptButton = this.bOK;
       this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(578, 394);
+      this.ClientSize = new System.Drawing.Size(878, 544);
       this.Controls.Add(this.bOK);
       this.Controls.Add(this.listViewErrors);
-      this.Controls.Add(this.label1);
       this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
       this.Name = "VerifyDialog";
       this.Text = "Verify Map";
       this.ResumeLayout(false);
-      this.PerformLayout();
 
     }
 
     #endregion
-
-    private System.Windows.Forms.Label label1;
     private System.Windows.Forms.ListBox listViewErrors;
     private System.Windows.Forms.Button bOK;
   }

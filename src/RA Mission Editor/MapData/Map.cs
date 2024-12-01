@@ -476,6 +476,39 @@ namespace RA_Mission_Editor.MapData
         errors.Add("The Base Section has invalid owner (" + BaseSection.Player + ")");
       }
 
+      List<string> blgs = new List<string>(4);
+      for (int c = 0; c < MapOccupancyList.OccupancyList.Length; c++)
+      {
+        // check if any two buildings are occupying the same cell
+        List<IEntity> list = MapOccupancyList.OccupancyList[c];
+        if (list != null)
+        {
+          blgs.Clear();
+          foreach (IEntity entity in list)
+          {
+            if (entity is BuildingInfo bldg)
+            {
+              // OccupancyList is only for image refresh. Check the building (excluding the bib) actually occupies the cell
+              BuildingType btype = bldg.GetEntityType(AttachedRules);
+              foreach (Point p in btype.Occupancy)
+              {
+                if (MapHelper.CellNumber(this, MapHelper.CellX(this, bldg.Cell) + p.X, MapHelper.CellY(this, bldg.Cell) + p.Y) == c)
+                {
+                  blgs.Add(bldg.ID); // the cell is actually occupied by the building
+                  break;
+                }
+              }
+            }
+          }
+
+          if (blgs.Count > 1)
+          {
+            string sblgs = string.Join(", ", blgs);
+            errors.Add("Cell @ {" + MapHelper.CellX(this, c) + "," + MapHelper.CellY(this, c) + "} has multiple overlapping buildings (" + sblgs + ")");
+          }
+        }
+      }
+
       foreach (var trigger in CellTriggerSection.Triggers)
       {
         if (trigger != null && trigger.ID != null)

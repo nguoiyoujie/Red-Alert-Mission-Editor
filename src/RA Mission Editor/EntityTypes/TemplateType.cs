@@ -68,36 +68,18 @@ namespace RA_Mission_Editor.RulesData
     public void DrawOnMap(Map map, Rules rules, MapCache cache, VirtualFileSystem vfs, Graphics g, PlaceEntityInfo entity, bool highlight)
     {
       EnvironmentRenderer.CheckTheatre(map, cache, vfs, out TheaterType tt, out PalFile palFile);
-      EnvironmentRenderer.DrawTemplate(map, cache, vfs, tt, palFile, ID, g, entity.X, entity.Y, entity.TemplateCell, highlight);
-
-     //Bitmap bmp = null;
-     //if (cache.GetOrOpen(ID + tt.Extension, vfs, out TmpFile tmpFile))
-     //{
-     //  int c = map.CellNumber(entity.X, entity.Y);
-     //  // fetch bitmap
-     //  // if this is a clear tile (ID=0), the template has multiple tiles, pseudo-randomize them according to Clear_Icon() in
-     //  // https://github.com/electronicarts/CnC_Remastered_Collection/blob/7d496e8a633a8bbf8a14b65f490b4d21fa32ca03/TIBERIANDAWN/CELL.CPP
-     //  if (Templates.GetID(ID) == 0)
-     //  {
-     //    bmp = RenderUtils.RenderTemplate(cache, tmpFile, palFile, map.ClearIcon(c));
-     //  }
-     //  else
-     //  {
-     //    if (entity.TemplateCell != 0xFF)
-     //    {
-     //      bmp = RenderUtils.RenderTemplate(cache, tmpFile, palFile, entity.TemplateCell);
-     //    }
-     //    else
-     //    {
-     //      bmp = RenderUtils.RenderTemplate(cache, tmpFile, palFile);
-     //    }
-     //  }
-     //
-     //}
-     //if (bmp != null)
-     //{
-     //  g.DrawImage(bmp, entity.X * Constants.CELL_PIXEL_W, entity.Y * Constants.CELL_PIXEL_H);
-     //}
+      if (cache.GetOrOpen(ID + tt.Extension, vfs, out TmpFile tmpFile))
+      {
+        if (tmpFile.Images.Count != tmpFile.BlockWidth * tmpFile.BlockHeight)
+        {
+          // draw only the first cell
+          EnvironmentRenderer.DrawTemplate(map, cache, vfs, tt, palFile, ID, g, entity.X, entity.Y, 0, highlight);
+        }
+        else
+        {
+          EnvironmentRenderer.DrawTemplate(map, cache, vfs, tt, palFile, ID, g, entity.X, entity.Y, entity.TemplateCell, highlight);
+        }
+      }
     }
   }
 }

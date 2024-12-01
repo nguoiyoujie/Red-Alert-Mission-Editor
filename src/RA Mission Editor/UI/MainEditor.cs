@@ -80,6 +80,61 @@ namespace RA_Mission_Editor.UI
       MapUserThemes.SetRAFont(this);
     }
 
+    protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+    {
+      // do not handle command key if active control allows text input
+      Form f = ActiveForm;
+      if (f != null)
+      {
+        Control c = f.ActiveControl;
+        if (c != null)
+        {
+          while (c is ContainerControl cc && cc.ActiveControl != null)
+          {
+            c = cc.ActiveControl;
+          }
+          if (c.Enabled && ((c is TextBox t && !t.ReadOnly) || (c is ComboBox) || (c is NumericUpDown n && !n.ReadOnly)))
+          {
+            bool ret = false;
+            bool found;
+            foreach (object o in menuStrip1.Items)
+            {
+              if (o is ToolStripMenuItem item)
+              {
+                ret = SuppressCmdKey(item, ref msg, keyData, out found);
+                if (found) { break; }
+              }
+            }
+            return ret;
+          }
+        }
+      }
+
+      return base.ProcessCmdKey(ref msg, keyData);
+    }
+
+    private bool SuppressCmdKey(ToolStripMenuItem item, ref Message msg, Keys keyData, out bool found)
+    {
+      found = false;
+      if (item.ShortcutKeys == keyData)
+      {
+        item.ShortcutKeys = Keys.None;
+        bool ret = base.ProcessCmdKey(ref msg, keyData);
+        found = true;
+        item.ShortcutKeys = keyData;
+        return ret;
+      }
+      foreach (object o in item.DropDownItems)
+      {
+        if (o is ToolStripMenuItem inner)
+        {
+          bool ret = SuppressCmdKey(inner, ref msg, keyData, out found);
+          if (found) { return ret; }
+        }
+      }
+      return false;
+    }
+
     public bool ProcessCmdKeyFromChildForm(ref Message msg, Keys keyData)
     {
       Message messageCopy = msg;

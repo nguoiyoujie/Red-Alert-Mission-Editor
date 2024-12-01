@@ -148,6 +148,7 @@
     <Compile Include="RulesData\EditorFeatures.cs" />
     <Compile Include="RulesData\IntValueDesc.cs" />
     <Compile Include="RulesData\SpecialWeapons.cs" />
+    <Compile Include="RulesData\VQTypes.cs" />
     <Compile Include="RulesData\Themes.cs" />
     <Compile Include="RulesData\SpeechType.cs" />
     <Compile Include="RulesData\SoundType.cs" />

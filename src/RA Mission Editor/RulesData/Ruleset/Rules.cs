@@ -20,6 +20,7 @@ namespace RA_Mission_Editor.RulesData.Ruleset
     public Sounds Sounds = new Sounds();
     public Speeches Speeches = new Speeches();
     public Themes Themes = new Themes();
+    public VQTypes Movies = new VQTypes();
     public SpecialWeapons SpecialWeapons = new SpecialWeapons();
     
     public void Clear() { GameRules = null; LanguageText = null; }

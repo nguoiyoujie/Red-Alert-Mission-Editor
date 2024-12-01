@@ -65,14 +65,46 @@ namespace RA_Mission_Editor.UI.UserControls
       cbTheme.Text = s.Theme.HasValue ? s.Theme.Value : null;
 
       cbNewIniFormat.Text = s.NewINIFormat.HasValue ? s.NewINIFormat.Value.ToString() : "3";
-      cbIntro.Text = s.Intro.HasValue ? s.Intro.Value?.ToString() : "<none>";
-      cbBrief.Text = s.Brief.HasValue ? s.Brief.Value?.ToString() : "<none>";
-      cbWin.Text = s.Win.HasValue ? s.Win.Value?.ToString() : "<none>";
-      cbWin2.Text = s.Win2.HasValue ? s.Win2.Value?.ToString() : "<none>";
-      cbWin3.Text = s.Win3.HasValue ? s.Win3.Value?.ToString() : "<none>";
-      cbWin4.Text = s.Win4.HasValue ? s.Win4.Value?.ToString() : "<none>";
-      cbLose.Text = s.Lose.HasValue ? s.Lose.Value?.ToString() : "<none>";
-      cbAction.Text = s.Action.HasValue ? s.Action.Value?.ToString() : "<none>";
+
+      cbIntro.Items.Clear();
+      cbIntro.Items.Add(string.Empty);
+      cbIntro.Items.AddRange(Map.AttachedRules.Movies.GetAll());
+      cbIntro.Text = s.Intro.HasValue ? s.Intro.Value?.ToString() : null;
+
+      cbBrief.Items.Clear();
+      cbBrief.Items.Add(string.Empty);
+      cbBrief.Items.AddRange(Map.AttachedRules.Movies.GetAll());
+      cbBrief.Text = s.Brief.HasValue ? s.Brief.Value?.ToString() : null;
+
+      cbWin.Items.Clear();
+      cbWin.Items.Add(string.Empty);
+      cbWin.Items.AddRange(Map.AttachedRules.Movies.GetAll());
+      cbWin.Text = s.Win.HasValue ? s.Win.Value?.ToString() : null;
+
+      cbWin2.Items.Clear();
+      cbWin2.Items.Add(string.Empty);
+      cbWin2.Items.AddRange(Map.AttachedRules.Movies.GetAll());
+      cbWin2.Text = s.Win2.HasValue ? s.Win2.Value?.ToString() : null;
+
+      cbWin3.Items.Clear();
+      cbWin3.Items.Add(string.Empty);
+      cbWin3.Items.AddRange(Map.AttachedRules.Movies.GetAll());
+      cbWin3.Text = s.Win3.HasValue ? s.Win3.Value?.ToString() : null;
+
+      cbWin4.Items.Clear();
+      cbWin4.Items.Add(string.Empty);
+      cbWin4.Items.AddRange(Map.AttachedRules.Movies.GetAll());
+      cbWin4.Text = s.Win4.HasValue ? s.Win4.Value?.ToString() : null;
+
+      cbLose.Items.Clear();
+      cbLose.Items.Add(string.Empty);
+      cbLose.Items.AddRange(Map.AttachedRules.Movies.GetAll());
+      cbLose.Text = s.Lose.HasValue ? s.Lose.Value?.ToString() : null;
+
+      cbAction.Items.Clear();
+      cbAction.Items.Add(string.Empty);
+      cbAction.Items.AddRange(Map.AttachedRules.Movies.GetAll());
+      cbAction.Text = s.Action.HasValue ? s.Action.Value?.ToString() : null;
 
       cbToCarryOver.Checked = s.ToCarryOver.HasValue && s.ToCarryOver.Value;
       cbToInherit.Checked = s.ToInherit.HasValue && s.ToInherit.Value;

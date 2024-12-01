@@ -86,6 +86,9 @@ namespace RA_Mission_Editor.UI
       this.setRedAlertDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.reloadDirectoryContentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
       this.mapAttributesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.shiftMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.basicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -147,9 +150,6 @@ namespace RA_Mission_Editor.UI
       this.tssRenderTime = new System.Windows.Forms.ToolStripStatusLabel();
       this.tssRemark = new System.Windows.Forms.ToolStripStatusLabel();
       this.ttipInfo = new System.Windows.Forms.ToolTip(this.components);
-      this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
       ((System.ComponentModel.ISupportInitialize)(this.splitMain)).BeginInit();
       this.splitMain.Panel1.SuspendLayout();
       this.splitMain.Panel2.SuspendLayout();
@@ -180,7 +180,7 @@ namespace RA_Mission_Editor.UI
       this.splitMain.Dock = System.Windows.Forms.DockStyle.Fill;
       this.splitMain.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
       this.splitMain.IsSplitterFixed = true;
-      this.splitMain.Location = new System.Drawing.Point(0, 32);
+      this.splitMain.Location = new System.Drawing.Point(0, 30);
       this.splitMain.Name = "splitMain";
       // 
       // splitMain.Panel1
@@ -197,7 +197,7 @@ namespace RA_Mission_Editor.UI
       // splitMain.Panel2
       // 
       this.splitMain.Panel2.Controls.Add(this.splitContainer1);
-      this.splitMain.Size = new System.Drawing.Size(1184, 798);
+      this.splitMain.Size = new System.Drawing.Size(1184, 800);
       this.splitMain.SplitterDistance = 200;
       this.splitMain.TabIndex = 0;
       // 
@@ -213,7 +213,7 @@ namespace RA_Mission_Editor.UI
       this.lboxObjects.MultiColumn = true;
       this.lboxObjects.Name = "lboxObjects";
       this.lboxObjects.ScrollAlwaysVisible = true;
-      this.lboxObjects.Size = new System.Drawing.Size(200, 407);
+      this.lboxObjects.Size = new System.Drawing.Size(200, 409);
       this.lboxObjects.TabIndex = 3;
       this.lboxObjects.SelectedIndexChanged += new System.EventHandler(this.lboxObjects_SelectedIndexChanged);
       // 
@@ -222,7 +222,7 @@ namespace RA_Mission_Editor.UI
       this.lblPreplaceHouse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
       this.lblPreplaceHouse.AutoSize = true;
       this.lblPreplaceHouse.BackColor = System.Drawing.Color.DimGray;
-      this.lblPreplaceHouse.Location = new System.Drawing.Point(3, 628);
+      this.lblPreplaceHouse.Location = new System.Drawing.Point(3, 630);
       this.lblPreplaceHouse.Name = "lblPreplaceHouse";
       this.lblPreplaceHouse.Size = new System.Drawing.Size(0, 20);
       this.lblPreplaceHouse.TabIndex = 13;
@@ -234,7 +234,7 @@ namespace RA_Mission_Editor.UI
       this.pObjectCanvas.BackColor = System.Drawing.Color.DimGray;
       this.pObjectCanvas.Controls.Add(this.pbObjectCanvas);
       this.pObjectCanvas.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.pObjectCanvas.Location = new System.Drawing.Point(0, 625);
+      this.pObjectCanvas.Location = new System.Drawing.Point(0, 627);
       this.pObjectCanvas.Name = "pObjectCanvas";
       this.pObjectCanvas.Size = new System.Drawing.Size(200, 150);
       this.pObjectCanvas.TabIndex = 14;
@@ -254,7 +254,7 @@ namespace RA_Mission_Editor.UI
       // 
       this.bSetEntity.Dock = System.Windows.Forms.DockStyle.Bottom;
       this.bSetEntity.Enabled = false;
-      this.bSetEntity.Location = new System.Drawing.Point(0, 775);
+      this.bSetEntity.Location = new System.Drawing.Point(0, 777);
       this.bSetEntity.Name = "bSetEntity";
       this.bSetEntity.Size = new System.Drawing.Size(200, 23);
       this.bSetEntity.TabIndex = 8;
@@ -331,7 +331,7 @@ namespace RA_Mission_Editor.UI
       this.splitContainer1.Panel2.Controls.Add(this.lblSelectCell);
       this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
       this.splitContainer1.Panel2MinSize = 240;
-      this.splitContainer1.Size = new System.Drawing.Size(980, 798);
+      this.splitContainer1.Size = new System.Drawing.Size(980, 800);
       this.splitContainer1.SplitterDistance = 732;
       this.splitContainer1.TabIndex = 6;
       // 
@@ -368,7 +368,7 @@ namespace RA_Mission_Editor.UI
       this.split2.Panel2.BackColor = System.Drawing.Color.Black;
       this.split2.Panel2.Controls.Add(this.pbMapCanvas);
       this.split2.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-      this.split2.Size = new System.Drawing.Size(732, 798);
+      this.split2.Size = new System.Drawing.Size(732, 800);
       this.split2.SplitterDistance = 45;
       this.split2.TabIndex = 1;
       // 
@@ -505,6 +505,7 @@ namespace RA_Mission_Editor.UI
       this.bSelectMode.Size = new System.Drawing.Size(30, 30);
       this.bSelectMode.TabIndex = 11;
       this.bSelectMode.Text = "N";
+      this.ttipInfo.SetToolTip(this.bSelectMode, "Select Mode");
       this.bSelectMode.Click += new System.EventHandler(this.bLayerNone_Click);
       // 
       // bExtract
@@ -516,6 +517,7 @@ namespace RA_Mission_Editor.UI
       this.bExtract.Size = new System.Drawing.Size(30, 30);
       this.bExtract.TabIndex = 12;
       this.bExtract.Text = "Ex";
+      this.ttipInfo.SetToolTip(this.bExtract, "Extracts");
       this.bExtract.UseVisualStyleBackColor = true;
       this.bExtract.Click += new System.EventHandler(this.bExtract_Click);
       // 
@@ -528,6 +530,7 @@ namespace RA_Mission_Editor.UI
       this.bLayerCellTriggers.Name = "bLayerCellTriggers";
       this.bLayerCellTriggers.Size = new System.Drawing.Size(30, 30);
       this.bLayerCellTriggers.TabIndex = 10;
+      this.ttipInfo.SetToolTip(this.bLayerCellTriggers, "Cell Triggers");
       this.bLayerCellTriggers.UseVisualStyleBackColor = true;
       this.bLayerCellTriggers.Click += new System.EventHandler(this.bLayerCellTriggers_Click);
       // 
@@ -540,6 +543,7 @@ namespace RA_Mission_Editor.UI
       this.bLayerWaypoints.Name = "bLayerWaypoints";
       this.bLayerWaypoints.Size = new System.Drawing.Size(30, 30);
       this.bLayerWaypoints.TabIndex = 9;
+      this.ttipInfo.SetToolTip(this.bLayerWaypoints, "Waypoints");
       this.bLayerWaypoints.UseVisualStyleBackColor = true;
       this.bLayerWaypoints.Click += new System.EventHandler(this.bLayerWaypoints_Click);
       // 
@@ -552,6 +556,7 @@ namespace RA_Mission_Editor.UI
       this.bLayerBases.Name = "bLayerBases";
       this.bLayerBases.Size = new System.Drawing.Size(30, 30);
       this.bLayerBases.TabIndex = 8;
+      this.ttipInfo.SetToolTip(this.bLayerBases, "Base Buildings");
       this.bLayerBases.UseVisualStyleBackColor = true;
       this.bLayerBases.Click += new System.EventHandler(this.bLayerBases_Click);
       // 
@@ -564,6 +569,7 @@ namespace RA_Mission_Editor.UI
       this.bLayerBuildings.Name = "bLayerBuildings";
       this.bLayerBuildings.Size = new System.Drawing.Size(30, 30);
       this.bLayerBuildings.TabIndex = 7;
+      this.ttipInfo.SetToolTip(this.bLayerBuildings, "Buildings");
       this.bLayerBuildings.UseVisualStyleBackColor = true;
       this.bLayerBuildings.Click += new System.EventHandler(this.bLayerBuildings_Click);
       // 
@@ -576,6 +582,7 @@ namespace RA_Mission_Editor.UI
       this.bLayerVessels.Name = "bLayerVessels";
       this.bLayerVessels.Size = new System.Drawing.Size(30, 30);
       this.bLayerVessels.TabIndex = 6;
+      this.ttipInfo.SetToolTip(this.bLayerVessels, "Vessels");
       this.bLayerVessels.UseVisualStyleBackColor = true;
       this.bLayerVessels.Click += new System.EventHandler(this.bLayerVessels_Click);
       // 
@@ -588,6 +595,7 @@ namespace RA_Mission_Editor.UI
       this.bLayerUnits.Name = "bLayerUnits";
       this.bLayerUnits.Size = new System.Drawing.Size(30, 30);
       this.bLayerUnits.TabIndex = 5;
+      this.ttipInfo.SetToolTip(this.bLayerUnits, "Vehicles");
       this.bLayerUnits.UseVisualStyleBackColor = true;
       this.bLayerUnits.Click += new System.EventHandler(this.bLayerUnits_Click);
       // 
@@ -600,6 +608,7 @@ namespace RA_Mission_Editor.UI
       this.bLayerInfantry.Name = "bLayerInfantry";
       this.bLayerInfantry.Size = new System.Drawing.Size(30, 30);
       this.bLayerInfantry.TabIndex = 4;
+      this.ttipInfo.SetToolTip(this.bLayerInfantry, "Infantry");
       this.bLayerInfantry.UseVisualStyleBackColor = true;
       this.bLayerInfantry.Click += new System.EventHandler(this.bLayerInfantry_Click);
       // 
@@ -612,6 +621,7 @@ namespace RA_Mission_Editor.UI
       this.bLayerSmudge.Name = "bLayerSmudge";
       this.bLayerSmudge.Size = new System.Drawing.Size(30, 30);
       this.bLayerSmudge.TabIndex = 3;
+      this.ttipInfo.SetToolTip(this.bLayerSmudge, "Smudge");
       this.bLayerSmudge.UseVisualStyleBackColor = true;
       this.bLayerSmudge.Click += new System.EventHandler(this.bLayerSmudge_Click);
       // 
@@ -624,6 +634,7 @@ namespace RA_Mission_Editor.UI
       this.bLayerTerrain.Name = "bLayerTerrain";
       this.bLayerTerrain.Size = new System.Drawing.Size(30, 30);
       this.bLayerTerrain.TabIndex = 2;
+      this.ttipInfo.SetToolTip(this.bLayerTerrain, "Terrain");
       this.bLayerTerrain.UseVisualStyleBackColor = true;
       this.bLayerTerrain.Click += new System.EventHandler(this.bLayerTerrain_Click);
       // 
@@ -636,6 +647,7 @@ namespace RA_Mission_Editor.UI
       this.bLayerOverlay.Name = "bLayerOverlay";
       this.bLayerOverlay.Size = new System.Drawing.Size(30, 30);
       this.bLayerOverlay.TabIndex = 1;
+      this.ttipInfo.SetToolTip(this.bLayerOverlay, "Overlay");
       this.bLayerOverlay.UseVisualStyleBackColor = true;
       this.bLayerOverlay.Click += new System.EventHandler(this.bLayerOverlay_Click);
       // 
@@ -648,6 +660,7 @@ namespace RA_Mission_Editor.UI
       this.bLayerTemplate.Name = "bLayerTemplate";
       this.bLayerTemplate.Size = new System.Drawing.Size(30, 30);
       this.bLayerTemplate.TabIndex = 0;
+      this.ttipInfo.SetToolTip(this.bLayerTemplate, "Template");
       this.bLayerTemplate.UseVisualStyleBackColor = true;
       this.bLayerTemplate.Click += new System.EventHandler(this.bLayerTemplate_Click);
       // 
@@ -666,7 +679,7 @@ namespace RA_Mission_Editor.UI
       this.pTechnoList.Dock = System.Windows.Forms.DockStyle.Fill;
       this.pTechnoList.Location = new System.Drawing.Point(0, 14);
       this.pTechnoList.Name = "pTechnoList";
-      this.pTechnoList.Size = new System.Drawing.Size(244, 784);
+      this.pTechnoList.Size = new System.Drawing.Size(244, 786);
       this.pTechnoList.TabIndex = 0;
       // 
       // lblSelectCell
@@ -697,7 +710,7 @@ namespace RA_Mission_Editor.UI
             this.testToolStripMenuItem});
       this.menuStrip1.Location = new System.Drawing.Point(0, 0);
       this.menuStrip1.Name = "menuStrip1";
-      this.menuStrip1.Size = new System.Drawing.Size(1184, 32);
+      this.menuStrip1.Size = new System.Drawing.Size(1184, 30);
       this.menuStrip1.TabIndex = 1;
       this.menuStrip1.Text = "menuStrip1";
       // 
@@ -713,7 +726,7 @@ namespace RA_Mission_Editor.UI
             this.toolStripSeparator4,
             this.closeMapToolStripMenuItem});
       this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-      this.fileToolStripMenuItem.Size = new System.Drawing.Size(66, 28);
+      this.fileToolStripMenuItem.Size = new System.Drawing.Size(66, 26);
       this.fileToolStripMenuItem.Text = "File";
       // 
       // newMapToolStripMenuItem
@@ -790,7 +803,7 @@ namespace RA_Mission_Editor.UI
             this.setRedAlertDirectoryToolStripMenuItem,
             this.reloadDirectoryContentsToolStripMenuItem});
       this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-      this.settingsToolStripMenuItem.Size = new System.Drawing.Size(106, 28);
+      this.settingsToolStripMenuItem.Size = new System.Drawing.Size(106, 26);
       this.settingsToolStripMenuItem.Text = "Settings";
       // 
       // setRedAlertDirectoryToolStripMenuItem
@@ -823,8 +836,29 @@ namespace RA_Mission_Editor.UI
             this.teamTypesToolStripMenuItem1});
       this.editToolStripMenuItem.Name = "editToolStripMenuItem";
       this.editToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-      this.editToolStripMenuItem.Size = new System.Drawing.Size(66, 28);
+      this.editToolStripMenuItem.Size = new System.Drawing.Size(66, 26);
       this.editToolStripMenuItem.Text = "Edit";
+      // 
+      // undoToolStripMenuItem
+      // 
+      this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
+      this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+      this.undoToolStripMenuItem.Size = new System.Drawing.Size(330, 34);
+      this.undoToolStripMenuItem.Text = "Undo";
+      this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
+      // 
+      // redoToolStripMenuItem
+      // 
+      this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
+      this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+      this.redoToolStripMenuItem.Size = new System.Drawing.Size(330, 34);
+      this.redoToolStripMenuItem.Text = "Redo";
+      this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
+      // 
+      // toolStripSeparator5
+      // 
+      this.toolStripSeparator5.Name = "toolStripSeparator5";
+      this.toolStripSeparator5.Size = new System.Drawing.Size(327, 6);
       // 
       // mapAttributesToolStripMenuItem
       // 
@@ -907,7 +941,7 @@ namespace RA_Mission_Editor.UI
             this.deleteObjectsInSelectionToolStripMenuItem,
             this.clearTemplateInSelectionToolStripMenuItem});
       this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
-      this.insertToolStripMenuItem.Size = new System.Drawing.Size(86, 28);
+      this.insertToolStripMenuItem.Size = new System.Drawing.Size(86, 26);
       this.insertToolStripMenuItem.Text = "Insert";
       // 
       // templateToolStripMenuItem
@@ -1077,7 +1111,7 @@ namespace RA_Mission_Editor.UI
             this.editINIToolStripMenuItem,
             this.openOtherEditorToolStripMenuItem});
       this.advancedToolStripMenuItem.Name = "advancedToolStripMenuItem";
-      this.advancedToolStripMenuItem.Size = new System.Drawing.Size(106, 28);
+      this.advancedToolStripMenuItem.Size = new System.Drawing.Size(106, 26);
       this.advancedToolStripMenuItem.Text = "Advanced";
       // 
       // editINIToolStripMenuItem
@@ -1112,7 +1146,7 @@ namespace RA_Mission_Editor.UI
             this.boundsToolStripMenuItem,
             this.templateColorsToolStripMenuItem});
       this.visibilityToolStripMenuItem.Name = "visibilityToolStripMenuItem";
-      this.visibilityToolStripMenuItem.Size = new System.Drawing.Size(126, 28);
+      this.visibilityToolStripMenuItem.Size = new System.Drawing.Size(126, 26);
       this.visibilityToolStripMenuItem.Text = "Visibility";
       // 
       // overlayToolStripMenuItem1
@@ -1235,7 +1269,7 @@ namespace RA_Mission_Editor.UI
       this.statisticsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewStatisticsToolStripMenuItem});
       this.statisticsToolStripMenuItem.Name = "statisticsToolStripMenuItem";
-      this.statisticsToolStripMenuItem.Size = new System.Drawing.Size(126, 28);
+      this.statisticsToolStripMenuItem.Size = new System.Drawing.Size(126, 26);
       this.statisticsToolStripMenuItem.Text = "Statistics";
       // 
       // viewStatisticsToolStripMenuItem
@@ -1251,7 +1285,7 @@ namespace RA_Mission_Editor.UI
       this.renderToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.renderToImageToolStripMenuItem});
       this.renderToolStripMenuItem.Name = "renderToolStripMenuItem";
-      this.renderToolStripMenuItem.Size = new System.Drawing.Size(86, 28);
+      this.renderToolStripMenuItem.Size = new System.Drawing.Size(86, 26);
       this.renderToolStripMenuItem.Text = "Render";
       // 
       // renderToImageToolStripMenuItem
@@ -1268,7 +1302,7 @@ namespace RA_Mission_Editor.UI
             this.verifyMapToolStripMenuItem,
             this.testMapToolStripMenuItem});
       this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-      this.testToolStripMenuItem.Size = new System.Drawing.Size(66, 28);
+      this.testToolStripMenuItem.Size = new System.Drawing.Size(66, 26);
       this.testToolStripMenuItem.Text = "Test";
       // 
       // verifyMapToolStripMenuItem
@@ -1378,27 +1412,6 @@ namespace RA_Mission_Editor.UI
       this.ttipInfo.ShowAlways = true;
       this.ttipInfo.Draw += new System.Windows.Forms.DrawToolTipEventHandler(this.ttipInfo_Draw);
       this.ttipInfo.Popup += new System.Windows.Forms.PopupEventHandler(this.ttipInfo_Popup);
-      // 
-      // undoToolStripMenuItem
-      // 
-      this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-      this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-      this.undoToolStripMenuItem.Size = new System.Drawing.Size(330, 34);
-      this.undoToolStripMenuItem.Text = "Undo";
-      this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
-      // 
-      // redoToolStripMenuItem
-      // 
-      this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-      this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-      this.redoToolStripMenuItem.Size = new System.Drawing.Size(330, 34);
-      this.redoToolStripMenuItem.Text = "Redo";
-      this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
-      // 
-      // toolStripSeparator5
-      // 
-      this.toolStripSeparator5.Name = "toolStripSeparator5";
-      this.toolStripSeparator5.Size = new System.Drawing.Size(327, 6);
       // 
       // MainEditor
       // 

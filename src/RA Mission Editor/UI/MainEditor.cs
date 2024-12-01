@@ -98,6 +98,8 @@ namespace RA_Mission_Editor.UI
         MainModel.OnMapTemplateLayerChanged += pbMapCanvas.Renderer.SetTemplateDirty;
         MainModel.OnMapLayerChanged += pbMapCanvas.Renderer.SetDirty;
 
+        FetchIcons();
+
         MainModel.Initialize();
       }
       catch (Exception ex)
@@ -140,6 +142,43 @@ namespace RA_Mission_Editor.UI
       tssRenderTime.Text = string.Format("Render Time: {0} ms", _drawStopwatch.ElapsedMilliseconds);
     }
 
+    private void FetchIcons()
+    {
+      // read Assets for button replacements
+      UpdateOrDefaultImage(bLayerTemplate, "Assets/buttons/button_template.png", Properties.Resources.button_template);
+      UpdateOrDefaultImage(bLayerOverlay, "Assets/buttons/button_overlay.png", Properties.Resources.button_overlay);
+      UpdateOrDefaultImage(bLayerTerrain, "Assets/buttons/button_terrain.png", Properties.Resources.button_terrain);
+      UpdateOrDefaultImage(bLayerSmudge, "Assets/buttons/button_smudge.png", Properties.Resources.button_smudge);
+      UpdateOrDefaultImage(bLayerInfantry, "Assets/buttons/button_infantry.png", Properties.Resources.button_infantry);
+      UpdateOrDefaultImage(bLayerUnits, "Assets/buttons/button_units.png", Properties.Resources.button_units);
+      UpdateOrDefaultImage(bLayerVessels, "Assets/buttons/button_vessels.png", Properties.Resources.button_vessels);
+      UpdateOrDefaultImage(bLayerBuildings, "Assets/buttons/button_buildings.png", Properties.Resources.button_buildings);
+      UpdateOrDefaultImage(bLayerBases, "Assets/buttons/button_bases.png", Properties.Resources.button_bases);
+      UpdateOrDefaultImage(bLayerWaypoints, "Assets/buttons/button_waypoint.png", Properties.Resources.button_waypoint);
+      UpdateOrDefaultImage(bLayerCellTriggers, "Assets/buttons/button_celltriggers.png", Properties.Resources.button_celltriggers);
+      UpdateOrDefaultImage(bExtract, "Assets/buttons/button_extract.png", null);
+      UpdateOrDefaultImage(bSelectMode, "Assets/buttons/button_select.png", null);
+    }
+
+    private void UpdateOrDefaultImage(Button button, string path, Image defaultImage)
+    {
+      try
+      {
+        if (File.Exists(path))
+        {
+          Bitmap bmp = new Bitmap(path);
+          button.Image = bmp;
+        }
+        else
+        {
+          button.Image = defaultImage;
+        }
+      }
+      catch
+      {
+        button.Image = defaultImage;
+      }
+    }
 
     public void RefreshTitle()
     {

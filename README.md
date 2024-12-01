@@ -1,4 +1,4 @@
-Red Alert Mission Editor
+<h2 align="center">Red Alert Mission Editor</h2>
 
 -------
 
@@ -6,25 +6,28 @@ Red Alert Mission Editor
  - [Requirements](#requirements)
  - [Features](#features) 
  - [How to Use](#how-to-use) 
+ - [Changelog](#changelog)
  - [Development](#development) 
 
 -------
 
 ![RAME](doc/img/preview1.png)
 
-## About this Project
+### About this Project
 
 This is a mission and map editor made for the Red Alert (RA95) 3.03 "s" series, hosted here https://github.com/nguoiyoujie/ra303p-iran. This is intended to be used for modding setups that use features found in the Red Alert 3.03 "s" series as well as its preceding Iran's "p" series. 
 
+-------
 
-## Requirements
+### Requirements
 
 A working copy of RA95 should exist in the machine. You need not unpack this project in the RA95 directory. However, in the beginning, a prompt will be made to seek the RA95 executable. This project uses assets from the directory to ensure a close match to the game experience. 
 
+-------
 
-## Features
+### Features
 
- - Reads mix files associated with RA95 game directory to extract image and rules data from them.
+ - Reads mix files associated with RA95 game directory to extract image and rules data from them. A functional game directory iss required for the game to function.
 
  - Supports new theaters such as "jungle", "cave", and "barren", if the game directory has these assets installed.
  
@@ -42,7 +45,7 @@ A working copy of RA95 should exist in the machine. You need not unpack this pro
 
 ![moving_waypoint](doc/img/moving_waypoint.png)
 
- - Allows the use of extended Techno types (units, infantry, aircraft, ships, buildings), made available since Red Alert "p" series by Iran. New technotypes will show names as referenced via stringtable offsets introduced in "s" series, or via Name= entries.
+ - Allows the use of extended Techno types (units, infantry, aircraft, ships, buildings), made available since Red Alert "p" series by Iran, as read from the rules.ini configuration. New technotypes will show names as referenced via stringtable offsets introduced in "s" series, or via Name= entries.
 
  - Customizing house colors, made available since Red Alert "p" series by Iran, will update the editor screen accordingly.
  
@@ -102,15 +105,23 @@ A working copy of RA95 should exist in the machine. You need not unpack this pro
  
 ![window_test_map](doc/img/window_test_map.png)
 
+-------
 
-## How to Use
+### How to Use
 
 You may find the interface documentation [here](./docs/controls.md).
 
+-------
 
-## Development
+### Changelog
 
-This project is created and maintained with Visual Studio 2019.
+You may find the changelog [here](./docs/changelog.md).
 
-The project is built for Microsoft .NET Framework v4.0.
+-------
+
+### Development
+
+This project is created and maintained with Visual Studio 2019 and 2022.
+
+The project is built for Microsoft .NET Framework v4.5.
 

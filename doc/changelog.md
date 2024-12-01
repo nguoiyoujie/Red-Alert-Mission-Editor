@@ -8,6 +8,7 @@
 - Include overlapping buildings check on the 'Verify Map' function
 - Fix drawing of CLEAR1-based tileset previews on the map
 - Allow Customization of button images, loaded from 'Assets/buttons/button_xxx.png' files
+- Suppress menu shortcut keys on TextBox, ComboBox and NumericUpDown controls, restoring their own shortcut handling (such as Ctrl-C / Ctrl-V)
 
 -------
 2024-11-23

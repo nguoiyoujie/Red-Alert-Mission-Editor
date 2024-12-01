@@ -109,13 +109,13 @@ A working copy of RA95 should exist in the machine. You need not unpack this pro
 
 ### How to Use
 
-You may find the interface documentation [here](./docs/controls.md).
+You may find the interface documentation [here](./doc/controls.md).
 
 -------
 
 ### Changelog
 
-You may find the changelog [here](./docs/changelog.md).
+You may find the changelog [here](./doc/changelog.md).
 
 -------
 

@@ -11,8 +11,14 @@
 ### Map Screen
 <br>
 
-![RAME](doc/img/preview1.png)
+![RAME](img/preview1.png)
 
+|Area                 |Control  
+:---------------------|:-------------------------------------
+|Top, below Menu      |Mode selection. You may click which object type to place
+|Left                 |Object list. In Object Mode, you will find the listing of objects of the same type here
+|Bottom-Left          |Preview of the currently selected object. You may amend the properties of future-placed objects here. In Template Mode, left-click on a cell to select only that cell for placement, and right-click to restore default placement.
+|Right                |Current cell contents. You may change the properties of these objects here.
 
 <a href="#red-alert-mission-editor-controls"><kbd>Top</kbd></a><br>
 
@@ -51,7 +57,7 @@
 
 </samp>
 
-
+<br>
 <b>Object Mode</b>
 (When object list is filled)
 
@@ -68,7 +74,7 @@
 
 </samp>
 
-
+<br>
 <b>Global Shortcuts</b>
 
 <samp>

@@ -151,14 +151,14 @@ namespace RA_Mission_Editor.UI.UserControls
       if (cbTheme.SelectedItem is string sTheme) { s.Theme.Set(sTheme); } else { s.Theme.Clear(); }
 
       if (int.TryParse(cbNewIniFormat.Text, out int iNewIniFormat)) { s.NewINIFormat.Set(iNewIniFormat); } else { s.NewINIFormat.Set(3); }
-      if (string.IsNullOrWhiteSpace(cbIntro.Text)) { s.Intro.Set(cbIntro.Text); } else { s.Intro.Clear(); }
-      if (string.IsNullOrWhiteSpace(cbBrief.Text)) { s.Brief.Set(cbBrief.Text); } else { s.Brief.Clear(); }
-      if (string.IsNullOrWhiteSpace(cbWin.Text)) { s.Win.Set(cbWin.Text); } else { s.Win.Clear(); }
-      if (string.IsNullOrWhiteSpace(cbWin2.Text)) { s.Win2.Set(cbWin2.Text); } else { s.Win2.Clear(); }
-      if (string.IsNullOrWhiteSpace(cbWin3.Text)) { s.Win3.Set(cbWin3.Text); } else { s.Win3.Clear(); }
-      if (string.IsNullOrWhiteSpace(cbWin4.Text)) { s.Win4.Set(cbWin4.Text); } else { s.Win4.Clear(); }
-      if (string.IsNullOrWhiteSpace(cbLose.Text)) { s.Lose.Set(cbLose.Text); } else { s.Lose.Clear(); }
-      if (string.IsNullOrWhiteSpace(cbAction.Text)) { s.Action.Set(cbAction.Text); } else { s.Action.Clear(); }
+      if (!string.IsNullOrWhiteSpace(cbIntro.Text)) { s.Intro.Set(cbIntro.Text); } else { s.Intro.Clear(); }
+      if (!string.IsNullOrWhiteSpace(cbBrief.Text)) { s.Brief.Set(cbBrief.Text); } else { s.Brief.Clear(); }
+      if (!string.IsNullOrWhiteSpace(cbWin.Text)) { s.Win.Set(cbWin.Text); } else { s.Win.Clear(); }
+      if (!string.IsNullOrWhiteSpace(cbWin2.Text)) { s.Win2.Set(cbWin2.Text); } else { s.Win2.Clear(); }
+      if (!string.IsNullOrWhiteSpace(cbWin3.Text)) { s.Win3.Set(cbWin3.Text); } else { s.Win3.Clear(); }
+      if (!string.IsNullOrWhiteSpace(cbWin4.Text)) { s.Win4.Set(cbWin4.Text); } else { s.Win4.Clear(); }
+      if (!string.IsNullOrWhiteSpace(cbLose.Text)) { s.Lose.Set(cbLose.Text); } else { s.Lose.Clear(); }
+      if (!string.IsNullOrWhiteSpace(cbAction.Text)) { s.Action.Set(cbAction.Text); } else { s.Action.Clear(); }
 
       s.ToCarryOver.Set(cbToCarryOver.Checked);
       s.ToInherit.Set(cbToInherit.Checked);

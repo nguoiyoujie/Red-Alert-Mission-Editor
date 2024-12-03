@@ -8,6 +8,7 @@
 **/*.vshost.exe.manifest
 
 /build
+/releases
 
 /src/*/bin
 /src/*/obj

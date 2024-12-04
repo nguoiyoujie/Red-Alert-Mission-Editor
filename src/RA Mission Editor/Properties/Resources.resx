@@ -122,7 +122,7 @@
     <value>..\Assets\buttons\button_overlay.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="button_vessels" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Assets\buttons\button_ships.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Assets\buttons\button_vessels.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="button_infantry" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Assets\buttons\button_infantry.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -146,7 +146,7 @@
     <value>..\Assets\buttons\button_template.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="button_buildings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Assets\buttons\button_structures.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Assets\buttons\button_buildings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="button_units" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Assets\buttons\button_units.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

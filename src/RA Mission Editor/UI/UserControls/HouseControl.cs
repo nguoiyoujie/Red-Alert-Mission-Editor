@@ -56,16 +56,26 @@ namespace RA_Mission_Editor.UI.UserControls
       int initY = 14;
       int incrY = 20;
       int initX = 6;
+      int incrX = 80;
+      bool multi = false;
       int x = initX;
       int y = initY;
       for (int i = 0; i < AlliesCheckBoxes.Length; i++)
       {
+        string name = map.AttachedRules.Houses.GetName(i);
+        if (!multi && name.Contains("Multi"))
+        {
+          x += incrX;
+          y = initY;
+          multi = true;
+        }
         AlliesCheckBoxes[i] = new CheckBox()
         {
-          Text = map.AttachedRules.Houses.GetName(i),
+          Text = name,
           Location = new Point(x, y),
           Enabled = true,
           Visible = true,
+          Width = incrX - 5,
         };
         AlliesCheckBoxes[i].MouseEnter += cbAllies_MouseEnter;
         AlliesCheckBoxes[i].CheckedChanged += Value_Changed;

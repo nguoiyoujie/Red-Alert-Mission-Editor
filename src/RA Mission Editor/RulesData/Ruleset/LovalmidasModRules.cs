@@ -8,6 +8,25 @@ namespace RA_Mission_Editor.RulesData.Ruleset
 {
   public class LovalmidasModRules : IranModRules
   {
+    public LovalmidasModRules()
+    {
+      Houses.ClearRulesAdditions();
+
+      // additional houses, added by lvm
+      Houses.Add(new HouseType("Multi9", ColorType.TRUE_GREY));
+      Houses.Add(new HouseType("Multi10", ColorType.TRUE_GREY));
+      Houses.Add(new HouseType("Multi11", ColorType.TRUE_GREY));
+      Houses.Add(new HouseType("Multi12", ColorType.TRUE_GREY));
+      Houses.Add(new HouseType("Multi13", ColorType.TRUE_GREY));
+      Houses.Add(new HouseType("Multi14", ColorType.TRUE_GREY));
+      Houses.Add(new HouseType("Multi15", ColorType.TRUE_GREY));
+      Houses.Add(new HouseType("Multi16", ColorType.TRUE_GREY));
+      Houses.Add(new HouseType("Multi17", ColorType.TRUE_GREY));
+      Houses.Add(new HouseType("Multi18", ColorType.TRUE_GREY));
+      Houses.Add(new HouseType("Multi19", ColorType.TRUE_GREY));
+      Houses.Add(new HouseType("Multi20", ColorType.TRUE_GREY));
+    }
+
     public override void ApplyRules()
     {
       // new units?

@@ -6,9 +6,10 @@ namespace RA_Mission_Editor.RulesData.TechnoSets
 	public class Houses
 	{
 		private readonly List<HouseType> _listHouses = new List<HouseType>();
-		public readonly int Count;
+		public int Count { get { return _listHouses.Count; } }
+    protected int _originalEntryCount;
 
-		public Houses()
+    public Houses()
 		{
 			_listHouses.Add(new HouseType("Spain", ColorType.YELLOW));
 			_listHouses.Add(new HouseType("Greece", ColorType.BLUE));
@@ -31,10 +32,23 @@ namespace RA_Mission_Editor.RulesData.TechnoSets
 			_listHouses.Add(new HouseType("Multi6", ColorType.GREY));
 			_listHouses.Add(new HouseType("Multi7", ColorType.TEAL));
 			_listHouses.Add(new HouseType("Multi8", ColorType.BROWN));
-			Count = _listHouses.Count;
+
+      _originalEntryCount = _listHouses.Count;
 		}
 
-		public HouseType[] GetAll()
+    public void ClearRulesAdditions()
+    {
+			if (_listHouses.Count > _originalEntryCount)
+				_listHouses.RemoveRange(_originalEntryCount, _listHouses.Count - _originalEntryCount);
+    }
+
+    public void Add(HouseType house)
+    {
+      _listHouses.Add(house);
+    }
+
+
+    public HouseType[] GetAll()
 		{
 			return _listHouses.ToArray();
 		}

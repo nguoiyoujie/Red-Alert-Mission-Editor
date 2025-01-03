@@ -33,6 +33,7 @@ namespace RA_Mission_Editor.RulesData.Ruleset
       Units.ClearRulesAdditions();
       Infantries.ClearRulesAdditions();
       Aircrafts.ClearRulesAdditions();
+      Houses.ClearRulesAdditions();
 
       //UpdateTechnoTypeNames(null);
     }

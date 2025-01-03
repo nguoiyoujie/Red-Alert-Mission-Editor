@@ -75,8 +75,20 @@ namespace RA_Mission_Editor.UI.UserControls
 
     public void SetSourcePalette(PalFile pal)
     {
-      _palSrc = pal;
-      using (Bitmap bmp = pal?.GenerateColorPreview())
+      if (pal != null)
+      {
+        byte[] data = new byte[(int)pal.Size];
+        pal.Position = 0; // tmp.BaseOffset;
+        pal.Read(data, 0, data.Length);
+        MemoryStream inMemoryCopy = new MemoryStream(data);
+        _palSrc = new PalFile(inMemoryCopy, pal.FileName, 0, (int)pal.Size, false);
+        _palSrc.Parse(false);
+      }
+      else
+      {
+        _palSrc = null;
+      }
+      using (Bitmap bmp = _palSrc?.GenerateColorPreview())
       {
         if (bmp != null)
         {
@@ -102,8 +114,20 @@ namespace RA_Mission_Editor.UI.UserControls
 
     public void SetDestinationPalette(PalFile pal)
     {
-      _palDst = pal;
-      using (Bitmap bmp = pal?.GenerateColorPreview())
+      if (pal != null)
+      {
+        byte[] data = new byte[(int)pal.Size];
+        pal.Position = 0; // tmp.BaseOffset;
+        pal.Read(data, 0, data.Length);
+        MemoryStream inMemoryCopy = new MemoryStream(data);
+        _palDst = new PalFile(inMemoryCopy, pal.FileName, 0, (int)pal.Size, false);
+        _palDst.Parse(false);
+      }
+      else
+      {
+        _palDst = null;
+      }
+      using (Bitmap bmp = _palDst?.GenerateColorPreview())
       {
         if (bmp != null)
         {
@@ -134,7 +158,7 @@ namespace RA_Mission_Editor.UI.UserControls
 
       if (_shp != null && _palSrc != null)
       {
-        PalFile phSrc = RenderUtils.FetchHouseRemapPalette(_cache, _palSrc, color);
+        PalFile phSrc = RenderUtils.FetchHouseRemapPalette(_cache, _palSrc, color, false);
         pbSrc.BackgroundImage = RenderUtils.RenderShp(_cache, _shp, phSrc, (int)(nudFrameSrc.Value - 1));
         if (nudSrcZoom.Value != 1 && pbSrc.BackgroundImage != null)
         {
@@ -165,7 +189,7 @@ namespace RA_Mission_Editor.UI.UserControls
       if (_shpConverted != null && _palDst != null)
       {
         lblProgressText.Text = null;
-        PalFile phDst = RenderUtils.FetchHouseRemapPalette(_cache, _palDst, color);
+        PalFile phDst = RenderUtils.FetchHouseRemapPalette(_cache, _palDst, color, false);
         pbDst.BackgroundImage = RenderUtils.RenderShp(_cache, _shpConverted, phDst, (int)(nudFrameDst.Value - 1));
         if (nudDstZoom.Value != 1)
         {
@@ -260,6 +284,7 @@ namespace RA_Mission_Editor.UI.UserControls
                 int src = _shp.Images[n].Image[i];
                 if (DefaultExcludeIndex.Contains(src))
                 {
+                  convert.Images[n].Image[i] = (byte)src;
                   continue;
                 }
                 else if (cbPreserveHouseColors.Checked)

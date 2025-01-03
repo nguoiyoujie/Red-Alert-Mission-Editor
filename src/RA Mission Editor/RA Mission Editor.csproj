@@ -386,11 +386,17 @@
     <Compile Include="UI\UserControls\AssetExporterControl.Designer.cs">
       <DependentUpon>AssetExporterControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\UserControls\TmpFileViewerControl.cs">
+    <Compile Include="UI\UserControls\ShpFileEditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\UserControls\TmpFileViewerControl.Designer.cs">
-      <DependentUpon>TmpFileViewerControl.cs</DependentUpon>
+    <Compile Include="UI\UserControls\ShpFileEditorControl.Designer.cs">
+      <DependentUpon>ShpFileEditorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\TmpFileEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UserControls\TmpFileEditorControl.Designer.cs">
+      <DependentUpon>TmpFileEditorControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\UserControls\ShpPaletteConverterControl.cs">
       <SubType>UserControl</SubType>
@@ -538,8 +544,11 @@
     <EmbeddedResource Include="UI\UserControls\AssetExporterControl.resx">
       <DependentUpon>AssetExporterControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\UserControls\TmpFileViewerControl.resx">
-      <DependentUpon>TmpFileViewerControl.cs</DependentUpon>
+    <EmbeddedResource Include="UI\UserControls\ShpFileEditorControl.resx">
+      <DependentUpon>ShpFileEditorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UserControls\TmpFileEditorControl.resx">
+      <DependentUpon>TmpFileEditorControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UserControls\ShpPaletteConverterControl.resx">
       <DependentUpon>ShpPaletteConverterControl.cs</DependentUpon>

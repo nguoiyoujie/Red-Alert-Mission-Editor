@@ -1,7 +1,7 @@
 ﻿
 namespace RA_Mission_Editor.UI.UserControls
 {
-  partial class TmpFileViewerControl
+  partial class ShpFileEditorControl
   {
     /// <summary> 
     /// Required designer variable.
@@ -35,11 +35,10 @@ namespace RA_Mission_Editor.UI.UserControls
       this.pbSrc = new System.Windows.Forms.PictureBox();
       this.nudImage = new System.Windows.Forms.NumericUpDown();
       this.label1 = new System.Windows.Forms.Label();
-      this.pbSingle = new System.Windows.Forms.PictureBox();
       this.bLoadSrcPalette = new System.Windows.Forms.Button();
       this.lblSrcPal = new System.Windows.Forms.Label();
       this.lblSrcTmp = new System.Windows.Forms.Label();
-      this.bOpenTmp = new System.Windows.Forms.Button();
+      this.bOpenShp = new System.Windows.Forms.Button();
       this.tbShpRADir = new System.Windows.Forms.TextBox();
       this.groupBox1 = new System.Windows.Forms.GroupBox();
       this.bOpenPalS = new System.Windows.Forms.Button();
@@ -50,27 +49,24 @@ namespace RA_Mission_Editor.UI.UserControls
       this.label7 = new System.Windows.Forms.Label();
       this.nudSrcZoom = new System.Windows.Forms.NumericUpDown();
       this.bExportImage = new System.Windows.Forms.Button();
-      this.bImportImage = new System.Windows.Forms.Button();
-      this.pbTileTypes = new System.Windows.Forms.PictureBox();
-      this.label2 = new System.Windows.Forms.Label();
-      this.cbTileType = new System.Windows.Forms.ComboBox();
-      this.bSetSingle = new System.Windows.Forms.Button();
-      this.bSetAll = new System.Windows.Forms.Button();
+      this.bImportImageReplace = new System.Windows.Forms.Button();
       this.groupBox2 = new System.Windows.Forms.GroupBox();
-      this.cbIsClearTemplate = new System.Windows.Forms.CheckBox();
       this.panel1 = new System.Windows.Forms.Panel();
-      this.panel2 = new System.Windows.Forms.Panel();
-      this.panel3 = new System.Windows.Forms.Panel();
+      this.bImportImageInsertBefore = new System.Windows.Forms.Button();
+      this.bImportImageInsertAfter = new System.Windows.Forms.Button();
+      this.bDuplicateImage = new System.Windows.Forms.Button();
+      this.bMoveImageNext = new System.Windows.Forms.Button();
+      this.bMoveImageBack = new System.Windows.Forms.Button();
+      this.bImportImageAdd = new System.Windows.Forms.Button();
+      this.bDeleteImage = new System.Windows.Forms.Button();
+      this.label3 = new System.Windows.Forms.Label();
+      this.cbRemapColor = new System.Windows.Forms.ComboBox();
       ((System.ComponentModel.ISupportInitialize)(this.pbSrc)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudImage)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.pbSingle)).BeginInit();
       this.groupBox1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.nudSrcZoom)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.pbTileTypes)).BeginInit();
       this.groupBox2.SuspendLayout();
       this.panel1.SuspendLayout();
-      this.panel2.SuspendLayout();
-      this.panel3.SuspendLayout();
       this.SuspendLayout();
       // 
       // lblTutorial
@@ -79,18 +75,18 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblTutorial.Location = new System.Drawing.Point(20, 14);
       this.lblTutorial.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
       this.lblTutorial.Name = "lblTutorial";
-      this.lblTutorial.Size = new System.Drawing.Size(127, 20);
+      this.lblTutorial.Size = new System.Drawing.Size(131, 20);
       this.lblTutorial.TabIndex = 55;
-      this.lblTutorial.Text = "Template Viewer";
+      this.lblTutorial.Text = "Shape File Editor";
       // 
       // bOK
       // 
-      this.bOK.Location = new System.Drawing.Point(316, 638);
+      this.bOK.Location = new System.Drawing.Point(600, 645);
       this.bOK.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.bOK.Name = "bOK";
       this.bOK.Size = new System.Drawing.Size(138, 49);
       this.bOK.TabIndex = 50;
-      this.bOK.Text = "Save as TMP";
+      this.bOK.Text = "Save as SHP";
       this.bOK.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
       this.bOK.UseVisualStyleBackColor = true;
       this.bOK.Click += new System.EventHandler(this.bSave_Click);
@@ -102,7 +98,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.bLoadShp.Name = "bLoadShp";
       this.bLoadShp.Size = new System.Drawing.Size(138, 49);
       this.bLoadShp.TabIndex = 49;
-      this.bLoadShp.Text = "Load TMP file";
+      this.bLoadShp.Text = "Load SHP file";
       this.bLoadShp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
       this.bLoadShp.UseVisualStyleBackColor = true;
       this.bLoadShp.Click += new System.EventHandler(this.bLoadShp_Click);
@@ -120,7 +116,7 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       // nudImage
       // 
-      this.nudImage.Location = new System.Drawing.Point(871, 272);
+      this.nudImage.Location = new System.Drawing.Point(334, 232);
       this.nudImage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.nudImage.Maximum = new decimal(new int[] {
             1,
@@ -145,23 +141,12 @@ namespace RA_Mission_Editor.UI.UserControls
       // label1
       // 
       this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(808, 275);
+      this.label1.Location = new System.Drawing.Point(271, 235);
       this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
       this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(54, 20);
+      this.label1.Size = new System.Drawing.Size(55, 20);
       this.label1.TabIndex = 63;
-      this.label1.Text = "Image";
-      // 
-      // pbSingle
-      // 
-      this.pbSingle.BackColor = System.Drawing.Color.Black;
-      this.pbSingle.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-      this.pbSingle.Location = new System.Drawing.Point(0, 0);
-      this.pbSingle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.pbSingle.Name = "pbSingle";
-      this.pbSingle.Size = new System.Drawing.Size(285, 285);
-      this.pbSingle.TabIndex = 64;
-      this.pbSingle.TabStop = false;
+      this.label1.Text = "Frame";
       // 
       // bLoadSrcPalette
       // 
@@ -191,21 +176,21 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblSrcTmp.Location = new System.Drawing.Point(660, 88);
       this.lblSrcTmp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
       this.lblSrcTmp.Name = "lblSrcTmp";
-      this.lblSrcTmp.Size = new System.Drawing.Size(103, 20);
+      this.lblSrcTmp.Size = new System.Drawing.Size(104, 20);
       this.lblSrcTmp.TabIndex = 75;
-      this.lblSrcTmp.Text = "(source TMP)";
+      this.lblSrcTmp.Text = "(source SHP)";
       // 
-      // bOpenTmp
+      // bOpenShp
       // 
-      this.bOpenTmp.Location = new System.Drawing.Point(318, 25);
-      this.bOpenTmp.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.bOpenTmp.Name = "bOpenTmp";
-      this.bOpenTmp.Size = new System.Drawing.Size(132, 49);
-      this.bOpenTmp.TabIndex = 82;
-      this.bOpenTmp.Text = "Open TMP";
-      this.bOpenTmp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-      this.bOpenTmp.UseVisualStyleBackColor = true;
-      this.bOpenTmp.Click += new System.EventHandler(this.bOpen_Click);
+      this.bOpenShp.Location = new System.Drawing.Point(318, 25);
+      this.bOpenShp.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.bOpenShp.Name = "bOpenShp";
+      this.bOpenShp.Size = new System.Drawing.Size(132, 49);
+      this.bOpenShp.TabIndex = 82;
+      this.bOpenShp.Text = "Open SHP";
+      this.bOpenShp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+      this.bOpenShp.UseVisualStyleBackColor = true;
+      this.bOpenShp.Click += new System.EventHandler(this.bOpen_Click);
       // 
       // tbShpRADir
       // 
@@ -221,7 +206,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.groupBox1.Controls.Add(this.tbPalRADir);
       this.groupBox1.Controls.Add(this.label4);
       this.groupBox1.Controls.Add(this.tbShpRADir);
-      this.groupBox1.Controls.Add(this.bOpenTmp);
+      this.groupBox1.Controls.Add(this.bOpenShp);
       this.groupBox1.Location = new System.Drawing.Point(24, 49);
       this.groupBox1.Name = "groupBox1";
       this.groupBox1.Size = new System.Drawing.Size(461, 137);
@@ -256,15 +241,16 @@ namespace RA_Mission_Editor.UI.UserControls
       this.tbPalRADir.Name = "tbPalRADir";
       this.tbPalRADir.Size = new System.Drawing.Size(223, 26);
       this.tbPalRADir.TabIndex = 84;
+      this.tbPalRADir.Text = "temperat.pal";
       // 
       // label4
       // 
       this.label4.AutoSize = true;
       this.label4.Location = new System.Drawing.Point(31, 36);
       this.label4.Name = "label4";
-      this.label4.Size = new System.Drawing.Size(41, 20);
+      this.label4.Size = new System.Drawing.Size(42, 20);
       this.label4.TabIndex = 83;
-      this.label4.Text = "TMP";
+      this.label4.Text = "SHP";
       // 
       // lblBlocks
       // 
@@ -272,9 +258,9 @@ namespace RA_Mission_Editor.UI.UserControls
       this.lblBlocks.Location = new System.Drawing.Point(30, 202);
       this.lblBlocks.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
       this.lblBlocks.Name = "lblBlocks";
-      this.lblBlocks.Size = new System.Drawing.Size(97, 20);
+      this.lblBlocks.Size = new System.Drawing.Size(80, 20);
       this.lblBlocks.TabIndex = 86;
-      this.lblBlocks.Text = "Blocks: ? x ?";
+      this.lblBlocks.Text = "Frames: ?";
       // 
       // label7
       // 
@@ -312,80 +298,27 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       // bExportImage
       // 
-      this.bExportImage.Location = new System.Drawing.Point(24, 636);
+      this.bExportImage.Location = new System.Drawing.Point(416, 274);
       this.bExportImage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.bExportImage.Name = "bExportImage";
-      this.bExportImage.Size = new System.Drawing.Size(138, 49);
+      this.bExportImage.Size = new System.Drawing.Size(157, 76);
       this.bExportImage.TabIndex = 89;
       this.bExportImage.Text = "Export Image";
       this.bExportImage.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
       this.bExportImage.UseVisualStyleBackColor = true;
       this.bExportImage.Click += new System.EventHandler(this.bExportImage_Click);
       // 
-      // bImportImage
+      // bImportImageReplace
       // 
-      this.bImportImage.Location = new System.Drawing.Point(170, 638);
-      this.bImportImage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.bImportImage.Name = "bImportImage";
-      this.bImportImage.Size = new System.Drawing.Size(138, 49);
-      this.bImportImage.TabIndex = 90;
-      this.bImportImage.Text = "Import Image";
-      this.bImportImage.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-      this.bImportImage.UseVisualStyleBackColor = true;
-      this.bImportImage.Click += new System.EventHandler(this.bImportImage_Click);
-      // 
-      // pbTileTypes
-      // 
-      this.pbTileTypes.BackColor = System.Drawing.Color.Black;
-      this.pbTileTypes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-      this.pbTileTypes.Location = new System.Drawing.Point(0, 0);
-      this.pbTileTypes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.pbTileTypes.Name = "pbTileTypes";
-      this.pbTileTypes.Size = new System.Drawing.Size(384, 394);
-      this.pbTileTypes.TabIndex = 91;
-      this.pbTileTypes.TabStop = false;
-      // 
-      // label2
-      // 
-      this.label2.AutoSize = true;
-      this.label2.Location = new System.Drawing.Point(821, 309);
-      this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-      this.label2.Name = "label2";
-      this.label2.Size = new System.Drawing.Size(43, 20);
-      this.label2.TabIndex = 93;
-      this.label2.Text = "Type";
-      // 
-      // cbTileType
-      // 
-      this.cbTileType.FormattingEnabled = true;
-      this.cbTileType.Location = new System.Drawing.Point(871, 306);
-      this.cbTileType.Name = "cbTileType";
-      this.cbTileType.Size = new System.Drawing.Size(115, 28);
-      this.cbTileType.TabIndex = 94;
-      // 
-      // bSetSingle
-      // 
-      this.bSetSingle.Location = new System.Drawing.Point(994, 291);
-      this.bSetSingle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.bSetSingle.Name = "bSetSingle";
-      this.bSetSingle.Size = new System.Drawing.Size(57, 43);
-      this.bSetSingle.TabIndex = 95;
-      this.bSetSingle.Text = "Set";
-      this.bSetSingle.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-      this.bSetSingle.UseVisualStyleBackColor = true;
-      this.bSetSingle.Click += new System.EventHandler(this.bSetSingle_Click);
-      // 
-      // bSetAll
-      // 
-      this.bSetAll.Location = new System.Drawing.Point(1059, 291);
-      this.bSetAll.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.bSetAll.Name = "bSetAll";
-      this.bSetAll.Size = new System.Drawing.Size(82, 43);
-      this.bSetAll.TabIndex = 96;
-      this.bSetAll.Text = "Set All";
-      this.bSetAll.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-      this.bSetAll.UseVisualStyleBackColor = true;
-      this.bSetAll.Click += new System.EventHandler(this.bSetAll_Click);
+      this.bImportImageReplace.Location = new System.Drawing.Point(416, 360);
+      this.bImportImageReplace.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.bImportImageReplace.Name = "bImportImageReplace";
+      this.bImportImageReplace.Size = new System.Drawing.Size(157, 76);
+      this.bImportImageReplace.TabIndex = 90;
+      this.bImportImageReplace.Text = "Import Image (Replace this)";
+      this.bImportImageReplace.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+      this.bImportImageReplace.UseVisualStyleBackColor = true;
+      this.bImportImageReplace.Click += new System.EventHandler(this.bImportImageReplace_Click);
       // 
       // groupBox2
       // 
@@ -398,61 +331,136 @@ namespace RA_Mission_Editor.UI.UserControls
       this.groupBox2.TabStop = false;
       this.groupBox2.Text = "Load from File";
       // 
-      // cbIsClearTemplate
-      // 
-      this.cbIsClearTemplate.AutoSize = true;
-      this.cbIsClearTemplate.Checked = true;
-      this.cbIsClearTemplate.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.cbIsClearTemplate.Location = new System.Drawing.Point(812, 232);
-      this.cbIsClearTemplate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.cbIsClearTemplate.Name = "cbIsClearTemplate";
-      this.cbIsClearTemplate.Size = new System.Drawing.Size(355, 24);
-      this.cbIsClearTemplate.TabIndex = 98;
-      this.cbIsClearTemplate.Text = "Is Clear Template (1x1 Block, muliple Images)";
-      this.cbIsClearTemplate.UseVisualStyleBackColor = true;
-      this.cbIsClearTemplate.CheckedChanged += new System.EventHandler(this.cbIsClearTemplate_CheckedChanged);
-      // 
       // panel1
       // 
       this.panel1.AutoScroll = true;
       this.panel1.Controls.Add(this.pbSrc);
-      this.panel1.Location = new System.Drawing.Point(24, 232);
+      this.panel1.Location = new System.Drawing.Point(24, 274);
       this.panel1.Name = "panel1";
       this.panel1.Size = new System.Drawing.Size(384, 394);
       this.panel1.TabIndex = 99;
       // 
-      // panel2
+      // bImportImageInsertBefore
       // 
-      this.panel2.AutoScroll = true;
-      this.panel2.Controls.Add(this.pbTileTypes);
-      this.panel2.Location = new System.Drawing.Point(414, 233);
-      this.panel2.Name = "panel2";
-      this.panel2.Size = new System.Drawing.Size(384, 394);
-      this.panel2.TabIndex = 100;
+      this.bImportImageInsertBefore.Location = new System.Drawing.Point(416, 446);
+      this.bImportImageInsertBefore.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.bImportImageInsertBefore.Name = "bImportImageInsertBefore";
+      this.bImportImageInsertBefore.Size = new System.Drawing.Size(157, 76);
+      this.bImportImageInsertBefore.TabIndex = 91;
+      this.bImportImageInsertBefore.Text = "Import Image (Insert before this)";
+      this.bImportImageInsertBefore.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+      this.bImportImageInsertBefore.UseVisualStyleBackColor = true;
+      this.bImportImageInsertBefore.Click += new System.EventHandler(this.bImportImageInsertBefore_Click);
       // 
-      // panel3
+      // bImportImageInsertAfter
       // 
-      this.panel3.AutoScroll = true;
-      this.panel3.Controls.Add(this.pbSingle);
-      this.panel3.Location = new System.Drawing.Point(805, 342);
-      this.panel3.Name = "panel3";
-      this.panel3.Size = new System.Drawing.Size(285, 285);
-      this.panel3.TabIndex = 101;
+      this.bImportImageInsertAfter.Location = new System.Drawing.Point(416, 532);
+      this.bImportImageInsertAfter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.bImportImageInsertAfter.Name = "bImportImageInsertAfter";
+      this.bImportImageInsertAfter.Size = new System.Drawing.Size(157, 76);
+      this.bImportImageInsertAfter.TabIndex = 100;
+      this.bImportImageInsertAfter.Text = "Import Image (Insert after this)";
+      this.bImportImageInsertAfter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+      this.bImportImageInsertAfter.UseVisualStyleBackColor = true;
+      this.bImportImageInsertAfter.Click += new System.EventHandler(this.bImportImageInsertAfter_Click);
       // 
-      // TmpFileViewerControl
+      // bDuplicateImage
+      // 
+      this.bDuplicateImage.Location = new System.Drawing.Point(581, 274);
+      this.bDuplicateImage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.bDuplicateImage.Name = "bDuplicateImage";
+      this.bDuplicateImage.Size = new System.Drawing.Size(157, 76);
+      this.bDuplicateImage.TabIndex = 101;
+      this.bDuplicateImage.Text = "Duplicate Image";
+      this.bDuplicateImage.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+      this.bDuplicateImage.UseVisualStyleBackColor = true;
+      this.bDuplicateImage.Click += new System.EventHandler(this.bDuplicateImage_Click);
+      // 
+      // bMoveImageNext
+      // 
+      this.bMoveImageNext.Location = new System.Drawing.Point(580, 446);
+      this.bMoveImageNext.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.bMoveImageNext.Name = "bMoveImageNext";
+      this.bMoveImageNext.Size = new System.Drawing.Size(157, 76);
+      this.bMoveImageNext.TabIndex = 102;
+      this.bMoveImageNext.Text = "Move Image Next";
+      this.bMoveImageNext.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+      this.bMoveImageNext.UseVisualStyleBackColor = true;
+      this.bMoveImageNext.Click += new System.EventHandler(this.bMoveImageNext_Click);
+      // 
+      // bMoveImageBack
+      // 
+      this.bMoveImageBack.Location = new System.Drawing.Point(579, 532);
+      this.bMoveImageBack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.bMoveImageBack.Name = "bMoveImageBack";
+      this.bMoveImageBack.Size = new System.Drawing.Size(157, 76);
+      this.bMoveImageBack.TabIndex = 103;
+      this.bMoveImageBack.Text = "Move Image Back";
+      this.bMoveImageBack.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+      this.bMoveImageBack.UseVisualStyleBackColor = true;
+      this.bMoveImageBack.Click += new System.EventHandler(this.bMoveImageBack_Click);
+      // 
+      // bImportImageAdd
+      // 
+      this.bImportImageAdd.Location = new System.Drawing.Point(415, 618);
+      this.bImportImageAdd.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.bImportImageAdd.Name = "bImportImageAdd";
+      this.bImportImageAdd.Size = new System.Drawing.Size(157, 76);
+      this.bImportImageAdd.TabIndex = 104;
+      this.bImportImageAdd.Text = "Import Image (Add to end)";
+      this.bImportImageAdd.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+      this.bImportImageAdd.UseVisualStyleBackColor = true;
+      this.bImportImageAdd.Click += new System.EventHandler(this.bImportImageAdd_Click);
+      // 
+      // bDeleteImage
+      // 
+      this.bDeleteImage.Location = new System.Drawing.Point(580, 360);
+      this.bDeleteImage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.bDeleteImage.Name = "bDeleteImage";
+      this.bDeleteImage.Size = new System.Drawing.Size(157, 76);
+      this.bDeleteImage.TabIndex = 105;
+      this.bDeleteImage.Text = "Delete Image";
+      this.bDeleteImage.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+      this.bDeleteImage.UseVisualStyleBackColor = true;
+      this.bDeleteImage.Click += new System.EventHandler(this.bDeleteImage_Click);
+      // 
+      // label3
+      // 
+      this.label3.AutoSize = true;
+      this.label3.Location = new System.Drawing.Point(449, 198);
+      this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+      this.label3.Name = "label3";
+      this.label3.Size = new System.Drawing.Size(61, 20);
+      this.label3.TabIndex = 107;
+      this.label3.Text = "Remap";
+      // 
+      // cbRemapColor
+      // 
+      this.cbRemapColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.cbRemapColor.FormattingEnabled = true;
+      this.cbRemapColor.Location = new System.Drawing.Point(518, 194);
+      this.cbRemapColor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.cbRemapColor.Name = "cbRemapColor";
+      this.cbRemapColor.Size = new System.Drawing.Size(218, 28);
+      this.cbRemapColor.TabIndex = 106;
+      this.cbRemapColor.SelectedIndexChanged += new System.EventHandler(this.cbRemapColor_SelectedIndexChanged);
+      // 
+      // ShpFileEditorControl
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.Controls.Add(this.panel3);
-      this.Controls.Add(this.panel2);
+      this.Controls.Add(this.label3);
+      this.Controls.Add(this.cbRemapColor);
+      this.Controls.Add(this.bDeleteImage);
+      this.Controls.Add(this.bImportImageAdd);
+      this.Controls.Add(this.bMoveImageBack);
+      this.Controls.Add(this.bMoveImageNext);
+      this.Controls.Add(this.bDuplicateImage);
+      this.Controls.Add(this.bImportImageInsertAfter);
+      this.Controls.Add(this.bImportImageInsertBefore);
       this.Controls.Add(this.panel1);
-      this.Controls.Add(this.cbIsClearTemplate);
       this.Controls.Add(this.groupBox2);
-      this.Controls.Add(this.bSetAll);
-      this.Controls.Add(this.bSetSingle);
-      this.Controls.Add(this.cbTileType);
-      this.Controls.Add(this.label2);
-      this.Controls.Add(this.bImportImage);
+      this.Controls.Add(this.bImportImageReplace);
       this.Controls.Add(this.bExportImage);
       this.Controls.Add(this.label7);
       this.Controls.Add(this.nudSrcZoom);
@@ -465,19 +473,15 @@ namespace RA_Mission_Editor.UI.UserControls
       this.Controls.Add(this.bOK);
       this.Controls.Add(this.lblTutorial);
       this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.Name = "TmpFileViewerControl";
+      this.Name = "ShpFileEditorControl";
       this.Size = new System.Drawing.Size(1200, 788);
       ((System.ComponentModel.ISupportInitialize)(this.pbSrc)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudImage)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.pbSingle)).EndInit();
       this.groupBox1.ResumeLayout(false);
       this.groupBox1.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.nudSrcZoom)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.pbTileTypes)).EndInit();
       this.groupBox2.ResumeLayout(false);
       this.panel1.ResumeLayout(false);
-      this.panel2.ResumeLayout(false);
-      this.panel3.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -490,11 +494,10 @@ namespace RA_Mission_Editor.UI.UserControls
     private System.Windows.Forms.PictureBox pbSrc;
     private System.Windows.Forms.NumericUpDown nudImage;
     private System.Windows.Forms.Label label1;
-    private System.Windows.Forms.PictureBox pbSingle;
     private System.Windows.Forms.Button bLoadSrcPalette;
     private System.Windows.Forms.Label lblSrcPal;
     private System.Windows.Forms.Label lblSrcTmp;
-    private System.Windows.Forms.Button bOpenTmp;
+    private System.Windows.Forms.Button bOpenShp;
     private System.Windows.Forms.TextBox tbShpRADir;
     private System.Windows.Forms.GroupBox groupBox1;
     private System.Windows.Forms.Button bOpenPalS;
@@ -505,16 +508,17 @@ namespace RA_Mission_Editor.UI.UserControls
     private System.Windows.Forms.Label label7;
     private System.Windows.Forms.NumericUpDown nudSrcZoom;
     private System.Windows.Forms.Button bExportImage;
-    private System.Windows.Forms.Button bImportImage;
-    private System.Windows.Forms.PictureBox pbTileTypes;
-    private System.Windows.Forms.Label label2;
-    private System.Windows.Forms.ComboBox cbTileType;
-    private System.Windows.Forms.Button bSetSingle;
-    private System.Windows.Forms.Button bSetAll;
+    private System.Windows.Forms.Button bImportImageReplace;
     private System.Windows.Forms.GroupBox groupBox2;
-    private System.Windows.Forms.CheckBox cbIsClearTemplate;
     private System.Windows.Forms.Panel panel1;
-    private System.Windows.Forms.Panel panel2;
-    private System.Windows.Forms.Panel panel3;
+    private System.Windows.Forms.Button bImportImageInsertBefore;
+    private System.Windows.Forms.Button bImportImageInsertAfter;
+    private System.Windows.Forms.Button bDuplicateImage;
+    private System.Windows.Forms.Button bMoveImageNext;
+    private System.Windows.Forms.Button bMoveImageBack;
+    private System.Windows.Forms.Button bImportImageAdd;
+    private System.Windows.Forms.Button bDeleteImage;
+    private System.Windows.Forms.Label label3;
+    private System.Windows.Forms.ComboBox cbRemapColor;
   }
 }

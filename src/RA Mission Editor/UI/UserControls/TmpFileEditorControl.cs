@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace RA_Mission_Editor.UI.UserControls
 {
-  public partial class TmpFileViewerControl : UserControl
+  public partial class TmpFileEditorControl : UserControl
   {
-    public TmpFileViewerControl()
+    public TmpFileEditorControl()
     {
       InitializeComponent();
       RefreshView();
@@ -378,6 +378,7 @@ namespace RA_Mission_Editor.UI.UserControls
               }
 
               _tmp = tmp;
+              _cache.Clear();
               RefreshView();
             }
           }

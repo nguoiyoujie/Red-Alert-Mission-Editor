@@ -71,7 +71,7 @@ namespace RA_Mission_Editor.FileFormats
       int bestindex = 0;
       for (int i = 0; i < colors.Length; i++)
       {
-        if (exclude != null && !exclude.Contains(i))
+        if (exclude == null || !exclude.Contains(i))
         {
           Color c = GetColor(i);
           int d = Math.Abs(color.R - c.R) + Math.Abs(color.G - c.G) + Math.Abs(color.B - c.B);
@@ -130,7 +130,7 @@ namespace RA_Mission_Editor.FileFormats
     }
 
 
-    public void Parse()
+    public void Parse(bool overridecolors = true)
     {
       // read originalPalette
       Position = 0;
@@ -145,8 +145,11 @@ namespace RA_Mission_Editor.FileFormats
         colors[i] = (uint)((255 << 24) | (r << 16) | (g << 8) | b);
       }
 
-      colors[0] = 0; //first color is transparent
-      ApplyShadowRemap();
+      if (overridecolors)
+      {
+        colors[0] = 0; //first color is transparent
+        ApplyShadowRemap();
+      }
     }
 
     public ColorPalette AsSystemPalette()

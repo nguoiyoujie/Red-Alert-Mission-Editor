@@ -33,16 +33,19 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.shpPaletteConverterControl1 = new RA_Mission_Editor.UI.UserControls.ShpPaletteConverterControl();
       this.pageLanguageFile = new System.Windows.Forms.TabPage();
       this.languageFileControl1 = new RA_Mission_Editor.UI.UserControls.LanguageFileControl();
-      this.pageTmpViewer = new System.Windows.Forms.TabControl();
-      this.tabPage1 = new System.Windows.Forms.TabPage();
-      this.tmpFileViewerControl1 = new RA_Mission_Editor.UI.UserControls.TmpFileViewerControl();
-      this.tabPage2 = new System.Windows.Forms.TabPage();
+      this.pageEditor = new System.Windows.Forms.TabControl();
+      this.pageTmpEditor = new System.Windows.Forms.TabPage();
+      this.tmpFileEditorControl1 = new RA_Mission_Editor.UI.UserControls.TmpFileEditorControl();
+      this.pageAssetExporter = new System.Windows.Forms.TabPage();
       this.assetExporterControl1 = new RA_Mission_Editor.UI.UserControls.AssetExporterControl();
+      this.pageShpEditor = new System.Windows.Forms.TabPage();
+      this.shpFileEditorControl1 = new RA_Mission_Editor.UI.UserControls.ShpFileEditorControl();
       this.pageShpConverter.SuspendLayout();
       this.pageLanguageFile.SuspendLayout();
-      this.pageTmpViewer.SuspendLayout();
-      this.tabPage1.SuspendLayout();
-      this.tabPage2.SuspendLayout();
+      this.pageEditor.SuspendLayout();
+      this.pageTmpEditor.SuspendLayout();
+      this.pageAssetExporter.SuspendLayout();
+      this.pageShpEditor.SuspendLayout();
       this.SuspendLayout();
       // 
       // pageShpConverter
@@ -87,51 +90,52 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.languageFileControl1.Size = new System.Drawing.Size(1196, 786);
       this.languageFileControl1.TabIndex = 0;
       // 
-      // pageTmpViewer
+      // pageEditor
       // 
-      this.pageTmpViewer.Controls.Add(this.pageLanguageFile);
-      this.pageTmpViewer.Controls.Add(this.pageShpConverter);
-      this.pageTmpViewer.Controls.Add(this.tabPage1);
-      this.pageTmpViewer.Controls.Add(this.tabPage2);
-      this.pageTmpViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.pageTmpViewer.Location = new System.Drawing.Point(0, 0);
-      this.pageTmpViewer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.pageTmpViewer.Name = "pageTmpViewer";
-      this.pageTmpViewer.SelectedIndex = 0;
-      this.pageTmpViewer.Size = new System.Drawing.Size(1212, 829);
-      this.pageTmpViewer.TabIndex = 0;
-      this.pageTmpViewer.SelectedIndexChanged += new System.EventHandler(this.tabSelection_SelectedIndexChanged);
+      this.pageEditor.Controls.Add(this.pageLanguageFile);
+      this.pageEditor.Controls.Add(this.pageShpConverter);
+      this.pageEditor.Controls.Add(this.pageTmpEditor);
+      this.pageEditor.Controls.Add(this.pageShpEditor);
+      this.pageEditor.Controls.Add(this.pageAssetExporter);
+      this.pageEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.pageEditor.Location = new System.Drawing.Point(0, 0);
+      this.pageEditor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.pageEditor.Name = "pageEditor";
+      this.pageEditor.SelectedIndex = 0;
+      this.pageEditor.Size = new System.Drawing.Size(1212, 829);
+      this.pageEditor.TabIndex = 0;
+      this.pageEditor.SelectedIndexChanged += new System.EventHandler(this.tabSelection_SelectedIndexChanged);
       // 
-      // tabPage1
+      // pageTmpEditor
       // 
-      this.tabPage1.Controls.Add(this.tmpFileViewerControl1);
-      this.tabPage1.Location = new System.Drawing.Point(4, 29);
-      this.tabPage1.Name = "tabPage1";
-      this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage1.Size = new System.Drawing.Size(1204, 796);
-      this.tabPage1.TabIndex = 3;
-      this.tabPage1.Text = "Template Viewer";
-      this.tabPage1.UseVisualStyleBackColor = true;
+      this.pageTmpEditor.Controls.Add(this.tmpFileEditorControl1);
+      this.pageTmpEditor.Location = new System.Drawing.Point(4, 29);
+      this.pageTmpEditor.Name = "pageTmpEditor";
+      this.pageTmpEditor.Padding = new System.Windows.Forms.Padding(3);
+      this.pageTmpEditor.Size = new System.Drawing.Size(1204, 796);
+      this.pageTmpEditor.TabIndex = 3;
+      this.pageTmpEditor.Text = "Template Editor";
+      this.pageTmpEditor.UseVisualStyleBackColor = true;
       // 
-      // tmpFileViewerControl1
+      // tmpFileEditorControl1
       // 
-      this.tmpFileViewerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.tmpFileViewerControl1.Location = new System.Drawing.Point(3, 3);
-      this.tmpFileViewerControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.tmpFileViewerControl1.Name = "tmpFileViewerControl1";
-      this.tmpFileViewerControl1.Size = new System.Drawing.Size(1198, 790);
-      this.tmpFileViewerControl1.TabIndex = 0;
+      this.tmpFileEditorControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.tmpFileEditorControl1.Location = new System.Drawing.Point(3, 3);
+      this.tmpFileEditorControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.tmpFileEditorControl1.Name = "tmpFileEditorControl1";
+      this.tmpFileEditorControl1.Size = new System.Drawing.Size(1198, 790);
+      this.tmpFileEditorControl1.TabIndex = 0;
       // 
-      // tabPage2
+      // pageAssetExporter
       // 
-      this.tabPage2.Controls.Add(this.assetExporterControl1);
-      this.tabPage2.Location = new System.Drawing.Point(4, 29);
-      this.tabPage2.Name = "tabPage2";
-      this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-      this.tabPage2.Size = new System.Drawing.Size(1204, 796);
-      this.tabPage2.TabIndex = 4;
-      this.tabPage2.Text = "Asset Exporter";
-      this.tabPage2.UseVisualStyleBackColor = true;
+      this.pageAssetExporter.Controls.Add(this.assetExporterControl1);
+      this.pageAssetExporter.Location = new System.Drawing.Point(4, 29);
+      this.pageAssetExporter.Name = "pageAssetExporter";
+      this.pageAssetExporter.Padding = new System.Windows.Forms.Padding(3);
+      this.pageAssetExporter.Size = new System.Drawing.Size(1204, 796);
+      this.pageAssetExporter.TabIndex = 4;
+      this.pageAssetExporter.Text = "Asset Exporter";
+      this.pageAssetExporter.UseVisualStyleBackColor = true;
       // 
       // assetExporterControl1
       // 
@@ -142,21 +146,42 @@ namespace RA_Mission_Editor.UI.Dialogs
       this.assetExporterControl1.Size = new System.Drawing.Size(1198, 790);
       this.assetExporterControl1.TabIndex = 0;
       // 
+      // pageShpEditor
+      // 
+      this.pageShpEditor.Controls.Add(this.shpFileEditorControl1);
+      this.pageShpEditor.Location = new System.Drawing.Point(4, 29);
+      this.pageShpEditor.Name = "pageShpEditor";
+      this.pageShpEditor.Padding = new System.Windows.Forms.Padding(3);
+      this.pageShpEditor.Size = new System.Drawing.Size(1204, 796);
+      this.pageShpEditor.TabIndex = 5;
+      this.pageShpEditor.Text = "Shape File Editor";
+      this.pageShpEditor.UseVisualStyleBackColor = true;
+      // 
+      // shpFileEditorControl1
+      // 
+      this.shpFileEditorControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.shpFileEditorControl1.Location = new System.Drawing.Point(3, 3);
+      this.shpFileEditorControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.shpFileEditorControl1.Name = "shpFileEditorControl1";
+      this.shpFileEditorControl1.Size = new System.Drawing.Size(1198, 790);
+      this.shpFileEditorControl1.TabIndex = 0;
+      // 
       // OtherEditorDialog
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(1212, 829);
-      this.Controls.Add(this.pageTmpViewer);
+      this.Controls.Add(this.pageEditor);
       this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
       this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.Name = "OtherEditorDialog";
       this.Text = "Editor";
       this.pageShpConverter.ResumeLayout(false);
       this.pageLanguageFile.ResumeLayout(false);
-      this.pageTmpViewer.ResumeLayout(false);
-      this.tabPage1.ResumeLayout(false);
-      this.tabPage2.ResumeLayout(false);
+      this.pageEditor.ResumeLayout(false);
+      this.pageTmpEditor.ResumeLayout(false);
+      this.pageAssetExporter.ResumeLayout(false);
+      this.pageShpEditor.ResumeLayout(false);
       this.ResumeLayout(false);
 
     }
@@ -167,10 +192,12 @@ namespace RA_Mission_Editor.UI.Dialogs
     private UserControls.ShpPaletteConverterControl shpPaletteConverterControl1;
     private System.Windows.Forms.TabPage pageLanguageFile;
     private UserControls.LanguageFileControl languageFileControl1;
-    private System.Windows.Forms.TabControl pageTmpViewer;
-    private System.Windows.Forms.TabPage tabPage1;
-    private UserControls.TmpFileViewerControl tmpFileViewerControl1;
-    private System.Windows.Forms.TabPage tabPage2;
+    private System.Windows.Forms.TabControl pageEditor;
+    private System.Windows.Forms.TabPage pageTmpEditor;
+    private UserControls.TmpFileEditorControl tmpFileEditorControl1;
+    private System.Windows.Forms.TabPage pageAssetExporter;
     private UserControls.AssetExporterControl assetExporterControl1;
+    private System.Windows.Forms.TabPage pageShpEditor;
+    private UserControls.ShpFileEditorControl shpFileEditorControl1;
   }
 }

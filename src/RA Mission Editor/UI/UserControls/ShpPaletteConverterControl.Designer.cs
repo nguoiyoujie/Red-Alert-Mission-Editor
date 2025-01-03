@@ -241,7 +241,6 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       // lblDstPal
       // 
-      this.lblDstPal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.lblDstPal.AutoSize = true;
       this.lblDstPal.Location = new System.Drawing.Point(652, 208);
       this.lblDstPal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -277,7 +276,6 @@ namespace RA_Mission_Editor.UI.UserControls
       // 
       // label3
       // 
-      this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.label3.AutoSize = true;
       this.label3.Location = new System.Drawing.Point(726, 715);
       this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -417,6 +415,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.tbPalRADir.Name = "tbPalRADir";
       this.tbPalRADir.Size = new System.Drawing.Size(223, 26);
       this.tbPalRADir.TabIndex = 84;
+      this.tbPalRADir.Text = "temperat.pal";
       // 
       // label4
       // 

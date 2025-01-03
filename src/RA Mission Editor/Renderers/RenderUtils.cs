@@ -9,7 +9,7 @@ namespace RA_Mission_Editor.Renderers
 {
   static class RenderUtils
   {
-    static public PalFile FetchHouseRemapPalette(MapCache c, PalFile p, ColorType color)
+    static public PalFile FetchHouseRemapPalette(MapCache c, PalFile p, ColorType color, bool applyshadow = true)
     {
       if (c != null && c.TryGet(p, color, out PalFile pal))
       {
@@ -18,7 +18,10 @@ namespace RA_Mission_Editor.Renderers
 
       Color[] remap = ColorRemaps.GetColorRemap(color);
       PalFile palFile = p.Clone();
-      palFile.ApplyShadowRemap();
+      if (applyshadow)
+      {
+        palFile.ApplyShadowRemap();
+      }
       if (remap != null)
       {
         palFile.ApplyHouseRemap(remap);

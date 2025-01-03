@@ -51,9 +51,9 @@ namespace RA_Mission_Editor.RulesData.Ruleset
       {
         var building = new BuildingType(entry.Value.Value);
         // BYTE, 0-8, BSIZE_11, BSIZE_21, BSIZE_12, BSIZE_22, BSIZE_23, BSIZE_32, BSIZE_33, BSIZE_42, BSIZE_55 
-        if (GameRules.GetSection(entry.Value.Value).ReadBool("Bib", true))
+        if (GameRules.GetSection(entry.Value.Value)?.ReadBool("Bib", true) ?? true)
         {
-          switch (GameRules.GetSection(entry.Value.Value).ReadInt("BSize", 3))
+          switch (GameRules.GetSection(entry.Value.Value)?.ReadInt("BSize", 3) ?? 3)
           {
             case 3:
             case 4:
@@ -71,13 +71,13 @@ namespace RA_Mission_Editor.RulesData.Ruleset
           }
         }
 
-        if (GameRules.GetSection(entry.Value.Value).ReadBool("HasTurret", false))
+        if (GameRules.GetSection(entry.Value.Value)?.ReadBool("HasTurret", false) ?? false)
         {
           building.TurretDirections = 32;
         }
         building.FullName = file?.Get(nameindex++);
 
-        string customfoundation = GameRules.GetSection(entry.Value.Value).ReadString("CustomFoundationList", "");
+        string customfoundation = GameRules.GetSection(entry.Value.Value)?.ReadString("CustomFoundationList", "") ?? "";
         if (!string.IsNullOrEmpty(customfoundation))
         {
           building.Occupancy.Clear();
@@ -102,7 +102,6 @@ namespace RA_Mission_Editor.RulesData.Ruleset
             }
           }
         }
-          
 
         Buildings.AddRulesObject(building);
       }

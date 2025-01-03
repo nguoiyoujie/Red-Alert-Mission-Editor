@@ -898,75 +898,75 @@ namespace RA_Mission_Editor.UI
         case EditorSelectMode.Templates:
           lboxObjects.Items.AddRange(Templates.GetAsObjectList());
           lboxObjects.MultiColumn = true;
-          lboxObjects.SelectedIndex = 0;
+          lboxObjects.SelectedIndex = lboxObjects.Items.Count > 0 ? 0 : -1;
           bSetEntity.Enabled = false;
           break;
         case EditorSelectMode.Overlays:
           lboxObjects.Items.AddRange(Overlays.GetAsObjectList());
           lboxObjects.MultiColumn = true;
-          lboxObjects.SelectedIndex = 0;
+          lboxObjects.SelectedIndex = lboxObjects.Items.Count > 0 ? 0 : -1;
           bSetEntity.Enabled = false;
           break;
         case EditorSelectMode.Terrain:
           lboxObjects.Items.AddRange(Terrains.GetAsObjectList());
           lboxObjects.MultiColumn = true;
-          lboxObjects.SelectedIndex = 0;
+          lboxObjects.SelectedIndex = lboxObjects.Items.Count > 0 ? 0 : -1;
           bSetEntity.Enabled = false;
           break;
         case EditorSelectMode.Smudges:
           lboxObjects.Items.AddRange(Smudges.GetAsObjectList());
           lboxObjects.MultiColumn = true;
-          lboxObjects.SelectedIndex = 0;
+          lboxObjects.SelectedIndex = lboxObjects.Items.Count > 0 ? 0 : -1;
           bSetEntity.Enabled = false;
           break;
         case EditorSelectMode.Infantry:
           lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Infantries.GetAsObjectList());
           lboxObjects.MultiColumn = false;
-          lboxObjects.SelectedIndex = 0;
+          lboxObjects.SelectedIndex = lboxObjects.Items.Count > 0 ? 0 : -1;
           bSetEntity.Enabled = true;
           break;
         case EditorSelectMode.Units:
           lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Units.GetAsObjectList());
           lboxObjects.MultiColumn = false;
-          lboxObjects.SelectedIndex = 0;
+          lboxObjects.SelectedIndex = lboxObjects.Items.Count > 0 ? 0 : -1;
           bSetEntity.Enabled = true;
           break;
         case EditorSelectMode.Vessels:
           lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Vessels.GetAsObjectList());
           lboxObjects.MultiColumn = false;
-          lboxObjects.SelectedIndex = 0;
+          lboxObjects.SelectedIndex = lboxObjects.Items.Count > 0 ? 0 : -1;
           bSetEntity.Enabled = true;
           break;
         case EditorSelectMode.Buildings:
           lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Buildings.GetAsObjectList());
           _listBoxIsBase = false;
           lboxObjects.MultiColumn = false;
-          lboxObjects.SelectedIndex = 0;
+          lboxObjects.SelectedIndex = lboxObjects.Items.Count > 0 ? 0 : -1;
           bSetEntity.Enabled = true;
           break;
         case EditorSelectMode.Bases:
           lboxObjects.Items.AddRange(MainModel.CurrentMap.AttachedRules.Buildings.GetAsObjectList());
           _listBoxIsBase = true;
           lboxObjects.MultiColumn = false;
-          lboxObjects.SelectedIndex = 0;
+          lboxObjects.SelectedIndex = lboxObjects.Items.Count > 0 ? 0 : -1;
           bSetEntity.Enabled = false;
           break;
         case EditorSelectMode.Waypoints:
           lboxObjects.Items.AddRange(MainModel.CurrentMap.WaypointSection.WaypointList.Select<WaypointInfo, object>((t) => t).ToArray());
           lboxObjects.MultiColumn = false;
-          lboxObjects.SelectedIndex = 0;
+          lboxObjects.SelectedIndex = lboxObjects.Items.Count > 0 ? 0 : -1;
           bSetEntity.Enabled = false;
           break;
         case EditorSelectMode.CellTriggers:
           lboxObjects.Items.AddRange(MainModel.CurrentMap.TriggerSection.TriggerList.Select<TriggerInfo, object>((t) => new CellTriggerInfo(MainModel.CurrentMap) { ID = t.Name }).ToArray());
           lboxObjects.MultiColumn = false;
-          lboxObjects.SelectedIndex = 0;
+          lboxObjects.SelectedIndex = lboxObjects.Items.Count > 0 ? 0 : -1;
           bSetEntity.Enabled = false;
           break;
         case EditorSelectMode.Extracts:
           lboxObjects.Items.AddRange(MapExtractSet.LoadedExtracts.Values.Select<MapExtract, object>((t) => new ExtractType(t)).ToArray());
           lboxObjects.MultiColumn = true;
-          if (lboxObjects.Items.Count > 0) { lboxObjects.SelectedIndex = 0; }
+          lboxObjects.SelectedIndex = lboxObjects.Items.Count > 0 ? 0 : -1;
           bSetEntity.Enabled = false;
           break;
       }

@@ -360,15 +360,15 @@ namespace RA_Mission_Editor.Util
 
     public static void GetSubCellOffsets(int subCell, out int x, out int y)
     {
-      x = -19; y = -9;
+      x = Constants.CELL_PIXEL_W / 2; y = Constants.CELL_PIXEL_H / 2;
 
       switch (subCell)
       {
-        case 1: x += 0; y += 0; break;
-        case 2: x += 11; y += 0; break;
-        case 3: y += 11; break;
-        case 4: x += 11; y += 11; break;
-        case 0: x += 6; y += 6; break;
+        case 1: x -= 7; y -= 7; break;
+        case 2: x += 7; y -= 7; break;
+        case 3: x -= 7; y += 7; break;
+        case 4: x += 7; y += 7; break;
+        case 0: x += 0; y += 0; break;
         default: break;
       }
     }

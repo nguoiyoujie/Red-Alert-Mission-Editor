@@ -1018,8 +1018,8 @@ namespace RA_Mission_Editor.Renderers
         Bitmap bmp = RenderUtils.RenderShp(cache, shpFile, hpalFile, dir);
 
         MapHelper.GetSubCellOffsets(subCell, out int xd, out int yd);
-        int xt = x * Constants.CELL_PIXEL_W + xd;
-        int yt = y * Constants.CELL_PIXEL_H + yd;
+        int xt = x * Constants.CELL_PIXEL_W + xd - bmp.Width / 2;
+        int yt = y * Constants.CELL_PIXEL_H + yd - bmp.Height / 2;
         int tagwidth = 24;
         int tagheight = 24;
         if (bmp != null)

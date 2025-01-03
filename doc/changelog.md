@@ -2,6 +2,16 @@
 <h2 align="center">Red Alert Mission Editor Changelog</h2>
 
 -------
+2025-01-03
+
+- Implement support to handle up to 32 houses. Work on handling them properly in game is still in progress in the sister patching project
+- Fix terrian objects BOXES01-BOXES09. They were mistakenly named BOX01-BOX09 prior.
+- Infantry with SHP sizes other than 50x40 will be centered correctly now
+- Add SHP file editor wityh basic image import/export functions to the 'Other Editors' controls
+- Update TMP file editor, and SHP palette converters
+- Add some sanity internal checks
+
+-------
 2024-12-01
 
 - Implement VQ movie lists in [Basic] editor

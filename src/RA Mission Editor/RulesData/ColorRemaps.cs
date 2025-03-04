@@ -10,29 +10,167 @@ namespace RA_Mission_Editor.RulesData
     private readonly static Dictionary<LandType, byte> _landTypeRadarColor = new Dictionary<LandType, byte>();
     private readonly static Dictionary<TileType, byte> _tileTypePassableColor = new Dictionary<TileType, byte>();
 
-    //private readonly static Dictionary<ColorType, Color[]> _listUnitRemaps = new Dictionary<ColorType, Color[]>();
-
     static ColorRemaps()
     {
       _listHouseRemaps.Add(ColorType.YELLOW, new Color[] {
-          Color.FromArgb(244, 212, 120),
-          Color.FromArgb(228, 200, 112),
-          Color.FromArgb(212, 188, 104),
-          Color.FromArgb(196, 176, 96),
-          Color.FromArgb(180, 164, 88),
-          Color.FromArgb(168, 152, 84),
-          Color.FromArgb(144, 136, 76),
-          Color.FromArgb(144, 116, 64),
-          Color.FromArgb(132, 112, 56),
-          Color.FromArgb(108, 100, 56),
-          Color.FromArgb(88, 84, 44),
-          Color.FromArgb(84, 76, 36),
-          Color.FromArgb(72, 68, 32),
-          Color.FromArgb(56, 52, 28),
-          Color.FromArgb(52, 44, 20),
-          Color.FromArgb(40, 32, 8),
+          Color.FromArgb(244, 212, 120), // 0x50
+          Color.FromArgb(228, 200, 112), // 0x51
+          Color.FromArgb(212, 188, 104), // 0x52
+          Color.FromArgb(196, 176, 96),  // 0x53
+          Color.FromArgb(180, 164, 88),  // 0x54
+          Color.FromArgb(168, 152, 84),  // 0x55
+          Color.FromArgb(144, 136, 76),  // 0x56
+          Color.FromArgb(144, 116, 64),  // 0x57
+          Color.FromArgb(132, 112, 56),  // 0x58
+          Color.FromArgb(108, 100, 56),  // 0x59
+          Color.FromArgb(88, 84, 44),    // 0x5A
+          Color.FromArgb(84, 76, 36),    // 0x5B
+          Color.FromArgb(72, 68, 32),    // 0x5C
+          Color.FromArgb(56, 52, 28),    // 0x5D
+          Color.FromArgb(52, 44, 20),    // 0x5E
+          Color.FromArgb(40, 32, 8),     // 0x5F 
         }
-);
+      );
+
+      _listHouseRemaps.Add(ColorType.BLUE, new Color[] {
+          Color.FromArgb(226, 230, 246), // 0xA0
+          Color.FromArgb(206, 210, 234), // 0xA1
+          Color.FromArgb(182, 190, 222), // 0xA2
+          Color.FromArgb(161, 170, 202), // 0xA3
+          Color.FromArgb(141, 149, 186), // 0xA4
+          Color.FromArgb(125, 133, 174), // 0xA5
+          Color.FromArgb(105, 117, 161), // 0xA6
+          Color.FromArgb(89, 105, 149),  // 0xA7
+          Color.FromArgb(68, 85, 137),   // 0xA8
+          Color.FromArgb(56, 72, 125),   // 0xA9
+          Color.FromArgb(48, 64, 117),   // 0xAA
+          Color.FromArgb(40, 56, 109),   // 0xAB
+          Color.FromArgb(32, 44, 97),    // 0xAC
+          Color.FromArgb(24, 44, 85),    // 0xAD
+          Color.FromArgb(12, 32, 68),    // 0xAE
+          Color.FromArgb(8, 20, 52),     // 0xAF  
+				}
+      );
+
+      _listHouseRemaps.Add(ColorType.RED, new Color[] {
+          Color.FromArgb(255, 93, 0), // 0xE5
+          Color.FromArgb(255, 0, 0),  // 0xE6
+          Color.FromArgb(238, 0, 0),  // 0xE7
+          Color.FromArgb(218, 0, 0),  // 0xE8
+          Color.FromArgb(206, 0, 0),  // 0xE9
+          Color.FromArgb(190, 0, 0),  // 0xEA
+          Color.FromArgb(178, 0, 0),  // 0xEB
+          Color.FromArgb(170, 0, 0),  // 0x08
+          Color.FromArgb(149, 0, 0),  // 0xEC
+          Color.FromArgb(133, 0, 0),  // 0xED
+          Color.FromArgb(117, 0, 0),  // 0xEE
+          Color.FromArgb(101, 0, 0),  // 0xEF
+          Color.FromArgb(93, 8, 0),   // 0xDC
+          Color.FromArgb(76, 0, 0),   // 0xDD
+          Color.FromArgb(56, 0, 0),   // 0xDE
+          Color.FromArgb(56, 0, 0),   // 0xDF 
+        }
+      );
+
+      _listHouseRemaps.Add(ColorType.GREEN, new Color[] {
+          Color.FromArgb(255, 230, 149), // 0xD0
+          Color.FromArgb(255, 230, 149), // 0xD0
+          Color.FromArgb(198, 230, 133), // 0x90
+          Color.FromArgb(178, 210, 125), // 0x91
+          Color.FromArgb(157, 190, 117), // 0x92
+          Color.FromArgb(137, 174, 109), // 0x93
+          Color.FromArgb(121, 153, 101), // 0x94
+          Color.FromArgb(104, 137, 93),  // 0x95
+          Color.FromArgb(89, 117, 76),   // 0x96
+          Color.FromArgb(76, 101, 60),   // 0x97
+          Color.FromArgb(60, 85, 48),    // 0x98
+          Color.FromArgb(48, 68, 36),    // 0x99
+          Color.FromArgb(36, 52, 24),    // 0x9A
+          Color.FromArgb(36, 52, 24),    // 0x9A
+          Color.FromArgb(24, 36, 16),    // 0x9B
+          Color.FromArgb(20, 20, 20),    // 0x8F
+				}
+      );
+
+      _listHouseRemaps.Add(ColorType.ORANGE, new Color[] {
+          Color.FromArgb(255, 230, 149), // 0xD0
+          Color.FromArgb(255, 214, 125), // 0xD1
+          Color.FromArgb(246, 198, 113), // 0xD2
+          Color.FromArgb(238, 174, 85),  // 0xD3
+          Color.FromArgb(234, 161, 64),  // 0xD4
+          Color.FromArgb(230, 145, 40),  // 0xD5
+          Color.FromArgb(214, 121, 16),  // 0xD6
+          Color.FromArgb(198, 97, 0),    // 0xD7
+          Color.FromArgb(182, 72, 0),    // 0xD8
+          Color.FromArgb(165, 56, 0),    // 0xD9
+          Color.FromArgb(153, 40, 0),    // 0xDA
+          Color.FromArgb(133, 32, 0),    // 0xDB
+          Color.FromArgb(109, 16, 0),    // 0xDC
+          Color.FromArgb(93, 8, 0),      // 0xDD
+          Color.FromArgb(76, 0, 0),      // 0xDE
+          Color.FromArgb(56, 0, 0),      // 0xDF
+				}
+      );
+
+      _listHouseRemaps.Add(ColorType.GREY, new Color[] {
+          Color.FromArgb(238, 238, 238), // 0x80
+          Color.FromArgb(238, 226, 218), // 0x70
+          Color.FromArgb(222, 206, 198), // 0x71
+          Color.FromArgb(206, 186, 178), // 0x72
+          Color.FromArgb(186, 165, 153), // 0x73
+          Color.FromArgb(165, 145, 133), // 0x74
+          Color.FromArgb(149, 125, 113), // 0x75
+          Color.FromArgb(133, 113, 101), // 0x76
+          Color.FromArgb(113, 89, 80),   // 0x77
+          Color.FromArgb(93, 72, 64),    // 0x78
+          Color.FromArgb(80, 60, 52),    // 0x79
+          Color.FromArgb(80, 60, 52),    // 0x79
+          Color.FromArgb(60, 44, 40),    // 0x7A
+          Color.FromArgb(60, 44, 40),    // 0x7A
+          Color.FromArgb(44, 28, 24),    // 0x7B
+          Color.FromArgb(44, 28, 24),    // 0x7B
+				}
+      );
+
+      _listHouseRemaps.Add(ColorType.TEAL, new Color[] {
+          Color.FromArgb(93, 194, 165), // 0xE0
+          Color.FromArgb(93, 194, 165), // 0xE0
+          Color.FromArgb(85, 178, 153), // 0xE1
+          Color.FromArgb(85, 178, 153), // 0xE1
+          Color.FromArgb(76, 161, 137), // 0xE2
+          Color.FromArgb(68, 145, 125), // 0xB8
+          Color.FromArgb(64, 133, 117), // 0xB9
+          Color.FromArgb(56, 117, 109), // 0xBA
+          Color.FromArgb(28, 109, 97),  // 0xBB
+          Color.FromArgb(24, 89, 76),   // 0xBC
+          Color.FromArgb(24, 89, 76),   // 0xBC
+          Color.FromArgb(28, 64, 64),   // 0xBD
+          Color.FromArgb(12, 52, 52),   // 0xBE
+          Color.FromArgb(12, 52, 52),   // 0xBE
+          Color.FromArgb(0, 32, 32),    // 0xBF
+          Color.FromArgb(0, 32, 32),    // 0xBF
+				}
+      );
+
+      _listHouseRemaps.Add(ColorType.BROWN, new Color[] {
+          Color.FromArgb(210, 153, 125), // 0xC8
+          Color.FromArgb(210, 153, 125), // 0xC8
+          Color.FromArgb(194, 137, 105), // 0xC9
+          Color.FromArgb(182, 113, 85),  // 0xCA
+          Color.FromArgb(174, 93, 68),   // 0xCA
+          Color.FromArgb(174, 93, 68),   // 0xCB
+          Color.FromArgb(153, 76, 56),   // 0xCC
+          Color.FromArgb(133, 64, 48),   // 0xCD
+          Color.FromArgb(113, 44, 36),   // 0xCD
+          Color.FromArgb(113, 44, 36),   // 0xCE
+          Color.FromArgb(97, 36, 28),    // 0xCF
+          Color.FromArgb(93, 8, 0),      // 0xDD
+          Color.FromArgb(76, 0, 0),      // 0xDE
+          Color.FromArgb(76, 0, 0),      // 0xDE
+          Color.FromArgb(56, 0, 0),      // 0xDF
+          Color.FromArgb(56, 0, 0),      // 0xDF
+				}
+      );
 
       _listHouseRemaps.Add(ColorType.WHITE, new Color[] {
           Color.FromArgb(255, 255, 255), // 15
@@ -103,14 +241,14 @@ namespace RA_Mission_Editor.RulesData
           Color.FromArgb(112, 112, 112), // 0x89
           Color.FromArgb(100, 100, 100), // 0x8A
           Color.FromArgb(100, 100, 100), // 0x8A
-          Color.FromArgb(92, 92, 92), // 0x8B
-          Color.FromArgb(76, 76, 76), // 0x8C
-          Color.FromArgb(56, 56, 56), // 0x8D
-          Color.FromArgb(56, 56, 56), // 0x8D
-          Color.FromArgb(36, 36, 36), // 0x8E
-          Color.FromArgb(36, 36, 36), // 0x8E
-          Color.FromArgb(20, 20, 20), // 0x8F
-          Color.FromArgb(20, 20, 20), // 0x8F 
+          Color.FromArgb(92, 92, 92),    // 0x8B
+          Color.FromArgb(76, 76, 76),    // 0x8C
+          Color.FromArgb(56, 56, 56),    // 0x8D
+          Color.FromArgb(56, 56, 56),    // 0x8D
+          Color.FromArgb(36, 36, 36),    // 0x8E
+          Color.FromArgb(36, 36, 36),    // 0x8E
+          Color.FromArgb(20, 20, 20),    // 0x8F
+          Color.FromArgb(20, 20, 20),    // 0x8F 
 				}
       );
 
@@ -123,154 +261,214 @@ namespace RA_Mission_Editor.RulesData
           Color.FromArgb(108, 112, 84),  // 0xFB
           Color.FromArgb(100, 104, 72),  // 0xFA
           Color.FromArgb(92, 96, 64),    // 0xF9
-          Color.FromArgb(88, 88, 56),   // 0xF8
-          Color.FromArgb(80, 80, 48),   // 0xF7
-          Color.FromArgb(72, 72, 40),   // 0xF6
-          Color.FromArgb(64, 64, 32),   // 0xF5
+          Color.FromArgb(88, 88, 56),    // 0xF8
+          Color.FromArgb(80, 80, 48),    // 0xF7
+          Color.FromArgb(72, 72, 40),    // 0xF6
+          Color.FromArgb(64, 64, 32),    // 0xF5
           Color.FromArgb(56, 56, 28),    // 0xF4
           Color.FromArgb(48, 48, 20),    // 0xF3
-          Color.FromArgb(40, 36, 16),     // 0xF2
-          Color.FromArgb(36, 32, 12),     // 0xF1     
+          Color.FromArgb(40, 36, 16),    // 0xF2
+          Color.FromArgb(36, 32, 12),    // 0xF1
 				}
       );
 
-      _listHouseRemaps.Add(ColorType.BLUE, new Color[] {
-          Color.FromArgb(226, 230, 246), // 0
-          Color.FromArgb(206, 210, 234), // 1
-          Color.FromArgb(182, 190, 222), // 2
-          Color.FromArgb(161, 170, 202), // 3
-          Color.FromArgb(141, 149, 186), // 4
-          Color.FromArgb(125, 133, 174), // 5
-          Color.FromArgb(105, 117, 161), // 6
-          Color.FromArgb(89, 105, 149), // 7
-          Color.FromArgb(68, 85, 137), // 8
-          Color.FromArgb(56, 72, 125), // 9
-          Color.FromArgb(48, 64, 117), // 10
-          Color.FromArgb(40, 56, 109), // 11
-          Color.FromArgb(32, 44, 97), // 12
-          Color.FromArgb(24, 44, 85), // 13
-          Color.FromArgb(12, 32, 68), // 14
-          Color.FromArgb(8, 20, 52), // 15  
+      _listHouseRemaps.Add(ColorType.DESERT, new Color[] {
+          Color.FromArgb(208, 192, 160), // 0x68
+          Color.FromArgb(196, 180, 148), // 0x69
+          Color.FromArgb(184, 168, 132), // 0x6A
+          Color.FromArgb(176, 156, 120), // 0x6B
+          Color.FromArgb(164, 144, 108), // 0x6C
+          Color.FromArgb(148, 128, 96),  // 0x6D
+          Color.FromArgb(136, 108, 80),  // 0x6E
+          Color.FromArgb(136, 108, 80),  // 0x6E
+          Color.FromArgb(124, 96, 72),   // 0x6F
+          Color.FromArgb(113, 89, 80),   // 0x77
+          Color.FromArgb(93, 72, 64),    // 0x78
+          Color.FromArgb(80, 60, 52),    // 0x79
+          Color.FromArgb(80, 60, 52),    // 0x79
+          Color.FromArgb(60, 44, 40),    // 0x7A
+          Color.FromArgb(44, 28, 24),    // 0x7B
+          Color.FromArgb(20, 20, 20),    // 0x8F
 				}
       );
 
-      _listHouseRemaps.Add(ColorType.RED, new Color[] {
-          Color.FromArgb(255, 93, 0), // 0
-          Color.FromArgb(255, 0, 0), // 1
-          Color.FromArgb(238, 0, 0), // 2
-          Color.FromArgb(218, 0, 0), // 3
-          Color.FromArgb(206, 0, 0), // 4
-          Color.FromArgb(190, 0, 0), // 5
-          Color.FromArgb(178, 0, 0), // 6
-          Color.FromArgb(170, 0, 0), // 7
-          Color.FromArgb(149, 0, 0), // 8
-          Color.FromArgb(133, 0, 0), // 9
-          Color.FromArgb(117, 0, 0), // 10
-          Color.FromArgb(101, 0, 0), // 11
-          Color.FromArgb(93, 8, 0), // 12
-          Color.FromArgb(76, 0, 0), // 13
-          Color.FromArgb(56, 0, 0), // 14
-          Color.FromArgb(56, 0, 0), // 15   
+      _listHouseRemaps.Add(ColorType.STEEL, new Color[] {
+          Color.FromArgb(132, 164, 172), // 0xB0
+          Color.FromArgb(132, 164, 172), // 0xB0
+          Color.FromArgb(116, 148, 156), // 0xB1
+          Color.FromArgb(116, 148, 156), // 0xB1
+          Color.FromArgb(100, 128, 136), // 0xB2
+          Color.FromArgb(100, 128, 136), // 0xB2
+          Color.FromArgb(84, 108, 116),  // 0xB3
+          Color.FromArgb(84, 108, 116),  // 0xB3
+          Color.FromArgb(68, 88, 96),    // 0xB4
+          Color.FromArgb(68, 88, 96),    // 0xB4
+          Color.FromArgb(56, 72, 76),    // 0xB5
+          Color.FromArgb(56, 72, 76),    // 0xB5
+          Color.FromArgb(36, 48, 52),    // 0xB6
+          Color.FromArgb(36, 48, 52),    // 0xB6
+          Color.FromArgb(20, 32, 36),    // 0xB7
+          Color.FromArgb(20, 32, 36),    // 0xB7
 				}
       );
 
-      _listHouseRemaps.Add(ColorType.GREEN, new Color[] {
-          Color.FromArgb(255, 230, 149), // 0
-          Color.FromArgb(255, 230, 149), // 1
-          Color.FromArgb(198, 230, 133), // 2
-          Color.FromArgb(178, 210, 125), // 3
-          Color.FromArgb(157, 190, 117), // 4
-          Color.FromArgb(137, 174, 109), // 5
-          Color.FromArgb(121, 153, 101), // 6
-          Color.FromArgb(104, 137, 93), // 7
-          Color.FromArgb(89, 117, 76), // 8
-          Color.FromArgb(76, 101, 60), // 9
-          Color.FromArgb(60, 85, 48), // 10
-          Color.FromArgb(48, 68, 36), // 11
-          Color.FromArgb(36, 52, 24), // 12
-          Color.FromArgb(36, 52, 24), // 13
-          Color.FromArgb(24, 36, 16), // 14
-          Color.FromArgb(20, 20, 20), // 15   
+      _listHouseRemaps.Add(ColorType.NOD_GREY, new Color[] {
+          Color.FromArgb(224, 228, 244), // 0xA0
+          Color.FromArgb(228, 216, 228), // 0x4F
+          Color.FromArgb(216, 212, 216), // 0xE4
+          Color.FromArgb(196, 196, 196), // 0xE3
+          Color.FromArgb(108, 112, 84),  // 0x4B
+          Color.FromArgb(80, 80, 48),    // 0x48
+          Color.FromArgb(64, 64, 32),    // 0x3F
+          Color.FromArgb(64, 64, 32),    // 0x3F
+          Color.FromArgb(100, 128, 136), // 0xB2
+          Color.FromArgb(84, 108, 116),  // 0xB3
+          Color.FromArgb(68, 88, 96),    // 0xB4
+          Color.FromArgb(56, 72, 76),    // 0xB5
+          Color.FromArgb(36, 48, 52),    // 0xB6
+          Color.FromArgb(44, 52, 52),    // 0x18
+          Color.FromArgb(36, 36, 40),    // 0x15
+          Color.FromArgb(20, 20, 24),    // 0x12
 				}
       );
 
-      _listHouseRemaps.Add(ColorType.ORANGE, new Color[] {
-          Color.FromArgb(255, 230, 149), // 0
-          Color.FromArgb(255, 214, 125), // 1
-          Color.FromArgb(246, 198, 113), // 2
-          Color.FromArgb(238, 174, 85), // 3
-          Color.FromArgb(234, 161, 64), // 4
-          Color.FromArgb(230, 145, 40), // 5
-          Color.FromArgb(214, 121, 16), // 6
-          Color.FromArgb(198, 97, 0), // 7
-          Color.FromArgb(182, 72, 0), // 8
-          Color.FromArgb(165, 56, 0), // 9
-          Color.FromArgb(153, 40, 0), // 10
-          Color.FromArgb(133, 32, 0), // 11
-          Color.FromArgb(109, 16, 0), // 12
-          Color.FromArgb(93, 8, 0), // 13
-          Color.FromArgb(76, 0, 0), // 14
-          Color.FromArgb(56, 0, 0), // 15   
+      _listHouseRemaps.Add(ColorType.PURPLE, new Color[] {
+          Color.FromArgb(132, 136, 116), // 0x4F
+          Color.FromArgb(124, 128, 104), // 0x4F
+          Color.FromArgb(132, 136, 116), // 0x4E
+          Color.FromArgb(124, 128, 104), // 0x4D
+          Color.FromArgb(108, 112, 84),  // 0x4B
+          Color.FromArgb(92, 96, 64),    // 0x49
+          Color.FromArgb(80, 80, 48),    // 0x48
+          Color.FromArgb(64, 64, 32),    // 0x3F
+          Color.FromArgb(68, 85, 137),   // 0xA8
+          Color.FromArgb(56, 72, 125),   // 0xA9
+          Color.FromArgb(40, 56, 109),   // 0xAB
+          Color.FromArgb(32, 44, 97),    // 0xAC
+          Color.FromArgb(28, 32, 36),    // 0x14
+          Color.FromArgb(32, 28, 28),    // 0x13
+          Color.FromArgb(20, 20, 24),    // 0x12
+          Color.FromArgb(12, 16, 20),    // 0x11
 				}
       );
 
-      _listHouseRemaps.Add(ColorType.GREY, new Color[] {
-          Color.FromArgb(238, 238, 238), // 0
-          Color.FromArgb(238, 226, 218), // 1
-          Color.FromArgb(222, 206, 198), // 2
-          Color.FromArgb(206, 186, 178), // 3
-          Color.FromArgb(186, 165, 153), // 4
-          Color.FromArgb(165, 145, 133), // 5
-          Color.FromArgb(149, 125, 113), // 6
-          Color.FromArgb(133, 113, 101), // 7
-          Color.FromArgb(113, 89, 80), // 8
-          Color.FromArgb(93, 72, 64), // 9
-          Color.FromArgb(80, 60, 52), // 10
-          Color.FromArgb(80, 60, 52), // 11
-          Color.FromArgb(60, 44, 40), // 12
-          Color.FromArgb(60, 44, 40), // 13
-          Color.FromArgb(44, 28, 24), // 14
-          Color.FromArgb(44, 28, 24), // 15   
+      _listHouseRemaps.Add(ColorType.DARK_GOLD, new Color[] {
+          Color.FromArgb(132, 112, 56),  // 0x58
+          Color.FromArgb(108, 100, 56),  // 0x59
+          Color.FromArgb(108, 100, 56),  // 0x59
+          Color.FromArgb(88, 84, 44),    // 0x5A
+          Color.FromArgb(84, 76, 36),    // 0x5B
+          Color.FromArgb(84, 76, 36),    // 0x5B
+          Color.FromArgb(72, 68, 32),    // 0x5C
+          Color.FromArgb(56, 52, 28),    // 0x5D
+          Color.FromArgb(56, 52, 28),    // 0x5D
+          Color.FromArgb(52, 44, 20),    // 0x5E
+          Color.FromArgb(40, 32, 8),     // 0x5F 
+          Color.FromArgb(40, 32, 8),     // 0x5F 
+          Color.FromArgb(28, 24, 8),     // 0xF0 
+          Color.FromArgb(20, 20, 20),    // 0x8F
+          Color.FromArgb(12, 16, 20),    // 0x11
+          Color.FromArgb(16, 12, 12),    // 0x10
 				}
       );
 
-      _listHouseRemaps.Add(ColorType.TEAL, new Color[] {
-          Color.FromArgb(93, 194, 165), // 0
-          Color.FromArgb(93, 194, 165), // 1
-          Color.FromArgb(85, 178, 153), // 2
-          Color.FromArgb(85, 178, 153), // 3
-          Color.FromArgb(76, 161, 137), // 4
-          Color.FromArgb(68, 145, 125), // 5
-          Color.FromArgb(64, 133, 117), // 6
-          Color.FromArgb(56, 117, 109), // 7
-          Color.FromArgb(28, 109, 97), // 8
-          Color.FromArgb(24, 89, 76), // 9
-          Color.FromArgb(24, 89, 76), // 10
-          Color.FromArgb(28, 64, 64), // 11
-          Color.FromArgb(12, 52, 52), // 12
-          Color.FromArgb(12, 52, 52), // 13
-          Color.FromArgb(0, 32, 32), // 14
-          Color.FromArgb(0, 32, 32), // 15   
+      _listHouseRemaps.Add(ColorType.DARK_BLUE, new Color[] {
+          Color.FromArgb(68, 85, 137),   // 0xA8
+          Color.FromArgb(68, 85, 137),   // 0xA8
+          Color.FromArgb(56, 72, 125),   // 0xA9
+          Color.FromArgb(56, 72, 125),   // 0xA9
+          Color.FromArgb(48, 64, 117),   // 0xAA
+          Color.FromArgb(48, 64, 117),   // 0xAA
+          Color.FromArgb(40, 56, 109),   // 0xAB
+          Color.FromArgb(40, 56, 109),   // 0xAB
+          Color.FromArgb(32, 44, 97),    // 0xAC
+          Color.FromArgb(32, 44, 97),    // 0xAC
+          Color.FromArgb(24, 44, 85),    // 0xAD
+          Color.FromArgb(24, 44, 85),    // 0xAD
+          Color.FromArgb(12, 32, 68),    // 0xAE
+          Color.FromArgb(12, 32, 68),    // 0xAE
+          Color.FromArgb(8, 20, 52),     // 0xAF
+          Color.FromArgb(8, 20, 52),     // 0xAF
 				}
       );
 
-      _listHouseRemaps.Add(ColorType.BROWN, new Color[] {
-          Color.FromArgb(210, 153, 125), // 0
-          Color.FromArgb(210, 153, 125), // 1
-          Color.FromArgb(194, 137, 105), // 2
-          Color.FromArgb(182, 113, 85), // 3
-          Color.FromArgb(174, 93, 68), // 4
-          Color.FromArgb(174, 93, 68), // 5
-          Color.FromArgb(153, 76, 56), // 6
-          Color.FromArgb(133, 64, 48), // 7
-          Color.FromArgb(113, 44, 36), // 8
-          Color.FromArgb(113, 44, 36), // 9
-          Color.FromArgb(97, 36, 28), // 10
-          Color.FromArgb(93, 8, 0), // 11
-          Color.FromArgb(76, 0, 0), // 12
-          Color.FromArgb(76, 0, 0), // 13
-          Color.FromArgb(56, 0, 0), // 14
-          Color.FromArgb(56, 0, 0), // 15   
+      _listHouseRemaps.Add(ColorType.DARK_RED, new Color[] {
+          Color.FromArgb(190, 0, 0),  // 0xEA
+          Color.FromArgb(190, 0, 0),  // 0xEA
+          Color.FromArgb(178, 0, 0),  // 0xEB
+          Color.FromArgb(170, 0, 0),  // 0x08
+          Color.FromArgb(149, 0, 0),  // 0xEC
+          Color.FromArgb(149, 0, 0),  // 0xEC
+          Color.FromArgb(133, 0, 0),  // 0xED
+          Color.FromArgb(133, 0, 0),  // 0xED
+          Color.FromArgb(117, 0, 0),  // 0xEE
+          Color.FromArgb(117, 0, 0),  // 0xEE
+          Color.FromArgb(101, 0, 0),  // 0xEF
+          Color.FromArgb(101, 0, 0),  // 0xEF
+          Color.FromArgb(56, 0, 0),   // 0xDE
+          Color.FromArgb(56, 0, 0),   // 0xDE
+          Color.FromArgb(56, 0, 0),   // 0xDF 
+          Color.FromArgb(56, 0, 0),   // 0xDF 
+				}
+      );
+
+      _listHouseRemaps.Add(ColorType.DARK_GREEN, new Color[] {
+          Color.FromArgb(104, 137, 93),  // 0x95
+          Color.FromArgb(104, 137, 93),  // 0x95
+          Color.FromArgb(89, 117, 76),   // 0x96
+          Color.FromArgb(89, 117, 76),   // 0x96
+          Color.FromArgb(89, 117, 76),   // 0x96
+          Color.FromArgb(76, 101, 60),   // 0x97
+          Color.FromArgb(76, 101, 60),   // 0x97
+          Color.FromArgb(60, 85, 48),    // 0x98
+          Color.FromArgb(60, 85, 48),    // 0x98
+          Color.FromArgb(48, 68, 36),    // 0x99
+          Color.FromArgb(48, 68, 36),    // 0x99
+          Color.FromArgb(36, 52, 24),    // 0x9A
+          Color.FromArgb(36, 52, 24),    // 0x9A
+          Color.FromArgb(24, 36, 16),    // 0x9B
+          Color.FromArgb(24, 36, 16),    // 0x9B
+          Color.FromArgb(20, 20, 20),    // 0x8F
+				}
+      );
+
+      _listHouseRemaps.Add(ColorType.DARK_ORANGE, new Color[] {
+          Color.FromArgb(182, 72, 0),    // 0xD8
+          Color.FromArgb(182, 72, 0),    // 0xD8
+          Color.FromArgb(165, 56, 0),    // 0xD9
+          Color.FromArgb(165, 56, 0),    // 0xD9
+          Color.FromArgb(153, 40, 0),    // 0xDA
+          Color.FromArgb(153, 40, 0),    // 0xDA
+          Color.FromArgb(133, 32, 0),    // 0xDB
+          Color.FromArgb(133, 32, 0),    // 0xDB
+          Color.FromArgb(109, 16, 0),    // 0xDC
+          Color.FromArgb(109, 16, 0),    // 0xDC
+          Color.FromArgb(93, 8, 0),      // 0xDD
+          Color.FromArgb(93, 8, 0),      // 0xDD
+          Color.FromArgb(76, 0, 0),      // 0xDE
+          Color.FromArgb(76, 0, 0),      // 0xDE
+          Color.FromArgb(56, 0, 0),      // 0xDF
+          Color.FromArgb(56, 0, 0),      // 0xDF
+				}
+      );
+
+      _listHouseRemaps.Add(ColorType.CHOCOLATE, new Color[] {
+          Color.FromArgb(133, 113, 101), // 0x76
+          Color.FromArgb(133, 113, 101), // 0x76
+          Color.FromArgb(113, 89, 80),   // 0x77
+          Color.FromArgb(93, 72, 64),    // 0x78
+          Color.FromArgb(93, 72, 64),    // 0x78
+          Color.FromArgb(80, 60, 52),    // 0x79
+          Color.FromArgb(80, 60, 52),    // 0x79
+          Color.FromArgb(60, 44, 40),    // 0x7A
+          Color.FromArgb(44, 28, 24),    // 0x7B
+          Color.FromArgb(44, 28, 24),    // 0x7B
+          Color.FromArgb(36, 36, 40),    // 0x15
+          Color.FromArgb(28, 32, 36),    // 0x14
+          Color.FromArgb(32, 28, 28),    // 0x13
+          Color.FromArgb(20, 20, 24),    // 0x12
+          Color.FromArgb(12, 16, 20),    // 0x11
+          Color.FromArgb(16, 12, 12),    // 0x10
 				}
       );
 

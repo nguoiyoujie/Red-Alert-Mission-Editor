@@ -467,7 +467,17 @@
     FLAMING_BLUE = 10,
     // added colors by lovalmidas
     TRUE_GREY = 11,
-    DIRTY_GREEN = 12
+    DIRTY_GREEN = 12,
+    DESERT = 13,
+    STEEL = 14,
+    NOD_GREY = 15,
+    PURPLE = 16,
+    DARK_GOLD = 17,
+    DARK_BLUE = 18,
+    DARK_RED = 19,
+    DARK_GREEN = 20,
+    DARK_ORANGE = 21,
+    CHOCOLATE = 22
   }
 
   public enum RulesSource

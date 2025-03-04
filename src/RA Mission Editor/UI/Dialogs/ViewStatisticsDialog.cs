@@ -33,6 +33,18 @@ namespace RA_Mission_Editor.UI.Dialogs
       hsc18.SetHouse(map, rules, rules.Houses.GetHouse(17));
       hsc19.SetHouse(map, rules, rules.Houses.GetHouse(18));
       hsc20.SetHouse(map, rules, rules.Houses.GetHouse(19));
+      hsc21.SetHouse(map, rules, rules.Houses.GetHouse(20));
+      hsc22.SetHouse(map, rules, rules.Houses.GetHouse(21));
+      hsc23.SetHouse(map, rules, rules.Houses.GetHouse(22));
+      hsc24.SetHouse(map, rules, rules.Houses.GetHouse(23));
+      hsc25.SetHouse(map, rules, rules.Houses.GetHouse(24));
+      hsc26.SetHouse(map, rules, rules.Houses.GetHouse(25));
+      hsc27.SetHouse(map, rules, rules.Houses.GetHouse(26));
+      hsc28.SetHouse(map, rules, rules.Houses.GetHouse(27));
+      hsc29.SetHouse(map, rules, rules.Houses.GetHouse(28));
+      hsc30.SetHouse(map, rules, rules.Houses.GetHouse(29));
+      hsc31.SetHouse(map, rules, rules.Houses.GetHouse(30));
+      hsc32.SetHouse(map, rules, rules.Houses.GetHouse(31));
     }
 
     private void bClose_Click(object sender, System.EventArgs e)

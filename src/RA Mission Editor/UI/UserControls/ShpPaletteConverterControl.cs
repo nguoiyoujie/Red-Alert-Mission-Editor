@@ -191,7 +191,7 @@ namespace RA_Mission_Editor.UI.UserControls
         lblProgressText.Text = null;
         PalFile phDst = RenderUtils.FetchHouseRemapPalette(_cache, _palDst, color, false);
         pbDst.BackgroundImage = RenderUtils.RenderShp(_cache, _shpConverted, phDst, (int)(nudFrameDst.Value - 1));
-        if (nudDstZoom.Value != 1)
+        if (nudDstZoom.Value != 1 && pbDst.BackgroundImage != null)
         {
           Bitmap bmp = new Bitmap(pbDst.BackgroundImage.Width * (int)nudDstZoom.Value, pbDst.BackgroundImage.Height * (int)nudDstZoom.Value);
           using (Graphics g = Graphics.FromImage(bmp))

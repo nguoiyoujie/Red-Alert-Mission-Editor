@@ -200,6 +200,13 @@ namespace RA_Mission_Editor.Common
       GetValueFunc = (i, m) => m.AttachedRules.Sounds.GetSound((VocType)(0xFF & i)),
     };
 
+    public static ParameterInfo ParameterMovieType = new ParameterInfo()
+    {
+      GetIndexFunc = (o, m) => { return o is string stype ? m.AttachedRules.Movies.GetID(stype) : (o is int i ? i : -1); },
+      //GetIndexFunc = (o, m) => { return o is SoundType stype ? (-256 + (int)stype.ID) : (o is int i ? i : -1); },
+      GetValueFunc = (i, m) => m.AttachedRules.Movies.GetVQ(i),
+    };
+
     public static ParameterInfo ParameterSpeechType = new ParameterInfo()
     {
       GetIndexFunc = (o, m) => { return o is SpeechType stype ? ((int)stype.ID) : (o is int i ? i : -1); },

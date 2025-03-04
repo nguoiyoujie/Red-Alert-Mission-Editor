@@ -129,6 +129,10 @@ namespace RA_Mission_Editor.Entities
       {
         return ParameterInfo.ParameterSoundType;
       }
+      else if (flag.Contains(TriggerParameterFlag.MOVIE))
+      {
+        return ParameterInfo.ParameterMovieType;
+      }
       else if (flag.Contains(TriggerParameterFlag.SPEECH))
       {
         return ParameterInfo.ParameterSpeechType;

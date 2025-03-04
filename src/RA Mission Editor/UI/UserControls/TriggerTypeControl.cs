@@ -393,6 +393,11 @@ namespace RA_Mission_Editor.UI.UserControls
         cbox.Items.AddRange(Map.AttachedRules.Sounds.GetAll());
         labelText = "Sound";
       }
+      if (flag.Contains(TriggerParameterFlag.MOVIE))
+      {
+        cbox.Items.AddRange(Map.AttachedRules.Movies.GetAll());
+        labelText = "Movie";
+      }
       if (flag.Contains(TriggerParameterFlag.SPEECH))
       {
         cbox.Items.AddRange(Map.AttachedRules.Speeches.GetAll());

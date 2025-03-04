@@ -93,7 +93,7 @@ namespace RA_Mission_Editor.UI
           {
             c = cc.ActiveControl;
           }
-          if (c.Enabled && ((c is TextBox t && !t.ReadOnly) || (c is ComboBox) || (c is NumericUpDown n && !n.ReadOnly)))
+          if (c.Enabled && ((c is TextBox) || (c is ComboBox) || (c is NumericUpDown) || (c is RichTextBox)))
           {
             bool ret = false;
             bool found;

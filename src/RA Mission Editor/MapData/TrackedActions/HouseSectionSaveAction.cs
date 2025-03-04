@@ -21,32 +21,48 @@ namespace RA_Mission_Editor.MapData.TrackedActions
 
     public void SnapshotOld()
     {
-      Map.HouseSections[Map.AttachedRules.Houses.GetHouseID(House)].Update(OldSection);
+      int id = Map.AttachedRules.Houses.GetHouseID(House);
+      if (id >= 0)
+      {
+        Map.HouseSections[id].Update(OldSection);
+      }
     }
 
     public void SnapshotNew()
     {
-      Map.HouseSections[Map.AttachedRules.Houses.GetHouseID(House)].Update(NewSection);
+      int id = Map.AttachedRules.Houses.GetHouseID(House);
+      if (id >= 0)
+      {
+        Map.HouseSections[id].Update(NewSection);
+      }
     }
 
     public void Do()
     {
-      Map.HouseSections[Map.AttachedRules.Houses.GetHouseID(House)].Read(NewSection);
-      Map.Update();
-      Map.AttachedRules.ApplyRules();
-      Map.AttachedRules.ApplyRulesWithMap(Map);
-      Map.Dirty = true;
-      Map.InvalidateObjectDisplay?.Invoke();
+      int id = Map.AttachedRules.Houses.GetHouseID(House);
+      if (id >= 0)
+      {
+        Map.HouseSections[id].Read(NewSection);
+        Map.Update();
+        Map.AttachedRules.ApplyRules();
+        Map.AttachedRules.ApplyRulesWithMap(Map);
+        Map.Dirty = true;
+        Map.InvalidateObjectDisplay?.Invoke();
+      }
     }
 
     public void Undo()
     {
-      Map.HouseSections[Map.AttachedRules.Houses.GetHouseID(House)].Read(OldSection);
-      Map.Update();
-      Map.AttachedRules.ApplyRules();
-      Map.AttachedRules.ApplyRulesWithMap(Map);
-      Map.Dirty = true;
-      Map.InvalidateObjectDisplay?.Invoke();
+      int id = Map.AttachedRules.Houses.GetHouseID(House);
+      if (id >= 0)
+      {
+        Map.HouseSections[id].Read(OldSection);
+        Map.Update();
+        Map.AttachedRules.ApplyRules();
+        Map.AttachedRules.ApplyRulesWithMap(Map);
+        Map.Dirty = true;
+        Map.InvalidateObjectDisplay?.Invoke();
+      }
     }
   }
 }

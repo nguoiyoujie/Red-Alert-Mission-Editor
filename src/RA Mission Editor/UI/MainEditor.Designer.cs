@@ -79,6 +79,7 @@ namespace RA_Mission_Editor.UI
       this.openRecentMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.importFromToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.openRAbinFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.tibDawnbininiFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.saveMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.saveMapAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -722,6 +723,7 @@ namespace RA_Mission_Editor.UI
       this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newMapToolStripMenuItem,
             this.openMapToolStripMenuItem,
+            this.openMapFromLoadedMixToolStripMenuItem,
             this.openRecentMapToolStripMenuItem,
             this.importFromToolStripMenuItem,
             this.saveMapToolStripMenuItem,
@@ -767,7 +769,8 @@ namespace RA_Mission_Editor.UI
       // importFromToolStripMenuItem
       // 
       this.importFromToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openRAbinFileToolStripMenuItem});
+            this.openRAbinFileToolStripMenuItem,
+            this.tibDawnbininiFileToolStripMenuItem});
       this.importFromToolStripMenuItem.Name = "importFromToolStripMenuItem";
       this.importFromToolStripMenuItem.Size = new System.Drawing.Size(500, 34);
       this.importFromToolStripMenuItem.Text = "Import from";
@@ -775,9 +778,16 @@ namespace RA_Mission_Editor.UI
       // openRAbinFileToolStripMenuItem
       // 
       this.openRAbinFileToolStripMenuItem.Name = "openRAbinFileToolStripMenuItem";
-      this.openRAbinFileToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+      this.openRAbinFileToolStripMenuItem.Size = new System.Drawing.Size(360, 34);
       this.openRAbinFileToolStripMenuItem.Text = "OpenRA .bin File";
       this.openRAbinFileToolStripMenuItem.Click += new System.EventHandler(this.openRAbinFileToolStripMenuItem_Click);
+      // 
+      // tibDawnbininiFileToolStripMenuItem
+      // 
+      this.tibDawnbininiFileToolStripMenuItem.Name = "tibDawnbininiFileToolStripMenuItem";
+      this.tibDawnbininiFileToolStripMenuItem.Size = new System.Drawing.Size(360, 34);
+      this.tibDawnbininiFileToolStripMenuItem.Text = "Tib Dawn .bin / .ini File";
+      this.tibDawnbininiFileToolStripMenuItem.Click += new System.EventHandler(this.tibDawnbininiFileToolStripMenuItem_Click);
       // 
       // saveMapToolStripMenuItem
       // 
@@ -1613,6 +1623,7 @@ namespace RA_Mission_Editor.UI
     private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     private System.Windows.Forms.ToolStripMenuItem openMapFromLoadedMixToolStripMenuItem;
+    private System.Windows.Forms.ToolStripMenuItem tibDawnbininiFileToolStripMenuItem;
     private System.Windows.Forms.TextBox tbObjectCount;
   }
 }

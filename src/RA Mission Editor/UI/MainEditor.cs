@@ -1447,6 +1447,48 @@ namespace RA_Mission_Editor.UI
       }
     }
 
+    private void tibDawnbininiFileToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      MessageBox.Show("This feature will attempt to import the map from a Tiberium Dawn .bin/.ini file set. Be warned that this is a fancy feature with no guarantees.");
+      if (CheckAndWarnUnsavedMap())
+      {
+        OpenFileDialog ofd = new OpenFileDialog()
+        {
+          Title = "Import Map",
+          Filter = "Bin file|*.bin|All files (*.*)|*.*",
+          CheckFileExists = true,
+          Multiselect = false
+        };
+        if (ofd.ShowDialog() == DialogResult.OK)
+        {
+          try
+          {
+            DirArchive achv = new DirArchive(Path.GetDirectoryName(ofd.FileName));
+            TDBinFile bin = achv.OpenFile(Path.GetFileName(ofd.FileName), FileFormat.TDBin) as TDBinFile;
+            IniFile ini = achv.OpenFile(Path.GetFileName(Path.GetFileNameWithoutExtension(ofd.FileName) + ".ini"), FileFormat.Ini) as IniFile;
+            if (ini == null)
+            {
+              MessageBox.Show("The corresponding .ini file does not exist");
+              return;
+            }
+            // create map in internal cache
+            string mapPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, cacheDir, cacheMapFile);
+
+            // update the map dialog
+            MainModel.LoadMap(ini);
+            bin.ImportIntoMap(MainModel.CurrentMap);
+            TDOverlays.ConvertTDOverlapMap(MainModel.CurrentMap, ini);
+            MainModel.CurrentMap.RebuildOccupancyList(MainModel.Cache, MainModel.GameFileSystem);
+            MainModel.SaveMap(mapPath);
+          }
+          catch
+          {
+            MessageBox.Show("An error has occurred in attempting to load the map files");
+          }
+        }
+      }
+    }
+
     private void shiftMapToolStripMenuItem_Click(object sender, EventArgs e)
     {
       ShiftMapDialog smd = new ShiftMapDialog();

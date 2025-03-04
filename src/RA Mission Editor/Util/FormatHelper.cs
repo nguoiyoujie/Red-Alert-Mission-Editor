@@ -75,6 +75,8 @@ namespace RA_Mission_Editor.Util
           return new LanguageFile(baseStream, filename, offset, length, bufferContents);
         case FileFormat.OpenRABin:
           return new OpenRABinFile(baseStream, filename, offset, length, bufferContents);
+        case FileFormat.TDBin:
+          return new TDBinFile(baseStream, filename, offset, length, bufferContents);
         case FileFormat.Ukn:
         default:
           return new VirtualFile(baseStream, filename, offset, length, bufferContents);

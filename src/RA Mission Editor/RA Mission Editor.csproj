@@ -104,6 +104,7 @@
     <Compile Include="Common\PickEntityInfo.cs" />
     <Compile Include="Entities\CopyInfo.cs" />
     <Compile Include="EntityTypes\ExtractType.cs" />
+    <Compile Include="FileFormats\TDBinFile.cs" />
     <Compile Include="FileFormats\OpenRABinFile.cs" />
     <Compile Include="FileFormats\LanguageFile.cs" />
     <Compile Include="Globals.cs" />
@@ -147,6 +148,7 @@
     </Compile>
     <Compile Include="RulesData\EditorFeatures.cs" />
     <Compile Include="RulesData\IntValueDesc.cs" />
+    <Compile Include="RulesData\TDOverlays.cs" />
     <Compile Include="RulesData\SpecialWeapons.cs" />
     <Compile Include="RulesData\VQTypes.cs" />
     <Compile Include="RulesData\Themes.cs" />

@@ -26,6 +26,9 @@
     /// <summary>Open RA bin type.</summary>
     OpenRABin,
 
+    /// <summary>Tiberium Dawn bin type.</summary>
+    TDBin,
+
     /// <summary>Unknown file type.</summary>
     Ukn,
 

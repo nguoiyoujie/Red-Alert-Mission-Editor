@@ -32,7 +32,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.tbLine = new System.Windows.Forms.TextBox();
       this.lblTutorial = new System.Windows.Forms.Label();
       this.nudIndex = new System.Windows.Forms.NumericUpDown();
-      this.tbTutorialList = new System.Windows.Forms.TextBox();
+      this.tbTutorialList = new System.Windows.Forms.RichTextBox();
       this.bSet = new System.Windows.Forms.Button();
       this.bDelete = new System.Windows.Forms.Button();
       this.panel1 = new System.Windows.Forms.Panel();
@@ -96,7 +96,7 @@ namespace RA_Mission_Editor.UI.UserControls
       this.tbTutorialList.Multiline = true;
       this.tbTutorialList.Name = "tbTutorialList";
       this.tbTutorialList.ReadOnly = true;
-      this.tbTutorialList.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+      this.tbTutorialList.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Both;
       this.tbTutorialList.Size = new System.Drawing.Size(1200, 641);
       this.tbTutorialList.TabIndex = 57;
       this.tbTutorialList.WordWrap = false;
@@ -199,7 +199,7 @@ namespace RA_Mission_Editor.UI.UserControls
     private System.Windows.Forms.TextBox tbLine;
     private System.Windows.Forms.Label lblTutorial;
     private System.Windows.Forms.NumericUpDown nudIndex;
-    private System.Windows.Forms.TextBox tbTutorialList;
+    private System.Windows.Forms.RichTextBox tbTutorialList;
     private System.Windows.Forms.Button bSet;
     private System.Windows.Forms.Button bDelete;
     private System.Windows.Forms.Panel panel1;

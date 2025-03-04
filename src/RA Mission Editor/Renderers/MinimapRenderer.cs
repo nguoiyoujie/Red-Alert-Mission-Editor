@@ -93,7 +93,7 @@ namespace RA_Mission_Editor.Renderers
       }
       else
       {
-        return tmpFile.TileTypes[tile];
+        return tmpFile.TileTypes.Count > tile ? tmpFile.TileTypes[tile] : tmpFile.TileTypes[0];
       }
     }
 

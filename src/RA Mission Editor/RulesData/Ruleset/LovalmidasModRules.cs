@@ -55,6 +55,7 @@ namespace RA_Mission_Editor.RulesData.Ruleset
         {
           switch (GameRules.GetSection(entry.Value.Value)?.ReadInt("BSize", 3) ?? 3)
           {
+            case 1:
             case 3:
             case 4:
               building.BibName = "BIB3";
@@ -116,14 +117,20 @@ namespace RA_Mission_Editor.RulesData.Ruleset
       nameindex = unitNameIndex + 1;
       foreach (var entry in GameRules.GetOrCreateSection("UnitTypes").OrderedEntries)
       {
+        int turretstart = 32;
+        if (GameRules.GetSection(entry.Value.Value)?.ReadBool("HasAPCDoor", false) ?? false)
+        {
+          turretstart = 38;
+        }
+
         if (GameRules.GetSection(entry.Value.Value)?.ReadBool("HasTurret", true) ?? false)
         {
           // like 2TNK
-          Units.AddRulesObject(new UnitType(entry.Value.Value) { FullName = file?.Get(nameindex++), Directions = 32, TurretDirections = 32, TurretShpFrame = 32, TurretLocations = Units.DefaultTurretLocations });
+          Units.AddRulesObject(new UnitType(entry.Value.Value) { FullName = file?.Get(nameindex++), Directions = 32, TurretDirections = 32, TurretShpFrame = turretstart, TurretLocations = Units.DefaultTurretLocations });
         }
-        else if (GameRules.GetSection(entry.Value.Value)?.ReadBool("HasRotatingTurret", true) ?? false)
+        else if (GameRules.GetSection(entry.Value.Value)?.ReadBool("HasRotatingTurret", false) ?? false)
         {
-          int turrstart = GameRules.GetSection(entry.Value.Value).ReadInt("TurretFrameStart", 32);
+          int turrstart = GameRules.GetSection(entry.Value.Value).ReadInt("TurretFrameStart", turretstart);
           int turrcount = GameRules.GetSection(entry.Value.Value).ReadInt("TurretFrameCount", 32);
           Units.AddRulesObject(new UnitType(entry.Value.Value) { FullName = file?.Get(nameindex++), Directions = 32, TurretDirections = turrstart, TurretShpFrame = turrcount, TurretLocations = Units.DefaultTurretLocations });
         }

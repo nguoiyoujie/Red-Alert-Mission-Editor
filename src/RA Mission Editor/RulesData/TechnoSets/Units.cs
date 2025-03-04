@@ -32,7 +32,7 @@ namespace RA_Mission_Editor.RulesData.TechnoSets
 				new UnitType("TTNK") { FullName = "Tesla Tank", Directions = 32, TurretDirections = 32, TurretShpFrame = 32, TurretLocations = DefaultTurretLocations },
 				new UnitType("QTNK") { FullName = "MAD Tank", Directions = 32 },
 				new UnitType("DTRK") { FullName = "Demolition Truck", Directions = 32 },
-				new UnitType("STNK") { FullName = "Phase Tank", Directions = 32 },
+				new UnitType("STNK") { FullName = "Phase Tank", Directions = 32, TurretDirections = 32, TurretShpFrame = 38 },
 			};
 
 			string[] lStr = new string[_listType.Count];

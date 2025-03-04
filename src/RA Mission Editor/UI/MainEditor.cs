@@ -970,6 +970,7 @@ namespace RA_Mission_Editor.UI
           bSetEntity.Enabled = false;
           break;
       }
+      tbObjectCount.Text = (lboxObjects.Items.Count == 0) ? "" : (lboxObjects.Items.Count + " items");
       lboxObjects.SelectedItem = obj;
     }
 

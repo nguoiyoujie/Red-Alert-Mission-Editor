@@ -150,6 +150,7 @@ namespace RA_Mission_Editor.UI
       this.tssRenderTime = new System.Windows.Forms.ToolStripStatusLabel();
       this.tssRemark = new System.Windows.Forms.ToolStripStatusLabel();
       this.ttipInfo = new System.Windows.Forms.ToolTip(this.components);
+      this.tbObjectCount = new System.Windows.Forms.TextBox();
       ((System.ComponentModel.ISupportInitialize)(this.splitMain)).BeginInit();
       this.splitMain.Panel1.SuspendLayout();
       this.splitMain.Panel2.SuspendLayout();
@@ -1413,6 +1414,17 @@ namespace RA_Mission_Editor.UI
       this.ttipInfo.Draw += new System.Windows.Forms.DrawToolTipEventHandler(this.ttipInfo_Draw);
       this.ttipInfo.Popup += new System.Windows.Forms.PopupEventHandler(this.ttipInfo_Popup);
       // 
+      // tbObjectCount
+      // 
+      this.tbObjectCount.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.tbObjectCount.Font = new System.Drawing.Font("Consolas", 7.25F);
+      this.tbObjectCount.Location = new System.Drawing.Point(0, 0);
+      this.tbObjectCount.Multiline = true;
+      this.tbObjectCount.Name = "tbObjectCount";
+      this.tbObjectCount.ReadOnly = true;
+      this.tbObjectCount.Size = new System.Drawing.Size(200, 30);
+      this.tbObjectCount.TabIndex = 2;
+      // 
       // MainEditor
       // 
       this.AllowDrop = true;
@@ -1587,5 +1599,6 @@ namespace RA_Mission_Editor.UI
     private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+    private System.Windows.Forms.TextBox tbObjectCount;
   }
 }

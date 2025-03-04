@@ -2,6 +2,20 @@
 <h2 align="center">Red Alert Mission Editor Changelog</h2>
 
 -------
+2025-03-05
+
+- Language File editor (.eng) no longer scrolls to the top when updating an entry
+- The statistics window now shows stats for up to all 32 houses. Houses that to not have an presense are made invisible
+- Add new colors
+- Add movie type definitions to Trigger setup
+- Several null crash fixes
+- Fix turret frames when turret is used with APC door
+- CUSTOM1,CUSTOM2,CUSTOM3 and CUSTOM4 theaters are now supported
+- Fix generated Clear1 tmp files being read as 'w3d' files on XCC
+- Add a menu option to load a map from within the archive's MIX files
+- (Experimental): Allow loading of TD .bin / .ini map files. Be warned! Terrain mapping is not done!
+
+-------
 2025-01-03
 
 - Implement support to handle up to 32 houses. Work on handling them properly in game is still in progress in the sister patching project

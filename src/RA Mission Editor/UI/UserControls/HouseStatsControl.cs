@@ -24,6 +24,12 @@ namespace RA_Mission_Editor.UI.UserControls
       int power = 0;
       int drain = 0;
       int value = 0;
+      string actlike = rules.ReadString(house.Name, "Country", out _, null, map?.SourceFile);
+      if (!string.IsNullOrEmpty(actlike) && int.TryParse(actlike, out int actlikei))
+      {
+        actlike = rules.Houses.GetName(actlikei);
+      }
+
       foreach (Entities.BuildingInfo building in map.BuildingSection.EntityList)
       {
         if (building.Owner == house.Name)
@@ -77,17 +83,25 @@ namespace RA_Mission_Editor.UI.UserControls
       Color colors1 = ColorRemaps.GetRadarColor(house.RulesPrimaryColor);
       Color colors2 = ColorRemaps.GetRadarColor(house.RulesSecondaryColor);
 
-      gbHouse.Text = house.Name;
-      lblBuildings.Text = numBuildings.ToString();
-      lblUnits.Text = numUnits.ToString();
-      lblInfantry.Text = numInfantry.ToString();
-      lblVessels.Text = numVessel.ToString();
-      lblTeams.Text = numTeams.ToString();
-      lblPower.Text = drain.ToString() + " / " + power.ToString();
-      lblPower.ForeColor = power >= drain ? Color.ForestGreen : power >= drain * 0.5f ? Color.Goldenrod : Color.Red;
-      lblAssetValue.Text = value.ToString();
-      pColor1.BackColor = colors1;
-      pColor2.BackColor = colors2;
+      if (numBuildings == 0 && numUnits == 0 && numInfantry == 0 && numVessel == 0 && numTeams == 0)
+      {
+        Visible = false;
+      }
+      else
+      {
+        Visible = true;
+        gbHouse.Text = (string.IsNullOrEmpty(actlike)) ? house.Name : (house.Name + "/" + actlike);
+        lblBuildings.Text = numBuildings.ToString();
+        lblUnits.Text = numUnits.ToString();
+        lblInfantry.Text = numInfantry.ToString();
+        lblVessels.Text = numVessel.ToString();
+        lblTeams.Text = numTeams.ToString();
+        lblPower.Text = drain.ToString() + " / " + power.ToString();
+        lblPower.ForeColor = power >= drain ? Color.ForestGreen : power >= drain * 0.5f ? Color.Goldenrod : Color.Red;
+        lblAssetValue.Text = value.ToString();
+        pColor1.BackColor = colors1;
+        pColor2.BackColor = colors2;
+      }
     }
   }
 }

@@ -23,7 +23,12 @@ namespace RA_Mission_Editor.RulesData
 				// additional? 
 				new TheaterType("CAVE", "CAVE", ".CAV"),
 				new TheaterType("BARREN", "BARREN", ".BAR"),
-			};
+
+        new TheaterType("CUSTOM1", "CUSTOM1", ".CM1"),
+        new TheaterType("CUSTOM2", "CUSTOM2", ".CM2"),
+        new TheaterType("CUSTOM3", "CUSTOM3", ".CM3"),
+        new TheaterType("CUSTOM4", "CUSTOM4", ".CM4"),
+      };
 
 			string[] lStr = new string[_listTheater.Count];
 			for (int i = 0; i < _listTheater.Count; i++)

@@ -75,6 +75,7 @@ namespace RA_Mission_Editor.UI
       this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.newMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.openMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.openMapFromLoadedMixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.openRecentMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.importFromToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.openRAbinFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -157,6 +158,7 @@ namespace RA_Mission_Editor.UI
       this.splitMain.SuspendLayout();
       this.pObjectCanvas.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.pbObjectCanvas)).BeginInit();
+      this.panel2.SuspendLayout();
       this.pText.SuspendLayout();
       this.pObjectTop.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -265,6 +267,7 @@ namespace RA_Mission_Editor.UI
       // 
       // panel2
       // 
+      this.panel2.Controls.Add(this.tbObjectCount);
       this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
       this.panel2.Font = new System.Drawing.Font("Consolas", 7.25F);
       this.panel2.Location = new System.Drawing.Point(0, 188);
@@ -697,7 +700,6 @@ namespace RA_Mission_Editor.UI
       // 
       this.menuStrip1.BackColor = System.Drawing.Color.Silver;
       this.menuStrip1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
       this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
       this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
@@ -734,7 +736,7 @@ namespace RA_Mission_Editor.UI
       // 
       this.newMapToolStripMenuItem.Name = "newMapToolStripMenuItem";
       this.newMapToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-      this.newMapToolStripMenuItem.Size = new System.Drawing.Size(350, 34);
+      this.newMapToolStripMenuItem.Size = new System.Drawing.Size(500, 34);
       this.newMapToolStripMenuItem.Text = "New Map";
       this.newMapToolStripMenuItem.Click += new System.EventHandler(this.newMapToolStripMenuItem_Click);
       // 
@@ -742,15 +744,24 @@ namespace RA_Mission_Editor.UI
       // 
       this.openMapToolStripMenuItem.Name = "openMapToolStripMenuItem";
       this.openMapToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-      this.openMapToolStripMenuItem.Size = new System.Drawing.Size(350, 34);
+      this.openMapToolStripMenuItem.Size = new System.Drawing.Size(500, 34);
       this.openMapToolStripMenuItem.Text = "Open Map";
       this.openMapToolStripMenuItem.Click += new System.EventHandler(this.openMapToolStripMenuItem_Click);
+      // 
+      // openMapFromLoadedMixToolStripMenuItem
+      // 
+      this.openMapFromLoadedMixToolStripMenuItem.Name = "openMapFromLoadedMixToolStripMenuItem";
+      this.openMapFromLoadedMixToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.O)));
+      this.openMapFromLoadedMixToolStripMenuItem.Size = new System.Drawing.Size(500, 34);
+      this.openMapFromLoadedMixToolStripMenuItem.Text = "Open Map from loaded Mixes";
+      this.openMapFromLoadedMixToolStripMenuItem.Click += new System.EventHandler(this.openMapFromLoadedMixToolStripMenuItem_Click);
       // 
       // openRecentMapToolStripMenuItem
       // 
       this.openRecentMapToolStripMenuItem.Enabled = false;
       this.openRecentMapToolStripMenuItem.Name = "openRecentMapToolStripMenuItem";
-      this.openRecentMapToolStripMenuItem.Size = new System.Drawing.Size(350, 34);
+      this.openRecentMapToolStripMenuItem.Size = new System.Drawing.Size(500, 34);
       this.openRecentMapToolStripMenuItem.Text = "Open Recent Map";
       // 
       // importFromToolStripMenuItem
@@ -758,7 +769,7 @@ namespace RA_Mission_Editor.UI
       this.importFromToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openRAbinFileToolStripMenuItem});
       this.importFromToolStripMenuItem.Name = "importFromToolStripMenuItem";
-      this.importFromToolStripMenuItem.Size = new System.Drawing.Size(350, 34);
+      this.importFromToolStripMenuItem.Size = new System.Drawing.Size(500, 34);
       this.importFromToolStripMenuItem.Text = "Import from";
       // 
       // openRAbinFileToolStripMenuItem
@@ -772,7 +783,7 @@ namespace RA_Mission_Editor.UI
       // 
       this.saveMapToolStripMenuItem.Name = "saveMapToolStripMenuItem";
       this.saveMapToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-      this.saveMapToolStripMenuItem.Size = new System.Drawing.Size(350, 34);
+      this.saveMapToolStripMenuItem.Size = new System.Drawing.Size(500, 34);
       this.saveMapToolStripMenuItem.Text = "Save Map";
       this.saveMapToolStripMenuItem.Click += new System.EventHandler(this.saveMapToolStripMenuItem_Click);
       // 
@@ -781,20 +792,20 @@ namespace RA_Mission_Editor.UI
       this.saveMapAsToolStripMenuItem.Name = "saveMapAsToolStripMenuItem";
       this.saveMapAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-      this.saveMapAsToolStripMenuItem.Size = new System.Drawing.Size(350, 34);
+      this.saveMapAsToolStripMenuItem.Size = new System.Drawing.Size(500, 34);
       this.saveMapAsToolStripMenuItem.Text = "Save Map As";
       this.saveMapAsToolStripMenuItem.Click += new System.EventHandler(this.saveMapAsToolStripMenuItem_Click);
       // 
       // toolStripSeparator4
       // 
       this.toolStripSeparator4.Name = "toolStripSeparator4";
-      this.toolStripSeparator4.Size = new System.Drawing.Size(347, 6);
+      this.toolStripSeparator4.Size = new System.Drawing.Size(497, 6);
       // 
       // closeMapToolStripMenuItem
       // 
       this.closeMapToolStripMenuItem.Name = "closeMapToolStripMenuItem";
       this.closeMapToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-      this.closeMapToolStripMenuItem.Size = new System.Drawing.Size(350, 34);
+      this.closeMapToolStripMenuItem.Size = new System.Drawing.Size(500, 34);
       this.closeMapToolStripMenuItem.Text = "Close Map";
       this.closeMapToolStripMenuItem.Click += new System.EventHandler(this.closeMapToolStripMenuItem_Click);
       // 
@@ -1452,6 +1463,8 @@ namespace RA_Mission_Editor.UI
       this.splitMain.ResumeLayout(false);
       this.pObjectCanvas.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.pbObjectCanvas)).EndInit();
+      this.panel2.ResumeLayout(false);
+      this.panel2.PerformLayout();
       this.pText.ResumeLayout(false);
       this.pText.PerformLayout();
       this.pObjectTop.ResumeLayout(false);
@@ -1599,6 +1612,7 @@ namespace RA_Mission_Editor.UI
     private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+    private System.Windows.Forms.ToolStripMenuItem openMapFromLoadedMixToolStripMenuItem;
     private System.Windows.Forms.TextBox tbObjectCount;
   }
 }

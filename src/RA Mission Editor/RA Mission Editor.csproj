@@ -320,6 +320,12 @@
     <Compile Include="UI\Dialogs\TestMapDialog.Designer.cs">
       <DependentUpon>TestMapDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Dialogs\LoadMapFromMixDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\LoadMapFromMixDialog.Designer.cs">
+      <DependentUpon>LoadMapFromMixDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Dialogs\VerifyDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -513,6 +519,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\TestMapDialog.resx">
       <DependentUpon>TestMapDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\LoadMapFromMixDialog.resx">
+      <DependentUpon>LoadMapFromMixDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Dialogs\VerifyDialog.resx">
       <DependentUpon>VerifyDialog.cs</DependentUpon>

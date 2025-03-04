@@ -1632,5 +1632,19 @@ namespace RA_Mission_Editor.UI
         DialogFunctions.GetEditorDialog()?.SetMap(MainModel.CurrentMap);
       }
     }
+
+    private void openMapFromLoadedMixToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      LoadMapFromMixDialog lmmdlg = new LoadMapFromMixDialog();
+      lmmdlg.FetchMapList(MainModel.GameFileSystem);
+      if (lmmdlg.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(lmmdlg.Filename))
+      {
+        IniFile mapFile = MainModel.GameFileSystem.OpenFile(lmmdlg.Filename) as IniFile;
+        if (mapFile != null)
+        {
+          MainModel.LoadMap(mapFile);
+        }
+      }
+    }
   }
 }

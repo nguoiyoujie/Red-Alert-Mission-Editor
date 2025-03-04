@@ -156,7 +156,7 @@ namespace RA_Mission_Editor.FileFormats
           transOffsets[i] = offset;
           offset++;
         }
-        for (int i = 0; i < TileTypes.Count; i++)
+        for (int i = 0; i < Images.Count; i++) // was TileTypes, but we will write Images entries regardless
         {
           typeOffsets[i] = offset;
           offset++;
